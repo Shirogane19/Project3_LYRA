@@ -14,36 +14,21 @@ import java.util.List;
 @NamedQuery(name="Grado.findAll", query="SELECT g FROM Grado g")
 public class Grado implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idGrado;
-
 	private String descripcion;
-
-	@Column(name="is_active_gr")
 	private boolean isActiveGr;
-
 	private String nombre;
-
-	@Temporal(TemporalType.DATE)
 	private Date year;
-
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
 	private Institucion institucion;
-
-	//bi-directional many-to-one association to MateriasGrado
-	@OneToMany(mappedBy="grado")
 	private List<MateriasGrado> materiasGrados;
-
-	//bi-directional many-to-one association to Seccion
-	@OneToMany(mappedBy="grado")
 	private List<Seccion> seccions;
 
 	public Grado() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdGrado() {
 		return this.idGrado;
 	}
@@ -51,6 +36,7 @@ public class Grado implements Serializable {
 	public void setIdGrado(int idGrado) {
 		this.idGrado = idGrado;
 	}
+
 
 	public String getDescripcion() {
 		return this.descripcion;
@@ -60,6 +46,8 @@ public class Grado implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+
+	@Column(name="is_active_gr")
 	public boolean getIsActiveGr() {
 		return this.isActiveGr;
 	}
@@ -67,6 +55,7 @@ public class Grado implements Serializable {
 	public void setIsActiveGr(boolean isActiveGr) {
 		this.isActiveGr = isActiveGr;
 	}
+
 
 	public String getNombre() {
 		return this.nombre;
@@ -76,6 +65,8 @@ public class Grado implements Serializable {
 		this.nombre = nombre;
 	}
 
+
+	@Temporal(TemporalType.DATE)
 	public Date getYear() {
 		return this.year;
 	}
@@ -84,6 +75,9 @@ public class Grado implements Serializable {
 		this.year = year;
 	}
 
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}
@@ -92,6 +86,9 @@ public class Grado implements Serializable {
 		this.institucion = institucion;
 	}
 
+
+	//bi-directional many-to-one association to MateriasGrado
+	@OneToMany(mappedBy="grado")
 	public List<MateriasGrado> getMateriasGrados() {
 		return this.materiasGrados;
 	}
@@ -114,6 +111,9 @@ public class Grado implements Serializable {
 		return materiasGrado;
 	}
 
+
+	//bi-directional many-to-one association to Seccion
+	@OneToMany(mappedBy="grado")
 	public List<Seccion> getSeccions() {
 		return this.seccions;
 	}

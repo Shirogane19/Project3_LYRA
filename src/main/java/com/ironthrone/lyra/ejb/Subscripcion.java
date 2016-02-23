@@ -13,29 +13,18 @@ import java.util.Date;
 @NamedQuery(name="Subscripcion.findAll", query="SELECT s FROM Subscripcion s")
 public class Subscripcion implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idSubscripcion;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_fin")
 	private Date fechaFin;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_inicio")
 	private Date fechaInicio;
-
-	@Column(name="is_active_sub")
 	private boolean isActiveSub;
-
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
 	private Institucion institucion;
 
 	public Subscripcion() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdSubscripcion() {
 		return this.idSubscripcion;
 	}
@@ -44,6 +33,9 @@ public class Subscripcion implements Serializable {
 		this.idSubscripcion = idSubscripcion;
 	}
 
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="fecha_fin")
 	public Date getFechaFin() {
 		return this.fechaFin;
 	}
@@ -52,6 +44,9 @@ public class Subscripcion implements Serializable {
 		this.fechaFin = fechaFin;
 	}
 
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="fecha_inicio")
 	public Date getFechaInicio() {
 		return this.fechaInicio;
 	}
@@ -60,6 +55,8 @@ public class Subscripcion implements Serializable {
 		this.fechaInicio = fechaInicio;
 	}
 
+
+	@Column(name="is_active_sub")
 	public boolean getIsActiveSub() {
 		return this.isActiveSub;
 	}
@@ -68,6 +65,9 @@ public class Subscripcion implements Serializable {
 		this.isActiveSub = isActiveSub;
 	}
 
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}

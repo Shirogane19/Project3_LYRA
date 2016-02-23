@@ -13,29 +13,19 @@ import java.util.List;
 @NamedQuery(name="Categoria.findAll", query="SELECT c FROM Categoria c")
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idCategoria;
-
-	@Column(name="descripcion_categoria")
 	private String descripcionCategoria;
-
-	@Column(name="is_active_cat")
 	private boolean isActiveCat;
-
-	@Column(name="nombre_categoria")
 	private String nombreCategoria;
-
 	private int tarea_idTarea;
-
-	//bi-directional many-to-one association to Tarea
-	@OneToMany(mappedBy="categoria")
 	private List<Tarea> tareas;
 
 	public Categoria() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdCategoria() {
 		return this.idCategoria;
 	}
@@ -44,6 +34,8 @@ public class Categoria implements Serializable {
 		this.idCategoria = idCategoria;
 	}
 
+
+	@Column(name="descripcion_categoria")
 	public String getDescripcionCategoria() {
 		return this.descripcionCategoria;
 	}
@@ -52,6 +44,8 @@ public class Categoria implements Serializable {
 		this.descripcionCategoria = descripcionCategoria;
 	}
 
+
+	@Column(name="is_active_cat")
 	public boolean getIsActiveCat() {
 		return this.isActiveCat;
 	}
@@ -60,6 +54,8 @@ public class Categoria implements Serializable {
 		this.isActiveCat = isActiveCat;
 	}
 
+
+	@Column(name="nombre_categoria")
 	public String getNombreCategoria() {
 		return this.nombreCategoria;
 	}
@@ -67,6 +63,7 @@ public class Categoria implements Serializable {
 	public void setNombreCategoria(String nombreCategoria) {
 		this.nombreCategoria = nombreCategoria;
 	}
+
 
 	public int getTarea_idTarea() {
 		return this.tarea_idTarea;
@@ -76,6 +73,9 @@ public class Categoria implements Serializable {
 		this.tarea_idTarea = tarea_idTarea;
 	}
 
+
+	//bi-directional many-to-one association to Tarea
+	@OneToMany(mappedBy="categoria")
 	public List<Tarea> getTareas() {
 		return this.tareas;
 	}

@@ -54,7 +54,11 @@ angular.module('myApp.loginView', ['ngRoute'])
   
   $scope.checkLogin = function(){
     
-      $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
+      //$http.post('http://localhost:8090/lyra/rest/login/checkuser/',$scope.user).success(function (loginResponse) {
+
+$http.post('/rest/login/checkuser/',$scope.user).success(function (loginResponse) {
+
+
 
         if(loginResponse.code == 200){
           var usuario = {"idUser":loginResponse.idUsuario,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
@@ -67,3 +71,6 @@ angular.module('myApp.loginView', ['ngRoute'])
       
     };
 }]);
+
+
+//      $http.post('http://localhost:8090/rest/login/checkuser/',$scope.user).success(function (loginResponse) {

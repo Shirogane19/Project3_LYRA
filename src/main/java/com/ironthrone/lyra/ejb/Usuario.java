@@ -14,59 +14,30 @@ import java.util.List;
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idUsuario;
-
 	private String apellido;
-
 	private String cedula;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="date_of_join")
 	private Date dateOfJoin;
-
 	private String email;
-
-	@Column(name="is_active_us")
 	private boolean isActiveUs;
-
 	private String movil;
-
 	private String nombre;
-
 	private String password;
-
 	private String telefono;
-
-	//bi-directional many-to-one association to EncargadosAlumno
-	@OneToMany(mappedBy="usuario")
 	private List<EncargadosAlumno> encargadosAlumnos;
-
-	//bi-directional many-to-one association to MateriasProfesor
-	@OneToMany(mappedBy="usuario")
 	private List<MateriasProfesor> materiasProfesors;
-
-	//bi-directional many-to-one association to ProfesorSeccion
-	@OneToMany(mappedBy="usuario")
 	private List<ProfesorSeccion> profesorSeccions;
-
-	//bi-directional many-to-one association to RolUsuario
-	@OneToMany(mappedBy="usuario")
 	private List<RolUsuario> rolUsuarios;
-
-	//bi-directional many-to-one association to Tarea
-	@OneToMany(mappedBy="usuario")
 	private List<Tarea> tareas;
-
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
 	private Institucion institucion;
+//	private List<Chat> chats;
 
 	public Usuario() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdUsuario() {
 		return this.idUsuario;
 	}
@@ -74,6 +45,7 @@ public class Usuario implements Serializable {
 	public void setIdUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
 	}
+
 
 	public String getApellido() {
 		return this.apellido;
@@ -83,6 +55,7 @@ public class Usuario implements Serializable {
 		this.apellido = apellido;
 	}
 
+
 	public String getCedula() {
 		return this.cedula;
 	}
@@ -91,6 +64,9 @@ public class Usuario implements Serializable {
 		this.cedula = cedula;
 	}
 
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_of_join")
 	public Date getDateOfJoin() {
 		return this.dateOfJoin;
 	}
@@ -98,6 +74,7 @@ public class Usuario implements Serializable {
 	public void setDateOfJoin(Date dateOfJoin) {
 		this.dateOfJoin = dateOfJoin;
 	}
+
 
 	public String getEmail() {
 		return this.email;
@@ -107,6 +84,8 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
+
+	@Column(name="is_active_us")
 	public boolean getIsActiveUs() {
 		return this.isActiveUs;
 	}
@@ -114,6 +93,7 @@ public class Usuario implements Serializable {
 	public void setIsActiveUs(boolean isActiveUs) {
 		this.isActiveUs = isActiveUs;
 	}
+
 
 	public String getMovil() {
 		return this.movil;
@@ -123,6 +103,7 @@ public class Usuario implements Serializable {
 		this.movil = movil;
 	}
 
+
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -130,6 +111,7 @@ public class Usuario implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 
 	public String getPassword() {
 		return this.password;
@@ -139,6 +121,7 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
+
 	public String getTelefono() {
 		return this.telefono;
 	}
@@ -147,6 +130,9 @@ public class Usuario implements Serializable {
 		this.telefono = telefono;
 	}
 
+
+	//bi-directional many-to-one association to EncargadosAlumno
+	@OneToMany(mappedBy="usuario")
 	public List<EncargadosAlumno> getEncargadosAlumnos() {
 		return this.encargadosAlumnos;
 	}
@@ -169,6 +155,9 @@ public class Usuario implements Serializable {
 		return encargadosAlumno;
 	}
 
+
+	//bi-directional many-to-one association to MateriasProfesor
+	@OneToMany(mappedBy="usuario")
 	public List<MateriasProfesor> getMateriasProfesors() {
 		return this.materiasProfesors;
 	}
@@ -191,6 +180,9 @@ public class Usuario implements Serializable {
 		return materiasProfesor;
 	}
 
+
+	//bi-directional many-to-one association to ProfesorSeccion
+	@OneToMany(mappedBy="usuario")
 	public List<ProfesorSeccion> getProfesorSeccions() {
 		return this.profesorSeccions;
 	}
@@ -213,6 +205,9 @@ public class Usuario implements Serializable {
 		return profesorSeccion;
 	}
 
+
+	//bi-directional many-to-one association to RolUsuario
+	@OneToMany(mappedBy="usuario")
 	public List<RolUsuario> getRolUsuarios() {
 		return this.rolUsuarios;
 	}
@@ -235,6 +230,9 @@ public class Usuario implements Serializable {
 		return rolUsuario;
 	}
 
+
+	//bi-directional many-to-one association to Tarea
+	@OneToMany(mappedBy="usuario")
 	public List<Tarea> getTareas() {
 		return this.tareas;
 	}
@@ -257,6 +255,9 @@ public class Usuario implements Serializable {
 		return tarea;
 	}
 
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}
@@ -264,5 +265,25 @@ public class Usuario implements Serializable {
 	public void setInstitucion(Institucion institucion) {
 		this.institucion = institucion;
 	}
+
+
+//	//bi-directional many-to-many association to Chat
+//	@ManyToMany
+//	@JoinTable(
+//		name="chat_has_usuario"
+//		, joinColumns={
+//			@JoinColumn(name="Usuario_idUsuario")
+//			}
+//		, inverseJoinColumns={
+//			@JoinColumn(name="Chat_idChat")
+//			}
+//		)
+//	public List<Chat> getChats() {
+//		return this.chats;
+//	}
+//
+//	public void setChats(List<Chat> chats) {
+//		this.chats = chats;
+//	}
 
 }

@@ -13,43 +13,24 @@ import java.util.List;
 @NamedQuery(name="Alumno.findAll", query="SELECT a FROM Alumno a")
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idAlumno;
-
 	private String apellido1;
-
 	private String apellido2;
-
 	private String cedula;
-
 	private String genero;
-
-	@Column(name="is_active_al")
 	private boolean isActiveAl;
-
 	private String nombre;
-
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
 	private Institucion institucion;
-
-	//bi-directional many-to-one association to Seccion
-	@ManyToOne
 	private Seccion seccion;
-
-	//bi-directional many-to-one association to EncargadosAlumno
-	@OneToMany(mappedBy="alumno")
 	private List<EncargadosAlumno> encargadosAlumnos;
-
-	//bi-directional many-to-one association to HistorialMedico
-	@OneToMany(mappedBy="alumno")
 	private List<HistorialMedico> historialMedicos;
 
 	public Alumno() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdAlumno() {
 		return this.idAlumno;
 	}
@@ -57,6 +38,7 @@ public class Alumno implements Serializable {
 	public void setIdAlumno(int idAlumno) {
 		this.idAlumno = idAlumno;
 	}
+
 
 	public String getApellido1() {
 		return this.apellido1;
@@ -66,6 +48,7 @@ public class Alumno implements Serializable {
 		this.apellido1 = apellido1;
 	}
 
+
 	public String getApellido2() {
 		return this.apellido2;
 	}
@@ -73,6 +56,7 @@ public class Alumno implements Serializable {
 	public void setApellido2(String apellido2) {
 		this.apellido2 = apellido2;
 	}
+
 
 	public String getCedula() {
 		return this.cedula;
@@ -82,6 +66,7 @@ public class Alumno implements Serializable {
 		this.cedula = cedula;
 	}
 
+
 	public String getGenero() {
 		return this.genero;
 	}
@@ -90,6 +75,8 @@ public class Alumno implements Serializable {
 		this.genero = genero;
 	}
 
+
+	@Column(name="is_active_al")
 	public boolean getIsActiveAl() {
 		return this.isActiveAl;
 	}
@@ -97,6 +84,7 @@ public class Alumno implements Serializable {
 	public void setIsActiveAl(boolean isActiveAl) {
 		this.isActiveAl = isActiveAl;
 	}
+
 
 	public String getNombre() {
 		return this.nombre;
@@ -106,6 +94,9 @@ public class Alumno implements Serializable {
 		this.nombre = nombre;
 	}
 
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}
@@ -114,6 +105,9 @@ public class Alumno implements Serializable {
 		this.institucion = institucion;
 	}
 
+
+	//bi-directional many-to-one association to Seccion
+	@ManyToOne
 	public Seccion getSeccion() {
 		return this.seccion;
 	}
@@ -122,6 +116,9 @@ public class Alumno implements Serializable {
 		this.seccion = seccion;
 	}
 
+
+	//bi-directional many-to-one association to EncargadosAlumno
+	@OneToMany(mappedBy="alumno")
 	public List<EncargadosAlumno> getEncargadosAlumnos() {
 		return this.encargadosAlumnos;
 	}
@@ -144,6 +141,9 @@ public class Alumno implements Serializable {
 		return encargadosAlumno;
 	}
 
+
+	//bi-directional many-to-one association to HistorialMedico
+	@OneToMany(mappedBy="alumno")
 	public List<HistorialMedico> getHistorialMedicos() {
 		return this.historialMedicos;
 	}
