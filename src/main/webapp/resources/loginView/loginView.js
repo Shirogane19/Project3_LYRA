@@ -50,26 +50,27 @@ angular.module('myApp.loginView', ['ngRoute'])
 }])
 
 .controller('LoginViewCtrl', ['$scope','$http',function($scope,$http) {
-  $scope.user = {email:"jcorellm@ucenfotec.ac.cr",password:"1234"};
   
-  $scope.checkLogin = function(){
-    
-      //$http.post('http://localhost:8090/lyra/rest/login/checkuser/',$scope.user).success(function (loginResponse) {
+  angular.element(document).ready(function () {
+         OneUI.init('uiForms');
+         BasePagesLogin.init();
+  });
 
-$http.post('/rest/login/checkuser/',$scope.user).success(function (loginResponse) {
-
-
+ 
+  $scope.user = {email:"jean@maradiaga.com",password:"12345"};
+  
+      $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
         if(loginResponse.code == 200){
-          var usuario = {"idUser":loginResponse.idUsuario,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-          var path = "/lyra/app#/view1";
-          window.location.href = path;
+          var usuario = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
+          console.log(usuario);
+       //   var path = "/lyra/app#/view1";
+       //   window.location.href = path;
         }else{
           alert("invalido");
         }
       });
       
-    };
 }]);
 
 

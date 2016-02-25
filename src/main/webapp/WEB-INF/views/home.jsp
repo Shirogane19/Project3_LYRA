@@ -12,11 +12,6 @@
   <title>Iron Throne | LYRA</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="resources/bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="resources/bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/bower_components/angular-ui-grid/ui-grid.min.css">
-  <link rel="stylesheet" href="resources/app.css">
   <script src="resources/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
@@ -30,17 +25,11 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
   <script src="resources/bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="resources/bower_components/angular/angular.js"></script>
   <script src="resources/bower_components/angular-route/angular-route.js"></script>
-  <script src="resources/bower_components/angular-ui-grid/ui-grid.min.js"></script>
-  <script src="resources/non_bower_components/angular-file-upload-shim.min.js"></script>
-  <script src="resources/non_bower_components/angular-file-upload.min.js"></script>
   <script src="resources/app.js"></script>
   <script src="resources/view1/view1.js"></script>
   <script src="resources/view2/view2.js"></script>
-  <script src="resources/components/version/version.js"></script>
-  <script src="resources/components/version/version-directive.js"></script>
-  <script src="resources/components/version/interpolate-filter.js"></script>
+
 </body>
 </html>

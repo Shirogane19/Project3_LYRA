@@ -13,23 +13,41 @@ import java.util.List;
 @Entity
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	
 	private int idUsuario;
+	
 	private String apellido;
+	
 	private String cedula;
+	
 	private Date dateOfJoin;
+	
 	private String email;
+	
 	private boolean isActiveUs;
+	
 	private String movil;
+	
 	private String nombre;
+	
 	private String password;
+	
 	private String telefono;
+	
 	private List<EncargadosAlumno> encargadosAlumnos;
+	
 	private List<MateriasProfesor> materiasProfesors;
+	
 	private List<ProfesorSeccion> profesorSeccions;
+	
 	private List<RolUsuario> rolUsuarios;
+	
 	private List<Tarea> tareas;
+	
 	private Institucion institucion;
+	
 //	private List<Chat> chats;
 
 	public Usuario() {

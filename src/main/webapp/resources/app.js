@@ -4,11 +4,11 @@
 angular.module('myApp', [
   'ngRoute',
   'myApp.view1',
- // 'myApp.view2',
- // 'myApp.version',
   'ui.grid',
   'angularFileUpload'
 ])
+
+
 .config(['$routeProvider','$provide','$httpProvider', function($routeProvider,$provide,$httpProvider) {
 	$routeProvider.otherwise({redirectTo: '/view1'});
   
@@ -22,6 +22,7 @@ angular.module('myApp', [
 		      // do something on error
 		    	if(response.status === 401){
 					window.location.href = "/lyra/#/login";
+
 				}
 		      return $q.reject(response);
 		    }
@@ -42,3 +43,4 @@ angular.module('myApp', [
 	});
   
 }]);
+

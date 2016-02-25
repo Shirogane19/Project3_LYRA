@@ -4,6 +4,7 @@ package com.ironthrone.lyra.contracts;
 public class LoginResponse extends BaseResponse {
 
 	private int userId;
+	private int idInstitucion;
 	private String firstName;
 	private String lastName; 
 
@@ -34,5 +35,14 @@ public class LoginResponse extends BaseResponse {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	public int getIdInstitucion() {
+		return idInstitucion;
+	}
+
+	public void setIdInstitucion(int idInstitucion) {
+		this.idInstitucion = idInstitucion;
+	}
+
 
 }
