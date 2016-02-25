@@ -13,19 +13,32 @@ import java.util.List;
 @NamedQuery(name="Seccion.findAll", query="SELECT s FROM Seccion s")
 public class Seccion implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idSeccion;
+
+	@Column(name="is_active_sec")
 	private boolean isActiveSec;
+
+	@Column(name="nombre_seccion")
 	private String nombreSeccion;
+
+	//bi-directional many-to-one association to Alumno
+	@OneToMany(mappedBy="seccion")
 	private List<Alumno> alumnos;
+
+	//bi-directional many-to-one association to ProfesorSeccion
+	@OneToMany(mappedBy="seccion")
 	private List<ProfesorSeccion> profesorSeccions;
+
+	//bi-directional many-to-one association to Grado
+	@ManyToOne
 	private Grado grado;
 
 	public Seccion() {
 	}
 
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdSeccion() {
 		return this.idSeccion;
 	}
@@ -34,8 +47,6 @@ public class Seccion implements Serializable {
 		this.idSeccion = idSeccion;
 	}
 
-
-	@Column(name="is_active_sec")
 	public boolean getIsActiveSec() {
 		return this.isActiveSec;
 	}
@@ -44,8 +55,6 @@ public class Seccion implements Serializable {
 		this.isActiveSec = isActiveSec;
 	}
 
-
-	@Column(name="nombre_seccion")
 	public String getNombreSeccion() {
 		return this.nombreSeccion;
 	}
@@ -54,9 +63,6 @@ public class Seccion implements Serializable {
 		this.nombreSeccion = nombreSeccion;
 	}
 
-
-	//bi-directional many-to-one association to Alumno
-	@OneToMany(mappedBy="seccion")
 	public List<Alumno> getAlumnos() {
 		return this.alumnos;
 	}
@@ -79,9 +85,6 @@ public class Seccion implements Serializable {
 		return alumno;
 	}
 
-
-	//bi-directional many-to-one association to ProfesorSeccion
-	@OneToMany(mappedBy="seccion")
 	public List<ProfesorSeccion> getProfesorSeccions() {
 		return this.profesorSeccions;
 	}
@@ -104,9 +107,6 @@ public class Seccion implements Serializable {
 		return profesorSeccion;
 	}
 
-
-	//bi-directional many-to-one association to Grado
-	@ManyToOne
 	public Grado getGrado() {
 		return this.grado;
 	}

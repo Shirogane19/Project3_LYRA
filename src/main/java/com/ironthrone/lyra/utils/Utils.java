@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Utils {
 	
-	private static String RESOURCES_PATH = "resources/img/";
+	private static String RESOURCES_PATH = "resources/images/";
 	private static String HOST_PATH = "http://localhost:8090";
 	
 	// save uploaded file to new location

@@ -51,6 +51,7 @@ angular.module('myApp.loginView', ['ngRoute'])
 
 .controller('LoginViewCtrl', ['$scope','$http',function($scope,$http) {
   
+<<<<<<< HEAD
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
          BasePagesLogin.init();
@@ -59,6 +60,10 @@ angular.module('myApp.loginView', ['ngRoute'])
  
   $scope.user = {email:"jean@maradiaga.com",password:"12345"};
   
+=======
+  $scope.checkLogin = function(){
+    
+>>>>>>> 472a8998a7461e0196ad84dabcfd15e40eaeb8c0
       $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
         if(loginResponse.code == 200){
@@ -72,6 +77,3 @@ angular.module('myApp.loginView', ['ngRoute'])
       });
       
 }]);
-
-
-//      $http.post('http://localhost:8090/rest/login/checkuser/',$scope.user).success(function (loginResponse) {

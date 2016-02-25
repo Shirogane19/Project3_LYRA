@@ -13,19 +13,31 @@ import java.util.List;
 @NamedQuery(name="Rol.findAll", query="SELECT r FROM Rol r")
 public class Rol implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idRol;
+
+	@Column(name="descripcion_rol")
 	private String descripcionRol;
+
+	@Column(name="is_active_rol")
 	private boolean isActiveRol;
+
+	@Column(name="nombre_rol")
 	private String nombreRol;
+
+	//bi-directional many-to-one association to RolUsuario
+	@OneToMany(mappedBy="rol")
 	private List<RolUsuario> rolUsuarios;
+
+	//bi-directional many-to-one association to TareasRol
+	@OneToMany(mappedBy="rol")
 	private List<TareasRol> tareasRols;
 
 	public Rol() {
 	}
 
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdRol() {
 		return this.idRol;
 	}
@@ -34,8 +46,6 @@ public class Rol implements Serializable {
 		this.idRol = idRol;
 	}
 
-
-	@Column(name="descripcion_rol")
 	public String getDescripcionRol() {
 		return this.descripcionRol;
 	}
@@ -44,8 +54,6 @@ public class Rol implements Serializable {
 		this.descripcionRol = descripcionRol;
 	}
 
-
-	@Column(name="is_active_rol")
 	public boolean getIsActiveRol() {
 		return this.isActiveRol;
 	}
@@ -54,8 +62,6 @@ public class Rol implements Serializable {
 		this.isActiveRol = isActiveRol;
 	}
 
-
-	@Column(name="nombre_rol")
 	public String getNombreRol() {
 		return this.nombreRol;
 	}
@@ -64,9 +70,6 @@ public class Rol implements Serializable {
 		this.nombreRol = nombreRol;
 	}
 
-
-	//bi-directional many-to-one association to RolUsuario
-	@OneToMany(mappedBy="rol")
 	public List<RolUsuario> getRolUsuarios() {
 		return this.rolUsuarios;
 	}
@@ -89,9 +92,6 @@ public class Rol implements Serializable {
 		return rolUsuario;
 	}
 
-
-	//bi-directional many-to-one association to TareasRol
-	@OneToMany(mappedBy="rol")
 	public List<TareasRol> getTareasRols() {
 		return this.tareasRols;
 	}

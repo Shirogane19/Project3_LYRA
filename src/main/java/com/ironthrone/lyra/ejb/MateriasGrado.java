@@ -13,16 +13,22 @@ import javax.persistence.*;
 @NamedQuery(name="MateriasGrado.findAll", query="SELECT m FROM MateriasGrado m")
 public class MateriasGrado implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idMaterias_Grado;
+
+	//bi-directional many-to-one association to Grado
+	@ManyToOne
 	private Grado grado;
+
+	//bi-directional many-to-one association to Materia
+	@ManyToOne
 	private Materia materia;
 
 	public MateriasGrado() {
 	}
 
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdMaterias_Grado() {
 		return this.idMaterias_Grado;
 	}
@@ -31,9 +37,6 @@ public class MateriasGrado implements Serializable {
 		this.idMaterias_Grado = idMaterias_Grado;
 	}
 
-
-	//bi-directional many-to-one association to Grado
-	@ManyToOne
 	public Grado getGrado() {
 		return this.grado;
 	}
@@ -42,9 +45,6 @@ public class MateriasGrado implements Serializable {
 		this.grado = grado;
 	}
 
-
-	//bi-directional many-to-one association to Materia
-	@ManyToOne
 	public Materia getMateria() {
 		return this.materia;
 	}

@@ -13,19 +13,31 @@ import java.util.List;
 @NamedQuery(name="Materia.findAll", query="SELECT m FROM Materia m")
 public class Materia implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idMateria;
+
+	@Column(name="is_active_mat")
 	private boolean isActiveMat;
+
 	private String nombre;
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne
 	private Institucion institucion;
+
+	//bi-directional many-to-one association to MateriasGrado
+	@OneToMany(mappedBy="materia")
 	private List<MateriasGrado> materiasGrados;
+
+	//bi-directional many-to-one association to MateriasProfesor
+	@OneToMany(mappedBy="materia")
 	private List<MateriasProfesor> materiasProfesors;
 
 	public Materia() {
 	}
 
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdMateria() {
 		return this.idMateria;
 	}
@@ -34,8 +46,6 @@ public class Materia implements Serializable {
 		this.idMateria = idMateria;
 	}
 
-
-	@Column(name="is_active_mat")
 	public boolean getIsActiveMat() {
 		return this.isActiveMat;
 	}
@@ -43,7 +53,6 @@ public class Materia implements Serializable {
 	public void setIsActiveMat(boolean isActiveMat) {
 		this.isActiveMat = isActiveMat;
 	}
-
 
 	public String getNombre() {
 		return this.nombre;
@@ -53,9 +62,6 @@ public class Materia implements Serializable {
 		this.nombre = nombre;
 	}
 
-
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}
@@ -64,9 +70,6 @@ public class Materia implements Serializable {
 		this.institucion = institucion;
 	}
 
-
-	//bi-directional many-to-one association to MateriasGrado
-	@OneToMany(mappedBy="materia")
 	public List<MateriasGrado> getMateriasGrados() {
 		return this.materiasGrados;
 	}
@@ -89,9 +92,6 @@ public class Materia implements Serializable {
 		return materiasGrado;
 	}
 
-
-	//bi-directional many-to-one association to MateriasProfesor
-	@OneToMany(mappedBy="materia")
 	public List<MateriasProfesor> getMateriasProfesors() {
 		return this.materiasProfesors;
 	}

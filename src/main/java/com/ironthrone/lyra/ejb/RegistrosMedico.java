@@ -13,17 +13,24 @@ import javax.persistence.*;
 @NamedQuery(name="RegistrosMedico.findAll", query="SELECT r FROM RegistrosMedico r")
 public class RegistrosMedico implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idRegistros_Medicos;
+
 	private String descripcion;
+
+	@Column(name="nombre_registro")
 	private String nombreRegistro;
+
+	//bi-directional many-to-one association to HistorialMedico
+	@ManyToOne
+	@JoinColumn(name="Historial_Medico_idHistorial_Medico")
 	private HistorialMedico historialMedico;
 
 	public RegistrosMedico() {
 	}
 
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdRegistros_Medicos() {
 		return this.idRegistros_Medicos;
 	}
@@ -31,7 +38,6 @@ public class RegistrosMedico implements Serializable {
 	public void setIdRegistros_Medicos(int idRegistros_Medicos) {
 		this.idRegistros_Medicos = idRegistros_Medicos;
 	}
-
 
 	public String getDescripcion() {
 		return this.descripcion;
@@ -41,8 +47,6 @@ public class RegistrosMedico implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-
-	@Column(name="nombre_registro")
 	public String getNombreRegistro() {
 		return this.nombreRegistro;
 	}
@@ -51,10 +55,6 @@ public class RegistrosMedico implements Serializable {
 		this.nombreRegistro = nombreRegistro;
 	}
 
-
-	//bi-directional many-to-one association to HistorialMedico
-	@ManyToOne
-	@JoinColumn(name="Historial_Medico_idHistorial_Medico")
 	public HistorialMedico getHistorialMedico() {
 		return this.historialMedico;
 	}

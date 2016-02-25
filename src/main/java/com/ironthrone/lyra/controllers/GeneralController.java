@@ -31,7 +31,6 @@ public class GeneralController {
 		return mav;
 	}
 	
-	
 	@RequestMapping(value = "/app", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model,HttpServletRequest request,HttpServletResponse response) {				
 		

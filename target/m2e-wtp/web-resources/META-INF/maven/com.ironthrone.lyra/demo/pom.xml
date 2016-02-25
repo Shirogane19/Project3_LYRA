@@ -28,7 +28,6 @@
   </properties>
 
 	<dependencies>
-	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
@@ -104,7 +103,6 @@
             <artifactId>swagger-springmvc</artifactId>
             <version>1.0.2</version>
 		</dependency>
-
 		
 		<!-- mysql -->
 		<dependency>
@@ -151,7 +149,6 @@
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
-
 			
 	<build>
 		<plugins>
