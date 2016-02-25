@@ -13,47 +13,23 @@ import java.util.List;
 @NamedQuery(name="Institucion.findAll", query="SELECT i FROM Institucion i")
 public class Institucion implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idInstitucion;
-
-	@Column(name="has_suscripcion")
 	private boolean hasSuscripcion;
-
-	@Column(name="logo_institucion")
 	private String logoInstitucion;
-
-	@Column(name="nombre_institucion")
 	private String nombreInstitucion;
-
-	//bi-directional many-to-one association to Alumno
-	@OneToMany(mappedBy="institucion")
 	private List<Alumno> alumnos;
-
-	//bi-directional many-to-one association to Bitacora
-	@OneToMany(mappedBy="institucion")
 	private List<Bitacora> bitacoras;
-
-	//bi-directional many-to-one association to Grado
-	@OneToMany(mappedBy="institucion")
 	private List<Grado> grados;
-
-	//bi-directional many-to-one association to Materia
-	@OneToMany(mappedBy="institucion")
 	private List<Materia> materias;
-
-	//bi-directional many-to-one association to Subscripcion
-	@OneToMany(mappedBy="institucion")
 	private List<Subscripcion> subscripcions;
-
-	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="institucion")
 	private List<Usuario> usuarios;
 
 	public Institucion() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdInstitucion() {
 		return this.idInstitucion;
 	}
@@ -62,6 +38,8 @@ public class Institucion implements Serializable {
 		this.idInstitucion = idInstitucion;
 	}
 
+
+	@Column(name="has_suscripcion")
 	public boolean getHasSuscripcion() {
 		return this.hasSuscripcion;
 	}
@@ -70,6 +48,8 @@ public class Institucion implements Serializable {
 		this.hasSuscripcion = hasSuscripcion;
 	}
 
+
+	@Column(name="logo_institucion")
 	public String getLogoInstitucion() {
 		return this.logoInstitucion;
 	}
@@ -78,6 +58,8 @@ public class Institucion implements Serializable {
 		this.logoInstitucion = logoInstitucion;
 	}
 
+
+	@Column(name="nombre_institucion")
 	public String getNombreInstitucion() {
 		return this.nombreInstitucion;
 	}
@@ -86,6 +68,9 @@ public class Institucion implements Serializable {
 		this.nombreInstitucion = nombreInstitucion;
 	}
 
+
+	//bi-directional many-to-one association to Alumno
+	@OneToMany(mappedBy="institucion")
 	public List<Alumno> getAlumnos() {
 		return this.alumnos;
 	}
@@ -108,6 +93,9 @@ public class Institucion implements Serializable {
 		return alumno;
 	}
 
+
+	//bi-directional many-to-one association to Bitacora
+	@OneToMany(mappedBy="institucion")
 	public List<Bitacora> getBitacoras() {
 		return this.bitacoras;
 	}
@@ -130,6 +118,9 @@ public class Institucion implements Serializable {
 		return bitacora;
 	}
 
+
+	//bi-directional many-to-one association to Grado
+	@OneToMany(mappedBy="institucion")
 	public List<Grado> getGrados() {
 		return this.grados;
 	}
@@ -152,6 +143,9 @@ public class Institucion implements Serializable {
 		return grado;
 	}
 
+
+	//bi-directional many-to-one association to Materia
+	@OneToMany(mappedBy="institucion")
 	public List<Materia> getMaterias() {
 		return this.materias;
 	}
@@ -174,6 +168,9 @@ public class Institucion implements Serializable {
 		return materia;
 	}
 
+
+	//bi-directional many-to-one association to Subscripcion
+	@OneToMany(mappedBy="institucion")
 	public List<Subscripcion> getSubscripcions() {
 		return this.subscripcions;
 	}
@@ -196,6 +193,9 @@ public class Institucion implements Serializable {
 		return subscripcion;
 	}
 
+
+	//bi-directional many-to-one association to Usuario
+	@OneToMany(mappedBy="institucion")
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}

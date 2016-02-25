@@ -13,22 +13,16 @@ import javax.persistence.*;
 @NamedQuery(name="ProfesorSeccion.findAll", query="SELECT p FROM ProfesorSeccion p")
 public class ProfesorSeccion implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idProfesor_Seccion;
-
-	//bi-directional many-to-one association to Seccion
-	@ManyToOne
 	private Seccion seccion;
-
-	//bi-directional many-to-one association to Usuario
-	@ManyToOne
 	private Usuario usuario;
 
 	public ProfesorSeccion() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdProfesor_Seccion() {
 		return this.idProfesor_Seccion;
 	}
@@ -37,6 +31,9 @@ public class ProfesorSeccion implements Serializable {
 		this.idProfesor_Seccion = idProfesor_Seccion;
 	}
 
+
+	//bi-directional many-to-one association to Seccion
+	@ManyToOne
 	public Seccion getSeccion() {
 		return this.seccion;
 	}
@@ -45,6 +42,9 @@ public class ProfesorSeccion implements Serializable {
 		this.seccion = seccion;
 	}
 
+
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

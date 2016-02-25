@@ -13,22 +13,16 @@ import javax.persistence.*;
 @NamedQuery(name="RolUsuario.findAll", query="SELECT r FROM RolUsuario r")
 public class RolUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idRol_Usuario;
-
-	//bi-directional many-to-one association to Rol
-	@ManyToOne
 	private Rol rol;
-
-	//bi-directional many-to-one association to Usuario
-	@ManyToOne
 	private Usuario usuario;
 
 	public RolUsuario() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdRol_Usuario() {
 		return this.idRol_Usuario;
 	}
@@ -37,6 +31,9 @@ public class RolUsuario implements Serializable {
 		this.idRol_Usuario = idRol_Usuario;
 	}
 
+
+	//bi-directional many-to-one association to Rol
+	@ManyToOne
 	public Rol getRol() {
 		return this.rol;
 	}
@@ -45,6 +42,9 @@ public class RolUsuario implements Serializable {
 		this.rol = rol;
 	}
 
+
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

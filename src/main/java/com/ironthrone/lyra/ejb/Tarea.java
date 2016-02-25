@@ -13,38 +13,21 @@ import java.util.List;
 @NamedQuery(name="Tarea.findAll", query="SELECT t FROM Tarea t")
 public class Tarea implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idTarea;
-
-	@Column(name="descripcion_tarea")
 	private String descripcionTarea;
-
-	@Column(name="is_active_ta")
 	private boolean isActiveTa;
-
-	@Column(name="is_read_ta")
 	private boolean isReadTa;
-
-	@Column(name="titulo_tarea")
 	private String tituloTarea;
-
-	//bi-directional many-to-one association to Categoria
-	@ManyToOne
 	private Categoria categoria;
-
-	//bi-directional many-to-one association to Usuario
-	@ManyToOne
 	private Usuario usuario;
-
-	//bi-directional many-to-one association to TareasRol
-	@OneToMany(mappedBy="tarea")
 	private List<TareasRol> tareasRols;
 
 	public Tarea() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdTarea() {
 		return this.idTarea;
 	}
@@ -53,6 +36,8 @@ public class Tarea implements Serializable {
 		this.idTarea = idTarea;
 	}
 
+
+	@Column(name="descripcion_tarea")
 	public String getDescripcionTarea() {
 		return this.descripcionTarea;
 	}
@@ -61,6 +46,8 @@ public class Tarea implements Serializable {
 		this.descripcionTarea = descripcionTarea;
 	}
 
+
+	@Column(name="is_active_ta")
 	public boolean getIsActiveTa() {
 		return this.isActiveTa;
 	}
@@ -69,6 +56,8 @@ public class Tarea implements Serializable {
 		this.isActiveTa = isActiveTa;
 	}
 
+
+	@Column(name="is_read_ta")
 	public boolean getIsReadTa() {
 		return this.isReadTa;
 	}
@@ -77,6 +66,8 @@ public class Tarea implements Serializable {
 		this.isReadTa = isReadTa;
 	}
 
+
+	@Column(name="titulo_tarea")
 	public String getTituloTarea() {
 		return this.tituloTarea;
 	}
@@ -85,6 +76,9 @@ public class Tarea implements Serializable {
 		this.tituloTarea = tituloTarea;
 	}
 
+
+	//bi-directional many-to-one association to Categoria
+	@ManyToOne
 	public Categoria getCategoria() {
 		return this.categoria;
 	}
@@ -93,6 +87,9 @@ public class Tarea implements Serializable {
 		this.categoria = categoria;
 	}
 
+
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
@@ -101,6 +98,9 @@ public class Tarea implements Serializable {
 		this.usuario = usuario;
 	}
 
+
+	//bi-directional many-to-one association to TareasRol
+	@OneToMany(mappedBy="tarea")
 	public List<TareasRol> getTareasRols() {
 		return this.tareasRols;
 	}

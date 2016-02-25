@@ -123,6 +123,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		Usuario nuser = null;
 
 		BeanUtils.copyProperties(ur.getUsuario(), newUser);	
+		newUser.setIsActiveUs(ur.getUsuario().isActiveUs());
 		
 		/** Cambiar por getInstitucionByID luego **/
 		Institucion ins = new Institucion();	

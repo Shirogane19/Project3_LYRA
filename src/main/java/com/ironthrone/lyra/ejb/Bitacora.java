@@ -13,29 +13,19 @@ import java.util.Date;
 @NamedQuery(name="Bitacora.findAll", query="SELECT b FROM Bitacora b")
 public class Bitacora implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idBitacora;
-
 	private String accion;
-
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
-
-	@Column(name="id_usuario")
 	private int idUsuario;
-
-	@Column(name="login_ip")
 	private String loginIp;
-
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
 	private Institucion institucion;
 
 	public Bitacora() {
 	}
 
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getIdBitacora() {
 		return this.idBitacora;
 	}
@@ -43,6 +33,7 @@ public class Bitacora implements Serializable {
 	public void setIdBitacora(int idBitacora) {
 		this.idBitacora = idBitacora;
 	}
+
 
 	public String getAccion() {
 		return this.accion;
@@ -52,6 +43,8 @@ public class Bitacora implements Serializable {
 		this.accion = accion;
 	}
 
+
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getFecha() {
 		return this.fecha;
 	}
@@ -60,6 +53,8 @@ public class Bitacora implements Serializable {
 		this.fecha = fecha;
 	}
 
+
+	@Column(name="id_usuario")
 	public int getIdUsuario() {
 		return this.idUsuario;
 	}
@@ -68,6 +63,8 @@ public class Bitacora implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
+
+	@Column(name="login_ip")
 	public String getLoginIp() {
 		return this.loginIp;
 	}
@@ -76,6 +73,9 @@ public class Bitacora implements Serializable {
 		this.loginIp = loginIp;
 	}
 
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}
