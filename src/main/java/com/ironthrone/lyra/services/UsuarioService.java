@@ -34,6 +34,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		users.stream().forEach(u -> {
 			UsuarioPOJO dto = new UsuarioPOJO();
 			BeanUtils.copyProperties(u,dto);
+			dto.setActiveUs(u.getIsActiveUs());
 			uiUsers.add(dto);
 		});	
 		
@@ -67,6 +68,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		UsuarioPOJO dto = new UsuarioPOJO();
 		
 		BeanUtils.copyProperties(user,dto);
+		dto.setActiveUs(user.getIsActiveUs());
 	
 		return dto;
 	}
@@ -140,6 +142,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		}else{		
 			Usuario oldUser = findById(newUser.getIdUsuario());
 			BeanUtils.copyProperties(newUser, oldUser);
+			oldUser.setIsActiveUs(newUser.getIsActiveUs());
 			nuser = usersRepository.save(oldUser);	
 		}
 		return (nuser == null) ? false : true;

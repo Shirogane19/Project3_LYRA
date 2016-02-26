@@ -106,7 +106,7 @@ public class Seccion implements Serializable {
 
 
 	//bi-directional many-to-one association to Grado
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Grado getGrado() {
 		return this.grado;
 	}

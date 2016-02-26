@@ -20,8 +20,8 @@ public class Alumno implements Serializable {
 	private String genero;
 	private boolean isActiveAl;
 	private String nombre;
-	private Institucion institucion;
 	private Seccion seccion;
+	private Institucion institucion;
 	private List<EncargadosAlumno> encargadosAlumnos;
 	private List<HistorialMedico> historialMedicos;
 
@@ -95,25 +95,25 @@ public class Alumno implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Institucion
-	@ManyToOne
-	public Institucion getInstitucion() {
-		return this.institucion;
-	}
-
-	public void setInstitucion(Institucion institucion) {
-		this.institucion = institucion;
-	}
-
-
 	//bi-directional many-to-one association to Seccion
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Seccion getSeccion() {
 		return this.seccion;
 	}
 
 	public void setSeccion(Seccion seccion) {
 		this.seccion = seccion;
+	}
+
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Institucion getInstitucion() {
+		return this.institucion;
+	}
+
+	public void setInstitucion(Institucion institucion) {
+		this.institucion = institucion;
 	}
 
 

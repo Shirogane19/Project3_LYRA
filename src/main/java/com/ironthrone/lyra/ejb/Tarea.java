@@ -78,7 +78,7 @@ public class Tarea implements Serializable {
 
 
 	//bi-directional many-to-one association to Categoria
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Categoria getCategoria() {
 		return this.categoria;
 	}
@@ -89,7 +89,7 @@ public class Tarea implements Serializable {
 
 
 	//bi-directional many-to-one association to Usuario
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

@@ -33,7 +33,7 @@ public class ProfesorSeccion implements Serializable {
 
 
 	//bi-directional many-to-one association to Seccion
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Seccion getSeccion() {
 		return this.seccion;
 	}
@@ -44,7 +44,7 @@ public class ProfesorSeccion implements Serializable {
 
 
 	//bi-directional many-to-one association to Usuario
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

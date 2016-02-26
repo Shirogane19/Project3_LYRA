@@ -53,7 +53,7 @@ public class RegistrosMedico implements Serializable {
 
 
 	//bi-directional many-to-one association to HistorialMedico
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="Historial_Medico_idHistorial_Medico")
 	public HistorialMedico getHistorialMedico() {
 		return this.historialMedico;

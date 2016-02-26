@@ -33,7 +33,7 @@ public class MateriasProfesor implements Serializable {
 
 
 	//bi-directional many-to-one association to Materia
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Materia getMateria() {
 		return this.materia;
 	}
@@ -44,7 +44,7 @@ public class MateriasProfesor implements Serializable {
 
 
 	//bi-directional many-to-one association to Usuario
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class MateriasGrado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idMaterias_Grado;
-	private Grado grado;
 	private Materia materia;
+	private Grado grado;
 
 	public MateriasGrado() {
 	}
@@ -32,25 +32,25 @@ public class MateriasGrado implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Grado
-	@ManyToOne
-	public Grado getGrado() {
-		return this.grado;
-	}
-
-	public void setGrado(Grado grado) {
-		this.grado = grado;
-	}
-
-
 	//bi-directional many-to-one association to Materia
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Materia getMateria() {
 		return this.materia;
 	}
 
 	public void setMateria(Materia materia) {
 		this.materia = materia;
+	}
+
+
+	//bi-directional many-to-one association to Grado
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Grado getGrado() {
+		return this.grado;
+	}
+
+	public void setGrado(Grado grado) {
+		this.grado = grado;
 	}
 
 }

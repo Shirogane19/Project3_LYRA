@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class TareasRol implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idTareas_Rol;
-	private Rol rol;
 	private Tarea tarea;
+	private Rol rol;
 
 	public TareasRol() {
 	}
@@ -32,25 +32,25 @@ public class TareasRol implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Rol
-	@ManyToOne
-	public Rol getRol() {
-		return this.rol;
-	}
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
-
 	//bi-directional many-to-one association to Tarea
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Tarea getTarea() {
 		return this.tarea;
 	}
 
 	public void setTarea(Tarea tarea) {
 		this.tarea = tarea;
+	}
+
+
+	//bi-directional many-to-one association to Rol
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Rol getRol() {
+		return this.rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 
 }

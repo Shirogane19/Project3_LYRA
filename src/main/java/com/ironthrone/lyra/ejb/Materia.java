@@ -55,7 +55,7 @@ public class Materia implements Serializable {
 
 
 	//bi-directional many-to-one association to Institucion
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}

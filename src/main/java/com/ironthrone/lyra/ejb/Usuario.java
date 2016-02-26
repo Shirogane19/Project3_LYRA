@@ -36,6 +36,8 @@ public class Usuario implements Serializable {
 	
 	private String telefono;
 	
+	private List<Chat> chats;
+	
 	private List<EncargadosAlumno> encargadosAlumnos;
 	
 	private List<MateriasProfesor> materiasProfesors;
@@ -47,8 +49,6 @@ public class Usuario implements Serializable {
 	private List<Tarea> tareas;
 	
 	private Institucion institucion;
-	
-//	private List<Chat> chats;
 
 	public Usuario() {
 	}
@@ -146,6 +146,26 @@ public class Usuario implements Serializable {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+
+	//bi-directional many-to-many association to Chat
+	@ManyToMany
+	@JoinTable(
+		name="chat_has_usuario"
+		, joinColumns={
+			@JoinColumn(name="Usuario_idUsuario")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Chat_idChat")
+			}
+		)
+	public List<Chat> getChats() {
+		return this.chats;
+	}
+
+	public void setChats(List<Chat> chats) {
+		this.chats = chats;
 	}
 
 
@@ -275,7 +295,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-one association to Institucion
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Institucion getInstitucion() {
 		return this.institucion;
 	}
@@ -283,25 +303,5 @@ public class Usuario implements Serializable {
 	public void setInstitucion(Institucion institucion) {
 		this.institucion = institucion;
 	}
-
-
-//	//bi-directional many-to-many association to Chat
-//	@ManyToMany
-//	@JoinTable(
-//		name="chat_has_usuario"
-//		, joinColumns={
-//			@JoinColumn(name="Usuario_idUsuario")
-//			}
-//		, inverseJoinColumns={
-//			@JoinColumn(name="Chat_idChat")
-//			}
-//		)
-//	public List<Chat> getChats() {
-//		return this.chats;
-//	}
-//
-//	public void setChats(List<Chat> chats) {
-//		this.chats = chats;
-//	}
 
 }

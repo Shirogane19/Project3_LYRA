@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class RolUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idRol_Usuario;
-	private Rol rol;
 	private Usuario usuario;
+	private Rol rol;
 
 	public RolUsuario() {
 	}
@@ -32,25 +32,25 @@ public class RolUsuario implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Rol
-	@ManyToOne
-	public Rol getRol() {
-		return this.rol;
-	}
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
-
 	//bi-directional many-to-one association to Usuario
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+
+	//bi-directional many-to-one association to Rol
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Rol getRol() {
+		return this.rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 
 }
