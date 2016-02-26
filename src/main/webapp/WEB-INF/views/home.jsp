@@ -44,6 +44,7 @@
         <!-- Bootstrap and OneUI CSS framework -->
         <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css">
         <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
+        <link rel="stylesheet" id="css-theme" href="resources/assets/css/themes/flat.min.css"> 
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
@@ -86,24 +87,7 @@
 
                     <!-- Side Content -->
                     <div class="side-content remove-padding-t">
-                        <!-- Block -->
-                        <div class="block pull-r-l">
-                            <div class="block-header bg-gray-lighter">
-                                <ul class="block-options">
-                                    <li>
-                                        <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                    </li>
-                                    <li>
-                                        <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                    </li>
-                                </ul>
-                                <h3 class="block-title">Block</h3>
-                            </div>
-                            <div class="block-content">
-                                <p>...</p>
-                            </div>
-                        </div>
-                        <!-- END Block -->
+
                     </div>
                     <!-- END Side Content -->
                 </div>
@@ -136,27 +120,27 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a data-toggle="theme" data-theme="assets/css/themes/amethyst.min.css" tabindex="-1" href="javascript:void(0)">
+                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/amethyst.min.css" tabindex="-1" href="javascript:void(0)">
                                             <i class="fa fa-circle text-amethyst pull-right"></i> <span class="font-w600">Amethyst</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a data-toggle="theme" data-theme="assets/css/themes/city.min.css" tabindex="-1" href="javascript:void(0)">
+                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/city.min.css" tabindex="-1" href="javascript:void(0)">
                                             <i class="fa fa-circle text-city pull-right"></i> <span class="font-w600">City</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a data-toggle="theme" data-theme="assets/css/themes/flat.min.css" tabindex="-1" href="javascript:void(0)">
+                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/flat.min.css" tabindex="-1" href="javascript:void(0)">
                                             <i class="fa fa-circle text-flat pull-right"></i> <span class="font-w600">Flat</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a data-toggle="theme" data-theme="assets/css/themes/modern.min.css" tabindex="-1" href="javascript:void(0)">
+                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/modern.min.css" tabindex="-1" href="javascript:void(0)">
                                             <i class="fa fa-circle text-modern pull-right"></i> <span class="font-w600">Modern</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a data-toggle="theme" data-theme="assets/css/themes/smooth.min.css" tabindex="-1" href="javascript:void(0)">
+                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/smooth.min.css" tabindex="-1" href="javascript:void(0)">
                                             <i class="fa fa-circle text-smooth pull-right"></i> <span class="font-w600">Smooth</span>
                                         </a>
                                     </li>
@@ -176,10 +160,10 @@
                                 </li>
                                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Header</span></li>
                                 <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wrench"></i><span class="sidebar-mini-hide">Dropdown</span></a>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wrench"></i><span class="sidebar-mini-hide">Mantenimiento</span></a>
                                     <ul>
                                         <li>
-                                            <a href="start_backend.html">Link #1</a>
+                                            <a ui-sref="userView">Usuarios</a>
                                         </li>
                                         <li>
                                             <a href="start_backend.html">Link #2</a>
@@ -200,6 +184,46 @@
             <header id="header-navbar" class="content-mini content-mini-full">
                 <!-- Header Navigation Right -->
                 <ul class="nav-header pull-right">
+                    <li>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                                <img src="resources/assets/img/avatars/avatar13.jpg" alt="Avatar">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-header">Profile</li>
+                                <li>
+                                    <a tabindex="-1" href="base_pages_inbox.html">
+                                        <i class="si si-envelope-open pull-right"></i>
+                                        <span class="badge badge-primary pull-right">3</span>Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="base_pages_profile.html">
+                                        <i class="si si-user pull-right"></i>
+                                        <span class="badge badge-success pull-right">1</span>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="javascript:void(0)">
+                                        <i class="si si-settings pull-right"></i>Settings
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Actions</li>
+                                <li>
+                                    <a tabindex="-1" href="base_pages_lock.html">
+                                        <i class="si si-lock pull-right"></i>Lock Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="base_pages_login.html">
+                                        <i class="si si-logout pull-right"></i>Log out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li>
                         <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
                         <button class="btn btn-default" data-toggle="layout" data-action="side_overlay_toggle" type="button">
@@ -223,6 +247,12 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </button>
                     </li>
+                    <li>
+                        <!-- Opens the Apps modal found at the bottom of the page, before including JS code -->
+                        <button class="btn btn-default pull-right" data-toggle="modal" data-target="#apps-modal" type="button">
+                            <i class="si si-grid"></i>
+                        </button>
+                    </li>
                     <li class="visible-xs">
                         <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
                         <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible" type="button">
@@ -230,7 +260,7 @@
                         </button>
                     </li>
                     <li class="js-header-search header-search">
-                        <form class="form-horizontal" action="start_backend.html" method="post">
+                        <form class="form-horizontal" action="base_pages_search.html" method="post">
                             <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
                                 <input class="form-control" type="text" id="base-material-text" name="base-material-text" placeholder="Search..">
                                 <span class="input-group-addon"><i class="si si-magnifier"></i></span>
@@ -245,53 +275,16 @@
             <!-- Main Container -->
             <main id="main-container">
                 <!-- Page Header -->
-                <div class="content bg-gray-lighter">
-                    <div class="row items-push">
-                        <div class="col-sm-7">
-                            <h1 class="page-heading">
-                                Title <small>Subtitle.</small>
-                            </h1>
-                        </div>
-                        <div class="col-sm-5 text-right hidden-xs">
-                            <ol class="breadcrumb push-10-t">
-                                <li>Category</li>
-                                <li><a class="link-effect" href="">Page</a></li>
-                            </ol>
-                        </div>
+                <div class="content bg-image overflow-hidden" style="background-image: url('resources/assets/img/photos/photo27@2x.jpg');">
+                    <div class="push-50-t push-15">
+                        <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
+                        <h2 class="h5 text-white-op animated zoomIn">Bienvenido Jean</h2>
                     </div>
                 </div>
                 <!-- END Page Header -->
 
                 <!-- Page Content -->
-                <div class="content">
-                    <!-- My Block -->
-                    <div class="block">
-                        <div class="block-header">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
-                            </ul>
-                            <h3 class="block-title">My Block</h3>
-                        </div>
-                        <div class="block-content">
-                            <p>...</p>
-                        </div>
-                    </div>
-                    <!-- END My Block -->
-                </div>
+                <div class="content" ui-view></div>
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
@@ -320,12 +313,21 @@
         <script src="resources/assets/js/core/js.cookie.min.js"></script>
         <script src="resources/bower_components/angular/angular.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
+        <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="resources/assets/js/initUI.js"></script>
 
         <!-- Page JS Plugins + Page JS Code -->
         <script src="resources/app.js"></script>
+
+                <!-- Views JS Code -->
+        <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/userView/userView.js"></script>
 
+        
+        <script type="text/javascript">
+        OneUI.init();
+        </script>
 
 </body>
 </html>
