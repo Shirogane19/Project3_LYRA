@@ -158,7 +158,7 @@
                                 <li>
                                     <a class="active" href="start_backend.html"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
-                                <li class="nav-main-heading"><span class="sidebar-mini-hide">Header</span></li>
+                                <li class="nav-main-heading"><span class="sidebar-mini-hide">Menu</span></li>
                                 <li>
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wrench"></i><span class="sidebar-mini-hide">Mantenimiento</span></a>
                                     <ul>
@@ -170,6 +170,19 @@
                                         </li>
                                     </ul>
                                 </li>
+                               <!--  SECOND SIDE TAB -->
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Tareas</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="start_backend.html">Link #1</a>
+                                        </li>
+                                        <li>
+                                            <a href="start_backend.html">Link #2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                               <!--  END SECOND SIDE TAB -->
                             </ul>
                         </div>
                         <!-- END Side Content -->
@@ -324,7 +337,7 @@
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/userView/userView.js"></script>
 
-        
+
         <script type="text/javascript">
         OneUI.init();
         </script>

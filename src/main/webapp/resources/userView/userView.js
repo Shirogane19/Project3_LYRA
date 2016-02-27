@@ -10,17 +10,25 @@ angular.module('myApp.userView', ['ngRoute'])
 }])
 
 
-.controller('userViewCtrl', ['$scope','$http',function($scope,$http) {
+.controller('userViewCtrl', ['$scope','$http','$timeout',function($scope,$http,$timeout) {
   
-  $scope.usuarios = [];
+  $scope.userList = [];
+  $scope.counter = 0;
 
+
+$scope.initScripts = function(){
 
   angular.element(document).ready(function () {
 
-  	console.log('quesorpresa');
-         OneUI.init();
+      //   OneUI.init();
          BaseTableDatatables.init();
   });
+
+}
+
+  $scope.increment = function(){
+    $scope.counter += 1;
+  }
 
 
   	$scope.init = function(){
@@ -28,14 +36,16 @@ angular.module('myApp.userView', ['ngRoute'])
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","user": {}};
 		$http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
 			console.log("response",response)
-			$scope.usuarios = response.usuarios;
-			console.log("$scope.usuarios",$scope.usuarios[1])
+			$scope.userList = response.usuarios;
+			console.log("$scope.userList: ",$scope.userList[0])
 		//	console.log("Tipo de usuario:", $scope.usuarios.tipos)
 		});
 
 	 }
 
-	 $scope.init();
+	
+	 $timeout( function(){ $scope.initScripts(); }, 100);
+ 	 $scope.init();
 
 
 
