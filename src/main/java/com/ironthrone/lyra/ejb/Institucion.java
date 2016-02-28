@@ -20,7 +20,7 @@ public class Institucion implements Serializable {
 	private List<Alumno> alumnos;
 	private List<Bitacora> bitacoras;
 	private List<Grado> grados;
-	private List<Materia> materias;
+	//private List<Materia> materias;
 	private List<Subscripcion> subscripcions;
 	private List<Usuario> usuarios;
 
@@ -143,30 +143,30 @@ public class Institucion implements Serializable {
 		return grado;
 	}
 
+//
+//	//bi-directional many-to-one association to Materia
+//	@OneToMany(mappedBy="institucion")
+//	public List<Materia> getMaterias() {
+//		return this.materias;
+//	}
+//
+//	public void setMaterias(List<Materia> materias) {
+//		this.materias = materias;
+//	}
 
-	//bi-directional many-to-one association to Materia
-	@OneToMany(mappedBy="institucion")
-	public List<Materia> getMaterias() {
-		return this.materias;
-	}
-
-	public void setMaterias(List<Materia> materias) {
-		this.materias = materias;
-	}
-
-	public Materia addMateria(Materia materia) {
-		getMaterias().add(materia);
-		materia.setInstitucion(this);
-
-		return materia;
-	}
-
-	public Materia removeMateria(Materia materia) {
-		getMaterias().remove(materia);
-		materia.setInstitucion(null);
-
-		return materia;
-	}
+//	public Materia addMateria(Materia materia) {
+//		getMaterias().add(materia);
+//		materia.setInstitucion(this);
+//
+//		return materia;
+//	}
+//
+//	public Materia removeMateria(Materia materia) {
+//		getMaterias().remove(materia);
+//		materia.setInstitucion(null);
+//
+//		return materia;
+//	}
 
 
 	//bi-directional many-to-one association to Subscripcion

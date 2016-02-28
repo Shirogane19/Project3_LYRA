@@ -57,20 +57,27 @@ angular.module('myApp.loginView', ['ngRoute'])
   });
 
  
- // $scope.user = {};
-  $scope.user = {email:"jean@maradiaga.com",password:"12345"};
-  
-      $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
+  $scope.user = {};
 
-        if(loginResponse.code == 200){
-          var usuario = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-          console.log(usuario);
-         var path = "/lyra/app#/home";
-         window.location.href = path;
-        }else{
+ // $scope.user = {email:"jean@maradiaga.com",password:"12345"};
+
+  $scope.checkLogin = function(){
+
+    $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
+
+      if(loginResponse.code == 200){
+        var usuario = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
+     //   console.log(user);
+        var path = "/lyra/app#/home";
+        window.location.href = path;
+
+      }else{
           alert("invalido");
-        }
-      });
+      }
+
+    });
+
+  };
       
 }]);
 
