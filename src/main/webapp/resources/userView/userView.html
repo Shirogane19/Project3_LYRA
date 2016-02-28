@@ -1,10 +1,15 @@
-        <!-- Page JS Plugins CSS -->
+        <link rel="stylesheet" href="resources/assets/js/plugins/select2/select2.min.css">
+        <link rel="stylesheet" href="resources/assets/js/plugins/select2/select2-bootstrap.min.css">
         <link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
+        <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
 
 
-            <button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Agregar Usuario</button>
+
+        <button class="btn btn-success push-5-r push-10" type="button" ng-show="!onPoint" ng-click="showForm()">
+        <i class="fa fa-plus"></i> Agregar Usuario</button>
                     <!-- Dynamic Table Full -->
-                    <div class="block">
+                    <div class="block" ng-show="!onPoint">
+
                         <div class="block-header">
                             <h3 class="block-title">Lista de Usuarios</h3>
                         </div>
@@ -41,8 +46,9 @@
 
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit Client"><i class="fa fa-pencil"></i></button>
-                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-times"></i></button>
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Editar usuario"        ng-click="showUserToEdit(u)"><i class="fa fa-pencil"></i></button>
+
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo"        ng-click="isActive(u)"><i class="fa fa-times"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -51,5 +57,102 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
                     <!-- END Dynamic Table Full -->
 
+                    <!-- Material Register -->
+                    <div class="col-lg-6" ng-show="onPoint">
+                            <div class="block block-themed">
+                                <div class="block-header bg-success">
+                                    <ul class="block-options">
+                                        <li>
+                                        <button type="button" ng-click="showList()"><i class="si si-close"></i></button>
+                                       <li>
+                                            <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                                        </li>
+                                    </ul>
+ 
+                                   <h3 class="block-title">Nuevo Usuario</h3>
+                                </div>
+                                <div class="block-content">
+                                   <form class="form-horizontal push-10-t push-10" action="base_forms_premade.html" method="post" name="userForm">
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newUser.nombre" required>
+                                                    <label>Nombre <span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newUser.apellido" required>
+                                                    <label>Apellido <span class="text-danger">*</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newUser.cedula"  ng-pattern="onlyNumbers" required>
+                                                    <label>Cédula <span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                        </div>      
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newUser.telefono"  ng-pattern="onlyNumbers" required>
+                                                    <label>Teléfono  <span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newUser.movil"  ng-pattern="onlyNumbers">
+                                                    <label>Teléfono 2 </label>
+                                                </div>
+                                            </div>
+                                        </div>                                       
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="email" ng-model="newUser.email" required>
+                                                    <label data-toggle="tooltip" title="Email debe incluir @">Email <span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label class="col-md-4 control-label" for="example-select2-multiple">Roles</label>
+                                            <div class="col-md-8">
+                                                <select class="js-select2 form-control" id="example-select2-multiple" name="example-select2-multiple" style="width: 100%;" data-placeholder="Choose many.." multiple required>
+                                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                                    <option value="1">Master</option>
+                                                    <option value="2">Admin</option>
+                                                    <option value="3">Profesor</option>
+                                                    <option value="4">Encargado</option>
+                                                </select>
+                                            </div>
+                                        </div>  
+                                        <div class="form-group" ng-show="!isCreating">
+                                            <div class="col-xs-12">
+                                                <label class="css-input css-checkbox css-checkbox-success">
+                                                    <input type="checkbox" ng-model="newUser.activeUs"><span></span> Activo?
+                                                </label>
+                                            </div>
+                                        </div>
+                                     <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="userForm.$invalid"
+                                                    ng-click="saveUsuario()">
+                                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+    <!-- END Material ) Register -->              

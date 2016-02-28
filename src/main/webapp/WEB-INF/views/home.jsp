@@ -46,6 +46,7 @@
         <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
         <link rel="stylesheet" id="css-theme" href="resources/assets/css/themes/flat.min.css"> 
 
+
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
         <!-- END Stylesheets -->
@@ -327,6 +328,7 @@
         <script src="resources/bower_components/angular/angular.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
         <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="resources/bower_components/angular-ui-mask/dist/mask.js"></script>
         <script src="resources/assets/js/initUI.js"></script>
 
         <!-- Page JS Plugins + Page JS Code -->
@@ -335,12 +337,17 @@
                 <!-- Views JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
+        <script src="resources/assets/js/pages/base_forms_validation.js"></script>
+        <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+        <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
+        <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
         <script src="resources/userView/userView.js"></script>
 
 
         <script type="text/javascript">
         OneUI.init();
         </script>
+
 
 </body>
 </html>
