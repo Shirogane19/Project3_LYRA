@@ -124,10 +124,8 @@ public class UsuarioService implements UsuarioServiceInterface {
 		Usuario newUser = new Usuario();
 		Usuario nuser = null;
 
-		System.out.println("Before the copy bean:" + ur.toString());
-		
 		BeanUtils.copyProperties(ur.getUsuario(), newUser);	
-		
+		newUser.setIsActiveUs(ur.getUsuario().isActiveUs());
 		
 		/** Cambiar por getInstitucionByID luego **/
 		Institucion ins = new Institucion();	
@@ -136,17 +134,15 @@ public class UsuarioService implements UsuarioServiceInterface {
 		newUser.setInstitucion(ins);		
 		/** fin comment **/
 		
-		newUser.setPassword("12345");
 		newUser.setPassword(encryptor.ironEncryption(newUser.getPassword()));
 		
-		if(ur.getUsuario().getIdUsuario() <= -1){	
-			newUser.setIsActiveUs(true);
+		if(ur.getUsuario().getIdUsuario() <= -1){		
 			nuser = usersRepository.save(newUser);
 		 
 		}else{		
 			Usuario oldUser = findById(newUser.getIdUsuario());
 			BeanUtils.copyProperties(newUser, oldUser);
-			oldUser.setIsActiveUs(ur.getUsuario().isActiveUs());
+			oldUser.setIsActiveUs(newUser.getIsActiveUs());
 			nuser = usersRepository.save(oldUser);	
 		}
 		return (nuser == null) ? false : true;
