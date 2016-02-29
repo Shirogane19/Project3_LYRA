@@ -161,6 +161,7 @@
                                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Menu</span></li>
                                 <li>
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wrench"></i><span class="sidebar-mini-hide">Mantenimiento</span></a>
+
                                     <ul>
                                         <li>
                                             <a ui-sref="userView">Usuarios</a>
@@ -327,6 +328,7 @@
         <script src="resources/bower_components/angular/angular.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
         <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
         <script src="resources/assets/js/initUI.js"></script>
 
         <!-- Page JS Plugins + Page JS Code -->
@@ -336,6 +338,11 @@
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
+
+        <script src="resources/assets/js/pages/base_forms_validation.js"></script>
+        <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+        <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
+        <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
         <script src="resources/userView/userView.js"></script>
 
 
