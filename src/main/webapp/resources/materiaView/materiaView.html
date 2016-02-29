@@ -1,0 +1,39 @@
+<!-- Page JS Plugins CSS -->
+        <link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
+                    <a class="btn btn-success btn-xs pull-right" ng-click="" ><b>+</b> Add Materia</a>
+                    <!-- Dynamic Table Full -->
+                    <div class="block">
+                        <div class="block-header">
+                            <h3 class="block-title">Materias <small></small></h3>
+                        </div>
+
+                        <div class="block-content">
+
+                        
+                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+                            <table class="table table-bordered table-striped js-dataTable-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th ng-hide="true"></th>
+                                        <th class="text-center">Nombre</th>
+                                        <th></th>
+                                        <th class="text-center" style="width: 10%;">Acciones</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="m in materiaList" m-index="$index">
+                                        <td class="text-center" ng-bind="m.idMateria" ng-hide="true"></td>
+                                        <td class="text-center">{{$index+1}}</td>
+
+                                       
+                                        <td><span ng-bind="m.nombre"></span></td>
+                                        <td><button type="button" ng-click="" class="btn btn-warning">Edit</button> </td>
+                                        <td><button type="button" ng-click="" class="btn btn-danger">Delete</button> </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    <!-- END Dynamic Table Full -->
