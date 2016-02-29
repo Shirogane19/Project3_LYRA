@@ -4,7 +4,8 @@
 angular.module('myApp', [
   'ngRoute',
   'ui.router',
-  'myApp.userView'
+  'myApp.userView',
+  'myApp.alumnoView'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -20,6 +21,13 @@ angular.module('myApp', [
 		// params: {
   // 		user: { "userId":0, "firstName":null, "lastName":null}
 		// }
+    })
+
+    .state('alumnoView', {
+      url: '/estudiante_config',
+        templateUrl: 'resources/alumnoView/alumnoView.html',
+    controller: 'alumnoViewCtrl'
+
     })
         
         

@@ -22,6 +22,24 @@ public class AlumnoService implements AlumnoServiceInterface{
 
 	@Autowired private AlumnoRepository alumnoRepository;
 	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param users representa una lista de alumnos tipo ejb
+	 * @return UserInterfaceUsers, lista de a POJO.
+	 */
+	private List<AlumnoPOJO> generateAlumnosDtos(List<Alumno> alumnos){
+		
+		List<AlumnoPOJO> uiAlumnos = new ArrayList<AlumnoPOJO>();
+		
+		alumnos.stream().forEach(a -> {
+			AlumnoPOJO dto = new AlumnoPOJO();
+			BeanUtils.copyProperties(a,dto);
+			dto.setActiveAl(a.getIsActiveAl());
+			uiAlumnos.add(dto);
+		});	
+		
+		return uiAlumnos;
+	};
 	
 	/**
 	 * Retorna una lista de Alumnos.
@@ -31,13 +49,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 	@Transactional
 	public List<AlumnoPOJO> getAll() {
 		List<Alumno> alumnos = alumnoRepository.findAll();
-		List<AlumnoPOJO> dtos = new ArrayList<AlumnoPOJO>();
-		alumnos.stream().forEach(ta ->{
-			AlumnoPOJO dto = new AlumnoPOJO();
-			BeanUtils.copyProperties(ta, dto);
-			dtos.add(dto);
-		});
-		return dtos;
+		return generateAlumnosDtos(alumnos);
 	}
 	
 	/**
@@ -66,39 +78,31 @@ public class AlumnoService implements AlumnoServiceInterface{
 	@Transactional
 	public Boolean saveAlumno(AlumnoRequest alumnoRequest){
 		
-		Alumno alumno = new Alumno();
+		Alumno newAlumno = new Alumno();
 		Alumno nalumnoT = null;
-		BeanUtils.copyProperties(alumnoRequest.getAlumno(), alumno);
+		BeanUtils.copyProperties(alumnoRequest.getAlumno(), newAlumno);
 	
 		//**********************************************CAMBIAR POR get ID
-		Institucion ins = new Institucion();	
-		ins.setIdInstitucion(1);
-		alumno.setInstitucion(ins);
-		BeanUtils.copyProperties(alumnoRequest.getAlumno().getInstitucion(), alumno.getInstitucion());
+		//Institucion ins = new Institucion();	
+		//ins.setIdInstitucion(1);
+		//alumno.setInstitucion(ins);
+		//BeanUtils.copyProperties(alumnoRequest.getAlumno().getInstitucion(), alumno.getInstitucion());
 
-		Seccion seccion = new Seccion();
-		seccion.setIdSeccion(1);
-		alumno.setSeccion(seccion);
-		BeanUtils.copyProperties(alumnoRequest.getAlumno().getSeccion(), alumno.getSeccion());
+		//Seccion seccion = new Seccion();
+		//seccion.setIdSeccion(1);
+		//alumno.setSeccion(seccion);
+		//BeanUtils.copyProperties(alumnoRequest.getAlumno().getSeccion(), alumno.getSeccion());
 		//***********************************************
 		
 		if(alumnoRequest.getAlumno().getIdAlumno() <= -1){		
 	
-			nalumnoT = alumnoRepository.save(alumno);
+			nalumnoT = alumnoRepository.save(newAlumno);
 			
 		}else{		
-			Alumno oldAlumno = findById(alumno.getIdAlumno());
+			Alumno oldAlumno = findById(newAlumno.getIdAlumno());
 			
-			oldAlumno.setNombre(alumno.getNombre());
-			oldAlumno.setApellido1(alumno.getApellido1());
-			oldAlumno.setApellido2(alumno.getApellido2());
-			oldAlumno.setCedula(alumno.getCedula());
-			oldAlumno.setGenero(alumno.getGenero());
-			oldAlumno.setIsActiveAl(alumno.getIsActiveAl());
-			oldAlumno.setInstitucion(alumno.getInstitucion());
-			oldAlumno.setSeccion(alumno.getSeccion());
-			oldAlumno.setEncargadosAlumnos(alumno.getEncargadosAlumnos());
-			oldAlumno.setHistorialMedicos(alumno.getHistorialMedicos());
+			BeanUtils.copyProperties(newAlumno, oldAlumno);
+			oldAlumno.setIsActiveAl(alumnoRequest.getAlumno().isActiveAl());
 			
 			nalumnoT = alumnoRepository.save(oldAlumno);	
 		}

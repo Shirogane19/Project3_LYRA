@@ -167,6 +167,9 @@
                                             <a ui-sref="userView">Usuarios</a>
                                         </li>
                                         <li>
+                                            <a ui-sref="alumnoView">Estudiantes</a>
+                                        </li>
+                                        <li>
                                             <a href="start_backend.html">Link #2</a>
                                         </li>
                                     </ul>
@@ -342,6 +345,7 @@
         <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
         <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
         <script src="resources/userView/userView.js"></script>
+        <script src="resources/alumnoView/alumnoView.js"></script>
 
 
         <script type="text/javascript">
