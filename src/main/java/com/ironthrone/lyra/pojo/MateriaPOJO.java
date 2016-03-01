@@ -11,14 +11,15 @@ public class MateriaPOJO {
 	private int idMateria;
 	private boolean isActiveMat;
 	private String nombre;
+	private InstitucionPOJO institucion;
+	private List<MateriasGradoPOJO> materiasGrados;
+	private List<MateriasProfesorPOJO> materiasProfesors;	
 	//private Institucion institucion;
 	//private List<MateriasGrado> materiasGrados;
 	//private List<MateriasProfesor> materiasProfesors;
 	
 	public MateriaPOJO(){
 		super();
-		
-		
 	}
 	
 	public int getIdMateria() {
@@ -57,6 +58,5 @@ public class MateriaPOJO {
 //	public void setMateriasProfesors(List<MateriasProfesor> materiasProfesors) {
 //		this.materiasProfesors = materiasProfesors;
 //	}
-	
 	
 }

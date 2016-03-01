@@ -166,6 +166,9 @@
                                             <a ui-sref="userView">Usuarios</a>
                                         </li>
                                         <li>
+                                            <a ui-sref="alumnoView">Estudiantes</a>
+                                        </li>
+                                        <li>
                                             <a ui-sref="materiaView">Materias</a>
                                         </li>
                                     </ul>
@@ -337,6 +340,8 @@
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
         <script src="resources/userView/userView.js"></script>
+        <script src="resources/alumnoView/alumnoView.js"></script>
+        <script src="resources/materiaView/materiaView.js"></script>
 
 
         <script type="text/javascript">

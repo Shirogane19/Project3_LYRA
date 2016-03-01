@@ -4,6 +4,8 @@
 angular.module('myApp', [
   'ngRoute',
   'ui.router',
+  'myApp.userView',
+  'myApp.alumnoView',
   'myApp.materiaView',
   'myApp.userView'
 ])
@@ -23,16 +25,22 @@ angular.module('myApp', [
 		// }
     })
 
+    .state('alumnoView', {
+      url: '/estudiante_config',
+        templateUrl: 'resources/alumnoView/alumnoView.html',
+    controller: 'alumnoViewCtrl'
+
+    })
+
      .state('materiaView', {
       url: '/materia_config',
-        templateUrl: 'resources/materiaView/materiaView.html',
-    controller: 'materiaViewCtrl'
+      templateUrl: 'resources/materiaView/materiaView.html',
+      controller: 'materiaViewCtrl'
     // params: {
   //    user: { "userId":0, "firstName":null, "lastName":null}
     // }
     })
-        
-        
+
 });
 
 
