@@ -35,10 +35,6 @@ angular.module('myApp', [
         
 });
 
-        
-        
-});
-
 
 // .config(['$routeProvider','$provide','$httpProvider', function($routeProvider,$provide,$httpProvider, $stateProvider, $urlRouterProvider) {
 // 	$routeProvider.otherwise({redirectTo: '/home'});

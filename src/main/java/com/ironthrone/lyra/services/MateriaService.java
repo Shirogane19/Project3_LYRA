@@ -31,7 +31,7 @@ public class MateriaService implements MateriaServiceInterface{
 		materias.stream().forEach(m -> {
 			MateriaPOJO dto = new MateriaPOJO();
 			BeanUtils.copyProperties(m,dto);
-			//dto.setActiveMat(m.getIsActiveMat());
+			dto.setActiveMat(m.getIsActiveMat());
 			uiMaterias.add(dto);
 		});	
 		
