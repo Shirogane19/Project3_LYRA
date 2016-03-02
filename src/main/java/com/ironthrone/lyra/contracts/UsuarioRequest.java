@@ -2,7 +2,7 @@ package com.ironthrone.lyra.contracts;
 
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 
-public class UsuarioRequest extends BaseResponse{
+public class UsuarioRequest extends BaseRequest{
 	
 	private UsuarioPOJO usuario;
 

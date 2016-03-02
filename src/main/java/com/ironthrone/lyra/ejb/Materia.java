@@ -16,9 +16,9 @@ public class Materia implements Serializable {
 	private int idMateria;
 	private boolean isActiveMat;
 	private String nombre;
-	//private Institucion institucion;
-	//private List<MateriasGrado> materiasGrados;
-	//private List<MateriasProfesor> materiasProfesors;
+	private Institucion institucion;
+	private List<MateriasGrado> materiasGrados;
+	private List<MateriasProfesor> materiasProfesors;
 
 	public Materia() {
 	}
@@ -53,65 +53,65 @@ public class Materia implements Serializable {
 		this.nombre = nombre;
 	}
 
-//
-//	//bi-directional many-to-one association to Institucion
-//	@ManyToOne(fetch=FetchType.LAZY)
-//	public Institucion getInstitucion() {
-//		return this.institucion;
-//	}
-//
-//	public void setInstitucion(Institucion institucion) {
-//		this.institucion = institucion;
-//	}
-//
 
-//	//bi-directional many-to-one association to MateriasGrado
-//	@OneToMany(mappedBy="materia")
-//	public List<MateriasGrado> getMateriasGrados() {
-//		return this.materiasGrados;
-//	}
-//
-//	public void setMateriasGrados(List<MateriasGrado> materiasGrados) {
-//		this.materiasGrados = materiasGrados;
-//	}
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Institucion getInstitucion() {
+		return this.institucion;
+	}
 
-//	public MateriasGrado addMateriasGrado(MateriasGrado materiasGrado) {
-//		getMateriasGrados().add(materiasGrado);
-//		materiasGrado.setMateria(this);
-//
-//		return materiasGrado;
-//	}
-//
-//	public MateriasGrado removeMateriasGrado(MateriasGrado materiasGrado) {
-//		getMateriasGrados().remove(materiasGrado);
-//		materiasGrado.setMateria(null);
-//
-//		return materiasGrado;
-//	}
+	public void setInstitucion(Institucion institucion) {
+		this.institucion = institucion;
+	}
 
 
-//	//bi-directional many-to-one association to MateriasProfesor
-//	@OneToMany(mappedBy="materia")
-//	public List<MateriasProfesor> getMateriasProfesors() {
-//		return this.materiasProfesors;
-//	}
-//
-//	public void setMateriasProfesors(List<MateriasProfesor> materiasProfesors) {
-//		this.materiasProfesors = materiasProfesors;
-//	}
-//
-//	public MateriasProfesor addMateriasProfesor(MateriasProfesor materiasProfesor) {
-//		getMateriasProfesors().add(materiasProfesor);
-//		materiasProfesor.setMateria(this);
-//
-//		return materiasProfesor;
-//	}
-//
-//	public MateriasProfesor removeMateriasProfesor(MateriasProfesor materiasProfesor) {
-//		getMateriasProfesors().remove(materiasProfesor);
-//		materiasProfesor.setMateria(null);
-//
-//		return materiasProfesor;
-//	}
+	//bi-directional many-to-one association to MateriasGrado
+	@OneToMany(mappedBy="materia")
+	public List<MateriasGrado> getMateriasGrados() {
+		return this.materiasGrados;
+	}
+
+	public void setMateriasGrados(List<MateriasGrado> materiasGrados) {
+		this.materiasGrados = materiasGrados;
+	}
+
+	public MateriasGrado addMateriasGrado(MateriasGrado materiasGrado) {
+		getMateriasGrados().add(materiasGrado);
+		materiasGrado.setMateria(this);
+
+		return materiasGrado;
+	}
+
+	public MateriasGrado removeMateriasGrado(MateriasGrado materiasGrado) {
+		getMateriasGrados().remove(materiasGrado);
+		materiasGrado.setMateria(null);
+
+		return materiasGrado;
+	}
+
+
+	//bi-directional many-to-one association to MateriasProfesor
+	@OneToMany(mappedBy="materia")
+	public List<MateriasProfesor> getMateriasProfesors() {
+		return this.materiasProfesors;
+	}
+
+	public void setMateriasProfesors(List<MateriasProfesor> materiasProfesors) {
+		this.materiasProfesors = materiasProfesors;
+	}
+
+	public MateriasProfesor addMateriasProfesor(MateriasProfesor materiasProfesor) {
+		getMateriasProfesors().add(materiasProfesor);
+		materiasProfesor.setMateria(this);
+
+		return materiasProfesor;
+	}
+
+	public MateriasProfesor removeMateriasProfesor(MateriasProfesor materiasProfesor) {
+		getMateriasProfesors().remove(materiasProfesor);
+		materiasProfesor.setMateria(null);
+
+		return materiasProfesor;
+	}
 
 }
