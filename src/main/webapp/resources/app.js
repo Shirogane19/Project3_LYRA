@@ -39,7 +39,7 @@ angular.module('myApp', [
     // params: {
   //    user: { "userId":0, "firstName":null, "lastName":null}
     // }
-    })
+    })  
 
 });
 

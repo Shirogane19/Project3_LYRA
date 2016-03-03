@@ -338,7 +338,10 @@
                 <!-- Views JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
-        <script src="resources/materiaView/materiaView.js"></script>
+        <script src="resources/assets/js/pages/base_forms_validation.js"></script>
+        <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+        <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
+        <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
         <script src="resources/userView/userView.js"></script>
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
