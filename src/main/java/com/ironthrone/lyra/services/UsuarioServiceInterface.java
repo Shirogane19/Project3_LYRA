@@ -6,7 +6,11 @@ import com.ironthrone.lyra.contracts.UsuarioRequest;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 
-
+/**
+ * Interfaz de servicio de Usuario
+ * @author jeanpaul
+ *
+ */
 public interface UsuarioServiceInterface {
 
 	List<UsuarioPOJO> getAll(UsuarioRequest ur);

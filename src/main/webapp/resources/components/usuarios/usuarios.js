@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('myApp.usuarios', ['myApp.usuarios.directive'])
+angular.module('myApp.usuarios', ['myApp.usuarios.service'])

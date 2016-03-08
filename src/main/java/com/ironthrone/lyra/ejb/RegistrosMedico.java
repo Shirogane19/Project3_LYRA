@@ -16,7 +16,7 @@ public class RegistrosMedico implements Serializable {
 	private int idRegistros_Medicos;
 	private String descripcion;
 	private String nombreRegistro;
-	private HistorialMedico historialMedico;
+	private Alumno alumno;
 
 	public RegistrosMedico() {
 	}
@@ -52,15 +52,14 @@ public class RegistrosMedico implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to HistorialMedico
+	//bi-directional many-to-one association to Alumno
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="Historial_Medico_idHistorial_Medico")
-	public HistorialMedico getHistorialMedico() {
-		return this.historialMedico;
+	public Alumno getAlumno() {
+		return this.alumno;
 	}
 
-	public void setHistorialMedico(HistorialMedico historialMedico) {
-		this.historialMedico = historialMedico;
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
 	}
 
 }

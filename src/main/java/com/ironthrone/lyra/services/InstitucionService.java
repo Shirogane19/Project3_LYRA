@@ -37,6 +37,12 @@ public class InstitucionService implements InstitucionServiceInterface{
 		List<InstitucionPOJO> dtos = new ArrayList<InstitucionPOJO>();
 		instituciones.stream().forEach(ta ->{
 			InstitucionPOJO dto = new InstitucionPOJO();
+			dto.setAlumnos(null);
+			dto.setBitacoras(null);
+			dto.setGrados(null);
+			dto.setMaterias(null);
+			dto.setSubscripcions(null);
+			dto.setUsuarios(null);
 			BeanUtils.copyProperties(ta, dto);
 			dtos.add(dto);
 		});

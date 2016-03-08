@@ -2,17 +2,10 @@
 
 angular.module('myApp.userView', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/userView', {
-    templateUrl: 'userView/userView.html',
-    controller: 'userViewCtrl'
-  });
-}])
-
-
 .controller('userViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
   
   $scope.userList = [];
+  $scope.selectedItem = 0
   $scope.newUser = [];
   $scope.oldUser = [];
   $scope.counter = 0;
@@ -45,6 +38,7 @@ $scope.showForm = function(){
 $scope.showList = function(){
 
 	$scope.newUser = {};
+	$scope.selectedItem = 0;
 	$scope.onPoint = false;
 	$scope.isCreating = true;
   }
@@ -86,8 +80,13 @@ $scope.init = function(){
 	$http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
 	//	console.log("response",response)
 		$scope.userList = response.usuarios;
-	//	console.log("$scope.userList: ",$scope.userList[0])
 	});
+
+	// $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","role": {}};
+	// $http.post('rest/protected/roles/getAll',$scope.requestObject).success(function(response) {
+	// 	console.log("response",response)
+	// 	$scope.roleList = response.roles;
+	// });
 }
 
 $scope.saveUsuario = function(){
@@ -99,7 +98,7 @@ $scope.saveUsuario = function(){
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
 		"string","usuario":{"idUsuario": $scope.newUser.idUsuario,"nombre": $scope.newUser.nombre, 'apellido':  $scope.newUser.apellido, 'cedula': 
 		 $scope.newUser.cedula,"telefono": $scope.newUser.telefono,  "movil": $scope.newUser.movil, "email": $scope.newUser.email, "activeUs": 
-		 $scope.newUser.activeUs}};
+		 $scope.newUser.activeUs, "idRoles": $scope.selectedItem}};
 
 		console.log($scope.requestObject.usuario);
 

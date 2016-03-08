@@ -1,46 +1,6 @@
-// 'use strict';
-
-// angular.module('myApp.loginView', ['ngRoute'])
-
-// .config(['$routeProvider', function($routeProvider) {
-//   $routeProvider.when('/login', {
-//     templateUrl: 'resources/loginView/loginView.html',
-//     controller: 'LoginFormController'
-//   });
-// }])
-
-// .controller('LoginFormController', ['$scope','$http',function($scope,$http) {
-// 	$scope.user = {email:"jcorellam@ucenfotec.ac.cr",password:"1234"};
-	
-// 	$scope.checkLogin = function(){
-// 		$scope.authError = null;
-
-//         // Try to login 
-
-//     	$http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
-
-//       .then(function(response) {
-//     		if(loginResponse.code == 200){
-//     			var usuario = {"idUser":loginResponse.idUsuario,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-//     			var path = "/lyra/app#/view1";
-//     			window.location.href = path;
-//     		}else{
-//     			$scope.authError = 'Email or Password not right';
-//     		}
-//          }, function(x) {
-//                  $scope.authError = 'Server Error';
-//                 });
-//     	});
-    	
-//     };
-// }]);
-
-
-
-
 'use strict';
 
-angular.module('myApp.loginView', ['ngRoute'])
+angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
@@ -49,27 +9,29 @@ angular.module('myApp.loginView', ['ngRoute'])
   });
 }])
 
-.controller('LoginViewCtrl', ['$scope','$http',function($scope,$http) {
+.controller('LoginViewCtrl', ['$scope','$http','$window','$localStorage',function($scope,$http,$window,$localStorage) {
   
+  $scope.user = {};
+
+
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
          BasePagesLogin.init();
   });
 
- 
-  $scope.user = {};
 
- // $scope.user = {email:"jean@maradiaga.com",password:"12345"};
+
 
   $scope.checkLogin = function(){
 
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
       if(loginResponse.code == 200){
-        var usuario = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-     //   console.log(user);
+        $scope.user = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
+        $scope.save($scope.user);
         var path = "/lyra/app#/home";
         window.location.href = path;
+     //   $state.go('home');
 
       }else{
           alert("invalido");
@@ -78,8 +40,12 @@ angular.module('myApp.loginView', ['ngRoute'])
     });
 
   };
+
+
+  $scope.save = function(u) {
+    console.log(u);
+    $localStorage.user = u;
+  };
+
       
 }]);
-
-
-//      $http.post('http://localhost:8090/rest/login/checkuser/',$scope.user).success(function (loginResponse) {

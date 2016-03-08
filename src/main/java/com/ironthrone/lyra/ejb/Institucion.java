@@ -194,28 +194,14 @@ public class Institucion implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="institucion")
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="institucions")
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
-	}
-
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
-		usuario.setInstitucion(this);
-
-		return usuario;
-	}
-
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuarios().remove(usuario);
-		usuario.setInstitucion(null);
-
-		return usuario;
 	}
 
 }

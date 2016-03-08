@@ -16,9 +16,9 @@ public class Materia implements Serializable {
 	private int idMateria;
 	private boolean isActiveMat;
 	private String nombre;
+	private List<Grado> grados;
 	private Institucion institucion;
-	private List<MateriasGrado> materiasGrados;
-	private List<MateriasProfesor> materiasProfesors;
+	private List<Usuario> usuarios;
 
 	public Materia() {
 	}
@@ -54,6 +54,17 @@ public class Materia implements Serializable {
 	}
 
 
+	//bi-directional many-to-many association to Grado
+	@ManyToMany(mappedBy="materias")
+	public List<Grado> getGrados() {
+		return this.grados;
+	}
+
+	public void setGrados(List<Grado> grados) {
+		this.grados = grados;
+	}
+
+
 	//bi-directional many-to-one association to Institucion
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Institucion getInstitucion() {
@@ -65,53 +76,14 @@ public class Materia implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to MateriasGrado
-	@OneToMany(mappedBy="materia")
-	public List<MateriasGrado> getMateriasGrados() {
-		return this.materiasGrados;
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="materias")
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
 	}
 
-	public void setMateriasGrados(List<MateriasGrado> materiasGrados) {
-		this.materiasGrados = materiasGrados;
-	}
-
-	public MateriasGrado addMateriasGrado(MateriasGrado materiasGrado) {
-		getMateriasGrados().add(materiasGrado);
-		materiasGrado.setMateria(this);
-
-		return materiasGrado;
-	}
-
-	public MateriasGrado removeMateriasGrado(MateriasGrado materiasGrado) {
-		getMateriasGrados().remove(materiasGrado);
-		materiasGrado.setMateria(null);
-
-		return materiasGrado;
-	}
-
-
-	//bi-directional many-to-one association to MateriasProfesor
-	@OneToMany(mappedBy="materia")
-	public List<MateriasProfesor> getMateriasProfesors() {
-		return this.materiasProfesors;
-	}
-
-	public void setMateriasProfesors(List<MateriasProfesor> materiasProfesors) {
-		this.materiasProfesors = materiasProfesors;
-	}
-
-	public MateriasProfesor addMateriasProfesor(MateriasProfesor materiasProfesor) {
-		getMateriasProfesors().add(materiasProfesor);
-		materiasProfesor.setMateria(this);
-
-		return materiasProfesor;
-	}
-
-	public MateriasProfesor removeMateriasProfesor(MateriasProfesor materiasProfesor) {
-		getMateriasProfesors().remove(materiasProfesor);
-		materiasProfesor.setMateria(null);
-
-		return materiasProfesor;
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 }

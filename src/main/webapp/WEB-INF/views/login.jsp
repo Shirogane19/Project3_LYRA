@@ -74,8 +74,11 @@
         <script src="resources/assets/js/core/js.cookie.min.js"></script>
         <script src="resources/bower_components/angular/angular.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
+        <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
         <script src="resources/appLogin.js"></script>
+        <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
+<!--         <script src="resources/router.js"></script> -->
         <script src="resources/loginView/loginView.js"></script>
         <script src="resources/assets/js/initUI.js"></script>
         <!-- Page JS Plugins -->
