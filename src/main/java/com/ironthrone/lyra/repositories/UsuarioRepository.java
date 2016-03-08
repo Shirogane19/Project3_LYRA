@@ -5,11 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import com.ironthrone.lyra.ejb.Usuario;
 import java.util.List;
 
-/**
- * Declara los servicios del repositorio de usuarios.
- * @author jeanpaul
- *
- */
 public interface UsuarioRepository extends CrudRepository<Usuario, Integer>{
 
 	List<Usuario>findAll();

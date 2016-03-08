@@ -17,8 +17,8 @@ public class Rol implements Serializable {
 	private String descripcionRol;
 	private boolean isActiveRol;
 	private String nombreRol;
-	private List<Tarea> tareas;
-	private List<Usuario> usuarios;
+	private List<RolUsuario> rolUsuarios;
+	private List<TareasRol> tareasRols;
 
 	public Rol() {
 	}
@@ -65,43 +65,53 @@ public class Rol implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Tarea
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-		name="tareas_rol"
-		, joinColumns={
-			@JoinColumn(name="Rol_idRol")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Tarea_idTarea")
-			}
-		)
-	public List<Tarea> getTareas() {
-		return this.tareas;
+	//bi-directional many-to-one association to RolUsuario
+	@OneToMany(mappedBy="rol")
+	public List<RolUsuario> getRolUsuarios() {
+		return this.rolUsuarios;
 	}
 
-	public void setTareas(List<Tarea> tareas) {
-		this.tareas = tareas;
+	public void setRolUsuarios(List<RolUsuario> rolUsuarios) {
+		this.rolUsuarios = rolUsuarios;
+	}
+
+	public RolUsuario addRolUsuario(RolUsuario rolUsuario) {
+		getRolUsuarios().add(rolUsuario);
+		rolUsuario.setRol(this);
+
+		return rolUsuario;
+	}
+
+	public RolUsuario removeRolUsuario(RolUsuario rolUsuario) {
+		getRolUsuarios().remove(rolUsuario);
+		rolUsuario.setRol(null);
+
+		return rolUsuario;
 	}
 
 
-	//bi-directional many-to-many association to Usuario
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-		name="rol_usuario"
-		, joinColumns={
-			@JoinColumn(name="Rol_idRol")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Usuario_idUsuario")
-			}
-		)
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
+	//bi-directional many-to-one association to TareasRol
+	@OneToMany(mappedBy="rol")
+	public List<TareasRol> getTareasRols() {
+		return this.tareasRols;
 	}
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setTareasRols(List<TareasRol> tareasRols) {
+		this.tareasRols = tareasRols;
+	}
+
+	public TareasRol addTareasRol(TareasRol tareasRol) {
+		getTareasRols().add(tareasRol);
+		tareasRol.setRol(this);
+
+		return tareasRol;
+	}
+
+	public TareasRol removeTareasRol(TareasRol tareasRol) {
+		getTareasRols().remove(tareasRol);
+		tareasRol.setRol(null);
+
+		return tareasRol;
 	}
 
 }

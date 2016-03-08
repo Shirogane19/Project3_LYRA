@@ -14,7 +14,8 @@ import java.util.Date;
 @NamedQuery(name="Mensaje.findAll", query="SELECT m FROM Mensaje m")
 public class Mensaje implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	
+	private int idMensajes;
 	private Date fecha;
 	private String mensaje;
 	private Chat chat;
@@ -22,15 +23,15 @@ public class Mensaje implements Serializable {
 	public Mensaje() {
 	}
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int getId() {
-		return this.id;
+	public int getIdMensajes() {
+		return idMensajes;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+
+	public void setIdMensajes(int idMensajes) {
+		this.idMensajes = idMensajes;
 	}
 
 
@@ -62,5 +63,10 @@ public class Mensaje implements Serializable {
 	public void setChat(Chat chat) {
 		this.chat = chat;
 	}
+
+
+
+
+
 
 }

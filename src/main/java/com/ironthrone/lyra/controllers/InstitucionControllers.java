@@ -12,6 +12,7 @@ import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.contracts.AlumnoResponse;
 import com.ironthrone.lyra.contracts.InstitucionRequest;
 import com.ironthrone.lyra.contracts.InstitucionResponse;
+import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.services.InstitucionServiceInterface;
 
 @RestController
@@ -43,9 +44,9 @@ public class InstitucionControllers {
 	public InstitucionResponse create(@RequestBody InstitucionRequest institucionRequest){	
 		
 		InstitucionResponse institucionRes = new InstitucionResponse();
-		Boolean state = ISI.saveInstitucion(institucionRequest);
+		InstitucionPOJO state = ISI.saveInstitucion(institucionRequest);
 	
-		if(state){
+		if(state != null){
 			institucionRes.setCode(200);
 			institucionRes.setCodeMessage("Institucion saved succesfully");
 		}

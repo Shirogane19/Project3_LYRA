@@ -8,7 +8,8 @@ public class MateriaPOJO {
 	private boolean isActiveMat;
 	private String nombre;
 	private InstitucionPOJO institucion;
-
+	private List<MateriasGradoPOJO> materiasGrados;
+	private List<MateriasProfesorPOJO> materiasProfesors;
 	
 	public MateriaPOJO(){
 		super();
@@ -46,5 +47,22 @@ public class MateriaPOJO {
 		this.institucion = institucion;
 	}
 
+	public List<MateriasGradoPOJO> getMateriasGrados() {
+		return materiasGrados;
+	}
+
+	public void setMateriasGrados(List<MateriasGradoPOJO> materiasGrados) {
+		this.materiasGrados = materiasGrados;
+	}
+
+	public List<MateriasProfesorPOJO> getMateriasProfesors() {
+		return materiasProfesors;
+	}
+
+	public void setMateriasProfesors(List<MateriasProfesorPOJO> materiasProfesors) {
+		this.materiasProfesors = materiasProfesors;
+	}
+	
+	
 
 }

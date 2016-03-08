@@ -2,6 +2,9 @@ package com.ironthrone.lyra.pojo;
 
 import java.util.List;
 
+import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Seccion;
+
 public class AlumnoPOJO {
 	
 	private int idAlumno;
@@ -13,7 +16,8 @@ public class AlumnoPOJO {
 	private String nombre;
 	private InstitucionPOJO institucion;
 	private SeccionPOJO seccion;
-
+	private List<EncargadosAlumnoPOJO> encargadosAlumnos;
+	private List<HistorialMedicoPOJO> historialMedicos;
 	
 	public AlumnoPOJO(){
 		super();
@@ -91,7 +95,22 @@ public class AlumnoPOJO {
 		this.seccion = seccion;
 	}
 
+	public List<EncargadosAlumnoPOJO> getEncargadosAlumnos() {
+		return encargadosAlumnos;
+	}
 
+	public void setEncargadosAlumnos(List<EncargadosAlumnoPOJO> encargadosAlumnos) {
+		this.encargadosAlumnos = encargadosAlumnos;
+	}
+
+	public List<HistorialMedicoPOJO> getHistorialMedicos() {
+		return historialMedicos;
+	}
+
+	public void setHistorialMedicos(List<HistorialMedicoPOJO> historialMedicos) {
+		this.historialMedicos = historialMedicos;
+	}
+	
 	
 	
 }

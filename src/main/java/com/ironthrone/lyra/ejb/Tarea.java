@@ -18,9 +18,9 @@ public class Tarea implements Serializable {
 	private boolean isActiveTa;
 	private boolean isReadTa;
 	private String tituloTarea;
-	private List<Rol> rols;
 	private Categoria categoria;
-	private List<Usuario> usuarios;
+	private Usuario usuario;
+	private List<TareasRol> tareasRols;
 
 	public Tarea() {
 	}
@@ -77,17 +77,6 @@ public class Tarea implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Rol
-	@ManyToMany(mappedBy="tareas")
-	public List<Rol> getRols() {
-		return this.rols;
-	}
-
-	public void setRols(List<Rol> rols) {
-		this.rols = rols;
-	}
-
-
 	//bi-directional many-to-one association to Categoria
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Categoria getCategoria() {
@@ -99,23 +88,39 @@ public class Tarea implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Usuario
-	@ManyToMany
-	@JoinTable(
-		name="tareas_usuario"
-		, joinColumns={
-			@JoinColumn(name="Tarea_idTarea")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Usuario_idUsuario")
-			}
-		)
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Usuario getUsuario() {
+		return this.usuario;
 	}
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+
+	//bi-directional many-to-one association to TareasRol
+	@OneToMany(mappedBy="tarea")
+	public List<TareasRol> getTareasRols() {
+		return this.tareasRols;
+	}
+
+	public void setTareasRols(List<TareasRol> tareasRols) {
+		this.tareasRols = tareasRols;
+	}
+
+	public TareasRol addTareasRol(TareasRol tareasRol) {
+		getTareasRols().add(tareasRol);
+		tareasRol.setTarea(this);
+
+		return tareasRol;
+	}
+
+	public TareasRol removeTareasRol(TareasRol tareasRol) {
+		getTareasRols().remove(tareasRol);
+		tareasRol.setTarea(null);
+
+		return tareasRol;
 	}
 
 }

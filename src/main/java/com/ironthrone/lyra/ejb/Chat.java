@@ -15,8 +15,8 @@ public class Chat implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idChat;
 	private String nombre;
-	private List<Mensaje> mensajes;
 	private List<Usuario> usuarios;
+	private List<Mensaje> mensajes;
 
 	public Chat() {
 	}
@@ -42,6 +42,17 @@ public class Chat implements Serializable {
 	}
 
 
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="chats")
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+
 	//bi-directional many-to-one association to Mensaje
 	@OneToMany(mappedBy="chat")
 	public List<Mensaje> getMensajes() {
@@ -64,17 +75,6 @@ public class Chat implements Serializable {
 		mensaje.setChat(null);
 
 		return mensaje;
-	}
-
-
-	//bi-directional many-to-many association to Usuario
-	@ManyToMany(mappedBy="chats")
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
 	}
 
 }

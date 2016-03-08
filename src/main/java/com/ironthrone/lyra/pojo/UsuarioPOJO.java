@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+
 public class UsuarioPOJO {
 	
 	private int idUsuario;
@@ -27,17 +28,15 @@ public class UsuarioPOJO {
 	
 	private String telefono;
 
-//	private List<AlumnoPOJO> alumnos;
-//	
-//	private List<MateriaPOJO> materias;
-//	
-//	private List<SeccionPOJO> seccions;
+	private List<EncargadosAlumnoPOJO> encargados;
 	
-	private List<String> idRoles;
+	private List<MateriasProfesorPOJO> materiasProfesores;
 	
-	private List<RolPOJO> rols;
+	private List<ProfesorSeccionPOJO> seccionesProfesores;
 	
-//	private List<TareaPOJO> tareas;
+	private List<RolUsuarioPOJO> rolesUsuario;
+	
+	private List<TareaPOJO> tareasUsuario;
 	
 	private InstitucionPOJO institucion;
 	
@@ -127,45 +126,45 @@ public class UsuarioPOJO {
 		this.telefono = telefono;
 	}
 
-//	public List<AlumnoPOJO> getAlumnos() {
-//		return alumnos;
-//	}
-//
-//	public void setAlumnos(List<AlumnoPOJO> alumnos) {
-//		this.alumnos = alumnos;
-//	}
-//
-//	public List<MateriaPOJO> getMaterias() {
-//		return materias;
-//	}
-//
-//	public void setMaterias(List<MateriaPOJO> materias) {
-//		this.materias = materias;
-//	}
-//
-//	public List<SeccionPOJO> getSeccions() {
-//		return seccions;
-//	}
-//
-//	public void setSeccions(List<SeccionPOJO> seccions) {
-//		this.seccions = seccions;
-//	}
-
-	public List<RolPOJO> getRols() {
-		return rols;
+	public List<EncargadosAlumnoPOJO> getEncargados() {
+		return encargados;
 	}
 
-	public void setRols(List<RolPOJO> rols) {
-		this.rols = rols;
+	public void setEncargados(List<EncargadosAlumnoPOJO> encargados) {
+		this.encargados = encargados;
 	}
 
-//	public List<TareaPOJO> getTareas() {
-//		return tareas;
-//	}
-//
-//	public void setTareas(List<TareaPOJO> tareas) {
-//		this.tareas = tareas;
-//	}
+	public List<MateriasProfesorPOJO> getMateriasProfesores() {
+		return materiasProfesores;
+	}
+
+	public void setMateriasProfesores(List<MateriasProfesorPOJO> materiasProfesores) {
+		this.materiasProfesores = materiasProfesores;
+	}
+
+	public List<ProfesorSeccionPOJO> getSeccionesProfesores() {
+		return seccionesProfesores;
+	}
+
+	public void setSeccionesProfesores(List<ProfesorSeccionPOJO> seccionesProfesores) {
+		this.seccionesProfesores = seccionesProfesores;
+	}
+
+	public List<RolUsuarioPOJO> getRolesUsuario() {
+		return rolesUsuario;
+	}
+
+	public void setRolesUsuario(List<RolUsuarioPOJO> rolesUsuario) {
+		this.rolesUsuario = rolesUsuario;
+	}
+
+	public List<TareaPOJO> getTareasUsuario() {
+		return tareasUsuario;
+	}
+
+	public void setTareasUsuario(List<TareaPOJO> tareasUsuario) {
+		this.tareasUsuario = tareasUsuario;
+	}
 
 	public InstitucionPOJO getInstitucion() {
 		return institucion;
@@ -175,15 +174,6 @@ public class UsuarioPOJO {
 		this.institucion = institucion;
 	}
 
-
-	public List<String> getIdRoles() {
-		return idRoles;
-	}
-
-
-	public void setIdRoles(List<String> idRoles) {
-		this.idRoles = idRoles;
-	}
 
 
 }

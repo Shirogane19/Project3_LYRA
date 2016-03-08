@@ -1,6 +1,16 @@
+<div class="row">
+
+  <div class="col-md-4">.</div>
+
+  <div class="col-md-4 col-md-offset-4">
+    <div class="col-xs-6"><button class="btn btn-sm btn-block btn-primary" type="submit" >Registrar</button></div>
+    <div class="col-xs-6"><button class="btn btn-sm btn-block btn-success" type="submit" ng-click="showForm()">Suscribir</button></div>
+  </div>
+
+</div>
 
         <!-- Login Content -->
-        <div class="bg-white pulldown">
+        <div class="bg-white pulldown" ng-show="!onPoint">
             <div class="content content-boxed overflow-hidden">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
@@ -59,6 +69,269 @@
             </div>
         </div>
         <!-- END Login Content -->
+
+        <!-- Formulario de subscripción-->
+        <div class="bg-white pulldown" ng-show="onPoint">
+            <div class="content content-boxed overflow-hidden">
+
+                <div>
+                            <!-- Validation Wizard (.js-wizard-validation class is initialized in js/pages/base_forms_wizard.js) -->
+                            <!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+                            <div class="js-wizard-validation block">
+                                <!-- Step Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-alt nav-justified">
+                                    <li class="active">
+                                        <a class="inactive" href="#validation-step1" data-toggle="tab">Información personal</a>
+                                    </li>
+                                    <li>
+                                        <a class="inactive" href="#validation-step2" data-toggle="tab">Información de la institución</a>
+                                    </li>
+                                    <li>
+                                        <a class="inactive" href="#validation-step3" data-toggle="tab">Confirmación</a>
+                                    </li>
+                                </ul>
+                                <!-- END Step Tabs -->
+
+                                <!-- Form -->
+                                <!-- jQuery Validation (.js-form2 class is initialized in js/pages/base_forms_wizard.js) -->
+                                <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                                <form class="js-form2 form-horizontal">
+                                    <!-- Steps Content -->
+                                    <div class="block-content tab-content">
+                                        <!-- Step 1 -->
+                                      <div class="tab-pane fade fade-right in push-30-t push-50 active" ng-show="!onPointUserForm">
+
+                                            <div class="form-group" >
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" ng-model="user.email">
+                                                        <label >Correo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="password" ng-model="user.password">
+                                                        <label >Password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <p class="text-danger " ng-show="onPointNoRegister">Este usuario no encontrado, verifique su correo o contraseña</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <button class="btn btn-danger" ng-click="showUserForm()" ng-show="!onPointUserForm">Cerrar</button>
+                                                        <button class="btn btn-primary material-switch pull-right" ng-click="checkUser()">Login</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+  
+                                        </div>
+
+                                       
+
+                                        <!--<form name="subscripcionForm"></form>-->
+                                        <div class="tab-pane fade fade-right in push-30-t push-50 active" id="validation-step1" ng-show="onPointUserForm">
+
+                                            <button class="btn btn-primary" ng-click="showUserForm()">Login</button>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-nombre" name="validation-nombre" ng-model="subscriptor.nombre">
+                                                        <label for="validation-nombre">Nombre</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-apellido" name="validation-apellido" ng-model="subscriptor.apellido">
+                                                        <label for="validation-apellido">Apellido</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-cedula" name="validation-cedula" ng-model="subscriptor.cedula">
+                                                        <label for="validation-cedula">Cédula</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4" >
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="email" id="validation-correo" name="validation-correo" ng-model="subscriptor.correo">
+                                                        <label for="validation-correo">Correo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-telefono" name="validation-telefono" ng-model="subscriptor.telefono">
+                                                        <label for="validation-telefono">Teléfono</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-movil" name="validation-movil" ng-model="subscriptor.movil">
+                                                        <label for="validation-movil">Móvil</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END Step 1 -->
+
+                                        <!-- Step 2 -->
+                                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step2">
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-nombre" name="validation-nombre" ng-model="institucion.nombre">
+                                                        <label for="validation-nombre">Nombre de la institución</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-4">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-website" name="validation-website" placeholder="http://ejemplo.com" ng-model="institucion.urlLogo">
+                                                        <label for="validation-website">Logo de la institución</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END Step 2 -->
+
+                                        <!-- Step 3 -->
+                                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step3">
+
+                                            <div class="block-content block-content-mini block-content-full border-t">
+                                                <div class="row">
+
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <h3><strong>Usuario</strong></h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Nombre: </strong> {{subscriptor.nombre}} </label>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Apellido: </strong> {{subscriptor.apellido}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Cédula: </strong> {{subscriptor.cedula}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Correo: </strong> {{subscriptor.correo}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Teléfono: </strong> {{subscriptor.telefono}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Móvil: </strong> {{subscriptor.movil}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+
+                                                    </div>
+
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <h3><strong>Institución</strong></h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>Nombre: </strong> {{institucion.nombre}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-8 col-sm-offset-2">
+                                                                <div class="form-material">
+                                                                    <label><strong>URL logo de la institución: </strong>{{institucion.urlLogo}}</label> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- END Step 3 -->
+                                    </div>
+                                    <!-- END Steps Content -->
+
+                                    <!-- Steps Navigation -->
+                                    <div class="block-content block-content-mini block-content-full border-t" ng-show="onPointUserForm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <button class="wizard-prev btn btn-warning" type="button"><i class="fa fa-arrow-circle-o-left"></i> Anterior</button>
+                                            </div>
+                                            <div class="col-xs-6 text-right">
+                                                <button class="wizard-next btn btn-success" type="button">Siguiente <i class="fa fa-arrow-circle-o-right"></i></button>
+                                                <button class="wizard-finish btn btn-primary" type="button" ng-click="saveSubscripcion()">Subscribirse</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Steps Navigation -->
+                                </form>
+                                <!-- END Form -->
+                            </div>
+                            <!-- END Validation Wizard Wizard -->
+                        </div>
+
+            </div>
+        </div>
+        <!--End Formulario de subscripción-->
 
 
 

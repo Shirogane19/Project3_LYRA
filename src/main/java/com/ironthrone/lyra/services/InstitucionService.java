@@ -18,6 +18,7 @@ import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
+import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
 
@@ -37,12 +38,6 @@ public class InstitucionService implements InstitucionServiceInterface{
 		List<InstitucionPOJO> dtos = new ArrayList<InstitucionPOJO>();
 		instituciones.stream().forEach(ta ->{
 			InstitucionPOJO dto = new InstitucionPOJO();
-			dto.setAlumnos(null);
-			dto.setBitacoras(null);
-			dto.setGrados(null);
-			dto.setMaterias(null);
-			dto.setSubscripcions(null);
-			dto.setUsuarios(null);
 			BeanUtils.copyProperties(ta, dto);
 			dtos.add(dto);
 		});
@@ -56,19 +51,19 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 */
 	@Override
 	@Transactional
-	public Boolean saveInstitucion(InstitucionRequest institucionRequest) {
+	public InstitucionPOJO saveInstitucion(InstitucionRequest institucionRequest) {
 		
 		Institucion institucion = new Institucion();
 		Institucion ninstitucionT = null;
 		BeanUtils.copyProperties(institucionRequest.getInstitucion(), institucion);
 		
-		institucion.setAlumnos(new ArrayList<Alumno>());
-		institucion.setBitacoras(new ArrayList<Bitacora>());
-		institucion.setGrados(new ArrayList<Grado>());
-		institucion.setMaterias(new ArrayList<Materia>());
-		institucion.setSubscripcions(new ArrayList<Subscripcion>());
-		institucion.setUsuarios(new ArrayList<Usuario>());
 		
+		//institucion.setAlumnos(new ArrayList<Alumno>());
+		//institucion.setBitacoras(new ArrayList<Bitacora>());
+		//institucion.setGrados(new ArrayList<Grado>());
+		//institucion.setMaterias(new ArrayList<Materia>());
+		//institucion.setSubscripcions(new ArrayList<Subscripcion>());
+		//institucion.setUsuarios(new ArrayList<Usuario>());
 		
 		if(institucionRequest.getInstitucion().getIdInstitucion() <= -1){		
 			
@@ -89,8 +84,13 @@ public class InstitucionService implements InstitucionServiceInterface{
 			
 			ninstitucionT = institucionRepository.save(oldInstitucion);	
 		}
+		
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(ninstitucionT, dto);
+		
+		return dto;
 
-		return (ninstitucionT == null) ? false : true;
+		//return (ninstitucionT == null) ? false : true;
 		
 	}
 

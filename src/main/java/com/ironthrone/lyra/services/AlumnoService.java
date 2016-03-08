@@ -25,7 +25,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 	/**
 	 * Genera POJOs a partir de una lista EJB.
 	 * @param users representa una lista de alumnos tipo ejb
-	 * @return UserInterfaceUsers, lista de a POJO.
+	 * @return Lista de alumno POJO.
 	 */
 	private List<AlumnoPOJO> generateAlumnosDtos(List<Alumno> alumnos){
 		

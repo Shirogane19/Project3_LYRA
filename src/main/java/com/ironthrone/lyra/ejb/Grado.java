@@ -20,7 +20,7 @@ public class Grado implements Serializable {
 	private String nombre;
 	private Date year;
 	private Institucion institucion;
-	private List<Materia> materias;
+	private List<MateriasGrado> materiasGrados;
 	private List<Seccion> seccions;
 
 	public Grado() {
@@ -87,23 +87,28 @@ public class Grado implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Materia
-	@ManyToMany
-	@JoinTable(
-		name="materias_grado"
-		, joinColumns={
-			@JoinColumn(name="Grado_idGrado")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Materia_idMateria")
-			}
-		)
-	public List<Materia> getMaterias() {
-		return this.materias;
+	//bi-directional many-to-one association to MateriasGrado
+	@OneToMany(mappedBy="grado")
+	public List<MateriasGrado> getMateriasGrados() {
+		return this.materiasGrados;
 	}
 
-	public void setMaterias(List<Materia> materias) {
-		this.materias = materias;
+	public void setMateriasGrados(List<MateriasGrado> materiasGrados) {
+		this.materiasGrados = materiasGrados;
+	}
+
+	public MateriasGrado addMateriasGrado(MateriasGrado materiasGrado) {
+		getMateriasGrados().add(materiasGrado);
+		materiasGrado.setGrado(this);
+
+		return materiasGrado;
+	}
+
+	public MateriasGrado removeMateriasGrado(MateriasGrado materiasGrado) {
+		getMateriasGrados().remove(materiasGrado);
+		materiasGrado.setGrado(null);
+
+		return materiasGrado;
 	}
 
 

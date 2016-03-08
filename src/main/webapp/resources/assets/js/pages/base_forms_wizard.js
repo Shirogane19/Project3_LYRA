@@ -156,6 +156,33 @@ var BaseFormWizard = function() {
                 },
                 'validation-terms': {
                     required: true
+                },
+                'validation-nombre': {
+                    required: true,
+                    minlength: 2
+                },
+                'validation-apellido': {
+                    required: true,
+                    minlength: 2
+                },
+                'validation-correo': {
+                    required: true,
+                    email: true
+                },
+                'validation-cedula': {
+                    required: true
+                },
+                'validation-telefono': {
+                    number: true,
+                    minlength: 0
+                },
+                'validation-movil': {
+                    number: true,
+                    minlength: 0
+                },
+                'validation-website': {
+                    url: true,
+                    minlength: 0
                 }
             },
             messages: {
@@ -170,7 +197,20 @@ var BaseFormWizard = function() {
                 'validation-email': 'Please enter a valid email address',
                 'validation-details': 'Let us know a few thing about yourself',
                 'validation-skills': 'Please select a skill!',
-                'validation-terms': 'You must agree to the service terms!'
+                'validation-terms': 'You must agree to the service terms!',
+                'validation-nombre': {
+                    required: 'Por favor ingrese un nombre',
+                    minlength: 'El nombre debe de tener al menos 2 caracteres'
+                },
+                'validation-apellido': {
+                    required: 'Por favor ingrese su apellido',
+                    minlength: 'El apellido debe de tener al menos 2 caracteres'
+                },
+                'validation-correo': 'Por favor ingrese un correo válido',
+                'validation-cedula': 'Por favor ingrese una cédula válida',
+                'validation-telefono': 'Por favor ingrese un número de teléfono válido',
+                'validation-movil': 'Por favor ingrese un número de teléfono válido',
+                'validation-website': 'Por favor ingrese un sito web válido'
             }
         });
 
