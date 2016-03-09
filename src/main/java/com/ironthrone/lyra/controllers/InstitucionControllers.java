@@ -1,6 +1,5 @@
 package com.ironthrone.lyra.controllers;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ironthrone.lyra.contracts.AlumnoRequest;
-import com.ironthrone.lyra.contracts.AlumnoResponse;
+
 import com.ironthrone.lyra.contracts.InstitucionRequest;
 import com.ironthrone.lyra.contracts.InstitucionResponse;
 import com.ironthrone.lyra.services.InstitucionServiceInterface;
@@ -19,7 +17,6 @@ import com.ironthrone.lyra.services.InstitucionServiceInterface;
 public class InstitucionControllers {
 	
 	@Autowired private InstitucionServiceInterface ISI;
-	@Autowired private HttpServletRequest request;
 	
 	/**
 	 * Retorna una lista de todas las instituciones del sistema

@@ -1,6 +1,5 @@
 package com.ironthrone.lyra.pojo;
 
-import java.util.List;
 
 public class AlumnoPOJO {
 	

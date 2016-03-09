@@ -19,8 +19,7 @@ import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 
 /**
  * Clase que proporciona los servicios de usuario al controlador Usuario.
@@ -163,64 +162,112 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		Usuario newUser = new Usuario();
 		Usuario nuser = null;
+		List<String> idRoles = ur.getUsuario().getIdRoles();
 		List<Rol> rols = new ArrayList<Rol>();
-	
+		boolean hasRoles = false;
+
+		/**Copia las propiedades del Request a el nuevo Usuario**/
 		BeanUtils.copyProperties(ur.getUsuario(), newUser);	
-		
-//		/** Cambiar por getInstitucionByID luego **/
-//		Institucion ins = new Institucion();	
-//		ins.setIdInstitucion(1);
-//		ins.setNombreInstitucion("Cenfotec");
-//		newUser.setInstitucion(ins);		
-//		/** fin comment **/
-		
-//		System.out.println(ur.getUsuario().getIdRoles());
-		
-		ur.getUsuario().getIdRoles().stream().forEach(r -> {	
-			int id = Integer.parseInt(r);
-			rols.add(getRol(id, newUser));
-			newUser.setRols(rols);
-				
-		});
-		
-			
 		newUser.setPassword("12345");
 		newUser.setPassword(encryptor.ironEncryption(newUser.getPassword()));
+
+		/**Verifica si la lista de roles contiene algo **/
+		
+		if(ur.getUsuario().getIdRoles().isEmpty()){
+			hasRoles = true;	
+		}
+			
+		/**Si el Usuario tiene un ID de -1, crea uno nuevo, si no modifica uno existente. **/
 		
 		if(ur.getUsuario().getIdUsuario() <= -1){
 			newUser.setIdUsuario(0);
 			newUser.setIsActiveUs(true);
 			newUser.setDateOfJoin(getCurrentDate());
 			nuser = usersRepository.save(newUser);
-		 
+			
+		/** Si hay roles por agregar, toma el usuario recien creado y le asigna los roles **/
+			
+			if(hasRoles){
+				nuser = assignUserRoles(rols,idRoles,nuser);
+			}
+	 
 		}else{		
 			Usuario oldUser = findById(newUser.getIdUsuario());
 			BeanUtils.copyProperties(newUser, oldUser);
+
 			oldUser.setIsActiveUs(ur.getUsuario().isActiveUs());
 			oldUser.setDateOfJoin(newUser.getDateOfJoin());
-			BeanUtils.copyProperties(newUser.getRols(), rols);
+			
+			if(hasRoles){
+//				removeRoles(newUser.getRols(), newUser.getIdUsuario());
+				rols = getRoles(idRoles, newUser);
+			}else{
+				BeanUtils.copyProperties(newUser.getRols(), rols);	
+			}
+			
 			oldUser.setRols(rols);
 			nuser = usersRepository.save(oldUser);	
 		}
 		return (nuser == null) ? false : true;
 	}
 	
-	/**
-	 * Retorna un rol de usuario por el ID dado.
-	 * @param idRol
-	 * @return Rol.
-	 */
-	
-	public Rol getRol(int idRol, Usuario user){
+	 /**
+	  * 
+	  * @param rols es una lista vacia de roles.
+	  * @param idRoles es una lista de ID de roles.
+	  * @param user el usuario cuyos roles seran asignados.
+	  * @return usuario modificado.
+	  */
+	private Usuario assignUserRoles(List<Rol> rols, List<String> idRoles, Usuario user){
 		
-		List<Usuario> usuarios = new ArrayList<Usuario>();
-		Rol rol = rolRepository.findOne(idRol);
-		usuarios.add(user);
-		rol.setUsuarios(usuarios);
-		System.out.println("Before the copy bean: " + rol.getIdRol() + rol.getDescripcionRol());		
-		return rol;	
+		rols = getRoles(idRoles, user);
+		user.setRols(rols);
+		user  = usersRepository.save(user);
+		
+		return user;
 	}
 	
+	
+	/**
+	 * Metodo que mediante una lista de roles, itera sobre esta y los agrega a la tabla
+	 * intermedia de RolesUsuario en la base de datos.
+	 * @param listaRoles
+	 */
+	private List<Rol> getRoles(List<String> listaRoles, Usuario user) {
+		
+		List<Rol> rols = new ArrayList<Rol>();
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		
+		listaRoles.stream().forEach(r -> {	
+			
+			int id = Integer.parseInt(r);
+			Rol rol = rolRepository.findOne(id);
+			usuarios.add(user);
+			rol.setUsuarios(usuarios);
+			rols.add(rol);
+		
+		});
+		
+		return rols;
+		
+	}
+
+	/**
+	 * Remueve los roles de un usuario antes de ser modificado.
+	 * @param listaRoles
+	 */
+	
+//	private void removeRoles(List<Rol> listaRoles, int userId) {
+//		
+//		listaRoles.stream().forEach(r -> {	
+//			
+//			Rol rol = rolRepository.findOne(r.getIdRol());
+//			rol.getUsuarios().remove(userId);
+//			rolRepository.save(rol);
+//		});
+// 
+//	}
+
 	public Date getCurrentDate(){
 		
 		 //  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -232,5 +279,14 @@ public class UsuarioService implements UsuarioServiceInterface {
 	/**
 	 * Cuando es nuevo el ID esta vacio, por lo tanto no le puede hacer set...
 	 */
+	
+//	/** Cambiar por getInstitucionByID luego **/
+//	Institucion ins = new Institucion();	
+//	ins.setIdInstitucion(1);
+//	ins.setNombreInstitucion("Cenfotec");
+//	newUser.setInstitucion(ins);		
+//	/** fin comment **/
+	
+//	System.out.println(ur.getUsuario().getIdRoles());
 
 }

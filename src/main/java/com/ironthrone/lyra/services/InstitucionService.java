@@ -16,9 +16,7 @@ import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Materia;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
-import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
-import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
 
 @Service

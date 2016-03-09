@@ -10,11 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.ejb.Alumno;
-import com.ironthrone.lyra.ejb.Institucion;
-import com.ironthrone.lyra.ejb.Seccion;
-import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
-import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.AlumnoRepository;
 
 @Service

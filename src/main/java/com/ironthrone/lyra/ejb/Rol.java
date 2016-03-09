@@ -103,5 +103,8 @@ public class Rol implements Serializable {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
+	
+
+
 
 }
