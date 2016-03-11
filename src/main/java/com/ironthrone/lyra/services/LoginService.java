@@ -12,6 +12,8 @@ import com.ironthrone.lyra.contracts.LoginResponse;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.repositories.LoginRepository;
 import com.ironthrone.lyra.security.IronPasswordEncryption;
+import com.ironthrone.lyra.security.RavenMail;
+
 
 /**
  * Proporciona los servicios de login y autenticacion al controlador login.
@@ -23,8 +25,11 @@ public class LoginService implements LoginServiceInterface {
 
 	@Autowired private LoginRepository loginRepository;
 	@Autowired private IronPasswordEncryption encryptor;
+	@Autowired private RavenMail raven;	
 			   private boolean isActive;
+			   private int randomLength = 5;
 			   
+			 
 			   
 	@Override
 	@Transactional
@@ -57,4 +62,38 @@ public class LoginService implements LoginServiceInterface {
 				response.setErrorMessage("Unauthorized User");
 			}
 		}
+
+
+	/**
+	 * Cambia las credenciales de logeo de un usuario olvidadizo por una nueva contraseña aleatoria
+	 * y le envia un correo con la misma.
+	 * @param userMail el email del usuario a modificar.
+	 * @return result, si noy hay problemas retorna true, false si el email es erroneo.
+	 */
+	@Override
+	@Transactional
+	public boolean getCredentials(String userMail) {
+		
+
+		Usuario user = loginRepository.findByEmail(userMail);
+		boolean success = false;
+		
+		System.out.println("ID DEL USUARIO " + user.getIdUsuario());
+		
+		
+		if(user.getIdUsuario() > 0){
+			
+			String password = encryptor.randomHilt(randomLength);
+			String message  = " gracias por contactarnos. Su nueva contraseña es:" + password;
+			
+			user.setPassword(encryptor.ironEncryption(password));
+			loginRepository.save(user);
+			raven.SendRavenMessage(user.getEmail(), user.getNombre(), user.getApellido(), message);
+			
+			success = true;		
+			
+		}
+			
+		return success;
+	}
 }

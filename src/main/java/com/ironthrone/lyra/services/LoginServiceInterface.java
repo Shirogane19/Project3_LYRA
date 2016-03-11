@@ -14,5 +14,6 @@ import com.ironthrone.lyra.contracts.LoginResponse;
 public interface LoginServiceInterface {
 
 	public void checkUser(LoginRequest lr, LoginResponse response, HttpSession currentSession);
+	public boolean getCredentials(String lr);
 
 }

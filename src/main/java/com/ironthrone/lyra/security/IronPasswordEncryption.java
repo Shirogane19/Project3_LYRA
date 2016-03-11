@@ -13,7 +13,11 @@ public class IronPasswordEncryption {
 	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	static SecureRandom rnd = new SecureRandom();
 	
-	// for basic encryptions
+	/**
+	 * Encripcion basica, sencilla pero rapida.
+	 * @param password contraseña a encriptar.
+	 * @return hash del string dado
+	 */
 	
 	public String ironEncryption(String password){
 		
@@ -22,7 +26,11 @@ public class IronPasswordEncryption {
 		
 	}
 	
-	// for strong,slower encryptions
+	/**
+	 * Encripcion avanzada, fuerte pero mas lenta.
+	 * @param password contraseña a encriptar.
+	 * @return hash del string dado
+	 */
 	public String valyrianEncryption(String password){
 		
 		StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
@@ -31,7 +39,11 @@ public class IronPasswordEncryption {
 	}
 
 	 
-	// Even you can configure algorithm
+	/**
+	 * Encripcion custumizada, se le puede cambiar el algoritmo de encripcion a i.e SHA-512
+	 * @param password contraseña a encriptar.
+	 * @return hash del string dado
+	 */
 	public String obsidianEncryption(String password){
 		
 		ConfigurablePasswordEncryptor encryptor = new ConfigurablePasswordEncryptor();

@@ -12,7 +12,8 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 .controller('LoginViewCtrl', ['$scope','$http','$window','$localStorage',function($scope,$http,$window,$localStorage) {
   
   $scope.user = {};
-
+  $scope.email = "";
+  $scope.showLogin = true;
 
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
@@ -40,6 +41,32 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     });
 
   };
+
+
+  $scope.recoverPassword = function(){
+
+
+    $http.post('rest/login/getCredentials',$scope.email).success(function (loginResponse) {
+
+      if(loginResponse.code == 200){
+        alert(loginResponse.codeMessage);
+
+      }else{
+        alert(loginResponse.codeMessage);
+      }
+
+      $scope.showLogin = true;
+
+    });
+
+  };
+
+
+  $scope.showRecoverForm = function(u) {
+    if($scope.showLogin){
+        $scope.showLogin = false;
+    }
+  }; 
 
 
   $scope.save = function(u) {
