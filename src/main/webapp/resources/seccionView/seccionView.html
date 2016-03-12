@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
+                      <button class="btn btn-success push-5-r push-10" type="button" ng-show="!onPoint" ng-click="showForm()">
+                        <i class="fa fa-plus"></i> Add Sección</button>
+                    <!-- Dynamic Table Full -->
+                    <div class="block" ng-show="!onPoint">
+                        <div class="block-header">
+                            <h3 class="block-title">Secciones <small></small></h3>
+                        </div>
+
+                        <div class="block-content">
+
+                        
+                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+                            <table class="table table-bordered table-striped js-dataTable-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th ng-hide="true"></th>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="hidden-xs" style="width: 15%;">Estado</th>
+                                        <th class="text-center" style="width: 10%;">Acciones</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="s in seccionList" m-index="$index">
+                                        <td class="text-center" ng-bind="s.idSeccion" ng-hide="true"></td>
+                                        <td class="text-center">{{$index+1}}</td>
+
+                                       
+                                        <td><span ng-bind="s.nombreSeccion"></span></td>
+
+                                        <td class="hidden-xs"   ng-if="s.activeSec == true">
+                                        <span class="label label-success">Activo</span>
+                                        </td>
+
+                                        <td class="hidden-xs"   ng-if="s.activeSec == false">
+                                        <span class="label label-danger">Inactivo</span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit sección" ng-click="showSeccionToEdit(s)"><i class="fa fa-pencil"></i></button>
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(s)"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </td>   
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+
+                        </div>
+                    <!-- END Dynamic Table Full -->
+
+                    <!-- Registrar -->
+                    <div class="col-lg-6" ng-show="onPoint">
+                            <div class="block block-themed">
+                                <div class="block-header bg-success">
+                                    <ul class="block-options">
+                                        <li>
+                                        <button type="button" ng-click="showList()"><i class="si si-close"></i></button>
+                                       <li>
+                                            <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                                        </li>
+                                    </ul>
+ 
+                                   <h3 class="block-title">Nueva Sección</h3>
+                                </div>
+                                <div class="block-content">
+                                   <form class="form-horizontal push-10-t push-10" name="seccionForm">
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newSec.nombreSeccion" required>
+                                                    <label>Nombre <span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         
+                                        <div class="form-group" ng-show="!isCreating">
+                                            <div class="col-xs-12">
+                                                <label class="css-input css-checkbox css-checkbox-success">
+                                                    <input type="checkbox" ng-model="newSec.activeSec"><span></span> Activo?
+                                                </label>
+                                            </div>
+                                        </div>
+                                     <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="seccionForm.$invalid"
+                                                    ng-click="saveSeccion()">
+                                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+    <!-- END Registrar -->              

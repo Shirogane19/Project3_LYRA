@@ -5,7 +5,7 @@ angular.module('myApp.userView', ['ngRoute'])
 .controller('userViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
   
   $scope.userList = [];
-  $scope.selectedItem = 0
+  $scope.selectedItem = []
   $scope.newUser = [];
   $scope.oldUser = [];
   $scope.counter = 0;
@@ -38,7 +38,7 @@ $scope.showForm = function(){
 $scope.showList = function(){
 
 	$scope.newUser = {};
-	$scope.selectedItem = 0;
+	$scope.selectedItem = [];
 	$scope.onPoint = false;
 	$scope.isCreating = true;
   }

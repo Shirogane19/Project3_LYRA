@@ -172,6 +172,9 @@
                                         <li>
                                             <a ui-sref="materiaView">Materias</a>
                                         </li>
+                                        <li>
+                                            <a ui-sref="seccionView">Secciones</a>
+                                        </li>
                                     </ul>
                                 </li>
                                <!--  SECOND SIDE TAB -->
@@ -349,6 +352,7 @@
         <script src="resources/userView/userView.js"></script>
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
+        <script src="resources/seccionView/seccionView.js"></script>
 
 
         <script type="text/javascript">

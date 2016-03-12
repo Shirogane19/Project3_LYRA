@@ -7,7 +7,8 @@ angular.module('myApp', [
   'ui.router',
   'myApp.userView',
   'myApp.alumnoView',
-  'myApp.materiaView'
+  'myApp.materiaView',
+  'myApp.seccionView'
   //'myApp.usuarios'
 ])
 
@@ -80,6 +81,15 @@ angular.module('myApp', [
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
     })  
+
+    .state('seccionView', {
+      url: '/seccion_config',
+      templateUrl: 'resources/seccionView/seccionView.html',
+      controller: 'seccionViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })
 
 
     .state('404', {
