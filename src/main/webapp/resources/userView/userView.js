@@ -53,7 +53,7 @@ $scope.showList = function(){
 	$scope.newUser.movil = u.movil;
 	$scope.newUser.email = u.email;
 	$scope.newUser.activeUs = u.activeUs;
-	console.log(u.rols);
+	//console.log($scope.newUser);
 	$scope.showForm();
 	$scope.isCreating = false;
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -95,4 +96,19 @@ public class UsuarioController {
 		
 	}
 	
+	
+	@RequestMapping(value ="/prueba", method = RequestMethod.POST)
+	public UsuarioResponse pruebaRoles(){	
+		
+		UsuarioResponse us = new UsuarioResponse();
+		boolean state = usersService.prueba();
+		
+	
+		if(state){
+			us.setCode(200);
+			us.setCodeMessage("user saved succesfully");
+		}
+		return us;
+		
+	}
 }

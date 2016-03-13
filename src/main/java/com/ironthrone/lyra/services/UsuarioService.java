@@ -173,7 +173,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		/**Verifica si la lista de roles contiene algo **/
 		
-		if(ur.getUsuario().getIdRoles().isEmpty()){
+		if(!idRoles.isEmpty()){
 			hasRoles = true;	
 		}
 			
@@ -192,23 +192,54 @@ public class UsuarioService implements UsuarioServiceInterface {
 			}
 	 
 		}else{		
+			
 			Usuario oldUser = findById(newUser.getIdUsuario());
-			BeanUtils.copyProperties(newUser, oldUser);
-
-			oldUser.setIsActiveUs(ur.getUsuario().isActiveUs());
-			oldUser.setDateOfJoin(newUser.getDateOfJoin());
+			oldUser = assignProperties(oldUser, ur.getUsuario());
 			
 			if(hasRoles){
-//				removeRoles(newUser.getRols(), newUser.getIdUsuario());
-				rols = getRoles(idRoles, newUser);
-			}else{
-				BeanUtils.copyProperties(newUser.getRols(), rols);	
+				
+				oldUser = removeRoles(oldUser);
+				rols = getRoles(idRoles);
+				
+				System.out.println("Asigno los roles");
+				
+				oldUser.setRols(rols);
 			}
 			
-			oldUser.setRols(rols);
+		//	oldUser.setIsActiveUs(ur.getUsuario().isActiveUs());
+			
+			System.out.println("Salvo");
 			nuser = usersRepository.save(oldUser);	
 		}
 		return (nuser == null) ? false : true;
+	}
+	
+	/**
+	 *  Copia los nuevos datos traidos de la IU a el objeto que se va a salvar en la base
+	 * @param DbUser usuario que se salvara a la base
+	 * @param UiUser usuarioPOJO de la Interfaz
+	 * @return el usuario de base con los atributos actualizados.
+	 */
+	
+	private Usuario assignProperties(Usuario DbUser, UsuarioPOJO UiUser){
+		
+		String hash;
+		int length = 5;
+		
+		DbUser.setNombre(UiUser.getNombre());
+		DbUser.setApellido(UiUser.getApellido());
+		DbUser.setCedula(UiUser.getCedula());
+		DbUser.setDateOfJoin(UiUser.getDateOfJoin());
+		DbUser.setEmail(UiUser.getEmail());
+		DbUser.setPassword(UiUser.getPassword());
+		DbUser.setTelefono(UiUser.getTelefono());
+		DbUser.setMovil(UiUser.getMovil());
+		DbUser.setIsActiveUs(UiUser.isActiveUs());
+		
+		hash = encryptor.randomHilt(length);
+		DbUser.setPassword(encryptor.ironEncryption(hash));
+		
+		return DbUser;
 	}
 	
 	 /**
@@ -220,7 +251,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	  */
 	private Usuario assignUserRoles(List<Rol> rols, List<String> idRoles, Usuario user){
 		
-		rols = getRoles(idRoles, user);
+		rols = getRoles(idRoles);
 		user.setRols(rols);
 		user  = usersRepository.save(user);
 		
@@ -233,20 +264,19 @@ public class UsuarioService implements UsuarioServiceInterface {
 	 * intermedia de RolesUsuario en la base de datos.
 	 * @param listaRoles
 	 */
-	private List<Rol> getRoles(List<String> listaRoles, Usuario user) {
+	private List<Rol> getRoles(List<String> idRoles) {
 		
 		List<Rol> rols = new ArrayList<Rol>();
-		List<Usuario> usuarios = new ArrayList<Usuario>();
 		
-		listaRoles.stream().forEach(r -> {	
+		idRoles.stream().forEach(r -> {	
 			
 			int id = Integer.parseInt(r);
 			Rol rol = rolRepository.findOne(id);
-			usuarios.add(user);
-			rol.setUsuarios(usuarios);
 			rols.add(rol);
 		
 		});
+		
+		System.out.println("Consigo los nuevos roles" + rols.get(0));
 		
 		return rols;
 		
@@ -257,23 +287,69 @@ public class UsuarioService implements UsuarioServiceInterface {
 	 * @param listaRoles
 	 */
 	
-//	private void removeRoles(List<Rol> listaRoles, int userId) {
-//		
-//		listaRoles.stream().forEach(r -> {	
-//			
-//			Rol rol = rolRepository.findOne(r.getIdRol());
-//			rol.getUsuarios().remove(userId);
-//			rolRepository.save(rol);
-//		});
-// 
-//	}
+	private Usuario removeRoles(Usuario user) {
+		
+		user.setRols(null);
+		user = usersRepository.save(user);
+		
+		System.out.println("Remuevo roles del usuario viejo" + user.toString());
+		
+		return user;
+ 
+	}
 
+	/**
+	 * Consigue la fecha actual.
+	 * @return esta fecha.
+	 */
 	public Date getCurrentDate(){
 		
 		 //  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		   //get current date time with Date()
 		   Date date = new Date();
 		   return date;
+	}
+
+	@Override
+	public boolean prueba() {
+
+//		List<String> listaRoles = Arrays.asList("1", "2", "3");
+//		Usuario user = usersRepository.findOne(1);
+//		
+//		Rol rol = rolRepository.findOne(4);
+//		rol.getUsuarios().remove(1);
+//		rolRepository.save(rol);
+		
+
+		Usuario user = usersRepository.findOne(4);
+		user.setRols(null);
+		user = usersRepository.save(user);
+		
+		List<Rol> roles = new ArrayList<Rol>();
+		
+		Rol rol1 = rolRepository.findOne(1);
+		Rol rol2 = rolRepository.findOne(2);
+		roles.add(rol1);
+		roles.add(rol2);
+		
+		user.setRols(roles);
+		
+		user = usersRepository.save(user);
+		
+//		Usuario user = new Usuario();
+//		user.setPassword("12345");
+//		user.setPassword(encryptor.ironEncryption(user.getPassword()));
+//		user.setEmail("test@roles.com");
+//		user.setNombre("Johnny");
+//		user.setApellido("Test");
+		
+		
+		
+		return (user == null) ? false : true;
+		
+		
+	//	user.setRols(getRoles(listaRoles, user));
+
 	}
 	
 	/**

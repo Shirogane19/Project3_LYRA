@@ -19,6 +19,7 @@ public interface UsuarioServiceInterface {
 	UsuarioPOJO getUserById(int idUsuario);
 	Usuario findById(int idUsuario);
 	Boolean saveUser(UsuarioRequest ur);
+	boolean prueba();
 
 
 }
