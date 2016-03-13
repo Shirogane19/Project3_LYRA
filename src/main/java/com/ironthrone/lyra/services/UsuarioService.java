@@ -257,12 +257,16 @@ public class UsuarioService implements UsuarioServiceInterface {
 	 * @param listaRoles
 	 */
 	
-	private void removeRoles(Usuario user) {
-		
-			user.setRols(null);
-			usersRepository.save(user);
- 
-	}
+//	private void removeRoles(List<Rol> listaRoles, int userId) {
+//		
+//		listaRoles.stream().forEach(r -> {	
+//			
+//			Rol rol = rolRepository.findOne(r.getIdRol());
+//			rol.getUsuarios().remove(userId);
+//			rolRepository.save(rol);
+//		});
+// 
+//	}
 
 	public Date getCurrentDate(){
 		
