@@ -8,6 +8,7 @@ angular.module('myApp.userView', ['ngRoute'])
   $scope.selectedItem = []
   $scope.newUser = [];
   $scope.oldUser = [];
+  $scope.roleList =[];
   $scope.counter = 0;
   $scope.isCreating = true;
   $scope.onPoint = false;
@@ -45,6 +46,7 @@ $scope.showList = function(){
 
  $scope.showUserToEdit = function(u){
 
+	$scope.selectedItem = [];
 	$scope.newUser = u; // Guarda el objeto usuario a la variable temporal
 	$scope.newUser.nombre = u.nombre;
 	$scope.newUser.apellido = u.apellido;
@@ -53,7 +55,7 @@ $scope.showList = function(){
 	$scope.newUser.movil = u.movil;
 	$scope.newUser.email = u.email;
 	$scope.newUser.activeUs = u.activeUs;
-	//console.log($scope.newUser);
+	$scope.roleList = u.rols;
 	$scope.showForm();
 	$scope.isCreating = false;
 }
@@ -78,7 +80,7 @@ $scope.init = function(){
 	$scope.isCreating = true;
 	$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","user": {}};
 	$http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
-	//	console.log("response",response)
+		console.log("response",response)
 		$scope.userList = response.usuarios;
 	});
 
@@ -114,7 +116,8 @@ $scope.saveUsuario = function(){
 
 		}); 
 	}
-	
+
+
 	 $timeout( function(){ $scope.initScripts(); }, 100);
  	 $scope.init();
 

@@ -125,21 +125,34 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                          <div class="form-group">
                                             <label class="col-md-4 control-label" for="example-select2-multiple">Roles</label>
+
                                             <div class="col-md-8">
 
                                                 <select ng-model="selectedItem" class="js-select2 form-control" id="example-select2-multiple"  
-                                                 name="example-select2-multiple" style="width: 100%;" data-placeholder="Choose many.." multiple required>
+                                                 name="example-select2-multiple" style="width: 100%;" data-placeholder="Choose many.." multiple allow-clear="true" required>
                                                     <option></option>
                                                     <option value = 1>Master</option>
                                                     <option value = 2>Admin</option>
                                                     <option value = 3>Profesor</option>
                                                     <option value = 4>Encargado</option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                                 </select>
-
                                             </div>
-                                        </div>  
+                                        </div>
+
+
+                                        <div class="form-group"  ng-if="isCreating == false" >
+                                        <label class="col-md-4 control-label" for="example-select2-multiple2">Roles Actuales</label>
+                                        <div class="col-md-8">
+                                                <select class="js-select2 form-control" id="example-select2-multiple2"  
+                                                        name="example-select2-multiple2" style="width: 100%;" multiple disabled="true">
+                                                <option  ng-repeat ="r in roleList" value="{{r.idRol}">{{r.nombreRol}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group" ng-show="!isCreating">
                                             <div class="col-xs-12">
                                                 <label class="css-input css-checkbox css-checkbox-success">
