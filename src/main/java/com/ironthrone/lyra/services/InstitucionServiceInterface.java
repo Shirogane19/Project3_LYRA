@@ -10,7 +10,7 @@ import com.ironthrone.lyra.pojo.InstitucionPOJO;
 public interface InstitucionServiceInterface {
 
 	List<InstitucionPOJO> getAll();
-	InstitucionPOJO saveInstitucion(InstitucionRequest institucionRequest);
+	Boolean saveInstitucion(InstitucionRequest institucionRequest);
 	InstitucionPOJO getInstitucionById(int idInstitucion);
 	Institucion findById(int idInstitucion);
 }

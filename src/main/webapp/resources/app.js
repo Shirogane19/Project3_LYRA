@@ -3,89 +3,129 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
+  'ngStorage',
   'ui.router',
   'myApp.userView',
   'myApp.alumnoView',
-  'myApp.materiaView',
-  'myApp.userView'
+  'myApp.materiaView'
+  //'myApp.usuarios'
 ])
 
+.controller("MainCtrl",['$scope','$localStorage',function($scope,$localStorage) {
+
+  $scope.user =  {}
+
+
+  $scope.save = function(u) {
+    $localStorage.user = u;
+  };
+ 
+  $scope.load = function() {
+    $scope.user = $localStorage.user;
+    console.log($scope.user);
+  };
+
+  $scope.logoff= function() {
+    $localStorage.$reset();
+    $scope.loginPage();
+  };
+
+  $scope.loginPage= function() {
+
+    var path = "/lyra/";
+    window.location.href = path;
+  };
+
+  $scope.load();
+
+
+
+
+}])
+
 .config(function($stateProvider, $urlRouterProvider) {
+
     
     $urlRouterProvider.otherwise('/home');
-    
+   // $urlRouterProvider.otherwise('/404');
+
     $stateProvider
+
         
     .state('userView', {
     	url: '/users_config',
       	templateUrl: 'resources/userView/userView.html',
-		controller: 'userViewCtrl'
-		// params: {
-  // 		user: { "userId":0, "firstName":null, "lastName":null}
-		// }
+		    controller: 'userViewCtrl',
+        data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+
     })
 
     .state('alumnoView', {
       url: '/estudiante_config',
-        templateUrl: 'resources/alumnoView/alumnoView.html',
-    controller: 'alumnoViewCtrl'
+      templateUrl: 'resources/alumnoView/alumnoView.html',
+      controller: 'alumnoViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
 
     })
 
-     .state('materiaView', {
+    .state('materiaView', {
       url: '/materia_config',
       templateUrl: 'resources/materiaView/materiaView.html',
-      controller: 'materiaViewCtrl'
-    // params: {
-  //    user: { "userId":0, "firstName":null, "lastName":null}
-    // }
+      controller: 'materiaViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
     })  
 
+
+    .state('404', {
+        url: '{path:.*}',
+        templateUrl: 'resources/errorView/404.html',
+        data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })
+
+    .state('401', {
+        url: '{path:.*}',
+        templateUrl: 'resources/errorView/401.html',
+        data: {
+        requireLogin: false // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    });
+      
+})
+
+
+.run(function ($rootScope,$localStorage) {
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+
+    console.log(toState);
+
+    var requireLogin = toState.data.requireLogin;
+
+    if (requireLogin && typeof $localStorage.user === 'undefined') {
+      event.preventDefault();
+      var path = "/lyra/";
+      window.location.href = path;
+    }
+  });
+
+  $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+    if (error) {
+      $state.go('error.404');
+    }
+
+    if (error && $localStorage.user === 'undefined') {
+      $state.go('error.401');
+    }
+
+  });
+
 });
-
-
-// .config(['$routeProvider','$provide','$httpProvider', function($routeProvider,$provide,$httpProvider, $stateProvider, $urlRouterProvider) {
-// 	$routeProvider.otherwise({redirectTo: '/home'});
-  
-// 	$provide.factory('responseHttpInterceptor', function($q) {
-// 		  return {
-// 		    response: function(response) {
-// 		      // do something on success
-// 		      return response;
-// 		    },
-// 		    responseError: function(response) {
-// 		      // do something on error
-// 		    	if(response.status === 401){
-// 					window.location.href = "/lyra/#/login";
-
-// 				}
-// 		      return $q.reject(response);
-// 		    }
-// 		  };
-// 		});
-	
-// 	$httpProvider.interceptors.push('responseHttpInterceptor');
-	
-// 	//RESPONSE INTERCEPTOR FOR ALL THE JQUERY CALLS: EX:THE JQGRID
-// 	$.ajaxSetup({
-// 	    beforeSend: function() {
-// 	    },
-// 	    complete: function(response) {
-// 	    	if(response.status === 401){
-// 	    		window.location.href = "/lyra/#/login";
-// 			}
-// 	    }
-// 	});
-
-//  $urlRouterProvider;
-
-// 	$stateProvider
-        
-//     .state('userView', {
-//     	url: '/users',
-//       	templateUrl: 'userView/userView.html',
-// 		controller: 'userViewCtrl'
-//     })
-  
-// }]);
 

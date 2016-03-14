@@ -193,7 +193,34 @@ var BaseFormValidation = function() {
                 },
                 'val-terms2': {
                     required: true
-                }
+                },
+                'val-nombre': {
+                    required: true,
+                    minlength: 3
+                },
+                'val-apellido': {
+                    required: true,
+                    minlength: 3
+                },
+                'val-cedula': {
+                    required: true
+                },
+                'val-correo': {
+                    required: true,
+                    email: true
+                },
+                'val-telefono': {
+                    number: true,
+                    minlength: 0
+                },
+                'password1': {
+                    required: true,
+                    minlength: 5
+                },
+                'val-confirm-contrasena': {
+                    required: true,
+                    equalTo: '#password1'
+                },
             },
             messages: {
                 'val-username2': {
@@ -220,7 +247,27 @@ var BaseFormValidation = function() {
                 'val-digits2': 'Please enter only digits!',
                 'val-number2': 'Please enter a number!',
                 'val-range2': 'Please enter a number between 1 and 5!',
-                'val-terms2': 'You must agree to the service terms!'
+                'val-terms2': 'You must agree to the service terms!',
+                'val-nombre': {
+                    required: 'Por favor, ingrese su nombre',
+                    minlength: 'Tiene que contener minimo 3 caracteres'
+                },'val-apellido': {
+                    required: 'Por favor, ingrese su apellido',
+                    minlength: 'Tiene que contener minimo 3 caracteres'
+                },
+                'val-confirm-contrasena': {
+                    required: 'Por favor, ingrese una contraseña',
+                    minlength: 'La contraseña debe tener como minimo 5 caracteres',
+                    equalTo: 'La contraseña no coincide'
+                },
+                'password1': {
+                    required: 'Por favor, ingrese una contraseña',
+                    minlength: 'La contraseña debe tener como minimo 5 caracteres'
+                },
+                'val-cedula': 'Por favor, ingrese su cédula',
+                'val-correo': 'Por favor, ingrese un correo válido',
+                'val-telefono': 'Por favor, ingrese un teléfono válido'
+
             }
         });
     };

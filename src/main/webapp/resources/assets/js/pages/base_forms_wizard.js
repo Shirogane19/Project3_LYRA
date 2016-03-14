@@ -14,9 +14,9 @@ var BaseFormWizard = function() {
             'nextSelector': '.wizard-next',
             'lastSelector': '.wizard-last',
             'onTabShow': function($tab, $navigation, $index) {
-		var $total      = $navigation.find('li').length;
-		var $current    = $index + 1;
-		var $percent    = ($current/$total) * 100;
+        var $total      = $navigation.find('li').length;
+        var $current    = $index + 1;
+        var $percent    = ($current/$total) * 100;
 
                 // Get vital wizard elements
                 var $wizard     = $navigation.parents('.block');
@@ -26,18 +26,18 @@ var BaseFormWizard = function() {
                 var $btnFinish  = $wizard.find('.wizard-finish');
 
                 // Update progress bar if there is one
-		if ($progress) {
+        if ($progress) {
                     $progress.css({ width: $percent + '%' });
                 }
 
-		// If it's the last tab then hide the last button and show the finish instead
-		if($current >= $total) {
+        // If it's the last tab then hide the last button and show the finish instead
+        if($current >= $total) {
                     $btnNext.hide();
                     $btnFinish.show();
-		} else {
+        } else {
                     $btnNext.show();
                     $btnFinish.hide();
-		}
+        }
             }
         });
     };
@@ -220,22 +220,22 @@ var BaseFormWizard = function() {
             'previousSelector': '.wizard-prev',
             'nextSelector': '.wizard-next',
             'onTabShow': function($tab, $nav, $index) {
-		var $total      = $nav.find('li').length;
-		var $current    = $index + 1;
+        var $total      = $nav.find('li').length;
+        var $current    = $index + 1;
 
                 // Get vital wizard elements
                 var $wizard     = $nav.parents('.block');
                 var $btnNext    = $wizard.find('.wizard-next');
                 var $btnFinish  = $wizard.find('.wizard-finish');
 
-		// If it's the last tab then hide the last button and show the finish instead
-		if($current >= $total) {
+        // If it's the last tab then hide the last button and show the finish instead
+        if($current >= $total) {
                     $btnNext.hide();
                     $btnFinish.show();
-		} else {
+        } else {
                     $btnNext.show();
                     $btnFinish.hide();
-		}
+        }
             },
             'onNext': function($tab, $navigation, $index) {
                 var $valid = $form1.valid();
@@ -247,7 +247,7 @@ var BaseFormWizard = function() {
                 }
             },
             onTabClick: function($tab, $navigation, $index) {
-		return false;
+        return false;
             }
         });
 
@@ -257,22 +257,22 @@ var BaseFormWizard = function() {
             'previousSelector': '.wizard-prev',
             'nextSelector': '.wizard-next',
             'onTabShow': function($tab, $nav, $index) {
-		var $total      = $nav.find('li').length;
-		var $current    = $index + 1;
+        var $total      = $nav.find('li').length;
+        var $current    = $index + 1;
 
                 // Get vital wizard elements
                 var $wizard     = $nav.parents('.block');
                 var $btnNext    = $wizard.find('.wizard-next');
                 var $btnFinish  = $wizard.find('.wizard-finish');
 
-		// If it's the last tab then hide the last button and show the finish instead
-		if($current >= $total) {
+        // If it's the last tab then hide the last button and show the finish instead
+        if($current >= $total) {
                     $btnNext.hide();
                     $btnFinish.show();
-		} else {
+        } else {
                     $btnNext.show();
                     $btnFinish.hide();
-		}
+        }
             },
             'onNext': function($tab, $navigation, $index) {
                 var $valid = $form2.valid();
@@ -284,7 +284,7 @@ var BaseFormWizard = function() {
                 }
             },
             onTabClick: function($tab, $navigation, $index) {
-		return false;
+        return false;
             }
         });
     };

@@ -20,10 +20,10 @@ public class Alumno implements Serializable {
 	private String genero;
 	private boolean isActiveAl;
 	private String nombre;
-	private Seccion seccion;
 	private Institucion institucion;
-	private List<EncargadosAlumno> encargadosAlumnos;
-	private List<HistorialMedico> historialMedicos;
+	private Seccion seccion;
+	private List<RegistrosMedico> registrosMedicos;
+	private List<Usuario> usuarios;
 
 	public Alumno() {
 	}
@@ -95,17 +95,6 @@ public class Alumno implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Seccion
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Seccion getSeccion() {
-		return this.seccion;
-	}
-
-	public void setSeccion(Seccion seccion) {
-		this.seccion = seccion;
-	}
-
-
 	//bi-directional many-to-one association to Institucion
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Institucion getInstitucion() {
@@ -117,53 +106,50 @@ public class Alumno implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to EncargadosAlumno
+	//bi-directional many-to-one association to Seccion
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Seccion getSeccion() {
+		return this.seccion;
+	}
+
+	public void setSeccion(Seccion seccion) {
+		this.seccion = seccion;
+	}
+
+
+	//bi-directional many-to-one association to RegistrosMedico
 	@OneToMany(mappedBy="alumno")
-	public List<EncargadosAlumno> getEncargadosAlumnos() {
-		return this.encargadosAlumnos;
+	public List<RegistrosMedico> getRegistrosMedicos() {
+		return this.registrosMedicos;
 	}
 
-	public void setEncargadosAlumnos(List<EncargadosAlumno> encargadosAlumnos) {
-		this.encargadosAlumnos = encargadosAlumnos;
+	public void setRegistrosMedicos(List<RegistrosMedico> registrosMedicos) {
+		this.registrosMedicos = registrosMedicos;
 	}
 
-	public EncargadosAlumno addEncargadosAlumno(EncargadosAlumno encargadosAlumno) {
-		getEncargadosAlumnos().add(encargadosAlumno);
-		encargadosAlumno.setAlumno(this);
+	public RegistrosMedico addRegistrosMedico(RegistrosMedico registrosMedico) {
+		getRegistrosMedicos().add(registrosMedico);
+		registrosMedico.setAlumno(this);
 
-		return encargadosAlumno;
+		return registrosMedico;
 	}
 
-	public EncargadosAlumno removeEncargadosAlumno(EncargadosAlumno encargadosAlumno) {
-		getEncargadosAlumnos().remove(encargadosAlumno);
-		encargadosAlumno.setAlumno(null);
+	public RegistrosMedico removeRegistrosMedico(RegistrosMedico registrosMedico) {
+		getRegistrosMedicos().remove(registrosMedico);
+		registrosMedico.setAlumno(null);
 
-		return encargadosAlumno;
+		return registrosMedico;
 	}
 
 
-	//bi-directional many-to-one association to HistorialMedico
-	@OneToMany(mappedBy="alumno")
-	public List<HistorialMedico> getHistorialMedicos() {
-		return this.historialMedicos;
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="alumnos")
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
 	}
 
-	public void setHistorialMedicos(List<HistorialMedico> historialMedicos) {
-		this.historialMedicos = historialMedicos;
-	}
-
-	public HistorialMedico addHistorialMedico(HistorialMedico historialMedico) {
-		getHistorialMedicos().add(historialMedico);
-		historialMedico.setAlumno(this);
-
-		return historialMedico;
-	}
-
-	public HistorialMedico removeHistorialMedico(HistorialMedico historialMedico) {
-		getHistorialMedicos().remove(historialMedico);
-		historialMedico.setAlumno(null);
-
-		return historialMedico;
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 }

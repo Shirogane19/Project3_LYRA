@@ -46,11 +46,12 @@
         <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
         <link rel="stylesheet" id="css-theme" href="resources/assets/css/themes/flat.min.css"> 
 
+
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
         <!-- END Stylesheets -->
     </head>
-    <body>
+    <body ng-controller="MainCtrl">
         <!-- Page Container -->
         <!--
             Available Classes:
@@ -175,10 +176,10 @@
                                 </li>
                                <!--  SECOND SIDE TAB -->
                                 <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Materias</span></a>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Tareas</span></a>
                                     <ul>
                                         <li>
-                                            <a ui-sref="materiaView">Link #1</a>
+                                            <a href="start_backend.html">Link #1</a>
                                         </li>
                                         <li>
                                             <a href="start_backend.html">Link #2</a>
@@ -232,8 +233,8 @@
                                         <i class="si si-lock pull-right"></i>Lock Account
                                     </a>
                                 </li>
-                                <li>
-                                    <a tabindex="-1" href="base_pages_login.html">
+                                <li ng-click="logoff()">
+                                    <a tabindex="-1">
                                         <i class="si si-logout pull-right"></i>Log out
                                     </a>
                                 </li>
@@ -294,7 +295,7 @@
                 <div class="content bg-image overflow-hidden" style="background-image: url('resources/assets/img/photos/photo27@2x.jpg');">
                     <div class="push-50-t push-15">
                         <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
-                        <h2 class="h5 text-white-op animated zoomIn">Bienvenido Jean</h2>
+                        <h2 class="h5 text-white-op animated zoomIn">Bienvenido {{user.firstName}}</h2>
                     </div>
                 </div>
                 <!-- END Page Header -->
@@ -334,7 +335,10 @@
 
         <!-- Page JS Plugins + Page JS Code -->
         <script src="resources/app.js"></script>
-
+<!--         <script src="resources/components/usuarios/usuarios.js"></script>
+        <script src="resources/components/usuarios/usuario-service.js"></script> -->
+        <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
+        <script src="resources/constants.js"></script>
                 <!-- Views JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>

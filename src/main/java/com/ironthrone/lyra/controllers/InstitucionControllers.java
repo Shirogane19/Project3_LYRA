@@ -12,7 +12,7 @@ import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.contracts.AlumnoResponse;
 import com.ironthrone.lyra.contracts.InstitucionRequest;
 import com.ironthrone.lyra.contracts.InstitucionResponse;
-import com.ironthrone.lyra.pojo.InstitucionPOJO;
+import com.ironthrone.lyra.contracts.UsuarioRequest;
 import com.ironthrone.lyra.services.InstitucionServiceInterface;
 
 @RestController
@@ -27,10 +27,11 @@ public class InstitucionControllers {
 	 * @return InstitucionResponse
 	 */
 	@RequestMapping(value ="/getAll", method = RequestMethod.POST)
-	public InstitucionResponse getALL(){
+	public InstitucionResponse getALL(@RequestBody InstitucionRequest ir){
+		
 		InstitucionResponse response = new InstitucionResponse();
 		response.setCode(200);
-		response.setCodeMessage("Institucion fetch success");
+		response.setCodeMessage("Institutions fetch success");
 		response.setInstituciones(ISI.getAll());
 		return response;
 	}
@@ -44,9 +45,9 @@ public class InstitucionControllers {
 	public InstitucionResponse create(@RequestBody InstitucionRequest institucionRequest){	
 		
 		InstitucionResponse institucionRes = new InstitucionResponse();
-		InstitucionPOJO state = ISI.saveInstitucion(institucionRequest);
+		Boolean state = ISI.saveInstitucion(institucionRequest);
 	
-		if(state != null){
+		if(state){
 			institucionRes.setCode(200);
 			institucionRes.setCodeMessage("Institucion saved succesfully");
 		}

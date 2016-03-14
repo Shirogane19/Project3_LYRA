@@ -18,14 +18,28 @@ import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
-import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
+import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 @Service
 public class InstitucionService implements InstitucionServiceInterface{
 
 	@Autowired private InstitucionRepository institucionRepository;
+	
+	private List<InstitucionPOJO> generateInstitucionDtos(List<Institucion> instituciones){
+		
+		List<InstitucionPOJO> institucionesPojo = new ArrayList<InstitucionPOJO>();
+		
+		instituciones.stream().forEach(i -> {
+			InstitucionPOJO dto = new InstitucionPOJO();
+			BeanUtils.copyProperties(i,dto);
+			dto.setHasSuscripcion(i.getHasSuscripcion());
+			institucionesPojo.add(dto);
+		});	
+		
+		return institucionesPojo;
+	};
 
 	/**
 	 * Retorna una lista de instituciones.
@@ -35,13 +49,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 	@Transactional
 	public List<InstitucionPOJO> getAll() {
 		List<Institucion> instituciones = institucionRepository.findAll();
-		List<InstitucionPOJO> dtos = new ArrayList<InstitucionPOJO>();
-		instituciones.stream().forEach(ta ->{
-			InstitucionPOJO dto = new InstitucionPOJO();
-			BeanUtils.copyProperties(ta, dto);
-			dtos.add(dto);
-		});
-		return dtos;
+		return generateInstitucionDtos(instituciones);
 	}
 
 	/**
@@ -51,22 +59,22 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 */
 	@Override
 	@Transactional
-	public InstitucionPOJO saveInstitucion(InstitucionRequest institucionRequest) {
+	public Boolean saveInstitucion(InstitucionRequest institucionRequest) {
 		
 		Institucion institucion = new Institucion();
 		Institucion ninstitucionT = null;
 		BeanUtils.copyProperties(institucionRequest.getInstitucion(), institucion);
 		
-		
-		//institucion.setAlumnos(new ArrayList<Alumno>());
-		//institucion.setBitacoras(new ArrayList<Bitacora>());
-		//institucion.setGrados(new ArrayList<Grado>());
-		//institucion.setMaterias(new ArrayList<Materia>());
-		//institucion.setSubscripcions(new ArrayList<Subscripcion>());
-		//institucion.setUsuarios(new ArrayList<Usuario>());
+		institucion.setAlumnos(new ArrayList<Alumno>());
+		institucion.setBitacoras(new ArrayList<Bitacora>());
+		institucion.setGrados(new ArrayList<Grado>());
+		institucion.setMaterias(new ArrayList<Materia>());
+		institucion.setSubscripcions(new ArrayList<Subscripcion>());
+		institucion.setUsuarios(new ArrayList<Usuario>());
 		
 		if(institucionRequest.getInstitucion().getIdInstitucion() <= -1){		
 			
+			institucion.setHasSuscripcion(true);
 			ninstitucionT = institucionRepository.save(institucion);
 			
 		}else{		
@@ -84,13 +92,8 @@ public class InstitucionService implements InstitucionServiceInterface{
 			
 			ninstitucionT = institucionRepository.save(oldInstitucion);	
 		}
-		
-		InstitucionPOJO dto = new InstitucionPOJO();
-		BeanUtils.copyProperties(ninstitucionT, dto);
-		
-		return dto;
 
-		//return (ninstitucionT == null) ? false : true;
+		return (ninstitucionT == null) ? false : true;
 		
 	}
 
@@ -102,11 +105,11 @@ public class InstitucionService implements InstitucionServiceInterface{
 	@Override
 	@Transactional
 	public InstitucionPOJO getInstitucionById(int idInstitucion) {
+		
 		Institucion institucion =  institucionRepository.findOne(idInstitucion);
 		InstitucionPOJO dto = new InstitucionPOJO();
-		
 		BeanUtils.copyProperties(institucion,dto);
-	
+		
 		return dto;
 	}
 	

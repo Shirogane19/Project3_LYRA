@@ -1,46 +1,6 @@
-// 'use strict';
-
-// angular.module('myApp.loginView', ['ngRoute'])
-
-// .config(['$routeProvider', function($routeProvider) {
-//   $routeProvider.when('/login', {
-//     templateUrl: 'resources/loginView/loginView.html',
-//     controller: 'LoginFormController'
-//   });
-// }])
-
-// .controller('LoginFormController', ['$scope','$http',function($scope,$http) {
-// 	$scope.user = {email:"jcorellam@ucenfotec.ac.cr",password:"1234"};
-	
-// 	$scope.checkLogin = function(){
-// 		$scope.authError = null;
-
-//         // Try to login 
-
-//     	$http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
-
-//       .then(function(response) {
-//     		if(loginResponse.code == 200){
-//     			var usuario = {"idUser":loginResponse.idUsuario,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-//     			var path = "/lyra/app#/view1";
-//     			window.location.href = path;
-//     		}else{
-//     			$scope.authError = 'Email or Password not right';
-//     		}
-//          }, function(x) {
-//                  $scope.authError = 'Server Error';
-//                 });
-//     	});
-    	
-//     };
-// }]);
-
-
-
-
 'use strict';
 
-angular.module('myApp.loginView', ['ngRoute'])
+angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
@@ -49,21 +9,41 @@ angular.module('myApp.loginView', ['ngRoute'])
   });
 }])
 
-.controller('LoginViewCtrl', ['$scope','$http',function($scope,$http) {
- 
+.directive('pwCheck', [function () {// Validación, reviza que las contraseñas sean iguales
+    return {
+      require: 'ngModel',
+      link: function (scope, elem, attrs, ctrl) {
+        var firstPassword = '#' + attrs.pwCheck;
+        elem.add(firstPassword).on('keyup', function () {
+          scope.$apply(function () {
+            var v = elem.val()===$(firstPassword).val();
+            ctrl.$setValidity('pwmatch', v);
+          });
+        });
+      }
+    }
+  }])
+
+.controller('LoginViewCtrl', ['$scope','$http','$window','$localStorage',function($scope,$http,$window,$localStorage) {
+  
   $scope.user = {};
 
- // $scope.user = {email:"jean@maradiaga.com",password:"12345"};
+
+  angular.element(document).ready(function () {
+         OneUI.init('uiForms');
+         BasePagesLogin.init();
+  });
 
   $scope.checkLogin = function(){
 
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
       if(loginResponse.code == 200){
-        var usuario = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-     //   console.log(user);
+        $scope.user = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
+        $scope.save($scope.user);
         var path = "/lyra/app#/home";
         window.location.href = path;
+     //   $state.go('home');
 
       }else{
           alert("invalido");
@@ -73,38 +53,101 @@ angular.module('myApp.loginView', ['ngRoute'])
 
   };
 
+
+  $scope.save = function(u) {
+    console.log(u);
+    $localStorage.user = u;
+  };
+
   //----------------------------------------------------------------------------------------//
   //Formulario de Subsripción//
 
-  $scope.onPoint = false;//ng-show del formulario de subscripción
-  $scope.onPointUserForm = true;
-  $scope.onPointNoRegister = false;
-  $scope.isCreating = true;
+  //--Visibilidad de los formularios--//
+  $scope.onPoint = true;// ng-show del Login
+  $scope.onPointUserForm = false;// Visibilidad de formulario de registro de usuario
+  $scope.onPointerSubscriptionForm = false;// Visibilidad del formulario de subscripcion
+  $scope.onPointShowInstitutionForm = true;// Visisbilidad del formulario de la institución
+  $scope.onPointMsj = false// Visibilidad de la vista de mensajes
+  $scope.onPointError = false// Visibilidad de la vista de errores
+  $scope.invalidLoginS = false// Visibilidad del texto de usuario invalido
+
+  //--Cambio de colores de los botones(Registrar,Subscribir)--//
+  $scope.startedR = false;
+  $scope.startedS = false;
+
+  //--Habilita los botones de regitrar usuario y subscribir institucion--//
+  $scope.btnRegistrar = false;
+  $scope.btnSubscribir = false;
+
+  //--Guarda los mensajes para la vista de mensajes
+  $scope.topMsj = "";
+  $scope.bodyMsj = "";
+
+  //--Validacion--//
+  $scope.onlyNumbers = /^\d+$/; 
+
+  //--objectos--//
   $scope.institucion = {};
   $scope.subscriptor = {};
-  var date = new Date();
 
-  $scope.showForm = function(){//Funcion de la visibilidad del formulario de subscripción
-    $scope.onPoint = true;
-    console.log('Formulario? ', $scope.onPoint);
-    //console.log((date.getFullYear()) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2));
-  }
+  $scope.showLoginForm = function(){//Funcion de la visibilidad del login
+    if($scope.onPoint){
+      $scope.onPoint = false;
+    }else{
+      $scope.onPoint = true;
+    }
+    console.log('Formulario login? ', $scope.onPoint);
+  }// End showLoginForm
 
-  $scope.showUserForm = function(){//Funcion de la visibilidad del 
+  $scope.showUserForm = function(){//Funcion de la visibilidad del formulario del usuario
     if($scope.onPointUserForm){
-      $scope.onPointUserForm = false;
+      window.location.href = "#";
     }else{
       $scope.onPointUserForm = true;
+      $scope.onPoint = false;
+      $scope.onPointerSubscriptionForm = false;
+      $scope.startedR = true;
+      $scope.startedS = false;
+      $scope.btnSubscribir = true;
     }
-    $scope.onPointNoRegister = false;
-    console.log('Formulario? ', $scope.onPointUserForm);
+    console.log('Formulario usuario? ', $scope.onPointUserForm);
+  }// End showUserForm
+
+  $scope.showSubscriptionForm = function(){//Funcion de la visibilidad del formulario de subscripción
+    if($scope.onPointerSubscriptionForm){
+      window.location.href = "#";
+    }else{
+      $scope.onPointerSubscriptionForm = true;
+      $scope.onPoint = false;
+      $scope.onPointUserForm = false;
+      $scope.startedS = true;
+      $scope.startedR = false;
+      $scope.btnRegistrar = true;
+    }
+    console.log('Formulario Subsripción? ', $scope.onPointerSubscriptionForm);
+  }// End showSubscriptionForm
+
+  $scope.disabledAll = function(){// Desabilita todos los botones, formularios y vistas
+    $scope.btnRegistrar = true;
+    $scope.btnSubscribir = true;
+    $scope.onPoint = false;
+    $scope.onPointUserForm = false;
+    $scope.onPointerSubscriptionForm = false;
   }
 
-  $scope.checkUser = function(){
+  $scope.closeMSJ = function(){// Refresca la pagina
+    window.location.href = "#";
+  }// End closeMSJ
+
+  $scope.checkUser = function(){// Chequea que exista un usuario
 
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
       console.log(loginResponse);
+
+      if(loginResponse.code == 401){
+        $scope.invalidLoginS = true;
+      }
 
       if(loginResponse.code == 200){
 
@@ -121,155 +164,127 @@ angular.module('myApp.loginView', ['ngRoute'])
             $scope.subscriptor.telefono = response.usuario.telefono;
 
             $scope.user = {};
-            $scope.showUserForm();
+            $scope.onPointShowInstitutionForm = false;
 
-        }); 
-
-            
+        });     
+      }
+    })
+    .catch(function (error) {
+      console.error('exception', error);
+      if(error.status == 500){
+        $scope.invalidLoginS = true;
       }else{
-          $scope.onPointNoRegister = true;
+        $scope.disabledAll();
+        $scope.topMsj = error.status;
+        $scope.bodyMsj = error.statusText;
+        $scope.onPointError = true;
       }
     });
 
-  }
+  }// End checkUser
 
-  $scope.saveSubscripcion = function(){
+  $scope.saveSubscripcion = function(){// Guarda la subscripción
 
-    if($scope.isCreating){//Si esta creando setea un -1 al tipo de usuario
-      $scope.subscriptor.idUsuario = -1;
-      $scope.subscriptor.activeSub = true;
-    }
+    console.log($scope.subscriptor.idSubscriptor);
+    $scope.requestObjectSubscripcion = {
 
-    $scope.requestObject = {
       "pageNumber": 0,
       "pageSize": 0,
       "direction": "string",
-      "sortBy": ["string"],
+      "sortBy": [
+        "string"
+      ],
       "searchColumn": "string",
       "searchTerm": "string",
-      "institucion":
-        {
-          "idInstitucion": -1,
-          "hasSuscripcion": true,
-          "logoInstitucion": $scope.institucion.urlLogo,
-          "nombreInstitucion": $scope.institucion.nombre,
-          "subscripcions": [
-              {
-                "idSubscripcion": -1,
-                "fechaFin": "",
-                "fechaInicio": (date.getFullYear()) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2),
-                "activeSub": true
-              }
-          ],
-          "usuarios": [
-              {
-               "idUsuario": $scope.subscriptor.idUsuario,
-                "apellido": $scope.subscriptor.idUsuario,
-                "cedula": $scope.subscriptor.cedula,
-                "dateOfJoin": (date.getFullYear()) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2),
-                "email": $scope.subscriptor.correo,
-                "movil": $scope.subscriptor.movil,
-                "nombre": $scope.subscriptor.nombre,
-                "password": "",
-                "telefono": $scope.subscriptor.telefono,
-                "activeSub": $scope.subscriptor.activeSub
+      "subscripcion": {
+       
+          "idSubscripcion": -1,
+          "institucion": {
 
+              "idInstitucion": -1,
+              "hasSuscripcion": true,
+              "logoInstitucion": $scope.institucion.urlLogo,
+              "nombreInstitucion": $scope.institucion.nombre,
+              "usuarios": [{"idUsuario": $scope.subscriptor.idSubscriptor}]
 
-              }
-          ]
-        }
-    }
+          },
+          "activeSub": true
+       }
+    }// End saveSubscripcion
 
-    $http.post('rest/protected/institucion/save',$scope.requestObject).success(function(response) {
-      console.log(response);
-    }); 
+    console.log($scope.requestObjectSubscripcion);
 
-
-
-    // $scope.requestObjectSubscripcion = {
-
-    //     "pageNumber": 0,
-    //     "pageSize": 0,
-    //     "direction": "string",
-    //     "sortBy": [
-    //       "string"
-    //     ],
-    //     "searchColumn": "string",
-    //     "searchTerm": "string",
-    //     "subscripcion": {
-
-    //         "idSubscripcion": -1,
-    //         "fechaFin": "",
-    //         "fechaInicio": (date.getFullYear()) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2),
-    //         "institucion": {
-
-    //             "idInstitucion": -1,
-    //             "hasSuscripcion": true,
-    //             "logoInstitucion": $scope.institucion.urlLogo,
-    //             "nombreInstitucion": $scope.institucion.nombre
-    //         },
-    //         "activeSub": true
-
-
-    //   }
-    // }
-
-    // $scope.requestObjectUsuario = {
-
-    //     "pageNumber": 0,
-    //     "pageSize": 0,
-    //     "direction": "string",
-    //     "sortBy": [
-    //       "string"
-    //     ],
-    //     "searchColumn": "string",
-    //     "searchTerm": "string",
-    //     "usuario": {
-
-    //         "idUsuario": $scope.subscriptor.idUsuario,
-    //         "apellido": $scope.subscriptor.idUsuario,
-    //         "cedula": $scope.subscriptor.cedula,
-    //         "dateOfJoin": (date.getFullYear()) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2),
-    //         "email": $scope.subscriptor.correo,
-    //         "movil": $scope.subscriptor.movil,
-    //         "nombre": $scope.subscriptor.nombre,
-    //         "password": "",
-    //         "telefono": $scope.subscriptor.telefono,
-    //         "activeSub": $scope.subscriptor.activeSub
-
-    //   }
-    // }
-
-    // console.log($scope.requestObjectUsuario);
-
-    // $http.post('rest/protected/users/saveUser',$scope.requestObjectUsuario).success(function(response) {
-
-    //   console.log(response);
-
-    //   console.log($scope.requestObjectSubscripcion);
-
-    //   $http.post('rest/protected/subscripcion/save',$scope.requestObjectSubscripcion).success(function(response2) {
-
-    //     console.log(response2);
-
-    //   }); 
-
-    // }); 
-
+    $http.post('rest/protected/subscripcion/save',$scope.requestObjectSubscripcion).success(function(response2) {
+      console.log(response2);
+      $scope.disabledAll();
+      $scope.topMsj = "En buena hora!!";
+      $scope.bodyMsj = "La institución ha sido subscrita";
+      $scope.onPointMsj = true;
+    })
+    .catch(function (error) {
+      console.error('exception', error);
+      $scope.disabledAll();
+      $scope.topMsj = error.status;
+      $scope.bodyMsj = error.statusText;
+      $scope.onPointError = true;
+    });; 
 
   }
+
+  $scope.saveMaster = function(){// Guarda el usuario
+
+    $scope.requestObjectUsuario = {
+
+      "pageNumber": 0,
+        "pageSize": 0,
+        "direction": "string",
+        "sortBy": [
+          "string"
+        ],
+        "searchColumn": "string",
+        "searchTerm": "string",
+        "usuario": {
+
+          "idUsuario": -1,
+          "nombre": $scope.subscriptor.nombre, 
+          'apellido':  $scope.subscriptor.apellido, 
+          'cedula': $scope.subscriptor.cedula,
+          "telefono": $scope.subscriptor.telefono,  
+          "movil": $scope.subscriptor.movil, 
+          "email": $scope.subscriptor.correo, 
+          "activeUs": $scope.subscriptor.activeSub, 
+          "password": $scope.subscriptor.contrasena,
+          "idRoles": [1]
+
+      }
+    }
+
+    $http.post('rest/protected/users/saveUser',$scope.requestObjectUsuario).success(function(response) {
+      console.log(response);
+      $scope.disabledAll();
+      $scope.topMsj = "En buena hora!!";
+      $scope.bodyMsj = "Gracias por registrase en Lyra";
+      $scope.onPointMsj = true;
+    })
+    .catch(function (error) {
+      console.error('exception', error);
+      $scope.disabledAll();
+      $scope.topMsj = error.status;
+      $scope.bodyMsj = error.statusText;
+      $scope.onPointError = true;
+    });; 
+
+  }// End saveMaster
 
   $scope.initScripts = function(){//Inicialización de componente del formulario
 
     angular.element(document).ready(function () {
         BaseFormWizard.init();
+        BaseFormValidation.init();
     });
 
-  }
+  }// End initScripts
 
   $scope.initScripts();
       
 }]);
-
-
-//      $http.post('http://localhost:8090/rest/login/checkuser/',$scope.user).success(function (loginResponse) {

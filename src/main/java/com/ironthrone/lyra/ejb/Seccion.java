@@ -17,8 +17,8 @@ public class Seccion implements Serializable {
 	private boolean isActiveSec;
 	private String nombreSeccion;
 	private List<Alumno> alumnos;
-	private List<ProfesorSeccion> profesorSeccions;
 	private Grado grado;
+	private List<Usuario> usuarios;
 
 	public Seccion() {
 	}
@@ -80,31 +80,6 @@ public class Seccion implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to ProfesorSeccion
-	@OneToMany(mappedBy="seccion")
-	public List<ProfesorSeccion> getProfesorSeccions() {
-		return this.profesorSeccions;
-	}
-
-	public void setProfesorSeccions(List<ProfesorSeccion> profesorSeccions) {
-		this.profesorSeccions = profesorSeccions;
-	}
-
-	public ProfesorSeccion addProfesorSeccion(ProfesorSeccion profesorSeccion) {
-		getProfesorSeccions().add(profesorSeccion);
-		profesorSeccion.setSeccion(this);
-
-		return profesorSeccion;
-	}
-
-	public ProfesorSeccion removeProfesorSeccion(ProfesorSeccion profesorSeccion) {
-		getProfesorSeccions().remove(profesorSeccion);
-		profesorSeccion.setSeccion(null);
-
-		return profesorSeccion;
-	}
-
-
 	//bi-directional many-to-one association to Grado
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Grado getGrado() {
@@ -113,6 +88,17 @@ public class Seccion implements Serializable {
 
 	public void setGrado(Grado grado) {
 		this.grado = grado;
+	}
+
+
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="seccions")
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 }

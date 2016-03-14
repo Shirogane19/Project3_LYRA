@@ -25,7 +25,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 	/**
 	 * Genera POJOs a partir de una lista EJB.
 	 * @param users representa una lista de alumnos tipo ejb
-	 * @return Lista de alumno POJO.
+	 * @return UserInterfaceUsers, lista de a POJO.
 	 */
 	private List<AlumnoPOJO> generateAlumnosDtos(List<Alumno> alumnos){
 		
@@ -95,7 +95,8 @@ public class AlumnoService implements AlumnoServiceInterface{
 		//***********************************************
 		
 		if(alumnoRequest.getAlumno().getIdAlumno() <= -1){		
-	
+	        
+			newAlumno.setIsActiveAl(true);
 			nalumnoT = alumnoRepository.save(newAlumno);
 			
 		}else{		

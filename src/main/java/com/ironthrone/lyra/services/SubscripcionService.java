@@ -1,6 +1,8 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -11,15 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.contracts.SubscripcionRequest;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Subscripcion;
+import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
+import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.SubscripcionRepository;
+import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 @Service
 public class SubscripcionService implements SubscripcionServiceInterface{
 	
 	@Autowired private SubscripcionRepository subscripcionRepository;
 	@Autowired private InstitucionRepository institucionRepository;
+	@Autowired private UsuarioRepository usersRepository;
 
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -59,22 +65,43 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	@Override
 	@Transactional
 	public Boolean saveSubscripcion(SubscripcionRequest subscripcionRequest) {
+		
 		Subscripcion newSubscripcion = new Subscripcion();
 		Subscripcion nsubscripcionT = null;
 		BeanUtils.copyProperties(subscripcionRequest.getSubscripcion(), newSubscripcion);
 		
 		//------------Institucion-------------/
-		//Institucion institucion = new Institucion();
-		//Institucion ninstitucionT = null;
-		//BeanUtils.copyProperties(subscripcionRequest.getSubscripcion().getInstitucion(), institucion);
+		Institucion institucion = new Institucion();
+		Institucion ninstitucionT = null;
+		BeanUtils.copyProperties(subscripcionRequest.getSubscripcion().getInstitucion(), institucion);
 		
-		//ninstitucionT = institucionRepository.save(institucion);
+		List<Usuario> us = new ArrayList<Usuario>(); 
+		institucion.setUsuarios(us);
+		ninstitucionT = institucionRepository.save(institucion);
 		
-		//newSubscripcion.setInstitucion(ninstitucionT);
+		//------------Usuarios-------------/
+		List<Usuario> oldUsuarios = new ArrayList<Usuario>();
+		
+		oldUsuarios = ninstitucionT.getUsuarios();//obtiene la lista de usuarios de la institución
+		
+		List<Usuario> usuariosFromRequest =  getUsers(subscripcionRequest.getSubscripcion().getInstitucion().getUsuarios());//obtiene los usuariosEJB del request
+		
+		oldUsuarios.stream().forEach(u ->{//Del arreglo viejo de usuarios se le añade los nuevos
+			usuariosFromRequest.add(u);	
+		});
+		
+		setInstitutionsToUsers(usuariosFromRequest, ninstitucionT);//Agrega la institución a cada usuario
+		
+		institucion.setUsuarios(usuariosFromRequest);
+		
+		newSubscripcion.setInstitucion(ninstitucionT);
 		//------------------------------------/
 		
 		if(subscripcionRequest.getSubscripcion().getIdSubscripcion() <= -1){		
-	
+			
+			newSubscripcion.setIsActiveSub(true);
+			newSubscripcion.setFechaInicio(getCurrentDate());
+			newSubscripcion.setFechaFin(plusOneYear());
 			nsubscripcionT = subscripcionRepository.save(newSubscripcion);
 			
 		}else{		
@@ -97,9 +124,9 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	@Override
 	@Transactional
 	public SubscripcionPOJO getSubscripcionById(int idSubscripcion) {
+		
 		Subscripcion subscripcion =  subscripcionRepository.findOne(idSubscripcion);
 		SubscripcionPOJO dto = new SubscripcionPOJO();
-		
 		BeanUtils.copyProperties(subscripcion,dto);
 	
 		return dto;
@@ -115,5 +142,50 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	public Subscripcion findById(int idSubscripcion) {
 		return subscripcionRepository.findOne(idSubscripcion);
 	}
-
+	
+	/**
+	 * Consigue la fecha de hoy
+	 * @return Date
+	 */
+	public Date getCurrentDate(){
+	   Date date = new Date();
+	   return date;
+	}
+	
+	/**
+	 * Consigue una fecha de hoy a un año
+	 * @return Date
+	 */
+	public Date plusOneYear(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.YEAR, 1);
+	    return calendar.getTime();
+	}
+	
+	/**
+	 * Busca una lista de usuario ejb segun la lista de UsuarioPojo recibido
+	 * @param List<UsuarioPOJO>
+	 * @return Lista de usuarios de tipo EJB
+	 */
+	public List<Usuario> getUsers(List<UsuarioPOJO> users){
+		List<Usuario> oldUsuarios= new ArrayList<Usuario>();
+		users.stream().forEach(u ->{
+			Usuario oldUser = usersRepository.findOne(u.getIdUsuario());
+			oldUsuarios.add(oldUser);
+		});
+		return oldUsuarios;
+	}
+	
+	/**
+	 * Agrega a los usuarios una institución
+	 * @param List<Usuario>
+	 * @param Institucion
+	 */
+	public void setInstitutionsToUsers(List<Usuario> users, Institucion i){
+		users.stream().forEach(u ->{
+			u.getInstitucions().add(i);
+		});
+	}
+	
 }

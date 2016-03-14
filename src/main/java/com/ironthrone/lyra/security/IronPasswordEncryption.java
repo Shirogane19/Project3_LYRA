@@ -1,5 +1,7 @@
 package com.ironthrone.lyra.security;
 
+import java.security.SecureRandom;
+
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.password.ConfigurablePasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -8,6 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class IronPasswordEncryption {
 
+	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	static SecureRandom rnd = new SecureRandom();
+	
 	// for basic encryptions
 	
 	public String ironEncryption(String password){
@@ -44,6 +49,17 @@ public class IronPasswordEncryption {
 		boolean isOkay = encryptor.checkPassword(password, hash);
 		return isOkay;
 	}
+	
+
+
+	public String randomHilt( int len ){
+	   StringBuilder sb = new StringBuilder( len );
+	   for( int i = 0; i < len; i++ ) 
+	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	   return sb.toString();
+	}
+
+
 	 
 
 	

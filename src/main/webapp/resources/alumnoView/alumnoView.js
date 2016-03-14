@@ -14,6 +14,7 @@ angular.module('myApp.alumnoView', [])
   $scope.onlyNumbers = /^\d+$/;
 
   $scope.newAlumno.genero = "M";
+  $scope.newAlumno.apellido2 ="";
 
   $scope.initScripts = function(){
 
@@ -39,6 +40,8 @@ angular.module('myApp.alumnoView', [])
   $scope.showList = function(){
 
     $scope.newAlumno = {};
+    $scope.newAlumno.genero = "M";
+    $scope.newAlumno.apellido2 ="";
     $scope.onPoint = false;
     $scope.isCreating = true;
   }

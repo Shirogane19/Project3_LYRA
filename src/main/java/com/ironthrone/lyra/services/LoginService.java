@@ -13,6 +13,11 @@ import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.repositories.LoginRepository;
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 
+/**
+ * Proporciona los servicios de login y autenticacion al controlador login.
+ * @author jeanpaul
+ *
+ */
 @Service
 public class LoginService implements LoginServiceInterface {
 

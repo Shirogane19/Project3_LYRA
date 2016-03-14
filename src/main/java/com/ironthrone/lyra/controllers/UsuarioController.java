@@ -14,7 +14,8 @@ import com.ironthrone.lyra.services.UsuarioServiceInterface;
 
 
 /**
- * Handles requests for the application home page.
+ * Handles requests for the application users.
+ * @author jeanpaul
  */
 @RestController
 @RequestMapping(value ="rest/protected/users")

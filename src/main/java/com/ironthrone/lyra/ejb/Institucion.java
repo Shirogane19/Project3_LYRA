@@ -70,7 +70,7 @@ public class Institucion implements Serializable {
 
 
 	//bi-directional many-to-one association to Alumno
-	@OneToMany(mappedBy="institucion")
+	@OneToMany(mappedBy="institucion",fetch = FetchType.LAZY)
 	public List<Alumno> getAlumnos() {
 		return this.alumnos;
 	}
@@ -95,7 +95,7 @@ public class Institucion implements Serializable {
 
 
 	//bi-directional many-to-one association to Bitacora
-	@OneToMany(mappedBy="institucion")
+	@OneToMany(mappedBy="institucion",fetch = FetchType.LAZY)
 	public List<Bitacora> getBitacoras() {
 		return this.bitacoras;
 	}
@@ -120,7 +120,7 @@ public class Institucion implements Serializable {
 
 
 	//bi-directional many-to-one association to Grado
-	@OneToMany(mappedBy="institucion")
+	@OneToMany(mappedBy="institucion",fetch = FetchType.LAZY)
 	public List<Grado> getGrados() {
 		return this.grados;
 	}
@@ -145,7 +145,7 @@ public class Institucion implements Serializable {
 
 
 	//bi-directional many-to-one association to Materia
-	@OneToMany(mappedBy="institucion")
+	@OneToMany(mappedBy="institucion",fetch = FetchType.LAZY)
 	public List<Materia> getMaterias() {
 		return this.materias;
 	}
@@ -170,7 +170,7 @@ public class Institucion implements Serializable {
 
 
 	//bi-directional many-to-one association to Subscripcion
-	@OneToMany(mappedBy="institucion")
+	@OneToMany(mappedBy="institucion",fetch = FetchType.LAZY)
 	public List<Subscripcion> getSubscripcions() {
 		return this.subscripcions;
 	}
@@ -194,28 +194,14 @@ public class Institucion implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="institucion")
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(mappedBy="institucions",fetch = FetchType.LAZY)
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
-	}
-
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
-		usuario.setInstitucion(this);
-
-		return usuario;
-	}
-
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuarios().remove(usuario);
-		usuario.setInstitucion(null);
-
-		return usuario;
 	}
 
 }
