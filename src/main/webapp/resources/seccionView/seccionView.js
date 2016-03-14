@@ -28,7 +28,7 @@ angular.module('myApp.seccionView', ['ngRoute'])
 
   	$scope.init = function(){
     $scope.isCreating = true;
-		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","materias": {}};
+		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","secciones": {}};
 		$http.post('rest/protected/seccion/getAll',$scope.requestObject).success(function(response) {
 			console.log("response",response)
 			$scope.seccionList = response.secciones;
@@ -109,7 +109,7 @@ $scope.requestObject ={
 }
 }
 
-    console.log($scope.requestObject.materia);
+    console.log($scope.requestObject.seccion);
 
     $http.post('rest/protected/seccion/saveSeccion',$scope.requestObject).success(function(response) {
 

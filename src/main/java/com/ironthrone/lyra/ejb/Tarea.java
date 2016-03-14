@@ -100,7 +100,7 @@ public class Tarea implements Serializable {
 
 
 	//bi-directional many-to-many association to Usuario
-	@ManyToMany
+	@ManyToMany (fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="tareas_usuario"
 		, joinColumns={

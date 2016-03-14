@@ -175,6 +175,9 @@
                                         <li>
                                             <a ui-sref="seccionView">Secciones</a>
                                         </li>
+                                        <li>
+                                            <a ui-sref="tareaView">Tareas</a>
+                                        </li>
                                     </ul>
                                 </li>
                                <!--  SECOND SIDE TAB -->
@@ -304,7 +307,11 @@
                 <!-- END Page Header -->
 
                 <!-- Page Content -->
-                <div class="content" ui-view></div>
+                <div class="content" ui-view>
+                    
+
+
+                </div>
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
@@ -353,6 +360,7 @@
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
         <script src="resources/seccionView/seccionView.js"></script>
+        <script src="resources/tareaView/tareaView.js"></script>
 
 
         <script type="text/javascript">
