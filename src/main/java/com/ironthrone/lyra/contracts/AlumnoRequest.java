@@ -2,6 +2,11 @@ package com.ironthrone.lyra.contracts;
 
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 
+/**
+ * Clase request, contrato que almacena la solicitudes relacionada con alumno
+ * @author Randall
+ *
+ */
 public class AlumnoRequest extends BaseRequest {
 	
 	private AlumnoPOJO alumno;

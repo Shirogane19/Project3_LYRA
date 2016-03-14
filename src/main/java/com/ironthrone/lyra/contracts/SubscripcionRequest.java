@@ -2,6 +2,11 @@ package com.ironthrone.lyra.contracts;
 
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 
+/**
+ * Clase request, contrato que almacena la solicitudes relacionada con subscripcion
+ * @author Randall
+ *
+ */
 public class SubscripcionRequest extends BaseRequest {
 	
 	private SubscripcionPOJO subscripcion;

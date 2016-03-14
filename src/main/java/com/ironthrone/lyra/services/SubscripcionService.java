@@ -20,6 +20,11 @@ import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.SubscripcionRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
+/**
+ * Clase de tipo servicio, manejo de interacción con los repositorios 
+ * @author Randall
+ *
+ */
 @Service
 public class SubscripcionService implements SubscripcionServiceInterface{
 	
@@ -77,6 +82,10 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 		
 		List<Usuario> us = new ArrayList<Usuario>(); 
 		institucion.setUsuarios(us);
+		
+		List<Subscripcion> sub = new ArrayList<Subscripcion>(); 
+		institucion.setSubscripcions(sub);
+		
 		ninstitucionT = institucionRepository.save(institucion);
 		
 		//------------Usuarios-------------/
@@ -92,7 +101,9 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 		
 		setInstitutionsToUsers(usuariosFromRequest, ninstitucionT);//Agrega la institución a cada usuario
 		
-		institucion.setUsuarios(usuariosFromRequest);
+//		institucion.setUsuarios(usuariosFromRequest);
+		
+//		ninstitucionT.addSubscripcion(newSubscripcion);
 		
 		newSubscripcion.setInstitucion(ninstitucionT);
 		//------------------------------------/

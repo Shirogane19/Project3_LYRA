@@ -15,6 +15,12 @@ import com.ironthrone.lyra.contracts.InstitucionResponse;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
 import com.ironthrone.lyra.services.InstitucionServiceInterface;
 
+/**
+ * Clase de tipo controlador para las instituciones, recibe las solicitudes y se los envia a 
+ * las clase de tipo servicio correspondiente
+ * @author Randall
+ *
+ */
 @RestController
 @RequestMapping(value ="rest/protected/institucion")
 public class InstitucionControllers {

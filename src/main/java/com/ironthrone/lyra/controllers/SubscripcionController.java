@@ -12,6 +12,12 @@ import com.ironthrone.lyra.contracts.SubscripcionRequest;
 import com.ironthrone.lyra.contracts.SubscripcionResponse;
 import com.ironthrone.lyra.services.SubscripcionServiceInterface;
 
+/**
+ * Clase de tipo controlador para las subscripciones, recibe las solicitudes y se los envia a 
+ * las clase de tipo servicio correspondiente 
+ * @author Randall
+ *
+ */
 @RestController
 @RequestMapping(value ="rest/protected/subscripcion")
 public class SubscripcionController {

@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 
+/**
+ * Clase de tipo response, retorna un contrato con los alumnos solicitados
+ * @author Randall
+ *
+ */
 public class AlumnoResponse extends BaseResponse{
 	
 	private List<AlumnoPOJO> alumnos;

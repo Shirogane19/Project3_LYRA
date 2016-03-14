@@ -5,6 +5,11 @@ import java.util.List;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 
+/**
+ * Clase de tipo response, retorna un contrato con las subscripciones solicitadas
+ * @author Randall
+ *
+ */
 public class SubscripcionResponse extends BaseResponse{
 	
 	private List<SubscripcionPOJO> subscripciones;

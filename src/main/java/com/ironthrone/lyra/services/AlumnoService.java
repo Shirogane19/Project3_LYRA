@@ -17,6 +17,11 @@ import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.AlumnoRepository;
 
+/**
+ * Clase de tipo Alumno, manejo de alumnos y interacción con los repositorios correspondientes
+ * @author Randall
+ *
+ */
 @Service
 public class AlumnoService implements AlumnoServiceInterface{
 

@@ -14,6 +14,12 @@ import com.ironthrone.lyra.services.AlumnoServiceInterface;
 
 @RestController
 @RequestMapping(value ="rest/protected/alumno")
+/**
+ * Clase de tipo controlador para los alumnos, recibe las solicitudes y se los envia a 
+ * las clase de tipo servicio correspondiente
+ * @author Randall
+ *
+ */
 public class AlumnoController {
 	
 	@Autowired private AlumnoServiceInterface ASI;

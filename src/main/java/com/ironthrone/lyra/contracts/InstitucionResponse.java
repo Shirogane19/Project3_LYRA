@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 
+/**
+ * Clase de tipo response, retorna un contrato con las instituciones solicitadas
+ * @author Randall
+ *
+ */
 public class InstitucionResponse extends BaseResponse{
 	
 	private List<InstitucionPOJO> instituciones;

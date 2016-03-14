@@ -2,6 +2,11 @@ package com.ironthrone.lyra.contracts;
 
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 
+/**
+ * Clase request, contrato que almacena la solicitudes relacionada con institucion
+ * @author Randall
+ *
+ */
 public class InstitucionRequest extends BaseRequest{
 	
 	private InstitucionPOJO institucion;
