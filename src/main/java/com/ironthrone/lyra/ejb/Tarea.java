@@ -77,8 +77,16 @@ public class Tarea implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Rol
-	@ManyToMany(mappedBy="tareas")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name="tareas_rol"
+		, joinColumns={
+			@JoinColumn(name="Tarea_idTarea")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Rol_idRol")
+			}
+		)
 	public List<Rol> getRols() {
 		return this.rols;
 	}

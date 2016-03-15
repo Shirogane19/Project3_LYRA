@@ -14,6 +14,7 @@ import com.ironthrone.lyra.ejb.Tarea;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
+import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.TareaRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
@@ -23,6 +24,7 @@ public class TareaService implements TareaServiceInterface{
 	
 	@Autowired private TareaRepository tareaRepository;
 	@Autowired private UsuarioRepository userRepository;
+	@Autowired private RolRepository rolRepository;
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -103,7 +105,7 @@ public class TareaService implements TareaServiceInterface{
 	public Boolean saveTarea(TareaRequest ur) {
 		
 		List<String> idUsuarios = ur.getTarea().getIdUsuarios();
-		//List<String> idRoles = ur.getTarea().getIdRols();
+		List<String> idRoles = ur.getTarea().getIdRols();
 		List<Usuario> listUsuario = new ArrayList<Usuario>();
 		List<Rol> listRol = new ArrayList<Rol>();
 		boolean hasRoles = false;
@@ -112,6 +114,11 @@ public class TareaService implements TareaServiceInterface{
 		if(!idUsuarios.isEmpty()){
 			hasUsuarios = true;
 		}
+
+		if(!idRoles.isEmpty()){
+			hasRoles = true;
+		}
+		
 //		if(!idRoles.isEmpty()){
 //			hasRoles = true;
 //		}
@@ -125,18 +132,105 @@ public class TareaService implements TareaServiceInterface{
 		if(ur.getTarea().getIdTarea() <= -1){		
 			newTarea = assignProperties(newTarea,ur.getTarea());
 			nTarea = tareaRepository.save(newTarea);
+			
 			if(hasUsuarios){
 				nTarea = assignTaskUser(listUsuario,idUsuarios,nTarea);
 			}
+
+			if(hasRoles){
+				nTarea = assignTaskRole(listRol,idRoles,nTarea);
+			}
 			
 		 
-		}else{		
-			Tarea oldTa = findById(newTarea.getIdTarea());
-			oldTa=assignProperties(oldTa, ur.getTarea());
+		}else{
+			
+			System.out.println("ID UI" + ur.getTarea().getIdTarea());
+			Tarea oldTa = findById(ur.getTarea().getIdTarea());
+			
+			System.out.println("ID DBTa" + oldTa.getIdTarea());
+			
+			oldTa =assignProperties(oldTa, ur.getTarea());
+			
+			if(hasUsuarios){
+				oldTa = removeUsers(oldTa);
+				listUsuario = getUsuarios(idUsuarios, listUsuario);
+				oldTa.setUsuarios(listUsuario);
+			}
+			
+			if(hasRoles){
+				oldTa = removeRoles(oldTa);
+				listRol = getRole(idRoles, listRol);
+				oldTa.setRols(listRol);
+			}
+			
 			nTarea = tareaRepository.save(oldTa);	
 		}
 		return (nTarea == null) ? false : true;
 	}
+	
+	/**
+	 * 
+	 * @param oldTa
+	 * @return
+	 */
+	private Tarea removeRoles(Tarea oldTa) {
+		oldTa.setRols(null);
+		oldTa = tareaRepository.save(oldTa);
+		
+		return oldTa;
+	}
+
+
+	/**
+	 * 
+	 * @param listRol
+	 * @param idRoles
+	 * @param nTarea
+	 * @return
+	 */
+	@Transactional
+	private Tarea assignTaskRole(List<Rol> listRol, List<String> idRoles, Tarea nTarea) {
+		
+		listRol = getRole(idRoles,listRol);
+		nTarea.setRols(listRol);
+		nTarea = tareaRepository.save(nTarea);
+		return nTarea;
+	}
+
+	/**
+	 * 
+	 * @param idRoles
+	 * @param listRol
+	 * @return
+	 */
+	@Transactional
+	private List<Rol> getRole(List<String> idRoles, List<Rol> listRol) {
+		
+		idRoles.stream().forEach(r -> {
+			int id = Integer.parseInt(r);
+			Rol rol = rolRepository.findOne(id);
+			listRol.add(rol);
+			
+		});
+		return listRol;
+	}
+
+
+	/**
+	 * 
+	 * @param nTarea
+	 * @return
+	 */
+	@Transactional
+	private Tarea removeUsers(Tarea nTarea) {
+		
+		nTarea.setUsuarios(null);
+		nTarea = tareaRepository.save(nTarea);
+		
+		return nTarea;
+	}
+
+
 	/**
 	 * Asigna una lista de usuarios a una tarea
 	 * @param listUsuario
@@ -182,7 +276,7 @@ public class TareaService implements TareaServiceInterface{
 		
 		dbTarea.setTituloTarea(uiTarea.getTituloTarea());
 		dbTarea.setDescripcionTarea(uiTarea.getDescripcionTarea());
-		dbTarea.setIsActiveTa(true);
+		dbTarea.setIsActiveTa(uiTarea.isActiveTa());
 		dbTarea.setIsReadTa(false);
 		
 		return dbTarea;

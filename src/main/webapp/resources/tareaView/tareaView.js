@@ -13,7 +13,9 @@ angular.module('myApp.tareaView', ['ngRoute'])
 .controller('tareaViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
   
   $scope.tareaList = [];
+  //ESTO ESTA QUEMADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!
   $scope.userList = ["3"];
+  $scope.rolList = ["2"];
   
 
     $scope.initScripts = function(){
@@ -107,7 +109,8 @@ $scope.requestObject ={
       "descripcionTarea": $scope.newTa.descripcionTarea,
       "activeTa": $scope.newTa.activeTa,
       "readTa": "false",
-      "idUsuarios" : $scope.userList     
+      "idUsuarios" : $scope.userList,
+      "idRols" :  $scope.rolList    
 }
 
 }
