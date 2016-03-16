@@ -204,7 +204,7 @@
                     <li>
                         <div class="btn-group">
                             <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
-                                <img src="resources/assets/img/avatars/avatar13.jpg" alt="Avatar">
+                                <img ng-src="{{user.logoInstitucion == '' && 'resources/assets/img/imagenes/big-default_user-logo.png' || user.logoInstitucion}}" alt="Imagen no encontrada" onError="this.src='resources/assets/img/imagenes/No-image-found.jpg '">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
@@ -225,6 +225,9 @@
                                     <a tabindex="-1" href="javascript:void(0)">
                                         <i class="si si-settings pull-right"></i>Settings
                                     </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ui-sref="institucionView"><i class="si si-settings pull-right"></i>Institución</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li class="dropdown-header">Actions</li>
@@ -349,6 +352,7 @@
         <script src="resources/userView/userView.js"></script>
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
+        <script src="resources/institucionView/institucionView.js"></script>
 
 
         <script type="text/javascript">

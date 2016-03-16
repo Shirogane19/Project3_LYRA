@@ -1,5 +1,8 @@
 package com.ironthrone.lyra.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +41,19 @@ public class LoginService implements LoginServiceInterface {
 				if(isActive){
 					response.setCode(200);
 					response.setCodeMessage("User authorized");
+					List<Integer> idInstitutions = new ArrayList<Integer>();
 					
 					//CREATE AND SET THE VALUES FOR THE CONTRACT OBJECT
 					response.setUserId(loggedUser.getIdUsuario());
 					response.setFirstName(loggedUser.getNombre());
 					response.setLastName(loggedUser.getApellido());
+					loggedUser.getInstitucions().stream().forEach(i -> {
+						idInstitutions.add(i.getIdInstitucion());
+						System.out.println("********************************");
+						System.out.println(i.getIdInstitucion());
+						System.out.println("********************************");
+					});
+					response.setIdInstitucions(idInstitutions);
 					//response.setIdInstitucion(loggedUser.getInstitucion().getIdInstitucion());
 					
 					currentSession.setAttribute("userId", loggedUser.getIdUsuario());

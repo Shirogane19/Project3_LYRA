@@ -1,9 +1,12 @@
 package com.ironthrone.lyra.contracts;
 
+import java.util.List;
+
 
 public class LoginResponse extends BaseResponse {
 
 	private int userId;
+	private List<Integer> idInstitucions;
 	private int idInstitucion;
 	private String firstName;
 	private String lastName; 
@@ -42,6 +45,14 @@ public class LoginResponse extends BaseResponse {
 
 	public void setIdInstitucion(int idInstitucion) {
 		this.idInstitucion = idInstitucion;
+	}
+	
+	public List<Integer> getIdInstitucions() {
+		return idInstitucions;
+	}
+
+	public void setIdInstitucions(List<Integer> idInstitucions) {
+		this.idInstitucions = idInstitucions;
 	}
 
 

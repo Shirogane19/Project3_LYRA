@@ -7,7 +7,8 @@ angular.module('myApp', [
   'ui.router',
   'myApp.userView',
   'myApp.alumnoView',
-  'myApp.materiaView'
+  'myApp.materiaView',
+  'myApp.institucionView'
   //'myApp.usuarios'
 ])
 
@@ -72,6 +73,15 @@ angular.module('myApp', [
 
     })
 
+    .state('institucionView', {
+      url: '/institucion_config',
+      templateUrl: 'resources/institucionView/institucionView.html',
+      controller: 'institucionViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    }) 
+
     .state('materiaView', {
       url: '/materia_config',
       templateUrl: 'resources/materiaView/materiaView.html',
@@ -80,7 +90,6 @@ angular.module('myApp', [
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
     })  
-
 
     .state('404', {
         url: '{path:.*}',

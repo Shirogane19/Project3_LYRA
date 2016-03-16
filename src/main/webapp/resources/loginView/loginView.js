@@ -28,7 +28,6 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
   
   $scope.user = {};
 
-
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
          BasePagesLogin.init();
@@ -39,11 +38,20 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
       if(loginResponse.code == 200){
-        $scope.user = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName};
-        $scope.save($scope.user);
-        var path = "/lyra/app#/home";
-        window.location.href = path;
-     //   $state.go('home');
+
+        $http.post('rest/protected/institucion/getInstituto',loginResponse.idInstitucions[loginResponse.idInstitucions.length - 1]).success(function(response) {
+
+          $scope.user = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName, 
+          "idInstitucion": response.institucion.idInstitucion,"nombreInstitucion":response.institucion.nombreInstitucion,"logoInstitucion":response.institucion.logoInstitucion};
+          $scope.save($scope.user);
+
+          var path = "/lyra/app#/home";
+          window.location.href = path;
+       //   $state.go('home');
+        })
+        .catch(function (error) {
+          console.error('exception', error);
+        }); 
 
       }else{
           alert("invalido");
@@ -52,7 +60,6 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     });
 
   };
-
 
   $scope.save = function(u) {
     console.log(u);
@@ -227,7 +234,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
       $scope.topMsj = error.status;
       $scope.bodyMsj = error.statusText;
       $scope.onPointError = true;
-    });; 
+    }); 
 
   }
 
