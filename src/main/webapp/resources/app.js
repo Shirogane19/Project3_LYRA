@@ -10,7 +10,8 @@ angular.module('myApp', [
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',
-  'myApp.perfilView'
+  'myApp.perfilView',
+  'myApp.gradoView'
   //'myApp.usuarios'
 ])
 
@@ -69,6 +70,16 @@ angular.module('myApp', [
       url: '/mi_perfil',
         templateUrl: 'resources/perfilView/perfilView.html',
         controller: 'perfilViewCtrl',
+        data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+
+    })
+
+    .state('gradoView', {
+      url: '/grado_config',
+        templateUrl: 'resources/gradoView/gradoView.html',
+        controller: 'gradoViewCtrl',
         data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }

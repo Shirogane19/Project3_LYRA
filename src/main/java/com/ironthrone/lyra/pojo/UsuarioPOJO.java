@@ -3,7 +3,11 @@ package com.ironthrone.lyra.pojo;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Clase Plain Old Java Object de usuario.
+ * @author jeanpaul
+ *
+ */
 
 public class UsuarioPOJO {
 	

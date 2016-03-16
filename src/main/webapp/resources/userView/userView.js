@@ -16,6 +16,7 @@ angular.module('myApp.userView', ['ngRoute'])
 
 $scope.initScripts = function(){
 
+/** Metodo que inicia los scripts del template **/
   angular.element(document).ready(function () {
 
       //   OneUI.init();

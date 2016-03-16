@@ -69,6 +69,7 @@ angular.module('myApp.perfilView', ['ngRoute'])
 		$scope.isPassword = false;
 		$scope.isValid = false;
 
+		$scope.save($scope.profile);
 		$state.reload();
 
 		}); 
@@ -102,6 +103,12 @@ angular.module('myApp.perfilView', ['ngRoute'])
 
 	}
 
+
+  $scope.save = function(u) {
+    console.log(u);
+    $localStorage.user.firstName = u.nombre;
+    $localStorage.user.lastName = u.apellido;
+  };
 
  	 $scope.init();
 

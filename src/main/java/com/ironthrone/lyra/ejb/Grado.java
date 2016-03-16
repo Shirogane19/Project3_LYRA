@@ -2,7 +2,6 @@ package com.ironthrone.lyra.ejb;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
@@ -18,7 +17,7 @@ public class Grado implements Serializable {
 	private String descripcion;
 	private boolean isActiveGr;
 	private String nombre;
-	private Date year;
+	private String year;
 	private Institucion institucion;
 	private List<Materia> materias;
 	private List<Seccion> seccions;
@@ -66,12 +65,12 @@ public class Grado implements Serializable {
 	}
 
 
-	@Temporal(TemporalType.DATE)
-	public Date getYear() {
+
+	public String getYear() {
 		return this.year;
 	}
 
-	public void setYear(Date year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
