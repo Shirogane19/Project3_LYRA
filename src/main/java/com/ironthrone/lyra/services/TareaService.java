@@ -41,6 +41,7 @@ public class TareaService implements TareaServiceInterface{
 			dto.setActiveTa(t.getIsActiveTa());
 			//dto.setUsuarios(generateUserDto(t));
 			dto.setUsuarios(null);
+			dto.setRols(null);
 			uiTareas.add(dto);
 		});	
 		

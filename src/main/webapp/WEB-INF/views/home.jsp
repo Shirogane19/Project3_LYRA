@@ -339,6 +339,8 @@
         <script src="resources/assets/js/core/jquery.placeholder.min.js"></script>
         <script src="resources/assets/js/core/js.cookie.min.js"></script>
         <script src="resources/bower_components/angular/angular.js"></script>
+        <script src="resources/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="resources/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
         <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="resources/assets/js/initUI.js"></script>

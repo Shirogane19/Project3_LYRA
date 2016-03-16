@@ -59,7 +59,7 @@
                     <!-- END Dynamic Table Full -->
 
                     <!-- Registrar -->
-                    <div class="col-lg-6" ng-show="onPoint">
+                    <div class="col-lg-12" ng-show="onPoint">
                             <div class="block block-themed">
                                 <div class="block-header bg-success">
                                     <ul class="block-options">
@@ -73,7 +73,152 @@
                                    <h3 class="block-title">Nueva Tarea</h3>
                                 </div>
                                 <div class="block-content">
-                                   <form class="form-horizontal push-10-t push-10" name="tareaForm">
+                                                    <!-- Main Content -->
+                    <form name ="tareaForm">
+                        <div class="block">
+                            <ul class="nav nav-tabs nav-justified push-20" data-toggle="tabs">
+                              <uib-tabset active="activeJustified" justified="true">
+
+                                <uib-tab index="0" select="changeTab1()"><uib-tab-heading><i class="fa fa-fw fa-pencil"></i> Info
+                                </uib-tab-heading></uib-tab>
+
+                                <uib-tab index="1" select="changeTab2()"><uib-tab-heading><i class="fa fa-fw fa-user"></i> Usuarios
+                                </uib-tab-heading></uib-tab>
+
+                                <uib-tab index="2" select="changeTab3()"><uib-tab-heading><i class="fa fa-fw fa-shield"></i> Roles
+                                </uib-tab-heading></uib-tab>
+
+                              </uib-tabset>
+                            </ul>
+                            <div class="block-content tab-content">
+
+
+                                <!-- Personal Tab -->
+                                <div ng-show = "tab1" class="tab-pane fade in active" id="tab-profile-personal">
+                                    <div class="row items-push">
+                                        <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newTa.tituloTarea"required>
+                                                    <label>Título <span class="text-danger">*</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newTa.descripcionTarea" required>
+                                                    <label>Descripción <span class="text-danger">*</span>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                       <div class="form-group" ng-show="!isCreating">
+                                            <div class="col-xs-12">
+                                                <label class="css-input css-checkbox css-checkbox-success">
+                                                    <input type="checkbox" ng-model="newTa.activeTa"><span></span> Activo?
+                                                </label>
+                                            </div>
+                                        </div>
+                                    
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Personal Tab -->
+
+                                <!-- Password Tab -->
+                                <div ng-show = "tab2" class="tab-pane fade in active" id="tab-profile-password">
+                                    <div class="row items-push">
+                                        <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                                            
+                                            <hr>
+                                            
+                                            <div class="form-group">
+                                                <table class="table table-bordered table-striped js-dataTable-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th ng-hide="true"></th>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Descripción</th>
+                                        <th class="hidden-xs" style="width: 15%;">Estado</th>
+                                        <th class="text-center" style="width: 10%;">Acciones</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="t in tareaList" m-index="$index">
+                                        <td class="text-center" ng-bind="t.idTarea" ng-hide="true"></td>
+                                        <td class="text-center">{{$index+1}}</td>
+
+                                       
+                                        <td><span ng-bind="t.tituloTarea"></span></td>
+                                        <td><span ng-bind="t.descripcionTarea"></span></td>
+                                        <td class="hidden-xs"   ng-if="t.activeTa == true">
+                                        <span class="label label-success">Activo</span>
+                                        </td>
+
+                                        <td class="hidden-xs"   ng-if="t.activeTa == false">
+                                        <span class="label label-danger">Inactivo</span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit tarea" ng-click="showTareaToEdit(t)"><i class="fa fa-pencil"></i></button>
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(t)"><i class="fa fa-times"></i></button>
+                                            </div>
+                                        </td>   
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Password Tab -->
+                                 <div ng-show = "tab3" class="tab-pane fade in active" id="tab-rol">
+                                    
+                                       
+                                            
+                                          <div class="form-group">
+                                            <label class="col-md-4 control-label" for="example-select2-multiple">Multiple Values</label>
+                                            <div class="col-md-8">
+                                                <select class="js-select2 form-control" id="selectRols" ng-model="listaRoles" 
+                                                style="width: 100%;" data-placeholder="Choose many.." multiple>
+                                                    <option value="1">Master</option>
+                                                    <option value="2">Admin</option>
+                                                    <option value="3">Profesor</option>
+                                                    <option value="4">Encargado</option>
+                                                </select>
+                                                <hr>
+                                                <i>Para seleccionar varios; CTRL + click </i>
+                                                <hr>
+                                            </div>
+                                        </div>  
+                                        
+                                    
+                                </div>
+                            </div>
+
+                            <div class="block-content block-content-full bg-gray-lighter text-center">
+                                <button class="btn btn-sm btn-primary" type="submit" ng-disabled="tareaForm.$invalid" 
+                                        ng-click = "saveTarea()">
+                                <i class="fa fa-check push-5-r"></i> Guardar</button>
+                                <button class="btn btn-sm btn-warning" type="reset"><i class="fa fa-refresh push-5-r"></i> Reset</button>
+                            </div>
+
+                        </div>
+                    </form>
+                    <!-- END Main Content -->
+                </div>
+                <!-- END Page Content -->
+            </main>
+                                   <!-- <form class="form-horizontal push-10-t push-10" name="tareaForm">
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
@@ -105,7 +250,8 @@
                                             <i class="fa fa-plus push-5-r"></i> Registrar</button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </form> -->
+
                                 </div>
                             </div>
                         </div>

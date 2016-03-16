@@ -5,6 +5,8 @@ angular.module('myApp', [
   'ngRoute',
   'ngStorage',
   'ui.router',
+  'ui.bootstrap',
+  'ui.bootstrap.tpls',
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',

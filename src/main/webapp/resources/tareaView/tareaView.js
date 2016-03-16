@@ -14,8 +14,12 @@ angular.module('myApp.tareaView', ['ngRoute'])
   
   $scope.tareaList = [];
   //ESTO ESTA QUEMADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!
-  $scope.userList = ["3"];
-  $scope.rolList = ["2"];
+  $scope.listaRoles = [];
+  $scope.userList = [];
+  $scope.tab1 = false;
+  $scope.tab2 = false;
+  $scope.tab3 = false;
+
   
 
     $scope.initScripts = function(){
@@ -89,6 +93,41 @@ $scope.showList = function(){
 
 }
 
+$scope.changeTab1 = function(){
+  console.log("tab 1", $scope.tab1);
+  if($scope.tab1){
+    $scope.tab1 = false;
+  }else{
+    $scope.tab1 = true;
+  }
+
+    $scope.tab2=false;
+    $scope.tab3=false;
+}
+
+$scope.changeTab2 = function(){
+if($scope.tab2){
+$scope.tab2 = false;
+}else{
+  $scope.tab2 = true;
+}
+
+$scope.tab1=false;
+$scope.tab3=false;
+
+}
+$scope.changeTab3 = function(){
+if($scope.tab3){
+$scope.tab3 = false;
+}else{
+  $scope.tab3= true;
+}
+
+$scope.tab1=false;
+$scope.tab2=false;
+
+}
+
 $scope.saveTarea = function(){
     if($scope.isCreating){
       $scope.newTa.idTarea = -1;
@@ -110,7 +149,7 @@ $scope.requestObject ={
       "activeTa": $scope.newTa.activeTa,
       "readTa": "false",
       "idUsuarios" : $scope.userList,
-      "idRols" :  $scope.rolList    
+      "idRols" :  $scope.listaRoles    
 }
 
 }
