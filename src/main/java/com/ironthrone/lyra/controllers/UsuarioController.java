@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -66,12 +65,12 @@ public class UsuarioController {
 	 * @return Usuario Response
 	 */
 	@RequestMapping(value ="/getUser", method = RequestMethod.POST)
-	public UsuarioResponse getById(@RequestBody int idUsuario){	
+	public UsuarioResponse getById(@RequestBody UsuarioRequest ur){	
 			
 		UsuarioResponse us = new UsuarioResponse();
 		us.setCode(200);
 		us.setCodeMessage("users fetch success");
-		us.setUsuario(usersService.getUserById(idUsuario));
+		us.setUsuario(usersService.getUserById(ur.getUsuario().getIdUsuario()));
 		return us;		
 	}
 	
@@ -85,8 +84,17 @@ public class UsuarioController {
 		
 		System.out.println("Controller:" + ur.toString());
 		
+		Boolean state = false;
+		
 		UsuarioResponse us = new UsuarioResponse();
-		Boolean state = usersService.saveUser(ur);
+		
+		
+		if(ur.getUsuario().isAccOwner()){
+			state = usersService.editProfile(ur);		
+		}else{
+			state = usersService.saveUser(ur);			
+		}
+
 	
 		if(state){
 			us.setCode(200);

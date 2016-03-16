@@ -20,6 +20,7 @@ public interface UsuarioServiceInterface {
 	Usuario findById(int idUsuario);
 	Boolean saveUser(UsuarioRequest ur);
 	boolean prueba();
+	Boolean editProfile(UsuarioRequest ur);
 
 
 }

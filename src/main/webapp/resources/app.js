@@ -5,9 +5,12 @@ angular.module('myApp', [
   'ngRoute',
   'ngStorage',
   'ui.router',
+  'ui.bootstrap',
+  'ui.bootstrap.tpls',
   'myApp.userView',
   'myApp.alumnoView',
-  'myApp.materiaView'
+  'myApp.materiaView',
+  'myApp.perfilView'
   //'myApp.usuarios'
 ])
 
@@ -62,6 +65,16 @@ angular.module('myApp', [
 
     })
 
+    .state('perfilView', {
+      url: '/mi_perfil',
+        templateUrl: 'resources/perfilView/perfilView.html',
+        controller: 'perfilViewCtrl',
+        data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+
+    })
+
     .state('alumnoView', {
       url: '/estudiante_config',
       templateUrl: 'resources/alumnoView/alumnoView.html',
@@ -105,7 +118,7 @@ angular.module('myApp', [
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-    console.log(toState);
+//    console.log(toState);
 
     var requireLogin = toState.data.requireLogin;
 

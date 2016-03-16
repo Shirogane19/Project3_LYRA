@@ -81,6 +81,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		UsuarioPOJO dto = new UsuarioPOJO();
 		BeanUtils.copyProperties(user, dto);
 		dto.setActiveUs(user.getIsActiveUs());
+		dto.setDateOfJoin(user.getDateOfJoin());
 		dto.setRols(generateRolDto(user));
 
 		return dto;
@@ -165,7 +166,8 @@ public class UsuarioService implements UsuarioServiceInterface {
 		List<String> idRoles = ur.getUsuario().getIdRoles();
 		List<Rol> rols = new ArrayList<Rol>();
 		boolean hasRoles = false;
-
+		boolean newPass = false;
+		
 		/**Copia las propiedades del Request a el nuevo Usuario**/
 		BeanUtils.copyProperties(ur.getUsuario(), newUser);	
 		newUser.setPassword("12345");
@@ -176,6 +178,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		if(!idRoles.isEmpty()){
 			hasRoles = true;	
 		}
+		
 			
 		/**Si el Usuario tiene un ID de -1, crea uno nuevo, si no modifica uno existente. **/
 		
@@ -194,25 +197,43 @@ public class UsuarioService implements UsuarioServiceInterface {
 		}else{		
 			
 			Usuario oldUser = findById(newUser.getIdUsuario());
-			oldUser = assignProperties(oldUser, ur.getUsuario());
-			
+		
 			if(hasRoles){
 				
 				oldUser = removeRoles(oldUser);
-				rols = getRoles(idRoles);
-				
-				System.out.println("Asigno los roles");
-				
+				rols = getRoles(idRoles);			
 				oldUser.setRols(rols);
 			}
 			
-		//	oldUser.setIsActiveUs(ur.getUsuario().isActiveUs());
-			
-			System.out.println("Salvo");
+			oldUser = assignProperties(oldUser, ur.getUsuario(), newPass);
 			nuser = usersRepository.save(oldUser);	
+			
 		}
 		return (nuser == null) ? false : true;
 	}
+	
+	
+	/**
+	 * Metodo similar al SaveUser, pero para que un usuario se modifique a si mismo.
+	 * @param ur request del usuario
+	 * @return true si se salvo exitosamente, false de lo contrario
+	 */
+	@Transactional
+	@Override
+	public Boolean editProfile(UsuarioRequest ur){
+		
+		Usuario nuser = null;
+		boolean newPass = ur.getUsuario().isNewPass();
+	
+		
+		Usuario oldUser = findById(ur.getUsuario().getIdUsuario());
+		oldUser = assignProperties(oldUser, ur.getUsuario(), newPass);
+		
+		nuser = usersRepository.save(oldUser);	
+		
+		return (nuser == null) ? false : true;
+	}
+	
 	
 	/**
 	 *  Copia los nuevos datos traidos de la IU a el objeto que se va a salvar en la base
@@ -221,23 +242,33 @@ public class UsuarioService implements UsuarioServiceInterface {
 	 * @return el usuario de base con los atributos actualizados.
 	 */
 	
-	private Usuario assignProperties(Usuario DbUser, UsuarioPOJO UiUser){
+	private Usuario assignProperties(Usuario DbUser, UsuarioPOJO UiUser, boolean newPass){
 		
-		String hash;
-		int length = 5;
+	//	String hash;
+	//	int length = 5;
+		
+
 		
 		DbUser.setNombre(UiUser.getNombre());
 		DbUser.setApellido(UiUser.getApellido());
 		DbUser.setCedula(UiUser.getCedula());
-		DbUser.setDateOfJoin(UiUser.getDateOfJoin());
 		DbUser.setEmail(UiUser.getEmail());
-		DbUser.setPassword(UiUser.getPassword());
 		DbUser.setTelefono(UiUser.getTelefono());
 		DbUser.setMovil(UiUser.getMovil());
 		DbUser.setIsActiveUs(UiUser.isActiveUs());
+
+
 		
-		hash = encryptor.randomHilt(length);
-		DbUser.setPassword(encryptor.ironEncryption(hash));
+		if(newPass){
+			String userHash = UiUser.getPassword();
+			DbUser.setPassword(encryptor.ironEncryption(userHash));
+		}
+
+		
+//		else{
+//			hash = encryptor.randomHilt(length);
+//			DbUser.setPassword(encryptor.ironEncryption(hash));
+//		}
 		
 		return DbUser;
 	}

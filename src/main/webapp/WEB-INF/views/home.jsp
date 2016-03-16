@@ -157,7 +157,7 @@
                         <div class="side-content">
                             <ul class="nav-main">
                                 <li>
-                                    <a class="active" href="start_backend.html"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                                    <a class="active" ui-sref="home"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
                                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Menu</span></li>
                                 <li>
@@ -216,7 +216,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a tabindex="-1" href="base_pages_profile.html">
+                                    <a tabindex="-1" ui-sref="perfilView">
                                         <i class="si si-user pull-right"></i>
                                         <span class="badge badge-success pull-right">1</span>Profile
                                     </a>
@@ -295,7 +295,7 @@
                 <div class="content bg-image overflow-hidden" style="background-image: url('resources/assets/img/photos/photo27@2x.jpg');">
                     <div class="push-50-t push-15">
                         <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
-                        <h2 class="h5 text-white-op animated zoomIn">Bienvenido {{user.firstName}}</h2>
+                        <h2 class="h5 text-white-op animated zoomIn">Saludos {{user.firstName}} !</h2>
                     </div>
                 </div>
                 <!-- END Page Header -->
@@ -329,8 +329,11 @@
         <script src="resources/assets/js/core/jquery.placeholder.min.js"></script>
         <script src="resources/assets/js/core/js.cookie.min.js"></script>
         <script src="resources/bower_components/angular/angular.js"></script>
+        <script src="resources/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="resources/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
         <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
         <script src="resources/assets/js/initUI.js"></script>
 
         <!-- Page JS Plugins + Page JS Code -->
@@ -349,7 +352,7 @@
         <script src="resources/userView/userView.js"></script>
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
-
+        <script src="resources/perfilView/perfilView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

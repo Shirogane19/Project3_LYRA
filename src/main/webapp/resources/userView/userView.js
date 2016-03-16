@@ -105,14 +105,8 @@ $scope.saveUsuario = function(){
 		console.log($scope.requestObject.usuario);
 
 		$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {
-
-			if($scope.isCreating){//Si esta creando setea un -1 al tipo de usuario
+				
 				$state.reload();
-			}else{
-				$scope.showList();
-				$scope.init();
-			}
-
 
 		}); 
 	}
