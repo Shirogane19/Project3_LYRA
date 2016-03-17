@@ -40,6 +40,7 @@ public class TareaService implements TareaServiceInterface{
 			BeanUtils.copyProperties(t,dto);
 			dto.setActiveTa(t.getIsActiveTa());
 			//dto.setUsuarios(generateUserDto(t));
+			//dto.setUsuarios(generateUserDto(t));
 			dto.setUsuarios(null);
 			dto.setRols(null);
 			uiTareas.add(dto);
