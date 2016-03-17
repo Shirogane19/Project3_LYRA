@@ -42,7 +42,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
 
 		$http.post('rest/protected/grado/saveGrade',$scope.requestObject).success(function(response) {
 				
-				$state.reload();
+			$state.reload();
 
 		}); 
 	}

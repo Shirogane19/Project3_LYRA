@@ -129,7 +129,7 @@ angular.module('myApp.alumnoView', [])
         $scope.showList();
         $scope.init();
       }
-
+      $state.reload();
 
     }); 
   }

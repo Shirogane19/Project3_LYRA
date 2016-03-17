@@ -160,42 +160,26 @@
                                     <a class="active" ui-sref="home"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
                                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Menu</span></li>
+
                                 <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wrench"></i><span class="sidebar-mini-hide">Mantenimiento</span></a>
-                                    <ul>
-                                        <li>
-                                            <a ui-sref="userView">Usuarios</a>
-                                        </li>
-                                        <li>
-                                            <a ui-sref="alumnoView">Estudiantes</a>
-                                        </li>
-                                        <li>
-                                            <a ui-sref="materiaView">Materias</a>
-                                        </li>
-                                        <li>
-                                            <a ui-sref="gradoView">Grados</a>
-                                        </li>
-                                        <li>    
-                                            <a ui-sref="seccionView">Secciones</a>
-                                        </li>
-                                        <li>
-                                            <a ui-sref="tareaView">Tareas</a>
-                                        </li>
-                                    </ul>
+                                    <a ui-sref="tareaView"><i class="si si-note"></i>Tareas</a>
                                 </li>
-                               <!--  SECOND SIDE TAB -->
                                 <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Tareas</span></a>
-                                    <ul>
-                                        <li>
-                                            <a href="start_backend.html">Link #1</a>
-                                        </li>
-                                        <li>
-                                            <a href="start_backend.html">Link #2</a>
-                                        </li>
-                                    </ul>
+                                    <a ui-sref="userView"><i class="si si-users"></i>Usuarios</a>
                                 </li>
-                               <!--  END SECOND SIDE TAB -->
+                                <li>
+                                    <a ui-sref="alumnoView"><i class="si si-graduation"></i>Estudiantes</a>
+                                </li>
+                                <li>
+                                    <a ui-sref="materiaView"><i class="si si-book-open"></i>Materias</a>
+                                </li>
+                                <li>
+                                    <a ui-sref="gradoView"><i class="si si-wrench"></i>Grados</a>
+                                </li>
+                                <li>    
+                                    <a ui-sref="seccionView"><i class="si si-wrench"></i>Secciones</a>
+                                </li> 
+                              
                             </ul>
                         </div>
                         <!-- END Side Content -->
@@ -217,32 +201,31 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li class="dropdown-header">Profile</li>
+                                <li class="dropdown-header">Perfil</li>
                                 <li>
-                                    <a tabindex="-1" href="base_pages_inbox.html">
+                                    <a tabindex="-1">
                                         <i class="si si-envelope-open pull-right"></i>
-                                        <span class="badge badge-primary pull-right">3</span>Inbox
+                                        <span class="badge badge-primary pull-right"></span> Bandeja de entrada
                                     </a>
                                 </li>
                                 <li>
                                     <a tabindex="-1" ui-sref="perfilView">
-                                        <i class="si si-user pull-right"></i>
-                                        <span class="badge badge-success pull-right">1</span>Profile
+                                        <i class="si si-user pull-right"></i> Perfil de usuario
                                     </a>
                                 </li>
                                 <li>
-                                    <a tabindex="-1" ui-sref="institucionView"><i class="si si-settings pull-right"></i>Institución</a>
+                                    <a tabindex="-1" ui-sref="institucionView"><i class="si si-settings pull-right"></i>Instituci&oacuten</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li class="dropdown-header">Actions</li>
+                                <li class="dropdown-header">Acciones</li>
                                 <li>
                                     <a tabindex="-1" href="base_pages_lock.html">
-                                        <i class="si si-lock pull-right"></i>Lock Account
+                                        <i class="si si-lock pull-right"></i>Bloquear cuenta
                                     </a>
                                 </li>
                                 <li ng-click="logoff()">
                                     <a tabindex="-1">
-                                        <i class="si si-logout pull-right"></i>Log out
+                                        <i class="si si-logout pull-right"></i>Cerrar sesi&oacuten
                                     </a>
                                 </li>
                             </ul>

@@ -113,7 +113,7 @@ $scope.saveUsuario = function(){
 				$scope.init();
 			}
 
-
+			$state.reload();
 		}); 
 	}
 
