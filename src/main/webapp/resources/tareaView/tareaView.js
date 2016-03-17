@@ -16,6 +16,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
   //ESTO ESTA QUEMADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!
   $scope.listaRoles = [];
   $scope.userList = [];
+  $scope.taskUsers = [];
   $scope.tab1 = false;
   $scope.tab2 = false;
   $scope.tab3 = false;
@@ -28,6 +29,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
             
              BaseTableDatatables.init();
          //BaseFormValidation.init();
+         App.initHelpers('table-tools');
         //OneUI.initHelpers('select2');
       });
 
@@ -40,6 +42,14 @@ angular.module('myApp.tareaView', ['ngRoute'])
 			console.log("response",response)
 			$scope.tareaList = response.tareas;
 			console.log("$scope.tareaList: ",$scope.tareaList[0])
+
+      $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","user": {}};
+  $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
+  //  console.log("response",response)
+    $scope.userList = response.usuarios;
+    console.log("Response usuarios", response.usuarios );
+  });
+
 	
 		});
 
@@ -122,10 +132,16 @@ $scope.tab3 = false;
 }else{
   $scope.tab3= true;
 }
-
+console.log("userlist!!!!!!" , $scope.taskUsers);
 $scope.tab1=false;
 $scope.tab2=false;
 
+
+}
+
+$scope.saveUserT = function(u){
+    $scope.taskUsers.push(u.idUsuario);
+    console.log("usuario lista para tarea", $scope.taskUsers);
 }
 
 $scope.saveTarea = function(){
@@ -148,7 +164,7 @@ $scope.requestObject ={
       "descripcionTarea": $scope.newTa.descripcionTarea,
       "activeTa": $scope.newTa.activeTa,
       "readTa": "false",
-      "idUsuarios" : $scope.userList,
+      "idUsuarios" : $scope.taskUsers,
       "idRols" :  $scope.listaRoles    
 }
 

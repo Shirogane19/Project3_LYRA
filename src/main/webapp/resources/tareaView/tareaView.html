@@ -133,49 +133,51 @@
                                 <!-- Password Tab -->
                                 <div ng-show = "tab2" class="tab-pane fade in active" id="tab-profile-password">
                                     <div class="row items-push">
-                                        <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                                        <div class="col-sm-12 col-sm-offset-0 form-horizontal">
                                             
                                             <hr>
                                             
                                             <div class="form-group">
-                                                <table class="table table-bordered table-striped js-dataTable-full">
+                                                                <div class="block-content">
+                            <!-- If you put a checkbox in thead section, it will automatically toggle all tbody section checkboxes -->
+                            <table class="js-table-checkable table table-hover">
                                 <thead>
-                                    <tr>
-                                        <th class="text-center"></th>
-                                        <th ng-hide="true"></th>
-                                        <th class="text-center">Nombre</th>
-                                        <th class="text-center">Descripción</th>
-                                        <th class="hidden-xs" style="width: 15%;">Estado</th>
-                                        <th class="text-center" style="width: 10%;">Acciones</th>
-                                       
+                                    <tr>  
+                                        <th ng-hide="true"></th>                   
+                                        <th class="text-center" style="width: 70px;">
+                                            <label class="css-input css-checkbox css-checkbox-primary remove-margin-t remove-margin-b">
+                                                <input type="checkbox" id="check-all" name="check-all"><span></span>
+                                            </label>
+                                        </th>
+
+
+                                        <th>Nombre</th>
+                                        <th class="hidden-xs" style="width: 15%;">Cédula</th>
+                                        <th class="hidden-xs" style="width: 15%;">Correo</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    <tr ng-repeat="t in tareaList" m-index="$index">
-                                        <td class="text-center" ng-bind="t.idTarea" ng-hide="true"></td>
-                                        <td class="text-center">{{$index+1}}</td>
-
-                                       
-                                        <td><span ng-bind="t.tituloTarea"></span></td>
-                                        <td><span ng-bind="t.descripcionTarea"></span></td>
-                                        <td class="hidden-xs"   ng-if="t.activeTa == true">
-                                        <span class="label label-success">Activo</span>
-                                        </td>
-
-                                        <td class="hidden-xs"   ng-if="t.activeTa == false">
-                                        <span class="label label-danger">Inactivo</span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <div class="btn-group">
-                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit tarea" ng-click="showTareaToEdit(t)"><i class="fa fa-pencil"></i></button>
-                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(t)"><i class="fa fa-times"></i></button>
-                                            </div>
-                                        </td>   
-                                    </tr>
+                                    <tr ng-repeat="u in userList" u-index="$index">
+                                    <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
                                     
+                                       <!-- <td class="text-center" ng-repeat="u in userList" u-index="$index">-->
+                                        <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
+                                        <td class="text-center">
+                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                <input ng-change ="saveUserT(u)" type="checkbox" id="$index" ng-model="taskUsers"
+                                                 ><span></span>
+                                            </label>
+                                        </td>
+                                        <td class="font-w600"   ng-bind="(u.nombre) +' '+ (u.apellido)"></td>
+                                        <td class="hidden-xs"   ng-bind="u.cedula"></td>
+                                        <td class="hidden-xs"   ng-bind="u.email"></td>
+                                    </tr>
+       
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
                                             </div>
                                         </div>
                                     </div>
