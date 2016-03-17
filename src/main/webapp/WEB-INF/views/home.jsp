@@ -175,6 +175,12 @@
                                         <li>
                                             <a ui-sref="gradoView">Grados</a>
                                         </li>
+                                        <li>    
+                                            <a ui-sref="seccionView">Secciones</a>
+                                        </li>
+                                        <li>
+                                            <a ui-sref="tareaView">Tareas</a>
+                                        </li>
                                     </ul>
                                 </li>
                                <!--  SECOND SIDE TAB -->
@@ -296,13 +302,18 @@
                 <div class="content bg-image overflow-hidden" style="background-image: url('resources/assets/img/photos/photo27@2x.jpg');">
                     <div class="push-50-t push-15">
                         <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
+
                         <h2 class="h5 text-white-op animated zoomIn">Saludos {{user.firstName}}!</h2>
                     </div>
                 </div>
                 <!-- END Page Header -->
 
                 <!-- Page Content -->
-                <div class="content" ui-view></div>
+                <div class="content" ui-view>
+                    
+
+
+                </div>
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
@@ -355,6 +366,8 @@
         <script src="resources/institucionView/institucionView.js"></script>
         <script src="resources/perfilView/perfilView.js"></script>
         <script src="resources/gradoView/gradoView.js"></script>
+        <script src="resources/seccionView/seccionView.js"></script>
+        <script src="resources/tareaView/tareaView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

@@ -5,14 +5,16 @@ angular.module('myApp', [
   'ngRoute',
   'ngStorage',
   'ui.router',
+  'ui.bootstrap',
+  'ui.bootstrap.tpls',
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',
   'myApp.institucionView',
-  'ui.bootstrap',
-  'ui.bootstrap.tpls',
   'myApp.perfilView',
-  'myApp.gradoView'
+  'myApp.gradoView',
+  'myApp.seccionView',
+  'myApp.tareaView'
   //'myApp.usuarios'
 ])
 
@@ -115,6 +117,25 @@ angular.module('myApp', [
       }
     })  
 
+    .state('seccionView', {
+      url: '/seccion_config',
+      templateUrl: 'resources/seccionView/seccionView.html',
+      controller: 'seccionViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })
+
+    .state('tareaView', {
+      url: '/tarea_config',
+      templateUrl: 'resources/tareaView/tareaView.html',
+      controller: 'tareaViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })
+
+
     .state('404', {
         url: '{path:.*}',
         templateUrl: 'resources/errorView/404.html',
@@ -132,7 +153,6 @@ angular.module('myApp', [
     });
       
 })
-
 
 .run(function ($rootScope,$localStorage) {
 
