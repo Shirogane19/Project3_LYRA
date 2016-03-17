@@ -27,6 +27,8 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 .controller('LoginViewCtrl', ['$scope','$http','$window','$localStorage',function($scope,$http,$window,$localStorage) {
   
   $scope.user = {};
+  $scope.email = "";
+  $scope.showLogin = true;
 
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
@@ -155,13 +157,27 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
       if(loginResponse.code == 401){
         $scope.invalidLoginS = true;
       }
-
+      
       if(loginResponse.code == 200){
 
-        $http.post('rest/protected/users/getUser',loginResponse.userId).success(function(response) {
+        $scope.requestObject = {
+            "pageNumber": 0,
+            "pageSize": 0,
+            "direction": "string",
+            "sortBy": [
+              "string"
+            ],
+            "searchColumn": "string",
+            "searchTerm": "string",
+            "usuario": {
+              "idUsuario": loginResponse.userId
+            },
+            
+          }
+
+        $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 
             console.log(response);
-
             $scope.subscriptor.idSubscriptor = response.usuario.idUsuario;
             $scope.subscriptor.apellido = response.usuario.apellido;
             $scope.subscriptor.cedula = response.usuario.cedula;
@@ -293,5 +309,37 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
   }// End initScripts
 
   $scope.initScripts();
+
+  $scope.recoverPassword = function(){
+
+
+    $http.post('rest/login/getCredentials',$scope.email).success(function (loginResponse) {
+
+      if(loginResponse.code == 200){
+        alert(loginResponse.codeMessage);
+
+      }else{
+        alert(loginResponse.codeMessage);
+      }
+
+      $scope.showLogin = true;
+
+    });
+
+  };
+
+
+  $scope.showRecoverForm = function(u) {
+    if($scope.showLogin){
+        $scope.showLogin = false;
+        $scope.onPoint = false;
+    }
+  }; 
+
+
+  $scope.save = function(u) {
+    console.log(u);
+    $localStorage.user = u;
+  };
       
 }]);

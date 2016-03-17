@@ -3,7 +3,11 @@ package com.ironthrone.lyra.pojo;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Clase Plain Old Java Object de usuario.
+ * @author jeanpaul
+ *
+ */
 
 public class UsuarioPOJO {
 	
@@ -26,7 +30,11 @@ public class UsuarioPOJO {
 	private String password;
 	
 	private String telefono;
+	
+	private boolean accOwner;
 
+	private boolean newPass;
+	
 //	private List<AlumnoPOJO> alumnos;
 //	
 //	private List<MateriaPOJO> materias;
@@ -36,6 +44,7 @@ public class UsuarioPOJO {
 	private List<String> idRoles;
 	
 	private List<RolPOJO> rols;
+	
 	
 //	private List<TareaPOJO> tareas;
 	
@@ -183,6 +192,26 @@ public class UsuarioPOJO {
 
 	public void setIdRoles(List<String> idRoles) {
 		this.idRoles = idRoles;
+	}
+
+
+	public boolean isAccOwner() {
+		return accOwner;
+	}
+
+
+	public void setAccOwner(boolean isAccOwner) {
+		this.accOwner = isAccOwner;
+	}
+
+
+	public boolean isNewPass() {
+		return newPass;
+	}
+
+
+	public void setNewPass(boolean newPass) {
+		this.newPass = newPass;
 	}
 
 

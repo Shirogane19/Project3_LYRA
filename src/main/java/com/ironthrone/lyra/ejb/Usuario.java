@@ -2,6 +2,7 @@ package com.ironthrone.lyra.ejb;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -131,8 +132,19 @@ public class Usuario implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Rol
-	@ManyToMany(mappedBy="usuarios", fetch = FetchType.LAZY)
+
+	
+	//bi-directional many-to-many association to Usuario
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+		name="rol_usuario"
+		, joinColumns={
+			@JoinColumn(name="Usuario_idUsuario")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Rol_idRol")
+			}
+		)
 	public List<Rol> getRols() {
 		return this.rols;
 	}
@@ -143,7 +155,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Tarea
-	@ManyToMany(mappedBy="usuarios", fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy="usuarios", fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	public List<Tarea> getTareas() {
 		return this.tareas;
 	}
@@ -154,7 +166,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Alumno
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="encargados_alumno"
 		, joinColumns={
@@ -174,7 +186,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Chat
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="chat_has_usuario"
 		, joinColumns={
@@ -194,7 +206,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Institucion
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="master_institucion"
 		, joinColumns={
@@ -214,7 +226,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Materia
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="materias_profesor"
 		, joinColumns={
@@ -234,7 +246,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Seccion
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="profesor_seccion"
 		, joinColumns={

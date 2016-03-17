@@ -37,4 +37,27 @@ public class LoginController {
 		return response;
 		
 	}
+	
+	@RequestMapping(value = "/getCredentials", method = RequestMethod.POST)
+	@Transactional
+	public LoginResponse getCredentials(@RequestBody String email){
+		
+		LoginResponse response = new LoginResponse();
+		Boolean state = loginService.getCredentials(email);
+		
+		if(state){
+			response.setCode(200);
+			response.setCodeMessage("Credentials send, please check your email.");
+		}else{
+			response.setCode(401);
+			response.setCodeMessage("Invalid email.");
+		}
+
+		return response;
+		
+	}
+	
+	
+	
+	
 }

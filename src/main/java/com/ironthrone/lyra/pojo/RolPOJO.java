@@ -2,6 +2,11 @@ package com.ironthrone.lyra.pojo;
 
 import java.util.List;
 
+/**
+ * Clase Plain Old Java Object de rol.
+ * @author jeanpaul
+ *
+ */
 
 public class RolPOJO {
 	

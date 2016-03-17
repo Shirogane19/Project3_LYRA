@@ -6,6 +6,7 @@ import com.ironthrone.lyra.pojo.UsuarioPOJO;
 public class UsuarioRequest extends BaseRequest{
 	
 	private UsuarioPOJO usuario;
+	private int idUsuario;
 	
 
 	public UsuarioPOJO getUsuario() {
@@ -19,6 +20,14 @@ public class UsuarioRequest extends BaseRequest{
 	@Override
 	public String toString() {
 		return "Request de Usuario [user=" + usuario + "]";
+	}
+
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 
