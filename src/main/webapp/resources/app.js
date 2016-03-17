@@ -7,6 +7,7 @@ angular.module('myApp', [
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',
+  'myApp.categoriaView',
   'myApp.userView'
 ])
 
@@ -39,6 +40,12 @@ angular.module('myApp', [
     // params: {
   //    user: { "userId":0, "firstName":null, "lastName":null}
     // }
+    })  
+
+     .state('categoriaView', {
+      url: '/categoria_config',
+      templateUrl: 'resources/categoriaView/categoriaView.html',
+      controller: 'categoriaViewCtrl'
     })  
 
 });

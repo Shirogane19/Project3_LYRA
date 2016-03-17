@@ -120,8 +120,8 @@ $scope.requestObject ={
         $scope.showList();
         $scope.init();
       }
-
-
+      $state.reload();
+      
     }); 
   }
 

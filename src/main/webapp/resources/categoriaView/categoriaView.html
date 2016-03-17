@@ -1,7 +1,7 @@
 <!-- Page JS Plugins CSS -->
         <link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
                       <button class="btn btn-success push-5-r push-10" type="button" ng-show="!onPoint" ng-click="showForm()">
-                        <i class="fa fa-plus"></i> Add Categoria</button>
+                        <i class="fa fa-plus"></i> Registrar Categoría</button>
                     <!-- Dynamic Table Full -->
                     <div class="block" ng-show="!onPoint">
                         <div class="block-header">
@@ -18,7 +18,7 @@
                                         <th class="text-center"></th>
                                         <th ng-hide="true"></th>
                                         <th class="text-center">Nombre</th>
-                                        <th class="text-center">Descripcion</th>
+                                        <th class="text-center">Descripción</th>
                                         <th class="hidden-xs" style="width: 15%;">Estado</th>
                                         <th class="text-center" style="width: 10%;">Acciones</th>
                                        
@@ -71,14 +71,17 @@
                                 </div>
                                 <div class="block-content">
                                    <form class="form-horizontal push-10-t push-10" name="categoriaForm">
-                                        <div class="form-group">
-                                            <div class="col-xs-12">
-                                                <div class="form-categorial">
-                                                    <input class="form-control" type="text" ng-model="newCat.nombreCategoria" required>
+
+                                        <div class="col-xs-12">
+                                            <div class="form-material">
+                                                <input class="form-control" type="text" ng-model="newCat.nombreCategoria" required>
                                                     <label>Nombre <span class="text-danger">*</span></label>
-                                                     <input class="form-control" type="text" ng-model="newCat.descripcionCategoria" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="form-material">
+                                                <input class="form-control" type="text" ng-model="newCat.descripcionCategoria" required>
                                                     <label>Descripcion<span class="text-danger">*</span></label>
-                                                </div>
                                             </div>
                                         </div>
                                          
@@ -89,13 +92,15 @@
                                                 </label>
                                             </div>
                                         </div>
-                                     <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="categoriaForm.$invalid"
+
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <button class="btn btn-sm btn-success" type="submit"  ng-disabled="categoriaForm.$invalid"
                                                     ng-click="saveCategoria()">
-                                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
+                                                <i class="fa fa-plus push-5-r"></i> Registrar</button>
                                             </div>
                                         </div>
+                                        
                                     </form>
                                 </div>
                             </div>
