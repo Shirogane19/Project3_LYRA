@@ -37,6 +37,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
   $scope.checkLogin = function(){
 
+
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
       if(loginResponse.code == 200){
@@ -51,16 +52,21 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
           window.location.href = path;
        //   $state.go('home');
         })
-        .catch(function (error) {
-          console.error('exception', error);
-        }); 
+
 
       }else{
-          alert("invalido");
+          // PONER DESPUES ERROR INST
       }
 
-    });
+    })
 
+      .catch(function (error) {
+          console.error('exception', error);
+          $scope.disabledAll();
+          $scope.topMsj = error.status;
+          $scope.bodyMsj = error.statusText;
+          $scope.onPointError = true;
+        }); 
   };
 
   $scope.save = function(u) {
@@ -142,6 +148,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     $scope.onPoint = false;
     $scope.onPointUserForm = false;
     $scope.onPointerSubscriptionForm = false;
+    $scope.showLogin = true;
   }
 
   $scope.closeMSJ = function(){// Refresca la pagina
@@ -316,24 +323,44 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     $http.post('rest/login/getCredentials',$scope.email).success(function (loginResponse) {
 
       if(loginResponse.code == 200){
-        alert(loginResponse.codeMessage);
+          $scope.disabledAll();
+          $scope.topMsj =  "Recuperación de Credenciales";
+          $scope.bodyMsj = "Credenciales enviadas, por favor revise su bandeja de entrada.";
+          $scope.onPointMsj = true;
 
       }else{
-        alert(loginResponse.codeMessage);
+        $scope.disabledAll();
+        $scope.topMsj = error.status;
+        $scope.bodyMsj = error.statusText;
+        $scope.onPointError = true;
       }
 
       $scope.showLogin = true;
 
-    });
+    })
+
+    .catch(function (error) {
+          console.error('exception', error);
+          $scope.disabledAll();
+          $scope.topMsj = error.status;
+          $scope.bodyMsj = error.statusText;
+          $scope.onPointError = true;
+        }); 
 
   };
 
 
   $scope.showRecoverForm = function(u) {
     if($scope.showLogin){
+          $scope.btnRegistrar = true;
+         $scope.btnSubscribir = true;
         $scope.showLogin = false;
         $scope.onPoint = false;
     }
+  }; 
+
+  $scope.closeRecoverForm = function(u) {
+    window.location.href = "#";
   }; 
 
 

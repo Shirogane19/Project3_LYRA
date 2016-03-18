@@ -402,12 +402,13 @@
     </div>
 </div>
 <!--End Vista de Mensajes-->
+
 <!-- Vista de Error  -->
 <div class="content bg-white text-center pulldown overflow-hidden" ng-show="onPointError">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             
-            <h1 class="font-s128 font-w300 text-modern animated zoomInDown">{{topMsj}}</h1>
+            <h1 class="font-s128 font-w300 text-modern animated bounceIn">{{topMsj}}</h1>
             <h2 class="h3 font-w300 push-50 animated fadeInUp">{{bodyMsj}}</h2>
 
             <div class="form-horizontal">
@@ -454,6 +455,14 @@
                                 <button class="btn btn-sm btn-block btn-primary" type="submit" ng-click="recoverPassword()">Recuperar</button>
                             </div>
                         </div>
+
+                        <div class="form-group push-30-t">
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                                <button class="btn btn-sm btn-block btn-warning" type="submit" ng-click="closeRecoverForm()">Volver</button>
+
+                            </div>
+                        </div>
+
                     </form>
                     <!-- END Login Form -->
                 </div>

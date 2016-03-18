@@ -1,7 +1,6 @@
 package com.ironthrone.lyra.pojo;
 
-import java.io.Serializable;
-import javax.persistence.*;
+
 import java.util.List;
 
 public class CategoriaPOJO {

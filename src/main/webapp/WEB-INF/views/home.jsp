@@ -174,13 +174,13 @@
                                     <a ui-sref="materiaView"><i class="si si-book-open"></i>Materias</a>
                                 </li>
                                 <li>
-                                    <a ui-sref="gradoView"><i class="si si-wrench"></i>Grados</a>
+                                    <a ui-sref="gradoView"><i class="si si-graduation"></i>Grados</a>
                                 </li>
                                 <li>    
-                                    <a ui-sref="seccionView"><i class="si si-wrench"></i>Secciones</a>
+                                    <a ui-sref="seccionView"><i class="si si-map"></i>Secciones</a>
                                 </li> 
                                 <li>
-                                    <a ui-sref="categoriaView"><i class="si si-wrench"></i>Categorias</a>
+                                    <a ui-sref="categoriaView"><i class="si si-list"></i>Categorias</a>
                                 </li>
                               
                             </ul>

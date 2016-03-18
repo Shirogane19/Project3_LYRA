@@ -2,7 +2,6 @@ package com.ironthrone.lyra.contracts;
 
 import java.util.List;
 
-import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 
 /**

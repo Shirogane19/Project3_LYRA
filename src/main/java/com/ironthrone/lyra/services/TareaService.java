@@ -50,6 +50,7 @@ public class TareaService implements TareaServiceInterface{
 	};
 	
 
+	@SuppressWarnings("unused")
 	private List<Usuario> generateUserDto(Tarea t) {
 		List<Usuario> users = new ArrayList<Usuario>();
 		t.getUsuarios().stream().forEach(u -> {

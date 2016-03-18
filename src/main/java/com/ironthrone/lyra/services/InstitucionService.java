@@ -14,15 +14,12 @@ import com.ironthrone.lyra.ejb.Bitacora;
 import com.ironthrone.lyra.ejb.Grado;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Materia;
-import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
-import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
-import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 /**
  * Clase de tipo service, manejo de las instituciones y interacción con los repositorios correspondientes 
@@ -154,6 +151,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 * @param Institucion recibe un objeto Institución
 	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
 	 */
+	@SuppressWarnings("unused")
 	private List<UsuarioPOJO> generateUserDto(Institucion i) {
 		
 		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
@@ -177,6 +175,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 * @param users representa una lista de subscripciones tipo ejb
 	 * @return Lista de Subscripcion POJO.
 	 */
+	@SuppressWarnings("unused")
 	private List<SubscripcionPOJO> generateSubscripcionDtos(Institucion i){
 		
 		List<SubscripcionPOJO> uiSubscripciones = new ArrayList<SubscripcionPOJO>();

@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ironthrone.lyra.contracts.AlumnoRequest;
-import com.ironthrone.lyra.contracts.AlumnoResponse;
+
 import com.ironthrone.lyra.contracts.SubscripcionRequest;
 import com.ironthrone.lyra.contracts.SubscripcionResponse;
 import com.ironthrone.lyra.services.SubscripcionServiceInterface;

@@ -139,7 +139,10 @@ angular.module('myApp', [
     .state('categoriaView', {
       url: '/categoria_config',
       templateUrl: 'resources/categoriaView/categoriaView.html',
-      controller: 'categoriaViewCtrl'
+      controller: 'categoriaViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
     })  
 
     .state('404', {
