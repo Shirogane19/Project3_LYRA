@@ -1,0 +1,464 @@
+<div class="row">
+
+  <div class="col-md-4"></div>
+
+  <div class="col-md-4 col-md-offset-4">
+    <div class="col-xs-6"><button ng-class="{'btn-warning': startedR, 'btn-primary': !startedR}" class="btn btn-sm btn-block" type="submit" ng-click="showUserForm()" ng-disabled = "btnRegistrar">Registrar</button></div>
+    <div class="col-xs-6"><button ng-class="{'btn-warning': startedS, 'btn-success': !startedS}" class="btn btn-sm btn-block" type="submit" ng-click="showSubscriptionForm()" ng-disabled = "btnSubscribir">Suscribir</button></div>
+  </div>
+
+</div>
+
+<!-- Login Content -->
+<div class="bg-white pulldown" ng-show="onPoint">
+    <div class="content content-boxed overflow-hidden">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                <div class="push-30-t push-50 animated fadeIn">
+                    <!-- Login Title -->
+                    <div class="text-center">
+                        <i class="fa fa-2x fa-circle-o-notch text-primary"></i>
+                        <p class="text-muted push-15-t">Un complemento perfecto para su institución</p>
+                    </div>
+                    <!-- END Login Title -->
+
+                    <!-- Login Form -->
+                    <!-- jQuery Validation (.js-validation-login class is initialized in js/pages/base_pages_login.js) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                    <form class="js-validation-login form-horizontal push-30-t">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-material form-material-primary floating">
+                                    <input  class="form-control" type="text" id="login-username" name="login-username"
+                                            ng-model="user.email" required>
+                                    <label for="login-username" >Correo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-material form-material-primary floating">
+                                    <input class="form-control" type="password" id="login-password" name="login-password"
+                                           ng-model="user.password">
+                                    <label for="login-password">Contraseña</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label class="css-input switch switch-sm switch-primary">
+                                    <input type="checkbox" id="login-remember-me" name="login-remember-me"><span></span> Recordarme?
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="font-s13 text-right push-5-t">
+                                    <a href="" ng-click="showRecoverForm()">¿Olvidó su contraseña?</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group push-30-t">
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                                <button class="btn btn-sm btn-block btn-primary" type="submit" ng-click="checkLogin()">Iniciar sesión</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END Login Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Login Content -->
+
+
+<!-- User Form Content -->
+<div class="bg-white pulldown" ng-show="onPointUserForm">
+    <div class="content content-boxed overflow-hidden">
+
+        <form class="js-validation-material form-horizontal push-10-t" method="post" name="userForm">
+                                    <!-- Steps Content -->
+            <div class="block-content tab-content">
+                <!-- Step 1 -->
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="text" id="validation-nombre" name="val-nombre" ng-model="subscriptor.nombre" ng-minlength=3 required>
+                            <label for="validation-nombre">Nombre</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="text" id="validation-apellido" name="val-apellido" ng-model="subscriptor.apellido" ng-minlength=3 required>
+                            <label for="validation-apellido">Apellido</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="text" id="validation-cedula" name="val-cedula" ng-model="subscriptor.cedula" required>
+                            <label for="validation-cedula">Cédula</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4" >
+                        <div class="form-material">
+                            <input class="form-control" type="email" id="validation-correo" name="val-correo" ng-model="subscriptor.correo" required>
+                            <label for="validation-correo">Correo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="text" id="validation-telefono" name="val-telefono" ng-pattern="onlyNumbers" ng-model="subscriptor.telefono">
+                            <label for="validation-telefono">Teléfono</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="text" id="validation-movil" name="val-telefono" ng-pattern="onlyNumbers" ng-model="subscriptor.movil">
+                            <label for="validation-movil">Móvil</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="password" id="password1" name="password1" ng-minlength=3 ng-model="subscriptor.contrasena" required>
+                            <label for="password1">Contraseña</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <input class="form-control" type="password" id="password2" name="val-confirm-contrasena" ng-model="subscriptor.contrasena2" required pw-check="password1">
+                            <label for="val-confirm-contrasena">Confirmar contraseña</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="msg-block" ng-show="myForm.$error">
+                  <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
+                    Passwords don't match.
+                  </span>
+                </div>
+
+            </div>
+                <!-- END Step 1 -->
+            <!-- END Steps Content -->
+
+            <!-- Steps Navigation -->
+            <div class="block-content block-content-mini block-content-full border-t">
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-material">
+                            <button class="btn btn-sm btn-block btn-primary" type="submit" ng-disabled="userForm.$invalid" ng-click="saveMaster()"><i class="fa fa-check-circle-o"></i>Registrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Steps Navigation -->
+        </form>
+
+
+    </div>
+</div>
+<!-- End user Form Content -->
+
+<!-- Formulario de subscripción-->
+<div class="bg-white pulldown" ng-show="onPointerSubscriptionForm">
+    <div class="content content-boxed overflow-hidden">
+
+        <div>
+            <!-- Validation Wizard (.js-wizard-validation class is initialized in js/pages/base_forms_wizard.js) -->
+            <!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+            <div class="js-wizard-validation block">
+                <!-- Step Tabs -->
+                <ul class="nav nav-tabs nav-tabs-alt nav-justified">
+                    <li>
+                        <a class="inactive" href="#validation-step1" data-toggle="tab">Información de la institución</a>
+                    </li>
+                    <li>
+                        <a class="inactive" href="#validation-step2" data-toggle="tab">Confirmación</a>
+                    </li>
+                </ul>
+                <!-- END Step Tabs -->
+
+                <!-- Form -->
+                <!-- jQuery Validation (.js-form2 class is initialized in js/pages/base_forms_wizard.js) -->
+                <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                <form class="js-form2 form-horizontal">
+                    <!-- Steps Content -->
+                    <div class="block-content tab-content">
+                        <!-- Step 1 -->
+                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step1">
+
+                            <div class="tab-pane fade fade-right in push-30-t push-50 active" ng-show = "onPointShowInstitutionForm">
+
+                                <div class="form-group" >
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <div class="form-material">
+                                            <input class="form-control" type="text" ng-model="user.email">
+                                            <label >Correo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <div class="form-material">
+                                            <input class="form-control" type="password" ng-model="user.password">
+                                            <label >Password</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center"nvali ng-show="invalidLoginS">
+                                    <p class="text-muted push-15-t text-danger">Correo o password inválido</p>
+                                </div>
+    
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <div class="form-material">
+                                            <button class="btn btn-sm btn-block btn-primary" ng-click="checkUser()">Login</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div ng-show = "!onPointShowInstitutionForm">
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <div class="form-material">
+                                            <input class="form-control" type="text" id="validation-nombre" name="validation-nombre" ng-model="institucion.nombre">
+                                            <label for="validation-nombre">Nombre de la institución</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <div class="form-material">
+                                            <input class="form-control" type="text" id="validation-website" name="validation-website" placeholder="http://ejemplo.com" ng-model="institucion.urlLogo">
+                                            <label for="validation-website">Logo de la institución</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- END Step 1 -->
+
+                        <!-- Step 2 -->
+                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step2">
+
+                            <div class="block-content block-content-mini block-content-full border-t">
+                                <div class="row">
+
+                                    <div class="col-xs-6">
+
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <h3><strong>Subscriptor</strong></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Nombre: </strong> {{subscriptor.nombre}} </label>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Apellido: </strong> {{subscriptor.apellido}}</label> 
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Cédula: </strong> {{subscriptor.cedula}}</label> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Correo: </strong> {{subscriptor.correo}}</label> 
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Teléfono: </strong> {{subscriptor.telefono}}</label> 
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Móvil: </strong> {{subscriptor.movil}}</label> 
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                    </div>
+
+                                    <div class="col-xs-6">
+
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <h3><strong>Institución</strong></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>Nombre: </strong> {{institucion.nombre}}</label> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <div class="form-material">
+                                                    <label><strong>URL logo de la institución: </strong>{{institucion.urlLogo}}</label> 
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- END Step 2 -->
+                    </div>
+                    <!-- END Steps Content -->
+
+                    <!-- Steps Navigation -->
+                    <div class="block-content block-content-mini block-content-full border-t">
+                        <div class="row" ng-show = "!onPointShowInstitutionForm">
+                            <div class="col-xs-6">
+                                <button class="wizard-prev btn btn-warning" type="button"><i class="fa fa-arrow-circle-o-left"></i> Anterior</button>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button class="wizard-next btn btn-success" type="button">Siguiente <i class="fa fa-arrow-circle-o-right"></i></button>
+                                <button class="wizard-finish btn btn-primary" type="button" ng-click="saveSubscripcion()">Subscribirse</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Steps Navigation -->
+                </form>
+                <!-- END Form -->
+            </div>
+            <!-- END Validation Wizard Wizard -->
+        </div>
+
+    </div>
+</div>
+<!--End Formulario de subscripción-->
+
+<!--Vista de Mensajes-->
+<div class="bg-white pulldown" ng-show="onPointMsj" >
+    <div class="content content-boxed overflow-hidden">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                <div class="push-30-t push-50 animated fadeIn">
+                    <!-- Login Title -->
+                    <div class="text-center">
+                        <i class="fa fa-2x fa-circle-o-notch text-primary"></i>
+                        <p class="text-muted push-15-t">{{topMsj}}</p>
+                        <p class="text-muted push-15-t">{{bodyMsj}}</p>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="form-group push-30-t">
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                                <button class="btn btn-sm btn-block btn-primary" ng-click="closeMSJ()">Volver</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Vista de Mensajes-->
+<!-- Vista de Error  -->
+<div class="content bg-white text-center pulldown overflow-hidden" ng-show="onPointError">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            
+            <h1 class="font-s128 font-w300 text-modern animated zoomInDown">{{topMsj}}</h1>
+            <h2 class="h3 font-w300 push-50 animated fadeInUp">{{bodyMsj}}</h2>
+
+            <div class="form-horizontal">
+                <div class="form-group push-30-t">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                        <button class="btn btn-sm btn-block btn-primary" ng-click="closeMSJ()">Volver</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Vista de Error -->
+
+<!-- Recover Password -->
+<div class="bg-white pulldown" ng-show="!showLogin">
+    <div class="content content-boxed overflow-hidden">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                <div class="push-30-t push-50 animated fadeIn">
+                    <!-- Login Title -->
+                    <div class="text-center">
+                        <i class="fa fa-2x fa-circle-o-notch text-primary"></i>
+                        <p class="text-muted push-15-t">Por favor, introduzca su correo electrónico de registro</p>
+                    </div>
+                    <!-- END Login Title -->
+
+                    <!-- Login Form -->
+                    <!-- jQuery Validation (.js-validation-login class is initialized in js/pages/base_pages_login.js) -->
+                    <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                    <form class="js-validation-login form-horizontal push-30-t">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="form-material form-material-primary floating">
+                                    <input  class="form-control" type="text"
+                                            ng-model="email" required>
+                                    <label for="login-username" >Correo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group push-30-t">
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                                <button class="btn btn-sm btn-block btn-primary" type="submit" ng-click="recoverPassword()">Recuperar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END Login Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Recover Password -->
