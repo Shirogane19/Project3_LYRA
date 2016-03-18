@@ -179,6 +179,9 @@
                                 <li>    
                                     <a ui-sref="seccionView"><i class="si si-wrench"></i>Secciones</a>
                                 </li> 
+                                <li>
+                                    <a ui-sref="categoriaView"><i class="si si-wrench"></i>Categorias</a>
+                                </li>
                               
                             </ul>
                         </div>
@@ -351,6 +354,7 @@
         <script src="resources/gradoView/gradoView.js"></script>
         <script src="resources/seccionView/seccionView.js"></script>
         <script src="resources/tareaView/tareaView.js"></script>
+        <script src="resources/categoriaView/categoriaView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

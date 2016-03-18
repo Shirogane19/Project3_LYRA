@@ -14,7 +14,8 @@ angular.module('myApp', [
   'myApp.perfilView',
   'myApp.gradoView',
   'myApp.seccionView',
-  'myApp.tareaView'
+  'myApp.tareaView',
+  'myApp.categoriaView'
   //'myApp.usuarios'
 ])
 
@@ -135,6 +136,11 @@ angular.module('myApp', [
       }
     })
 
+    .state('categoriaView', {
+      url: '/categoria_config',
+      templateUrl: 'resources/categoriaView/categoriaView.html',
+      controller: 'categoriaViewCtrl'
+    })  
 
     .state('404', {
         url: '{path:.*}',
