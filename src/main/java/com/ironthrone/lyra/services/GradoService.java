@@ -53,17 +53,6 @@ public class GradoService implements GradoServiceInterface {
 		return generateGradeDtos(grados);
 	}
 
-	/**
-	 *  Retorna un lista de grados de un año especifico.
-	 * @param year año a buscar
-	 * @return grado tipo POJO
-	 */
-	@Override
-	@Transactional
-	public List<GradoPOJO> getByYear(String year) {
-		List<Grado> grados =  gradeRepository.findByYear(year);
-		return generateGradeDtos(grados);
-	}
 
 	/**
 	 * Retorna un grado especifico, dado su ID
@@ -119,7 +108,6 @@ public class GradoService implements GradoServiceInterface {
 		if(gr.getGrado().getIdGrado() <= -1){
 			newGrado.setIdGrado(0);
 			newGrado.setIsActiveGr(true);
-			newGrado.setYear(gr.getGrado().getYear());
 			ngrade = gradeRepository.save(newGrado);
 			
 		}else{		
@@ -145,7 +133,6 @@ public class GradoService implements GradoServiceInterface {
 		DbGrado.setNombre(UiGrado.getNombre());
 		DbGrado.setDescripcion(UiGrado.getDescripcion());
 		DbGrado.setIsActiveGr(UiGrado.getIsActiveGr());
-		DbGrado.setYear(UiGrado.getYear());
 		
 		return DbGrado;
 	}

@@ -2,6 +2,8 @@ package com.ironthrone.lyra.ejb;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+
 import java.util.List;
 
 
@@ -22,6 +24,7 @@ public class Alumno implements Serializable {
 	private String nombre;
 	private Institucion institucion;
 	private Seccion seccion;
+	private List<Periodo> periodos;
 	private List<RegistrosMedico> registrosMedicos;
 	private List<Usuario> usuarios;
 
@@ -150,6 +153,16 @@ public class Alumno implements Serializable {
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+	
+	//bi-directional many-to-many association to Periodo
+	@ManyToMany(mappedBy="alumnos")
+	public List<Periodo> getPeriodos() {
+		return this.periodos;
+	}
+
+	public void setPeriodos(List<Periodo> periodos) {
+		this.periodos = periodos;
 	}
 
 }

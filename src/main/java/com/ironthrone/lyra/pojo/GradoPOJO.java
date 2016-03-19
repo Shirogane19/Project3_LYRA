@@ -18,8 +18,6 @@ public class GradoPOJO {
 	
 	private String nombre;
 	
-	private String year;
-	
 	private InstitucionPOJO institucion;
 	
 	private List<MateriaPOJO> materias;
@@ -65,14 +63,6 @@ public class GradoPOJO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
 	}
 
 	public InstitucionPOJO getInstitucion() {

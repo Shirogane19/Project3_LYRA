@@ -36,7 +36,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
 		
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
 		"string","grado":{"idGrado": $scope.newGrado.idGrado,"nombre": $scope.newGrado.nombre, 'descripcion':  $scope.newGrado.descripcion, 
-		'year': $scope.newGrado.year,"isActiveGr": $scope.newGrado.isActiveGr}};
+		"isActiveGr": $scope.newGrado.isActiveGr}};
 
 		console.log($scope.requestObject.usuario);
 
@@ -78,7 +78,6 @@ angular.module('myApp.gradoView', ['ngRoute'])
 
 		$scope.newGrado.nombre = g.nombre;
 		$scope.newGrado.descripcion = g.descripcion;
-		$scope.newGrado.year = g.year; 
 		$scope.newGrado.isActiveGr = g.isActiveGr
 
 		$scope.showForm();

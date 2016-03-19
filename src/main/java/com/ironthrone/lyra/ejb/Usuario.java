@@ -3,6 +3,7 @@ package com.ironthrone.lyra.ejb;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Usuario implements Serializable {
 	private List<Institucion> institucions;
 	private List<Materia> materias;
 	private List<Seccion> seccions;
+	private List<Periodo> periodos;
 
 	public Usuario() {
 	}
@@ -244,6 +246,15 @@ public class Usuario implements Serializable {
 		this.materias = materias;
 	}
 
+	//bi-directional many-to-many association to Periodo
+	@ManyToMany(mappedBy="usuarios")
+	public List<Periodo> getPeriodos() {
+		return this.periodos;
+	}
+
+	public void setPeriodos(List<Periodo> periodos) {
+		this.periodos = periodos;
+	}
 
 	//bi-directional many-to-many association to Seccion
 	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

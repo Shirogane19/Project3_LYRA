@@ -11,10 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.RolPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
+import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
@@ -32,6 +35,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 	@Autowired private UsuarioRepository usersRepository;
 	@Autowired private RolRepository rolRepository;
+	@Autowired private InstitucionRepository instituteRepository;
 	@Autowired private IronPasswordEncryption encryptor;
 
 	/**
@@ -49,10 +53,36 @@ public class UsuarioService implements UsuarioServiceInterface {
 			BeanUtils.copyProperties(u,dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setRols(generateRolDto(u));
+			dto.setListaInstituciones(generateInstitutionDtos(u));
+			dto.setPeriodo(null);
 			uiUsers.add(dto);
 		});	
 		
 		return uiUsers;
+	};
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param users representa una lista de usuarios tipo ejb
+	 * @return UserInterfaceInts, lista de intituciones POJO.
+	 */
+	private List<InstitucionPOJO> generateInstitutionDtos(Usuario users){
+		
+		List<InstitucionPOJO> uiInts = new ArrayList<InstitucionPOJO>();
+
+		
+		users.getInstitucions().stream().forEach(i -> {
+			
+			InstitucionPOJO dto = new InstitucionPOJO();
+			dto.setIdInstitucion(i.getIdInstitucion());
+			dto.setNombreInstitucion(i.getNombreInstitucion());
+			dto.setLogoInstitucion(i.getLogoInstitucion());
+			dto.setHasSuscripcion(i.getHasSuscripcion());
+			
+			uiInts.add(dto);
+		});	
+		
+		return uiInts;
 	};
 	
 	/**
@@ -64,7 +94,12 @@ public class UsuarioService implements UsuarioServiceInterface {
 	@Transactional
 	public List<UsuarioPOJO> getAll(UsuarioRequest ur) {
 
-		List<Usuario> users =  usersRepository.findAll();
+		int idInst = ur.getUsuario().getIdInstitucion();
+		Institucion ints = instituteRepository.findOne(idInst);
+		List<Institucion> listInts = new ArrayList<Institucion>();
+		listInts.add(ints);
+		
+		List<Usuario> users =  usersRepository.findByInstitucionsIn(ints);
 		return generateUserDtos(users);
 	}
 	
