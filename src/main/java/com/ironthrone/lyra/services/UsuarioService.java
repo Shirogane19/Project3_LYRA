@@ -11,10 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.RolPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
+import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
@@ -32,6 +35,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 	@Autowired private UsuarioRepository usersRepository;
 	@Autowired private RolRepository rolRepository;
+	@Autowired private InstitucionRepository instituteRepository;
 	@Autowired private IronPasswordEncryption encryptor;
 
 	/**
@@ -49,10 +53,36 @@ public class UsuarioService implements UsuarioServiceInterface {
 			BeanUtils.copyProperties(u,dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setRols(generateRolDto(u));
+			dto.setListaInstituciones(generateInstitutionDtos(u));
+			dto.setPeriodo(null);
 			uiUsers.add(dto);
 		});	
 		
 		return uiUsers;
+	};
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param users representa una lista de usuarios tipo ejb
+	 * @return UserInterfaceInts, lista de intituciones POJO.
+	 */
+	private List<InstitucionPOJO> generateInstitutionDtos(Usuario users){
+		
+		List<InstitucionPOJO> uiInts = new ArrayList<InstitucionPOJO>();
+
+		
+		users.getInstitucions().stream().forEach(i -> {
+			
+			InstitucionPOJO dto = new InstitucionPOJO();
+			dto.setIdInstitucion(i.getIdInstitucion());
+			dto.setNombreInstitucion(i.getNombreInstitucion());
+			dto.setLogoInstitucion(i.getLogoInstitucion());
+			dto.setHasSuscripcion(i.getHasSuscripcion());
+			
+			uiInts.add(dto);
+		});	
+		
+		return uiInts;
 	};
 	
 	/**
@@ -64,7 +94,12 @@ public class UsuarioService implements UsuarioServiceInterface {
 	@Transactional
 	public List<UsuarioPOJO> getAll(UsuarioRequest ur) {
 
-		List<Usuario> users =  usersRepository.findAll();
+		int idInst = ur.getUsuario().getIdInstitucion();
+		Institucion ints = instituteRepository.findOne(idInst);
+//		List<Institucion> listInts = new ArrayList<Institucion>();
+//		listInts.add(ints);
+		
+		List<Usuario> users =  usersRepository.findByInstitucionsIn(ints);
 		return generateUserDtos(users);
 	}
 	
@@ -163,10 +198,19 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		Usuario newUser = new Usuario();
 		Usuario nuser = null;
+		
 		List<String> idRoles = ur.getUsuario().getIdRoles();
 		List<Rol> rols = new ArrayList<Rol>();
+		List<Institucion> listInts = new ArrayList<Institucion>();
+		
+		
 		boolean hasRoles = false;
 		boolean newPass = false;
+//		boolean hasInstitutes = false;
+		
+		int idInst = ur.getUsuario().getIdInstitucion();
+		Institucion ints = instituteRepository.findOne(idInst);
+		listInts.add(ints);
 		
 		/**Copia las propiedades del Request a el nuevo Usuario**/
 		BeanUtils.copyProperties(ur.getUsuario(), newUser);	
@@ -186,6 +230,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 			newUser.setIdUsuario(0);
 			newUser.setIsActiveUs(true);
 			newUser.setDateOfJoin(getCurrentDate());
+			newUser.setInstitucions(listInts);
 			nuser = usersRepository.save(newUser);
 			
 		/** Si hay roles por agregar, toma el usuario recien creado y le asigna los roles **/
@@ -206,6 +251,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 			}
 			
 			oldUser = assignProperties(oldUser, ur.getUsuario(), newPass);
+			oldUser.setInstitucions(listInts);
 			nuser = usersRepository.save(oldUser);	
 			
 		}
@@ -342,7 +388,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	}
 
 	@Override
-	public boolean prueba() {
+	public List<UsuarioPOJO> prueba() {
 
 //		List<String> listaRoles = Arrays.asList("1", "2", "3");
 //		Usuario user = usersRepository.findOne(1);
@@ -352,20 +398,20 @@ public class UsuarioService implements UsuarioServiceInterface {
 //		rolRepository.save(rol);
 		
 
-		Usuario user = usersRepository.findOne(4);
-		user.setRols(null);
-		user = usersRepository.save(user);
-		
-		List<Rol> roles = new ArrayList<Rol>();
-		
-		Rol rol1 = rolRepository.findOne(1);
-		Rol rol2 = rolRepository.findOne(2);
-		roles.add(rol1);
-		roles.add(rol2);
-		
-		user.setRols(roles);
-		
-		user = usersRepository.save(user);
+//		Usuario user = usersRepository.findOne(4);
+//		user.setRols(null);
+//		user = usersRepository.save(user);
+//		
+//		List<Rol> roles = new ArrayList<Rol>();
+//		
+//		Rol rol1 = rolRepository.findOne(1);
+//		Rol rol2 = rolRepository.findOne(2);
+//		roles.add(rol1);
+//		roles.add(rol2);
+//		
+//		user.setRols(roles);
+//		
+//		user = usersRepository.save(user);
 		
 //		Usuario user = new Usuario();
 //		user.setPassword("12345");
@@ -374,9 +420,9 @@ public class UsuarioService implements UsuarioServiceInterface {
 //		user.setNombre("Johnny");
 //		user.setApellido("Test");
 		
+		List<Usuario> user = usersRepository.findAll();
 		
-		
-		return (user == null) ? false : true;
+		return generateUserDtos(user);
 		
 		
 	//	user.setRols(getRoles(listaRoles, user));

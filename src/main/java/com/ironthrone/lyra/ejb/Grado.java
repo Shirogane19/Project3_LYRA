@@ -17,7 +17,6 @@ public class Grado implements Serializable {
 	private String descripcion;
 	private boolean isActiveGr;
 	private String nombre;
-	private String year;
 	private Institucion institucion;
 	private List<Materia> materias;
 	private List<Seccion> seccions;
@@ -62,16 +61,6 @@ public class Grado implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-
-
-	public String getYear() {
-		return this.year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
 	}
 
 

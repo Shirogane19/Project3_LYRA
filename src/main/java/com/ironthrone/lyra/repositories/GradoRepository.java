@@ -16,5 +16,4 @@ import com.ironthrone.lyra.ejb.Grado;
 public interface GradoRepository extends CrudRepository<Grado, Integer>{
 
 	List<Grado>findAll();
-	List<Grado>findByYear(String year);
 }

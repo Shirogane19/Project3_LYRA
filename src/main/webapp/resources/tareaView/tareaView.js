@@ -30,7 +30,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
              BaseTableDatatables.init();
          //BaseFormValidation.init();
          App.initHelpers('table-tools');
-        //OneUI.initHelpers('select2');
+        OneUI.initHelpers('select2');
       });
 
     }

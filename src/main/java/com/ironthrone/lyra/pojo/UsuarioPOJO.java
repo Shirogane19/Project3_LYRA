@@ -50,6 +50,14 @@ public class UsuarioPOJO {
 	
 	private InstitucionPOJO institucion;
 	
+	private List<InstitucionPOJO> listaInstituciones;
+	
+	private int idInstitucion;
+	
+	private String periodoYear;
+	
+	private PeriodoPOJO periodo;
+	
 	public UsuarioPOJO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -214,5 +222,44 @@ public class UsuarioPOJO {
 		this.newPass = newPass;
 	}
 
+	public int getIdInstitucion() {
+		return idInstitucion;
+	}
+
+
+	public void setIdInstitucion(int idInstitucion) {
+		this.idInstitucion = idInstitucion;
+	}
+
+
+	public List<InstitucionPOJO> getListaInstituciones() {
+		return listaInstituciones;
+	}
+
+
+	public void setListaInstituciones(List<InstitucionPOJO> listaInstituciones) {
+		this.listaInstituciones = listaInstituciones;
+	}
+
+
+	public PeriodoPOJO getPeriodo() {
+		return periodo;
+	}
+
+
+	public void setPeriodo(PeriodoPOJO periodo) {
+		this.periodo = periodo;
+	}
+
+
+	public String getPeriodoYear() {
+		return periodoYear;
+	}
+
+
+	public void setPeriodoYear(String periodoYear) {
+		this.periodoYear = periodoYear;
+	}
+	
 
 }

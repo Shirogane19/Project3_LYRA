@@ -72,29 +72,6 @@
             'header-navbar-fixed'        Enables fixed header
         -->
         <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
-            <!-- Side Overlay-->
-            <aside id="side-overlay">
-                <!-- Side Overlay Scroll Container -->
-                <div id="side-overlay-scroll">
-                    <!-- Side Header -->
-                    <div class="side-header side-content">
-                        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                        <button class="btn btn-default pull-right" type="button" data-toggle="layout" data-action="side_overlay_close">
-                            <i class="fa fa-times"></i>
-                        </button>
-                        <span class="font-w600 push-10-l">Admin</span>
-                    </div>
-                    <!-- END Side Header -->
-
-                    <!-- Side Content -->
-                    <div class="side-content remove-padding-t">
-
-                    </div>
-                    <!-- END Side Content -->
-                </div>
-                <!-- END Side Overlay Scroll Container -->
-            </aside>
-            <!-- END Side Overlay -->
 
             <!-- Sidebar -->
             <nav id="sidebar">
@@ -147,8 +124,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a class="h5 text-white" href="start_backend.html">
-                                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">ne</span>
+                            <a class="h5 text-white" href="#/">
+                                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">nline</span>
                             </a>
                         </div>
                         <!-- END Side Header -->
@@ -222,7 +199,7 @@
                                 <li class="divider"></li>
                                 <li class="dropdown-header">Acciones</li>
                                 <li>
-                                    <a tabindex="-1" href="base_pages_lock.html">
+                                    <a tabindex="-1" href="#">
                                         <i class="si si-lock pull-right"></i>Bloquear cuenta
                                     </a>
                                 </li>
@@ -234,51 +211,8 @@
                             </ul>
                         </div>
                     </li>
-                    <li>
-                        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                        <button class="btn btn-default" data-toggle="layout" data-action="side_overlay_toggle" type="button">
-                            <i class="fa fa-tasks"></i>
-                        </button>
-                    </li>
                 </ul>
                 <!-- END Header Navigation Right -->
-
-                <!-- Header Navigation Left -->
-                <ul class="nav-header pull-left">
-                    <li class="hidden-md hidden-lg">
-                        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                        <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
-                            <i class="fa fa-navicon"></i>
-                        </button>
-                    </li>
-                    <li class="hidden-xs hidden-sm">
-                        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                        <button class="btn btn-default" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
-                            <i class="fa fa-ellipsis-v"></i>
-                        </button>
-                    </li>
-                    <li>
-                        <!-- Opens the Apps modal found at the bottom of the page, before including JS code -->
-                        <button class="btn btn-default pull-right" data-toggle="modal" data-target="#apps-modal" type="button">
-                            <i class="si si-grid"></i>
-                        </button>
-                    </li>
-                    <li class="visible-xs">
-                        <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
-                        <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </li>
-                    <li class="js-header-search header-search">
-                        <form class="form-horizontal" action="base_pages_search.html" method="post">
-                            <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
-                                <input class="form-control" type="text" id="base-material-text" name="base-material-text" placeholder="Search..">
-                                <span class="input-group-addon"><i class="si si-magnifier"></i></span>
-                            </div>
-                        </form>
-                    </li>
-                </ul>
-                <!-- END Header Navigation Left -->
             </header>
             <!-- END Header -->
 
@@ -306,11 +240,8 @@
 
             <!-- Footer -->
             <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
-                <div class="pull-right">
-                    Crafted with <i class="fa fa-heart text-city"></i> by <a class="font-w600" href="http://goo.gl/vNS3I" target="_blank">pixelcave</a>
-                </div>
                 <div class="pull-left">
-                    <a class="font-w600" href="http://goo.gl/6LF10W" target="_blank">OneUI</a> &copy; <span class="js-year-copy"></span>
+                    <a class="font-w600" href="#" target="_blank">Iron Throne</a> &copy; <span class="js-year-copy"></span>
                 </div>
             </footer>
             <!-- END Footer -->

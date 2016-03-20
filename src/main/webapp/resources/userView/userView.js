@@ -2,8 +2,9 @@
 
 angular.module('myApp.userView', ['ngRoute'])
 
-.controller('userViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('userViewCtrl', ['$scope','$http','$timeout','$state','$localStorage',function($scope,$http,$timeout,$state,$localStorage) {
   
+  $scope.idInstitucion = 0;
   $scope.userList = [];
   $scope.selectedItem = []
   $scope.newUser = [];
@@ -13,6 +14,8 @@ angular.module('myApp.userView', ['ngRoute'])
   $scope.isCreating = true;
   $scope.onPoint = false;
   $scope.onlyNumbers = /^\d+$/;
+  $scope.myId = 0;
+
 
 $scope.initScripts = function(){
 
@@ -31,9 +34,12 @@ $scope.increment = function(){
     $scope.counter += 1;
   }
 
+$scope.redirectProfile = function(){
+	$state.go('perfilView');
+}
 
 $scope.showForm = function(){
-	console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+	//console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
 	$scope.onPoint = true;
   }
 
@@ -46,6 +52,11 @@ $scope.showList = function(){
   }
 
  $scope.showUserToEdit = function(u){
+
+
+ 	if(u.idUsuario === $scope.myId){
+		$scope.redirectProfile();
+ 	}
 
 	$scope.selectedItem = [];
 	$scope.newUser = u; // Guarda el objeto usuario a la variable temporal
@@ -63,6 +74,10 @@ $scope.showList = function(){
 
  $scope.isActive = function(u){
 
+ 	if(u.idUsuario === $scope.myId){
+ 		$scope.redirectProfile();
+ 	}
+
 	$scope.newUser = u; // Guarda el objeto usuario a la variable temporal
 
 	if($scope.newUser.activeUs){
@@ -79,17 +94,25 @@ $scope.showList = function(){
 $scope.init = function(){
 	
 	$scope.isCreating = true;
-	$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","user": {}};
+	$scope.myId = $localStorage.user.userId;
+	$scope.idInstitucion = $localStorage.user.idInstitucion;
+
+	$scope.requestObject = 
+	{"pageNumber": 0,
+	 "pageSize": 0,
+	 "direction": "string",
+	 "sortBy": [""],
+	 "searchColumn": "string",
+	 "searchTerm": 
+	 "string",
+	 "usuario":{"idInstitucion": $scope.idInstitucion}};
+
 	$http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
-		console.log("response",response)
+	//	console.log("response",response)
 		$scope.userList = response.usuarios;
 	});
-
-	// $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","role": {}};
-	// $http.post('rest/protected/roles/getAll',$scope.requestObject).success(function(response) {
-	// 	console.log("response",response)
-	// 	$scope.roleList = response.roles;
-	// });
+		
+		console.log("my institute id", $scope.idInstitucion);
 }
 
 $scope.saveUsuario = function(){
@@ -98,15 +121,26 @@ $scope.saveUsuario = function(){
 			$scope.newUser.activeUs = true;
 		}
 		
-		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
-		"string","usuario":{"idUsuario": $scope.newUser.idUsuario,"nombre": $scope.newUser.nombre, 'apellido':  $scope.newUser.apellido, 'cedula': 
-		 $scope.newUser.cedula,"telefono": $scope.newUser.telefono,  "movil": $scope.newUser.movil, "email": $scope.newUser.email, "activeUs": 
-		 $scope.newUser.activeUs, "idRoles": $scope.selectedItem}};
+		$scope.requestObject = {"pageNumber": 0,
+								 "pageSize": 0,
+								 "direction": "string",
+								 "sortBy": [""],
+								 "searchColumn": "string",
+								 "searchTerm": 
+								 "string","usuario":{"idUsuario": $scope.newUser.idUsuario,
+								 "nombre": $scope.newUser.nombre, 
+								 'apellido':  $scope.newUser.apellido, 
+								 'cedula': $scope.newUser.cedula,
+								 "telefono": $scope.newUser.telefono,  
+								 "movil": $scope.newUser.movil, 
+								 "email": $scope.newUser.email, 
+								 "activeUs": $scope.newUser.activeUs, 
+								 "idRoles": $scope.selectedItem,
+								 "idInstitucion": $scope.idInstitucion}};
 
-		console.log($scope.requestObject.usuario);
+	//	console.log($scope.requestObject.usuario);
 
-		$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {
-				
+	$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {		
 				$state.reload();
 
 		}); 

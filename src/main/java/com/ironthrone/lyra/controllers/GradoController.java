@@ -52,22 +52,6 @@ public class GradoController {
 	}
 	
 	/**
-	 * Retorna una lista de grados dado un año particular.
-	 * @param year
-	 * @return Grado Response
-	 */
-	@RequestMapping(value ="/getByYear", method = RequestMethod.POST)
-	public GradoResponse getByYear(@RequestBody GradoRequest gr){	
-			
-		GradoResponse gs = new GradoResponse();
-		gs.setCode(200);
-		gs.setCodeMessage("grade fetch success");
-		System.out.println("Año del grado: " + gr.getGrado().getYear());
-		gs.setGrados(gradeService.getByYear(gr.getGrado().getYear()));
-		return gs;		
-	}
-	
-	/**
 	 * Guarda los datos de un frado, remplaza el Create y Update en el CRUD.
 	 * @param gr
 	 * @return

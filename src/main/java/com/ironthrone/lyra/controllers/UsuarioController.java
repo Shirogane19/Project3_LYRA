@@ -109,13 +109,12 @@ public class UsuarioController {
 	public UsuarioResponse pruebaRoles(){	
 		
 		UsuarioResponse us = new UsuarioResponse();
-		boolean state = usersService.prueba();
+		us.setUsuarios(usersService.prueba());
 		
-	
-		if(state){
+
 			us.setCode(200);
 			us.setCodeMessage("user saved succesfully");
-		}
+	
 		return us;
 		
 	}
