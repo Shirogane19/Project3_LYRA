@@ -46,18 +46,25 @@ public class LoginService implements LoginServiceInterface {
 					response.setCode(200);
 					response.setCodeMessage("User authorized");
 					List<Integer> idInstitutions = new ArrayList<Integer>();
+					List<Integer> idRoles = new ArrayList<Integer>();
 					
 					//CREATE AND SET THE VALUES FOR THE CONTRACT OBJECT
 					response.setUserId(loggedUser.getIdUsuario());
 					response.setFirstName(loggedUser.getNombre());
 					response.setLastName(loggedUser.getApellido());
+					
 					loggedUser.getInstitucions().stream().forEach(i -> {
 						idInstitutions.add(i.getIdInstitucion());
-						//System.out.println("********************************");
-						//System.out.println(i.getIdInstitucion());
-						//System.out.println("********************************");
+
 					});
+					
+					loggedUser.getRols().stream().forEach(r -> {
+						idRoles.add(r.getIdRol());
+					});
+					
+					response.setIdRoles(idRoles);
 					response.setIdInstitucions(idInstitutions);
+					
 					//response.setIdInstitucion(loggedUser.getInstitucion().getIdInstitucion());
 					
 					currentSession.setAttribute("userId", loggedUser.getIdUsuario());

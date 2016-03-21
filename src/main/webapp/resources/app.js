@@ -19,9 +19,26 @@ angular.module('myApp', [
   //'myApp.usuarios'
 ])
 
-.controller("MainCtrl",['$scope','$localStorage',function($scope,$localStorage) {
+.constant('USER_ROLES', {
+  master:    1,  
+  admin:     2,
+  profesor:  3,
+  encargado: 4
+})
 
+.controller("MainCtrl",['$scope','$localStorage','USER_ROLES',function($scope,$localStorage,USER_ROLES) {
+
+  $scope.title =  "";
   $scope.user =  {}
+  $scope.roles = {};
+
+  $scope.accessTask =  false;
+  $scope.accessUser =  false;
+  $scope.accessStudent = false;
+  $scope.accessMateria = false;
+  $scope.accessGrado = false;  
+  $scope.accessSeccion =  false;
+  $scope.accessCategory = false;
 
 
   $scope.save = function(u) {
@@ -30,6 +47,8 @@ angular.module('myApp', [
  
   $scope.load = function() {
     $scope.user = $localStorage.user;
+    $scope.roles = $scope.user.roles;
+
     console.log($scope.user);
   };
 
@@ -44,7 +63,54 @@ angular.module('myApp', [
     window.location.href = path;
   };
 
+  $scope.initPermissions = function() {
+
+    if($scope.roles.indexOf(USER_ROLES.encargado) !== -1) {
+        $scope.accessTask =  true;
+        $scope.accessStudent = true; 
+        $scope.accessSeccion =  true;
+        
+      
+    }
+
+
+
+    if($scope.roles.indexOf(USER_ROLES.profesor) !== -1) {
+        $scope.accessTask =  true;
+        $scope.accessStudent = true;
+        $scope.accessMateria = true;
+        $scope.accessGrado = true;  
+        $scope.accessSeccion =  true;
+        $scope.title = "Prof.";
+    }
+
+    if($scope.roles.indexOf(USER_ROLES.admin) !== -1) {
+        $scope.accessTask =  true;
+        $scope.accessUser =  true;
+        $scope.accessStudent = true;
+        $scope.accessMateria = true;
+        $scope.accessGrado = true;  
+        $scope.accessSeccion =  true;
+        $scope.accessCategory = true;
+        $scope.title = "Admin.";
+      
+    }
+
+    if($scope.roles.indexOf(USER_ROLES.master) !== -1) {
+        $scope.accessTask =  true;
+        $scope.accessUser =  true;
+        $scope.accessStudent = true;
+        $scope.accessMateria = true;
+        $scope.accessGrado = true;  
+        $scope.accessSeccion =  true;
+        $scope.accessCategory = true;
+        $scope.title = "Master";
+    }
+
+  };
+
   $scope.load();
+  $scope.initPermissions();
 
 
 
@@ -65,7 +131,8 @@ angular.module('myApp', [
       	templateUrl: 'resources/userView/userView.html',
 		    controller: 'userViewCtrl',
         data: {
-        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+        requireLogin: true //, // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+       // hasRole: true
       }
 
     })
@@ -167,16 +234,23 @@ angular.module('myApp', [
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-    console.log(toState);
+   // console.log(toState);
 
     var requireLogin = toState.data.requireLogin;
+    var hasRole = toState.data.hasRole;
 
     if (requireLogin && typeof $localStorage.user === 'undefined') {
       event.preventDefault();
       var path = "/lyra/";
       window.location.href = path;
     }
+
   });
+
+
+
+
+
 
   $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
     if (error) {

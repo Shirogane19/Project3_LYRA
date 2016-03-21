@@ -138,25 +138,25 @@
                                 </li>
                                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Menu</span></li>
 
-                                <li>
+                                <li ng-if = "accessTask == true">
                                     <a ui-sref="tareaView"><i class="si si-note"></i>Tareas</a>
                                 </li>
-                                <li>
+                                <li ng-if = "accessUser == true">
                                     <a ui-sref="userView"><i class="si si-users"></i>Usuarios</a>
                                 </li>
-                                <li>
+                                <li ng-if = "accessStudent == true">
                                     <a ui-sref="alumnoView"><i class="si si-graduation"></i>Estudiantes</a>
                                 </li>
-                                <li>
+                                <li ng-if = "accessMateria == true">
                                     <a ui-sref="materiaView"><i class="si si-book-open"></i>Materias</a>
                                 </li>
-                                <li>
+                                <li ng-if = "accessGrado == true">
                                     <a ui-sref="gradoView"><i class="si si-graduation"></i>Grados</a>
                                 </li>
-                                <li>    
+                                <li ng-if = "accessSeccion == true">    
                                     <a ui-sref="seccionView"><i class="si si-map"></i>Secciones</a>
                                 </li> 
-                                <li>
+                                <li ng-if = "accessCategory == true">
                                     <a ui-sref="categoriaView"><i class="si si-list"></i>Categorias</a>
                                 </li>
                               
@@ -223,7 +223,7 @@
                     <div class="push-50-t push-15">
                         <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
 
-                        <h2 class="h5 text-white-op animated zoomIn">Saludos {{user.firstName}}!</h2>
+                        <h2 class="h5 text-white-op animated zoomIn">Saludos {{title}} {{user.firstName}}!</h2>
                     </div>
                 </div>
                 <!-- END Page Header -->
@@ -269,7 +269,6 @@
 <!--         <script src="resources/components/usuarios/usuarios.js"></script>
         <script src="resources/components/usuarios/usuario-service.js"></script> -->
         <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
-        <script src="resources/constants.js"></script>
                 <!-- Views JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>

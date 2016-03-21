@@ -44,8 +44,17 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
         $http.post('rest/protected/institucion/getInstituto',loginResponse.idInstitucions[loginResponse.idInstitucions.length - 1]).success(function(response) {
 
-          $scope.user = {"userId":loginResponse.userId,"firstName":loginResponse.firstName,"lastName":loginResponse.lastName, 
-          "idInstitucion": response.institucion.idInstitucion,"nombreInstitucion":response.institucion.nombreInstitucion,"logoInstitucion":response.institucion.logoInstitucion};
+          console.log("Response", loginResponse);
+
+          $scope.user = { "userId":loginResponse.userId,
+                          "firstName":loginResponse.firstName,
+                          "lastName":loginResponse.lastName, 
+                          "idInstitucion": response.institucion.idInstitucion,
+                          "nombreInstitucion":response.institucion.nombreInstitucion,
+                          "logoInstitucion":response.institucion.logoInstitucion,
+                          "roles": loginResponse.idRoles};
+
+
           $scope.save($scope.user);
 
           var path = "/lyra/app#/home";

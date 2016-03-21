@@ -7,6 +7,7 @@ public class LoginResponse extends BaseResponse {
 
 	private int userId;
 	private List<Integer> idInstitucions;
+	private List<Integer> idRoles;
 	private int idInstitucion;
 	private String firstName;
 	private String lastName; 
@@ -53,6 +54,14 @@ public class LoginResponse extends BaseResponse {
 
 	public void setIdInstitucions(List<Integer> idInstitucions) {
 		this.idInstitucions = idInstitucions;
+	}
+
+	public List<Integer> getIdRoles() {
+		return idRoles;
+	}
+
+	public void setIdRoles(List<Integer> idRoles) {
+		this.idRoles = idRoles;
 	}
 
 
