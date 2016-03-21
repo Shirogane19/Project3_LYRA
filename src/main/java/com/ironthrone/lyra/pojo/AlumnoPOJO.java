@@ -1,5 +1,10 @@
 package com.ironthrone.lyra.pojo;
 
+import java.util.List;
+
+import com.ironthrone.lyra.ejb.RegistrosMedico;
+import com.ironthrone.lyra.ejb.Usuario;
+
 public class AlumnoPOJO {
 	
 	private int idAlumno;
@@ -11,6 +16,8 @@ public class AlumnoPOJO {
 	private String nombre;
 	private InstitucionPOJO institucion;
 	private SeccionPOJO seccion;
+	private List<RegistrosMedico> registrosMedicos;
+	private List<UsuarioPOJO> usuarios;
 
 	
 	public AlumnoPOJO(){
@@ -88,6 +95,24 @@ public class AlumnoPOJO {
 	public void setSeccion(SeccionPOJO seccion) {
 		this.seccion = seccion;
 	}
+
+	public List<RegistrosMedico> getRegistrosMedicos() {
+		return registrosMedicos;
+	}
+
+	public void setRegistrosMedicos(List<RegistrosMedico> registrosMedicos) {
+		this.registrosMedicos = registrosMedicos;
+	}
+
+	public List<UsuarioPOJO> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<UsuarioPOJO> usuarios) {
+		this.usuarios = usuarios;
+	}
+	
+	
 
 
 	

@@ -118,4 +118,34 @@ public class UsuarioController {
 		return us;
 		
 	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	@RequestMapping(value ="/getUserByEmail", method = RequestMethod.POST)
+	public UsuarioResponse getByEmail(@RequestBody UsuarioRequest ur){	
+			
+		UsuarioResponse us = new UsuarioResponse();
+		us.setCode(200);
+		us.setCodeMessage("users fetch success");
+		us.setUsuario(usersService.getUserByEmail(ur.getUsuario().getEmail()));
+		return us;		
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	@RequestMapping(value ="/getUserByCedula", method = RequestMethod.POST)
+	public UsuarioResponse getByCedula(@RequestBody UsuarioRequest ur){	
+			
+		UsuarioResponse us = new UsuarioResponse();
+		us.setCode(200);
+		us.setCodeMessage("users fetch success");
+		us.setUsuario(usersService.getUserByCedula(ur.getUsuario().getCedula()));
+		return us;		
+	}
 }

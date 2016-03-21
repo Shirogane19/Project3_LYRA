@@ -18,5 +18,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer>{
 	List<Usuario>findByisActiveUsTrue();
 	List<Usuario>findByisActiveUsFalse();
 	List<Usuario>findByInstitucionsIn(Institucion ints);
+	List<Usuario>findByemail(String email);
+	List<Usuario>findBycedula(String cedula);
 	
 }

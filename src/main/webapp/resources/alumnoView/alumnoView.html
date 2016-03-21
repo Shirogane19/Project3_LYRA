@@ -1,142 +1,279 @@
-        <!-- Page JS Plugins CSS -->
-        <link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="resources/assets/js/plugins/select2/select2.min.css">
-        <link rel="stylesheet" href="resources/assets/js/plugins/select2/select2-bootstrap.min.css">
-        <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
+<!-- Page JS Plugins CSS -->
+<link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
+<link rel="stylesheet" href="resources/assets/js/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="resources/assets/js/plugins/select2/select2-bootstrap.min.css">
+<link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
 
-        <button class="btn btn-success push-5-r push-10" type="button" ng-show="!onPoint" ng-click="showForm()">
-        <i class="fa fa-plus"></i> Registrar Estudiante</button>
+<button class="btn btn-success push-5-r push-10" type="button" ng-show="!onPoint" ng-click="showForm()">
+<i class="fa fa-plus"></i> Registrar estudiante</button>
 
-                    <!-- Dynamic Table Full -->
-                    <div class="block" ng-show="!onPoint">
-                        <div class="block-header">
-                            <h3 class="block-title">Estudiantes</h3>
+<!-- Dynamic Table Full -->
+<div class="block" ng-show="!onPoint">
+
+    <div class="block-header">
+        <h3 class="block-title">Lista de Estudiantes</h3>
+    </div>
+
+    <div class="block-content" >
+
+        <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+        <table class="table table-bordered table-striped js-dataTable-full">
+            <thead>
+                <tr>
+                    <th ng-hide="true"></th>
+                    <th class="text-center"></th>
+                    <th>Nombre</th>
+                    <th class="hidden-xs">Sección</th>
+                    <th class="hidden-xs" style="width: 15%;">Estado</th>
+                    <th class="text-center" style="width: 10%;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody >
+
+                <tr ng-repeat="a in alumnos" u-index="$index">
+                    <td class="text-center" ng-bind="a.idAlumno" ng-hide="true"></td>
+                    <td class="text-center">{{$index+1}}</td>
+                    <td class="font-w600" ng-bind="(a.nombre) +' '+ (a.apellido1) +' '+ (a.apellido2)"></td>
+                    <td class="hidden-xs" ></td>
+
+                    <td class="hidden-xs"   ng-if="a.activeAl == true">
+                    <span class="label label-success">Activo</span>
+                    </td>
+
+                    <td class="hidden-xs"   ng-if="a.activeAl == false">
+                    <span class="label label-danger">Inactivo</span>
+                    </td>
+
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit alumno" ng-click="showAlumnoToEdit(a)"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(a)"><i class="fa fa-times"></i></button>
                         </div>
+                    </td>
+                </tr>
 
-                        <div class="block-content" >
+            </tbody>
+            
+        </table>
+    </div>
+<!-- END Dynamic Table Full -->
+</div>
 
-                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
-                            <table class="table table-bordered table-striped js-dataTable-full">
-                                <thead>
-                                    <tr>
-                                        <th ng-hide="true"></th>
-                                        <th class="text-center"></th>
-                                        <th>Nombre</th>
-                                        <th class="hidden-xs">Sección</th>
-                                        <th class="hidden-xs" style="width: 15%;">Estado</th>
-                                        <th class="text-center" style="width: 10%;">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-
-                                    <tr ng-repeat="a in alumnos" u-index="$index">
-                                        <td class="text-center" ng-bind="a.idAlumno" ng-hide="true"></td>
-                                        <td class="text-center">{{$index+1}}</td>
-                                        <td class="font-w600" ng-bind="(a.nombre) +' '+ (a.apellido1) +' '+ (a.apellido2)"></td>
-                                        <td class="hidden-xs" ></td>
-
-                                        <td class="hidden-xs"   ng-if="a.activeAl == true">
-                                        <span class="label label-success">Activo</span>
-                                        </td>
-
-                                        <td class="hidden-xs"   ng-if="a.activeAl == false">
-                                        <span class="label label-danger">Inactivo</span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <div class="btn-group">
-                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit alumno" ng-click="showAlumnoToEdit(a)"><i class="fa fa-pencil"></i></button>
-                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(a)"><i class="fa fa-times"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                                
-                            </table>
+ <!-- Formulario estudiante -->
+<div class="col-lg-6" ng-show="onPoint">
+    <div class="block block-themed">
+        <div class="block-header bg-success">
+            <ul class="block-options">
+                
+                <li>
+                    <button type="button" ng-click="showList()"><i class="si si-close"></i></button>
+                </li>    
+                <li>
+                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                </li>
+            </ul>
+            <h3 class="block-title">Estudiante</h3>
+        </div>
+        <div class="block-content">
+            <form class="form-horizontal push-10-t push-10" name="alumnoForm">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="newAlumno.nombre" required>
+                            <label for="register2-username">Nombre<span class="text-danger">*</span></label>
                         </div>
-                    <!-- END Dynamic Table Full -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="newAlumno.apellido1" required>
+                            <label for="register2-email">Primer apellido<span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="newAlumno.apellido2">
+                            <label for="register2-password">Segundo apellido</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="newAlumno.cedula" ng-pattern="onlyNumbers" required>
+                            <label for="register2-password2">Cédula<span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                             <label>Encargados</label> 
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <div class="col-md-8">
+                        <select style="width: 100%;" multiple ng-model="encargadoList">
+                            <option ng-repeat="e in encargados" value="{{e}}" ng-click="targetEncargado(e)">{{e.nombre}} {{e.apellido}}</option>
+                        </select>
+                    </div>
+                    <a class="label label-primary" href="javascript:void(0)" ng-click="findUserForm()">Agregar</a><br><br>
+                    <a class="label label-primary" href="javascript:void(0)" ng-click="borrarEncargado()">Eliminar</a>
+                </div>
+
+                
+
+                <div class="form-group">
+                    <label class="col-xs-12">Sexo</label>
+                    <div class="col-xs-12">
+                        <label class="radio-inline" for="example-inline-radio1">
+                            <input type="radio" ng-model="newAlumno.genero" value="M"> Masculino
+                        </label>
+                        <label class="radio-inline" for="example-inline-radio2">
+                            <input type="radio" ng-model="newAlumno.genero" value="F"> Femenino
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="!isCreating">
+                        <div class="col-xs-12">
+                            <label class="css-input css-checkbox css-checkbox-success">
+                                <input type="checkbox" ng-model="newAlumno.activeAl"><span></span> Activo?
+                            </label>
+                        </div>
                     </div>
 
-                     <!-- Formulario estudiante -->
-                    <div class="col-lg-6" ng-show="onPoint">
-                        <div class="block block-themed">
-                            <div class="block-header bg-success">
-                                <ul class="block-options">
-                                    
-                                    <li>
-                                        <button type="button" ng-click="showList()"><i class="si si-close"></i></button>
-                                    </li>    
-                                    <li>
-                                        <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                    </li>
-                                </ul>
-                                <h3 class="block-title">Estudiante</h3>
-                            </div>
-                            <div class="block-content">
-                                <form class="form-horizontal push-10-t push-10" name="alumnoForm">
-                                    <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" ng-model="newAlumno.nombre" required>
-                                                <label for="register2-username">Nombre<span class="text-danger">*</span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" ng-model="newAlumno.apellido1" required>
-                                                <label for="register2-email">Primer apellido<span class="text-danger">*</span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" ng-model="newAlumno.apellido2">
-                                                <label for="register2-password">Segundo apellido</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" ng-model="newAlumno.cedula" ng-pattern="onlyNumbers" required>
-                                                <label for="register2-password2">Cédula<span class="text-danger">*</span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-xs-12">Sexo</label>
-                                        <div class="col-xs-12">
-                                            <label class="radio-inline" for="example-inline-radio1">
-                                                <input type="radio" ng-model="newAlumno.genero" value="M"> Masculino
-                                            </label>
-                                            <label class="radio-inline" for="example-inline-radio2">
-                                                <input type="radio" ng-model="newAlumno.genero" value="F"> Femenino
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group" ng-show="!isCreating">
-                                            <div class="col-xs-12">
-                                                <label class="css-input css-checkbox css-checkbox-success">
-                                                    <input type="checkbox" ng-model="newAlumno.activeAl"><span></span> Activo?
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                    <div class="form-group">
-                                            <div class="col-xs-12">
-                                                <button class="btn btn-sm btn-success" type="submit"  ng-disabled="alumnoForm.$invalid"
-                                                        ng-click="saveAlumno()">
-                                                <i class="fa fa-plus push-5-r"></i> Registrar</button>
-                                            </div>
-                                        </div>
-                                </form>
-                            </div>
+                <div class="form-group">
+                        <div class="col-xs-12">
+                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="alumnoForm.$invalid"
+                                    ng-click="saveAlumno()">
+                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
                         </div>
-                        <!-- END formulario estudiante -->
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <!-- END formulario estudiante -->
+
+<div class="col-lg-6" ng-show="onPointFindUser">
+    <div class="block block-themed">
+        <div class="block-header bg-success">
+            <ul class="block-options">
+                
+                <li>
+                    <button type="button" ng-click="changeFindUserVisibility()"><i class="si si-close"></i></button>
+                </li>    
+                <li>
+                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                </li>
+            </ul>
+            <h3 class="block-title">Encargado</h3>
+        </div>
+        <div class="block-content">
+            <form class="form-horizontal push-10-t push-10" name="searchUser">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model = "cedula" ng-disabled="cedulaInput" required>
+                            <label>Cédula</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" ng-show="invalidUser">
+                    <p class="text-muted push-15-t text-danger">No se encontró este usuario</p>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <button class="btn btn-sm btn-success" type="submit" ng-disabled="searchUser.$invalid"
+                                ng-click="getUser()">
+                        <i class="fa fa-search push-5-r"></i> Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-6" ng-show="onPointShowUser">
+    <div class="block block-themed">
+        <div class="block-header bg-success">
+            <ul class="block-options">
+                
+                <li>
+                    <button type="button" ng-click="changeShowUserVisibility()"><i class="si si-close"></i></button>
+                </li>    
+                <li>
+                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                </li>
+            </ul>
+            <h3 class="block-title">Encargado</h3>
+        </div>
+        <div class="block-content">
+            <form class="form-horizontal push-10-t push-10" name="userForm">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="encargado.nombre" ng-disabled = "true">
+                            <label>Nombre </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="encargado.apellido" ng-disabled = "true">
+                            <label>Apellido</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="encargado.cedula" ng-disabled = "true">
+                            <label>Cédula</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="encargado.email" ng-disabled = "true">
+                            <label>Correo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="encargado.telefono" ng-disabled = "true">
+                            <label>Teléfono</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="encargado.movil" ng-disabled = "true">
+                            <label>Móvil</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <button class="btn btn-sm btn-success" ng-click="agregarEncargado()"><i class="fa fa-plus push-5-r"></i> Agregar</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
 

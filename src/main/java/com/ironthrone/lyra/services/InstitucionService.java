@@ -16,6 +16,7 @@ import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Materia;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
@@ -147,6 +148,52 @@ public class InstitucionService implements InstitucionServiceInterface{
 	}
 	
 	/**
+	 * Retorna la institucion con sus alumnos.
+	 * @param idInstitucion, identificador único de la institución.
+	 * @return Institución de tipo InstitucionPOJO.
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getAlumnosDeInstitucionById(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(generateAlumnoDto(institucion));
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(null);
+		dto.setSubscripcions(null);
+		dto.setUsuarios(null);
+		
+		return dto;
+	}
+	
+	/**
+	 * Retorna la institucion con sus alumnos.
+	 * @param idInstitucion, identificador único de la institución.
+	 * @return Institución de tipo InstitucionPOJO.
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getUsuariosDeInstitucionById(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(null);
+		dto.setSubscripcions(null);
+		dto.setUsuarios(generateUserDto(institucion));
+		
+		return dto;
+	}
+	
+	/**
 	 * Retorna una lista de Usuarios POJO de una institución
 	 * @param Institucion recibe un objeto Institución
 	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
@@ -185,9 +232,57 @@ public class InstitucionService implements InstitucionServiceInterface{
 			BeanUtils.copyProperties(s,dto);
 			dto.setActiveSub(s.getIsActiveSub());
 			dto.setInstitucion(null);
+			dto.setFechaFin(null);
+			dto.setFechaInicio(null);
 			uiSubscripciones.add(dto);
 		});	
 		
 		return uiSubscripciones;
+	};
+	
+	/**
+	 * Obtiene una lista de AlumnoPojo de una institucion
+	 * @param Institucion
+	 * @return List<AlumnoPOJO>
+	 */
+	private List<AlumnoPOJO> generateAlumnoDto(Institucion i) {
+		
+		List<AlumnoPOJO> alumnos = new ArrayList<AlumnoPOJO>();
+		
+		i.getAlumnos().stream().forEach(a -> {
+			AlumnoPOJO alumno = new AlumnoPOJO();
+			BeanUtils.copyProperties(a, alumno);	
+			alumno.setRegistrosMedicos(null);
+			alumno.setSeccion(null);
+			alumno.setUsuarios(generateUserDto(a));
+			alumno.setActiveAl(a.getIsActiveAl());
+			alumnos.add(alumno);
+		});	
+
+		return alumnos;
+	};
+	
+	/**
+	 * Retorna una lista de Usuarios POJO de un Alumno
+	 * @param Institucion recibe un objeto Alumno
+	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
+	 */
+	@SuppressWarnings("unused")
+	private List<UsuarioPOJO> generateUserDto(Alumno a) {
+		
+		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
+		
+		a.getUsuarios().stream().forEach(u -> {
+			UsuarioPOJO user = new UsuarioPOJO();
+			BeanUtils.copyProperties(u, user);	
+			user.setPassword("secret");
+			user.setActiveUs(u.getIsActiveUs());
+			user.setRols(null);
+			user.setInstitucion(null);
+			
+			users.add(user);
+		});	
+
+		return users;
 	};
 }

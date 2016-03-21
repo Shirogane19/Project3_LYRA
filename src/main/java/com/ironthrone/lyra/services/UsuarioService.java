@@ -441,5 +441,42 @@ public class UsuarioService implements UsuarioServiceInterface {
 //	/** fin comment **/
 	
 //	System.out.println(ur.getUsuario().getIdRoles());
+	
+	 /**
+	  * Recibe un correo y retorna un Usuario POJO
+	  * @param String
+	  * @return UsuarioPOJO
+	  */
+	@Override
+	public UsuarioPOJO getUserByEmail(String email) {
+		List<Usuario> users =  usersRepository.findByemail(email);
+		UsuarioPOJO dto = new UsuarioPOJO();
+		users.stream().forEach(u -> {
+			BeanUtils.copyProperties(u, dto);
+			dto.setActiveUs(u.getIsActiveUs());
+			dto.setDateOfJoin(u.getDateOfJoin());
+			dto.setRols(generateRolDto(u));
+		});
+		
+		return dto;
+	}
+
+	/**
+	  * Recibe una cedula y retorna un Usuario POJO
+	  * @param String
+	  * @return UsuarioPOJO
+	  */
+	@Override
+	public UsuarioPOJO getUserByCedula(String cedula) {
+		List<Usuario> users =  usersRepository.findBycedula(cedula);
+		UsuarioPOJO dto = new UsuarioPOJO();
+		users.stream().forEach(u -> {
+			BeanUtils.copyProperties(u, dto);
+			dto.setActiveUs(u.getIsActiveUs());
+			dto.setDateOfJoin(u.getDateOfJoin());
+			dto.setRols(generateRolDto(u));
+		});
+		return dto;
+	}
 
 }
