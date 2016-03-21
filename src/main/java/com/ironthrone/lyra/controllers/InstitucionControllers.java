@@ -71,5 +71,35 @@ public class InstitucionControllers {
 		institucionResponse.setInstitucion(ISI.getInstitucionById(idInstitucion));
 		return institucionResponse;		
 	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus alumnos.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getAlumnosDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getAlumnosDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getAlumnosDeInstitucionById(idInstitucion));
+		return institucionResponse;		
+	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus usuarios.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getUsuariosDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getUsuariosDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getUsuariosDeInstitucionById(idInstitucion));
+		return institucionResponse;		
+	}
 
 }

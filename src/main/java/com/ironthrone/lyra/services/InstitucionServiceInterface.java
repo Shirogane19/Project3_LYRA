@@ -13,4 +13,6 @@ public interface InstitucionServiceInterface {
 	Boolean saveInstitucion(InstitucionRequest institucionRequest);
 	InstitucionPOJO getInstitucionById(int idInstitucion);
 	Institucion findById(int idInstitucion);
+	InstitucionPOJO getAlumnosDeInstitucionById(int idInstitucion);
+	InstitucionPOJO getUsuariosDeInstitucionById(int idInstitucion);
 }

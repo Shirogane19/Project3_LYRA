@@ -177,7 +177,7 @@
                     <li>
                         <div class="btn-group">
                             <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
-                                <img ng-src="{{user.logoInstitucion == '' && 'resources/assets/img/imagenes/big-default_user-logo.png' || user.logoInstitucion}}" alt="Imagen no encontrada" onError="this.src='resources/assets/img/imagenes/No-image-found.jpg '">
+                                <img ng-src="{{user.logoInstitucion == '' && 'resources/assets/img/imagenes/big-default_user-logo.png' || user.logoInstitucion == null && 'resources/assets/img/imagenes/big-default_user-logo.png' || user.logoInstitucion}}" alt="Imagen no encontrada" onError="this.src='resources/assets/img/imagenes/No-image-found.jpg '">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">

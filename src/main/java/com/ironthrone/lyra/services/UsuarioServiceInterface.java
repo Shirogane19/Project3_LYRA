@@ -21,6 +21,7 @@ public interface UsuarioServiceInterface {
 	Boolean saveUser(UsuarioRequest ur);
 	boolean prueba();
 	Boolean editProfile(UsuarioRequest ur);
-
+	UsuarioPOJO getUserByEmail(String email);
+	UsuarioPOJO getUserByCedula(String cedula);
 
 }
