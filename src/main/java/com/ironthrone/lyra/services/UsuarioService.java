@@ -96,8 +96,8 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		int idInst = ur.getUsuario().getIdInstitucion();
 		Institucion ints = instituteRepository.findOne(idInst);
-		List<Institucion> listInts = new ArrayList<Institucion>();
-		listInts.add(ints);
+//		List<Institucion> listInts = new ArrayList<Institucion>();
+//		listInts.add(ints);
 		
 		List<Usuario> users =  usersRepository.findByInstitucionsIn(ints);
 		return generateUserDtos(users);
@@ -198,10 +198,19 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		Usuario newUser = new Usuario();
 		Usuario nuser = null;
+		
 		List<String> idRoles = ur.getUsuario().getIdRoles();
 		List<Rol> rols = new ArrayList<Rol>();
+		List<Institucion> listInts = new ArrayList<Institucion>();
+		
+		
 		boolean hasRoles = false;
 		boolean newPass = false;
+//		boolean hasInstitutes = false;
+		
+		int idInst = ur.getUsuario().getIdInstitucion();
+		Institucion ints = instituteRepository.findOne(idInst);
+		listInts.add(ints);
 		
 		/**Copia las propiedades del Request a el nuevo Usuario**/
 		BeanUtils.copyProperties(ur.getUsuario(), newUser);	
@@ -221,6 +230,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 			newUser.setIdUsuario(0);
 			newUser.setIsActiveUs(true);
 			newUser.setDateOfJoin(getCurrentDate());
+			newUser.setInstitucions(listInts);
 			nuser = usersRepository.save(newUser);
 			
 		/** Si hay roles por agregar, toma el usuario recien creado y le asigna los roles **/
@@ -241,6 +251,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 			}
 			
 			oldUser = assignProperties(oldUser, ur.getUsuario(), newPass);
+			oldUser.setInstitucions(listInts);
 			nuser = usersRepository.save(oldUser);	
 			
 		}
@@ -377,7 +388,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	}
 
 	@Override
-	public boolean prueba() {
+	public List<UsuarioPOJO> prueba() {
 
 //		List<String> listaRoles = Arrays.asList("1", "2", "3");
 //		Usuario user = usersRepository.findOne(1);
@@ -387,20 +398,20 @@ public class UsuarioService implements UsuarioServiceInterface {
 //		rolRepository.save(rol);
 		
 
-		Usuario user = usersRepository.findOne(4);
-		user.setRols(null);
-		user = usersRepository.save(user);
-		
-		List<Rol> roles = new ArrayList<Rol>();
-		
-		Rol rol1 = rolRepository.findOne(1);
-		Rol rol2 = rolRepository.findOne(2);
-		roles.add(rol1);
-		roles.add(rol2);
-		
-		user.setRols(roles);
-		
-		user = usersRepository.save(user);
+//		Usuario user = usersRepository.findOne(4);
+//		user.setRols(null);
+//		user = usersRepository.save(user);
+//		
+//		List<Rol> roles = new ArrayList<Rol>();
+//		
+//		Rol rol1 = rolRepository.findOne(1);
+//		Rol rol2 = rolRepository.findOne(2);
+//		roles.add(rol1);
+//		roles.add(rol2);
+//		
+//		user.setRols(roles);
+//		
+//		user = usersRepository.save(user);
 		
 //		Usuario user = new Usuario();
 //		user.setPassword("12345");
@@ -409,9 +420,9 @@ public class UsuarioService implements UsuarioServiceInterface {
 //		user.setNombre("Johnny");
 //		user.setApellido("Test");
 		
+		List<Usuario> user = usersRepository.findAll();
 		
-		
-		return (user == null) ? false : true;
+		return generateUserDtos(user);
 		
 		
 	//	user.setRols(getRoles(listaRoles, user));

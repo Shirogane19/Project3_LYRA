@@ -16,6 +16,7 @@ angular.module('myApp.userView', ['ngRoute'])
   $scope.onlyNumbers = /^\d+$/;
   $scope.myId = 0;
 
+
 $scope.initScripts = function(){
 
 /** Metodo que inicia los scripts del template **/
@@ -120,15 +121,26 @@ $scope.saveUsuario = function(){
 			$scope.newUser.activeUs = true;
 		}
 		
-		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
-		"string","usuario":{"idUsuario": $scope.newUser.idUsuario,"nombre": $scope.newUser.nombre, 'apellido':  $scope.newUser.apellido, 'cedula': 
-		 $scope.newUser.cedula,"telefono": $scope.newUser.telefono,  "movil": $scope.newUser.movil, "email": $scope.newUser.email, "activeUs": 
-		 $scope.newUser.activeUs, "idRoles": $scope.selectedItem}};
+		$scope.requestObject = {"pageNumber": 0,
+								 "pageSize": 0,
+								 "direction": "string",
+								 "sortBy": [""],
+								 "searchColumn": "string",
+								 "searchTerm": 
+								 "string","usuario":{"idUsuario": $scope.newUser.idUsuario,
+								 "nombre": $scope.newUser.nombre, 
+								 'apellido':  $scope.newUser.apellido, 
+								 'cedula': $scope.newUser.cedula,
+								 "telefono": $scope.newUser.telefono,  
+								 "movil": $scope.newUser.movil, 
+								 "email": $scope.newUser.email, 
+								 "activeUs": $scope.newUser.activeUs, 
+								 "idRoles": $scope.selectedItem,
+								 "idInstitucion": $scope.idInstitucion}};
 
 	//	console.log($scope.requestObject.usuario);
 
-		$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {
-				
+	$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {		
 				$state.reload();
 
 		}); 

@@ -16,23 +16,41 @@ import java.util.List;
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private int idUsuario;
+	
 	private String apellido;
+	
 	private String cedula;
+	
 	private Date dateOfJoin;
+	
 	private String email;
+	
 	private boolean isActiveUs;
+	
 	private String movil;
+	
 	private String nombre;
+	
 	private String password;
+	
 	private String telefono;
+	
 	private List<Rol> rols;
+	
 	private List<Tarea> tareas;
+	
 	private List<Alumno> alumnos;
+	
 	private List<Chat> chats;
+	
 	private List<Institucion> institucions;
+	
 	private List<Materia> materias;
+	
 	private List<Seccion> seccions;
+	
 	private List<Periodo> periodos;
 
 	public Usuario() {
@@ -210,7 +228,7 @@ public class Usuario implements Serializable {
 	//bi-directional many-to-many association to Institucion
 	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
-		name="master_institucion"
+		name="usuarios_institucion"
 		, joinColumns={
 			@JoinColumn(name="Usuario_idUsuario")
 			}
