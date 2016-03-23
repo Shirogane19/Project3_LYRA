@@ -152,7 +152,6 @@ public class AlumnoService implements AlumnoServiceInterface{
 		return alumnoRepository.findOne(idAlumno);
 	}
 	
-	@SuppressWarnings("unused")
 	private List<UsuarioPOJO> generateUserDto(Alumno a) {
 		
 		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
@@ -178,7 +177,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 	 */
 	private void setAlumnoAUsuarios(Alumno a, AlumnoRequest alumnoRequest){
 		
-		Alumno alumno = new Alumno();
+
 	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
 	    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
 	    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 

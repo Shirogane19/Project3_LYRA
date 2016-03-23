@@ -82,7 +82,6 @@ public class UsuarioController {
 	@RequestMapping(value ="/saveUser", method = RequestMethod.POST)
 	public UsuarioResponse create(@RequestBody UsuarioRequest ur){	
 		
-		System.out.println("Controller:" + ur.toString());
 		
 		Boolean state = false;
 		

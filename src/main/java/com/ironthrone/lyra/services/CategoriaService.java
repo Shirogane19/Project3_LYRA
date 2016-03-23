@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.CategoriaRequest;
 
-import com.ironthrone.lyra.ejb.Tarea;
 import com.ironthrone.lyra.ejb.Categoria;
 
 
@@ -35,7 +34,10 @@ public class CategoriaService implements CategoriaServiceInterface{
 		
 		categorias.stream().forEach(c -> {
 			CategoriaPOJO dto = new CategoriaPOJO();
-			BeanUtils.copyProperties(c,dto);
+			dto.setIdCategoria(c.getIdCategoria());
+			dto.setNombreCategoria(c.getNombreCategoria());
+			dto.setDescripcionCategoria(c.getDescripcionCategoria());
+			dto.setTareas(null);
 			dto.setActiveCat(c.getIsActiveCat());
 			ciCategorias.add(dto);
 		});	
@@ -63,11 +65,15 @@ public class CategoriaService implements CategoriaServiceInterface{
 	@Transactional
 	public CategoriaPOJO getCategoriaById(int idCategoria) {
 
-		Categoria categoria = categoriaRepository.findOne(idCategoria);
+		Categoria c = categoriaRepository.findOne(idCategoria);
 		CategoriaPOJO dto = new CategoriaPOJO();
 		
-		BeanUtils.copyProperties(categoria,dto);
-		dto.setActiveCat(categoria.getIsActiveCat());
+		dto.setIdCategoria(c.getIdCategoria());
+		dto.setNombreCategoria(c.getNombreCategoria());
+		dto.setDescripcionCategoria(c.getDescripcionCategoria());
+		dto.setTareas(null);
+		dto.setActiveCat(c.getIsActiveCat());
+
 	
 		return dto;
 	}
@@ -118,12 +124,7 @@ public class CategoriaService implements CategoriaServiceInterface{
 		BeanUtils.copyProperties(cr.getCategoria(), newCategoria);	
 		newCategoria.setIsActiveCat(cr.getCategoria().isActiveCat());
 		
-		/** Cambiar por getTareaByID luego **/
-		Tarea tarea = new Tarea();	
-		tarea.setIdTarea(1);
-		tarea.setTituloTarea("Cenfotec");
-		newCategoria.setTarea_idTarea(tarea.getIdTarea());		
-		/** fin comment **/
+
 			
 		if(cr.getCategoria().getIdCategoria() <= -1){		
 			nCategoria = categoriaRepository.save(newCategoria);

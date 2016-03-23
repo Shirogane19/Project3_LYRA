@@ -2,7 +2,6 @@ package com.ironthrone.lyra.pojo;
 
 import java.util.List;
 
-import com.ironthrone.lyra.ejb.Categoria;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
 
@@ -13,10 +12,11 @@ public class TareaPOJO {
 	private boolean isReadTa;
 	private String tituloTarea;
 	private List<Rol> rols;
-	private Categoria categoria;
+	private CategoriaPOJO categoria;
 	private List<Usuario> usuarios;
 	private List<String> idRols;
 	private List<String> idUsuarios;
+	private int idCategoria;
 	
 	
 	public TareaPOJO(){
@@ -71,10 +71,10 @@ public class TareaPOJO {
 	public void setRols(List<Rol> rols) {
 		this.rols = rols;
 	}
-	public Categoria getCategoria() {
+	public CategoriaPOJO getCategoria() {
 		return categoria;
 	}
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(CategoriaPOJO categoria) {
 		this.categoria = categoria;
 	}
 	public List<Usuario> getUsuarios() {
@@ -82,6 +82,14 @@ public class TareaPOJO {
 	}
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+
+	public int getIdCategoria() {
+		return idCategoria;
+	}
+
+	public void setIdCategoria(int idCategoria) {
+		this.idCategoria = idCategoria;
 	}
 	
 	
