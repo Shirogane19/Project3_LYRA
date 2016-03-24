@@ -71,4 +71,20 @@ public class AlumnoController {
 		return alumnoResponse;		
 	}
 	
+	/**
+	 * Retorna un único historial medico de un alumno dado su ID particular.
+	 * @param idAlumno
+	 * @return AlumnoResponse
+	 */
+	
+	@RequestMapping(value ="/getHistorialMedico", method = RequestMethod.POST)
+	public AlumnoResponse getHistorialMedico(@RequestBody int idAlumno){	
+			
+		AlumnoResponse alumnoResponse = new AlumnoResponse();
+		alumnoResponse.setCode(200);
+		alumnoResponse.setCodeMessage("student record fetch success");
+		alumnoResponse.setAlumno(ASI.getAlumnoById(idAlumno));
+		return alumnoResponse;		
+	}
+	
 }

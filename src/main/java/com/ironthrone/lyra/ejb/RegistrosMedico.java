@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NamedQuery(name="RegistrosMedico.findAll", query="SELECT r FROM RegistrosMedico r")
 public class RegistrosMedico implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private int idRegistros_Medicos;
 	private String descripcion;
 	private String nombreRegistro;

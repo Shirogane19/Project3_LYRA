@@ -157,10 +157,27 @@ $scope.saveUsuario = function(){
 
 	//	console.log($scope.requestObject.usuario);
 
-	$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {		
+	$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {
+	
 				$state.reload();
 
-		}); 
+		})
+
+		 .catch(function (error) {
+          console.error('exception', error);
+		  $scope.checkResponse(error);	
+        });  
+	}
+
+	/** Valida si hay conexcion **/
+	$scope.checkResponse = function(response){
+
+		var status = response.status; // error code
+
+            if ((status >= 500) && (status < 600)) {
+				$state.go('500');
+            }
+
 	}
 
 	/**Funcion que retarsa la carga de los scripts del template hasta que Angular este listo **/

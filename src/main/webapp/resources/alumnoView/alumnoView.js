@@ -235,6 +235,13 @@ angular.module('myApp.alumnoView', [])
     }
   }
 
+  $scope.showHistorial = function(a){
+
+    console.log(a);
+    $state.go('registroView',{alumnoInfo: a});
+
+  }
+
   $timeout( function(){ $scope.initScripts(); }, 100);
   $scope.init();
 

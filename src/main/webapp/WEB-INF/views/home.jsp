@@ -117,7 +117,7 @@
                                     <a ui-sref="materiaView"><i class="si si-book-open"></i>Materias</a>
                                 </li>
                                 <li ng-if = "accessGrado == true">
-                                    <a ui-sref="gradoView"><i class="si si-graduation"></i>Grados</a>
+                                    <a ui-sref="gradoView"><i class="si si-equalizer"></i>Grados</a>
                                 </li>
                                 <li ng-if = "accessSeccion == true">    
                                     <a ui-sref="seccionView"><i class="si si-map"></i>Secciones</a>
@@ -235,13 +235,15 @@
 <!--         <script src="resources/components/usuarios/usuarios.js"></script>
         <script src="resources/components/usuarios/usuario-service.js"></script> -->
         <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
-                <!-- Views JS Code -->
+                <!-- JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/assets/js/pages/base_forms_validation.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
         <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
+
+            <!--     VIEWS -->
         <script src="resources/userView/userView.js"></script>
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
@@ -251,6 +253,8 @@
         <script src="resources/seccionView/seccionView.js"></script>
         <script src="resources/tareaView/tareaView.js"></script>
         <script src="resources/categoriaView/categoriaView.js"></script>
+        <script src="resources/regMedicoView/regMedicoView.js"></script>
+
 
         <script type="text/javascript">
         OneUI.init();

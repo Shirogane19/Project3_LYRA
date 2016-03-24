@@ -80,7 +80,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newUser.nombre" required>
+                                                    <input class="form-control" type="text" ng-model="newUser.nombre"  ng-maxlength="45" required>
                                                     <label>Nombre <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
@@ -88,7 +88,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newUser.apellido" required>
+                                                    <input class="form-control" type="text" ng-model="newUser.apellido" ng-maxlength="45" required>
                                                     <label>Apellido <span class="text-danger">*</span>
                                                 </div>
                                             </div>
@@ -96,7 +96,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newUser.cedula"  ng-pattern="onlyNumbers" required>
+                                                    <input class="form-control" type="text" ng-model="newUser.cedula" ng-maxlength="20" ng-pattern="onlyNumbers" required>
                                                     <label>Cédula <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
@@ -104,7 +104,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newUser.telefono"  ng-pattern="onlyNumbers" required>
+                                                    <input class="form-control" type="text" ng-model="newUser.telefono"  ng-maxlength="20" ng-pattern="onlyNumbers" required>
                                                     <label>Teléfono  <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
@@ -112,7 +112,7 @@
                                          <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newUser.movil"  ng-pattern="onlyNumbers">
+                                                    <input class="form-control" type="text" ng-model="newUser.movil"  ng-maxlength="20"  ng-pattern="onlyNumbers">
                                                     <label>Teléfono 2 </label>
                                                 </div>
                                             </div>
@@ -120,7 +120,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="email" ng-model="newUser.email" required>
+                                                    <input class="form-control" type="email" ng-model="newUser.email"  ng-maxlength="60"required>
                                                     <label data-toggle="tooltip" title="Email debe incluir @">Email <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
