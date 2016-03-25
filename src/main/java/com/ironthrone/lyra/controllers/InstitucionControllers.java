@@ -131,5 +131,20 @@ public class InstitucionControllers {
 		institucionResponse.setInstitucion(ISI.getAlumnosSinSeccion(idInstitucion));
 		return institucionResponse;		
 	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus alumnos sin secciones.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getMateriasDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getMateriasDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getMateriasDeInstitucionById(idInstitucion));
+		return institucionResponse;		
+	}
 
 }

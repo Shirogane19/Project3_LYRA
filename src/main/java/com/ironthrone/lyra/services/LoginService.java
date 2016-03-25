@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.LoginRequest;
 import com.ironthrone.lyra.contracts.LoginResponse;
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.repositories.LoginRepository;
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.ironthrone.lyra.security.RavenMail;
@@ -64,6 +67,7 @@ public class LoginService implements LoginServiceInterface {
 					
 					response.setIdRoles(idRoles);
 					response.setIdInstitucions(idInstitutions);
+					response.setInstituciones(generateInstitucionDtos(loggedUser.getInstitucions()));
 					
 					//response.setIdInstitucion(loggedUser.getInstitucion().getIdInstitucion());
 					
@@ -113,4 +117,29 @@ public class LoginService implements LoginServiceInterface {
 			
 		return success;
 	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param List<Institucion> representa una lista de instituciones tipo ejb
+	 * @return List<InstitucionPOJO>
+	 */
+	private List<InstitucionPOJO> generateInstitucionDtos(List<Institucion> instituciones){
+		
+		List<InstitucionPOJO> institucionesPojo = new ArrayList<InstitucionPOJO>();
+		
+		instituciones.stream().forEach(i -> {
+			InstitucionPOJO dto = new InstitucionPOJO();
+			BeanUtils.copyProperties(i,dto);
+			dto.setHasSuscripcion(i.getHasSuscripcion());
+			dto.setAlumnos(null);
+			dto.setBitacoras(null);
+			dto.setGrados(null);
+			dto.setMaterias(null);
+			dto.setSubscripcions(null);
+			dto.setUsuarios(null);
+			institucionesPojo.add(dto);
+		});	
+		
+		return institucionesPojo;
+	};
 }

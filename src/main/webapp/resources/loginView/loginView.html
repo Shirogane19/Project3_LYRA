@@ -471,3 +471,49 @@
     </div>
 </div>
 <!-- END Recover Password -->
+
+<!-- Login Content -->
+<div class="bg-white pulldown" ng-show="onPointPaMaster">
+    <div class="content content-boxed overflow-hidden">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-8 col-md-6 col-md-offset-6 col-lg-4 col-lg-offset-4">
+                <div class="push-30-t push-50 animated fadeIn">
+                    <!-- Login Title -->
+                    <div class="text-center">
+                        <i class="fa fa-2x fa-circle-o-notch text-primary"></i>
+                        <p class="text-muted push-15-t">Saludos!! Master {{masterName}}</p>
+                        <p class="text-muted push-15-t">Selecione una institución al que deseas ingresar</p>
+                    </div>
+                    <!-- END Login Title -->
+                    <!-- Content Intituciones de Master -->
+                    <div class="form-horizontal push-30-t">                           
+                            
+                        <!-- <div data-toggle="slimscroll" data-always-visible="true" data-size="5px" > --> 
+                        <div style="width: 400px; height: 250px; overflow-y: scroll; margin-left: 30px; float: left; margin-bottom: 25px;">
+
+                            <div ng-repeat="i in instituciones">
+                                <a class="block block-link-hover3" href="javascript:void(0)" ng-dblclick="ingresarInstituto(i)">
+                                    <img class="img-avatar" ng-src="{{i.logoInstitucion == '' && 'resources/assets/img/imagenes/big-default_user-logo.png' || i.logoInstitucion == null && 'resources/assets/img/imagenes/big-default_user-logo.png' || i.logoInstitucion}}" alt="Imagen no encontrada" onError="this.src='resources/assets/img/imagenes/No-image-found.jpg '">   {{i.nombreInstitucion}}
+                                </a>    
+                            </div>
+
+                        </div>
+
+                        <div class="block-content block-content-mini block-content-full border-t">
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <div class="form-material">
+                                        <button class="btn btn-sm btn-block btn-warning" ng-click="closeMSJ()">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- END content Intituciones de Master -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Login Content -->

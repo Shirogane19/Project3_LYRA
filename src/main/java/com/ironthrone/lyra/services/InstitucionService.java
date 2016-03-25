@@ -20,6 +20,7 @@ import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.GradoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
+import com.ironthrone.lyra.pojo.MateriaPOJO;
 import com.ironthrone.lyra.pojo.SeccionPOJO;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
@@ -196,6 +197,11 @@ public class InstitucionService implements InstitucionServiceInterface{
 		return dto;
 	}
 	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Institucion institucion tipo ejbs
+	 * @return List<AlumnoPOJO>.
+	 */
 	private List<AlumnoPOJO> generateAlumnoSinSeccionDto(Institucion institucion) {
 		
 		List<AlumnoPOJO> alumnos = new ArrayList<AlumnoPOJO>();
@@ -233,6 +239,29 @@ public class InstitucionService implements InstitucionServiceInterface{
 		dto.setMaterias(null);
 		dto.setSubscripcions(null);
 		dto.setUsuarios(generateUserDto(institucion));
+		
+		return dto;
+	}
+	
+	/**
+	 * Retorna la institucion con sus materias.
+	 * @param Integer
+	 * @return InstitucionPOJO 
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getMateriasDeInstitucionById(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(generateMateriasDtos(institucion));
+		dto.setSubscripcions(null);
+		dto.setUsuarios(null);
 		
 		return dto;
 	}
@@ -414,6 +443,11 @@ public class InstitucionService implements InstitucionServiceInterface{
 		return dto;
 	}
 	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Alumno alumno tipo ejbs
+	 * @return SeccionPOJO.
+	 */
 	public SeccionPOJO generateSeccionDto(Alumno a) {
 
 		SeccionPOJO dto = new SeccionPOJO();
@@ -426,4 +460,24 @@ public class InstitucionService implements InstitucionServiceInterface{
 		}
 		return dto;
 	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param materias tipo ejbs
+	 * @return lista de materias POJO.
+	 */
+	private List<MateriaPOJO> generateMateriasDtos(Institucion i){
+		
+		List<MateriaPOJO> uiMaterias = new ArrayList<MateriaPOJO>();
+		
+		i.getMaterias().stream().forEach(m -> {
+			MateriaPOJO dto = new MateriaPOJO();
+			BeanUtils.copyProperties(m,dto);
+			dto.setActiveMat(m.getIsActiveMat());
+			dto.setInstitucion(null);
+			uiMaterias.add(dto);
+		});	
+		
+		return uiMaterias;
+	};
 }

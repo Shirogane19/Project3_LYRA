@@ -10,14 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ironthrone.lyra.contracts.MateriaRequest;
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Materia;
 import com.ironthrone.lyra.pojo.MateriaPOJO;
+import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.MateriaRepository;
 
 
 @Service
 public class MateriaService implements MateriaServiceInterface{
 	@Autowired private MateriaRepository materiaRepository;
+	@Autowired private InstitucionRepository institucionRepository;
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -92,6 +95,10 @@ public class MateriaService implements MateriaServiceInterface{
 
 		BeanUtils.copyProperties(ur.getMateria(), newMateria);	
 		newMateria.setIsActiveMat(ur.getMateria().isActiveMat());
+		
+		int idInstitucion = ur.getMateria().getInstitucion().getIdInstitucion();
+		Institucion i = institucionRepository.findOne(idInstitucion);
+		newMateria.setInstitucion(i);
 		
 		
 		if(ur.getMateria().getIdMateria() <= -1){		

@@ -15,37 +15,36 @@ angular.module('myApp.materiaView', ['ngRoute'])
   $scope.materiaList = [];
   
 
-    $scope.initScripts = function(){
+  $scope.initScripts = function(){
 
-      angular.element(document).ready(function () {
-            
-             BaseTableDatatables.init();
-         //BaseFormValidation.init();
-        //OneUI.initHelpers('select2');
-      });
+    angular.element(document).ready(function () {
+          
+           BaseTableDatatables.init();
+       //BaseFormValidation.init();
+      //OneUI.initHelpers('select2');
+    });
 
-    }
+  }
 
-  	$scope.init = function(){
+  $scope.init = function(){
     $scope.isCreating = true;
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","materias": {}};
-		$http.post('rest/protected/materia/getAll',$scope.requestObject).success(function(response) {
-			console.log("response",response)
-			$scope.materiaList = response.materias;
-			console.log("$scope.materiaList: ",$scope.materiaList[0])
+		$http.post('rest/protected/institucion/getMateriasDelInstituto',$scope.user.idInstitucion).success(function(response) {
+			console.log("response",response.institucion.materias)
+			$scope.materiaList = response.institucion.materias;
 	
 		});
 
    }
 
 
- $scope.newMat = [];
+  $scope.newMat = [];
   $scope.oldMat = [];
   $scope.counter = 0;
   $scope.isCreating = true;
   $scope.onPoint = false;
 
-$scope.increment = function(){
+  $scope.increment = function(){
     $scope.counter += 1;
   }
 
@@ -94,6 +93,7 @@ $scope.saveMateria = function(){
     // $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
     // "string","materia":{"idMateria": $scope.newMat.idMateria,"nombre": $scope.newMat.nombre,"activeMat": $scope.newMat.activeMat}};
 
+console.log($scope.user.idInstitucion);
 $scope.requestObject ={
   "code": 0,
   "codeMessage": "string",
@@ -103,8 +103,10 @@ $scope.requestObject ={
   "materia": {
       "activeMat": $scope.newMat.activeMat,
       "idMateria": $scope.newMat.idMateria,
-      "nombre": $scope.newMat.nombre
-}
+      "nombre": $scope.newMat.nombre,
+      "institucion": {"idInstitucion":$scope.user.idInstitucion}
+
+  }
 }
 
     console.log($scope.requestObject.materia);

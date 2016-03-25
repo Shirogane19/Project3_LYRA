@@ -29,6 +29,8 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
   $scope.user = {};
   $scope.email = "";
   $scope.showLogin = true;
+  $scope.idMaster = 1;
+  $scope.masterName;
 
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
@@ -39,43 +41,58 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
 
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
-
-      if(loginResponse.code == 200){
-
-        $http.post('rest/protected/institucion/getInstituto',loginResponse.idInstitucions[loginResponse.idInstitucions.length - 1]).success(function(response) {
-
-          console.log("Response", loginResponse);
-
-          $scope.user = { "userId":loginResponse.userId,
-                          "firstName":loginResponse.firstName,
-                          "lastName":loginResponse.lastName, 
-                          "idInstitucion": response.institucion.idInstitucion,
-                          "nombreInstitucion":response.institucion.nombreInstitucion,
-                          "logoInstitucion":response.institucion.logoInstitucion,
-                          "roles": loginResponse.idRoles};
-
-
-          $scope.save($scope.user);
-
-          var path = "/lyra/app#/home";
-          window.location.href = path;
-       //   $state.go('home');
-        })
-
-
-      }else{
-          // PONER DESPUES ERROR INST
+      
+      var isMaster = false;// Bandera indicando si el usuario ingresado tiene rol de master
+      
+      for (var i = 0; i < loginResponse.idRoles.length; i++) {
+        if(loginResponse.idRoles[i] == $scope.idMaster){
+          isMaster = true;
+          $scope.masterName = loginResponse.firstName;
+        }
       }
 
-    })
+      if(isMaster){
+        
+        $scope.showInstitutions(loginResponse);
 
-      .catch(function (error) {
-          console.error('exception', error);
-          $scope.disabledAll();
-          $scope.topMsj = error.status;
-          $scope.bodyMsj = error.statusText;
-          $scope.onPointError = true;
-        }); 
+      }else{
+
+        if(loginResponse.code == 200){
+
+          $http.post('rest/protected/institucion/getInstituto',loginResponse.idInstitucions[loginResponse.idInstitucions.length - 1]).success(function(response) {
+
+            console.log("Response", loginResponse);
+
+            $scope.user = { "userId":loginResponse.userId,
+                            "firstName":loginResponse.firstName,
+                            "lastName":loginResponse.lastName, 
+                            "idInstitucion": response.institucion.idInstitucion,
+                            "nombreInstitucion":response.institucion.nombreInstitucion,
+                            "logoInstitucion":response.institucion.logoInstitucion,
+                            "roles": loginResponse.idRoles};
+
+
+            $scope.save($scope.user);
+
+            var path = "/lyra/app#/home";
+            window.location.href = path;
+         //   $state.go('home');
+          })
+
+        }else{
+            // PONER DESPUES ERROR INST
+        }
+
+      }//
+
+    })//End Http check user
+    .catch(function (error) {
+      console.error('exception', error);
+      $scope.disabledAll();
+      $scope.topMsj = error.status;
+      $scope.bodyMsj = error.statusText;
+      $scope.onPointError = true;
+    }); 
   };
 
   $scope.save = function(u) {
@@ -320,6 +337,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     angular.element(document).ready(function () {
         BaseFormWizard.init();
         BaseFormValidation.init();
+        App.initHelpers('slimscroll');
     });
 
   }// End initScripts
@@ -377,5 +395,37 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     console.log(u);
     $localStorage.user = u;
   };
-      
+
+
+  //-------------------------------------------------------------------------------//
+  //Ventana de seleccion de institucion para el Master//
+
+  $scope.onPointPaMaster = false; // Visibilidad de la ventana de selección de institución del master
+  $scope.master // Guarda el objeto usuario
+
+  $scope.showInstitutions = function(obj){// Visibilidad y datos de la ventana de selección de institución del master 
+    $scope.instituciones = obj.instituciones;
+    $scope.master = obj;
+    $scope.onPointPaMaster = true;
+    $scope.disabledAll();
+    console.log($scope.instituciones);
+  }
+
+  $scope.ingresarInstituto = function(i){// Ingresa al instituto selecionado
+
+    $scope.user = { "userId":$scope.master.userId,
+                    "firstName":$scope.master.firstName,
+                    "lastName":$scope.master.lastName, 
+                    "idInstitucion": i.idInstitucion,
+                    "nombreInstitucion":i.nombreInstitucion,
+                    "logoInstitucion":i.logoInstitucion,
+                    "roles": $scope.master.idRoles};
+
+    $scope.save($scope.user);
+
+    var path = "/lyra/app#/home";
+    window.location.href = path;
+  
+
+        
 }]);

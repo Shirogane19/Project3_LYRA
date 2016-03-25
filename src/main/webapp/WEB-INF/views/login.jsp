@@ -58,7 +58,7 @@
 
   <!-- Login Footer -->
   <div class="pulldown push-30-t text-center animated fadeInUp">
-    <small class="text-muted"><span class="js-year-copy"></span> &copy; OneUI 1.4</small>
+    <small class="text-muted"><span class="js-year-copy"></span> &copy; Lyra</small>
   </div>
         <!-- END Login Footer -->
   

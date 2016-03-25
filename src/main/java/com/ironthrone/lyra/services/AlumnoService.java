@@ -93,16 +93,6 @@ public class AlumnoService implements AlumnoServiceInterface{
 		int idInstitucion = alumnoRequest.getAlumno().getInstitucion().getIdInstitucion();
 		Institucion i = institucionRepository.findOne(idInstitucion);
 	    newAlumno.setInstitucion(i);
-	    
-	    //removeEncargados(alumnoRequest);
-	    
-//	    List<Usuario> usuarios = new ArrayList<Usuario>();
-//	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-//	    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-//	    	usuarios.add(usuario);
-//	    	
-//	    });
-//	    newAlumno.setUsuarios(usuarios);
 		
 		if(alumnoRequest.getAlumno().getIdAlumno() <= -1){		
 			
@@ -156,6 +146,11 @@ public class AlumnoService implements AlumnoServiceInterface{
 		return alumnoRepository.findOne(idAlumno);
 	}
 	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Alumno alumno tipo ejbs
+	 * @return List<UsuarioPOJO> 
+	 */
 	@SuppressWarnings("unused")
 	private List<UsuarioPOJO> generateUserDto(Alumno a) {
 		

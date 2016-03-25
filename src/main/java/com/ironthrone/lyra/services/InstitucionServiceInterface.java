@@ -17,4 +17,5 @@ public interface InstitucionServiceInterface {
 	InstitucionPOJO getUsuariosDeInstitucionById(int idInstitucion);
 	InstitucionPOJO getGradosDeInstitucionById(int idInstitucion);
 	InstitucionPOJO getAlumnosSinSeccion(int idInstitucion);
+	InstitucionPOJO getMateriasDeInstitucionById(int idInstitucion);
 }
