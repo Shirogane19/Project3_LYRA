@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-4">
                             <div class="form-material">
-                                <input class="form-control" type="text" id="validation-nombre" name="val-nombre" ng-model="user.nombreInstitucion" ng-minlength=3 required>
+                                <input class="form-control" type="text" id="validation-nombre" name="val-nombre" ng-model="user.nombreInstitucion" ng-minlength=3 maxlength=59 required>
                                 <label for="validation-nombre">Nombre</label>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-4">
                             <div class="form-material">
-                                <input class="form-control" type="text" id="validation-apellido" name="val-apellido" ng-model="user.logoInstitucion">
+                                <input class="form-control" type="text" id="validation-apellido" name="val-apellido" ng-model="user.logoInstitucion" maxlength=399>
                                 <label >Logo</label>
                             </div>
                         </div>

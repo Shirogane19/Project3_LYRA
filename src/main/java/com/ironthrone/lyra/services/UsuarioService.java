@@ -475,8 +475,25 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
+			dto.setListaInstituciones(generateInstitutionDtos(u));
 		});
 		return dto;
 	}
+	
+	@Override
+	public UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur){
+
+		List<Usuario> users =  usersRepository.findBycedula(ur.getUsuario().getCedula());
+		UsuarioPOJO dto = new UsuarioPOJO();
+		users.stream().forEach(u -> {
+			BeanUtils.copyProperties(u, dto);
+			dto.setActiveUs(u.getIsActiveUs());
+			dto.setDateOfJoin(u.getDateOfJoin());
+			dto.setRols(generateRolDto(u));
+		});
+		
+		return dto;
+	}
+	
 
 }

@@ -101,5 +101,35 @@ public class InstitucionControllers {
 		institucionResponse.setInstitucion(ISI.getUsuariosDeInstitucionById(idInstitucion));
 		return institucionResponse;		
 	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus usuarios.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getGradosDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getGradosDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getGradosDeInstitucionById(idInstitucion));
+		return institucionResponse;		
+	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus alumnos sin secciones.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getAlumnosSinSeccionDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getAlumnosSinSeccionDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getAlumnosSinSeccion(idInstitucion));
+		return institucionResponse;		
+	}
 
 }

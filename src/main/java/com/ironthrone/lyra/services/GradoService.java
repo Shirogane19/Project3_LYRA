@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.ironthrone.lyra.contracts.GradoRequest;
 import com.ironthrone.lyra.ejb.Grado;
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.pojo.GradoPOJO;
 import com.ironthrone.lyra.repositories.GradoRepository;
+import com.ironthrone.lyra.repositories.InstitucionRepository;
 
 @Service
 public class GradoService implements GradoServiceInterface {
 	
 	@Autowired GradoRepository gradeRepository;
+	@Autowired private InstitucionRepository institucionRepository;
 	
 	
 	/**
@@ -102,8 +105,11 @@ public class GradoService implements GradoServiceInterface {
 		 * mas adelante para agregarle secciones
 		 * y las materias.
 		 */
-		
 		BeanUtils.copyProperties(gr.getGrado(), newGrado);
+		
+		int idInstitucion = gr.getGrado().getInstitucion().getIdInstitucion();
+		Institucion i = institucionRepository.findOne(idInstitucion);
+		newGrado.setInstitucion(i);
 		
 		if(gr.getGrado().getIdGrado() <= -1){
 			newGrado.setIdGrado(0);

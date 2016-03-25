@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="text" id="validation-nombre" name="val-nombre" ng-model="subscriptor.nombre" ng-minlength=3 required>
+                            <input class="form-control" type="text" id="validation-nombre" name="val-nombre" ng-model="subscriptor.nombre" ng-minlength=3 required maxlength="40">
                             <label for="validation-nombre">Nombre</label>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="text" id="validation-apellido" name="val-apellido" ng-model="subscriptor.apellido" ng-minlength=3 required>
+                            <input class="form-control" type="text" id="validation-apellido" name="val-apellido" ng-model="subscriptor.apellido" ng-minlength=3 required maxlength="40">
                             <label for="validation-apellido">Apellido</label>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="text" id="validation-cedula" name="val-cedula" ng-model="subscriptor.cedula" required>
+                            <input class="form-control" type="text" id="validation-cedula" name="val-cedula" ng-model="subscriptor.cedula" required maxlength="19">
                             <label for="validation-cedula">Cédula</label>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4" >
                         <div class="form-material">
-                            <input class="form-control" type="email" id="validation-correo" name="val-correo" ng-model="subscriptor.correo" required>
+                            <input class="form-control" type="email" id="validation-correo" name="val-correo" ng-model="subscriptor.correo" required maxlength="59">
                             <label for="validation-correo">Correo</label>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="text" id="validation-telefono" name="val-telefono" ng-pattern="onlyNumbers" ng-model="subscriptor.telefono">
+                            <input class="form-control" type="text" id="validation-telefono" name="val-telefono" ng-pattern="onlyNumbers" ng-model="subscriptor.telefono" maxlength="19">
                             <label for="validation-telefono">Teléfono</label>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="text" id="validation-movil" name="val-telefono" ng-pattern="onlyNumbers" ng-model="subscriptor.movil">
+                            <input class="form-control" type="text" id="validation-movil" name="val-telefono" ng-pattern="onlyNumbers" ng-model="subscriptor.movil" maxlength="19">
                             <label for="validation-movil">Móvil</label>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="password" id="password1" name="password1" ng-minlength=3 ng-model="subscriptor.contrasena" required>
+                            <input class="form-control" type="password" id="password1" name="password1" ng-minlength=3 ng-model="subscriptor.contrasena" required maxlength="60">
                             <label for="password1">Contraseña</label>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
-                            <input class="form-control" type="password" id="password2" name="val-confirm-contrasena" ng-model="subscriptor.contrasena2" required pw-check="password1">
+                            <input class="form-control" type="password" id="password2" name="val-confirm-contrasena" ng-model="subscriptor.contrasena2" required pw-check="password1" maxlength="60">
                             <label for="val-confirm-contrasena">Confirmar contraseña</label>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-4">
                                         <div class="form-material">
-                                            <input class="form-control" type="text" id="validation-nombre" name="validation-nombre" ng-model="institucion.nombre">
+                                            <input class="form-control" type="text" id="validation-nombre" name="validation-nombre" ng-model="institucion.nombre" maxlength="59">
                                             <label for="validation-nombre">Nombre de la institución</label>
                                         </div>
                                     </div>
@@ -245,7 +245,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-4">
                                         <div class="form-material">
-                                            <input class="form-control" type="text" id="validation-website" name="validation-website" placeholder="http://ejemplo.com" ng-model="institucion.urlLogo">
+                                            <input class="form-control" type="text" id="validation-website" name="validation-website" placeholder="http://ejemplo.com" ng-model="institucion.urlLogo" maxlength="399">
                                             <label for="validation-website">Logo de la institución</label>
                                         </div>
                                     </div>

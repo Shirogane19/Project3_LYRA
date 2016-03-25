@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Seccion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
@@ -130,9 +131,12 @@ public class AlumnoService implements AlumnoServiceInterface{
 		    newAlumno.setUsuarios(usuarios);
 			
 			Alumno oldAlumno = findById(newAlumno.getIdAlumno());
+			Seccion oldSeccion = oldAlumno.getSeccion();
 			
 			BeanUtils.copyProperties(newAlumno, oldAlumno);
 			oldAlumno.setIsActiveAl(alumnoRequest.getAlumno().isActiveAl());
+			oldAlumno.setSeccion(oldSeccion);
+			
 			
 			nalumnoT = alumnoRepository.save(oldAlumno);	
 			setAlumnoAUsuarios(nalumnoT, alumnoRequest);
