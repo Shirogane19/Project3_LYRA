@@ -242,6 +242,7 @@
         <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
         <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
+        <script src="resources/assets/js/plugins/summernote/summernote.js"></script>
 
             <!--     VIEWS -->
         <script src="resources/userView/userView.js"></script>

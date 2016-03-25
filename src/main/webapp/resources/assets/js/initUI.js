@@ -894,8 +894,8 @@ var App = function() {
         // Init text editor in air mode (inline)
         jQuery('.js-summernote-air').summernote({
             airMode: true
-          });
 
+          });
         // Init full text editor
         jQuery('.js-summernote').summernote({
             height: 350,

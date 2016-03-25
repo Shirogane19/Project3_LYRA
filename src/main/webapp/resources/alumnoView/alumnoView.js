@@ -237,7 +237,7 @@ angular.module('myApp.alumnoView', [])
 
   $scope.showHistorial = function(a){
 
-    console.log(a);
+  
     $state.go('registroView',{alumnoInfo: a});
 
   }

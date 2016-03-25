@@ -10,6 +10,7 @@ public class RegistroMedicoPOJO {
 	private String nombreRegistro;
 	private AlumnoPOJO alumno;
 	private int idAlumno;
+	private boolean onPoint = false;
 	
 	public RegistroMedicoPOJO() {
 		super();
@@ -54,6 +55,14 @@ public class RegistroMedicoPOJO {
 
 	public void setIdAlumno(int idAlumno) {
 		this.idAlumno = idAlumno;
+	}
+
+	public boolean isOnPoint() {
+		return onPoint;
+	}
+
+	public void setOnPoint(boolean onPoint) {
+		this.onPoint = onPoint;
 	}
 	
 	
