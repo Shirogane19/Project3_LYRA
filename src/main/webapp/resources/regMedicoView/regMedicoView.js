@@ -145,6 +145,7 @@ angular.module('myApp.registroView', [])
                 
            $scope.onPoint = false;
            $scope.isCreating = true ;
+           $scope.registro = [];
     };
 
     $scope.enableEdit = function (r) {
