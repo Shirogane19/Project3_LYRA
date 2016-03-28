@@ -176,16 +176,16 @@
                 <ul class="nav-header pull-right">
                     <li>
                         <div class="btn-group">
-                            <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                            <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" ng-click="enableNotificaciones()" type="button">
                                 <img ng-src="{{user.logoInstitucion == '' && 'resources/assets/img/imagenes/big-default_user-logo.png' || user.logoInstitucion == null && 'resources/assets/img/imagenes/big-default_user-logo.png' || user.logoInstitucion}}" alt="Imagen no encontrada" onError="this.src='resources/assets/img/imagenes/No-image-found.jpg '">
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li class="dropdown-header">Perfil</li>
                                 <li>
-                                    <a tabindex="-1">
+                                    <a tabindex="-1" ui-sref="tareaView">
                                         <i class="si si-envelope-open pull-right"></i>
-                                        <span class="badge badge-primary pull-right"></span> Bandeja de entrada
+                                        <span class="badge badge-primary pull-right" id="noti"></span>Notificaciones
                                     </a>
                                 </li>
                                 <li>
