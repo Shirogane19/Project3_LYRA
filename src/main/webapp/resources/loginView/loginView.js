@@ -426,6 +426,6 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     var path = "/lyra/app#/home";
     window.location.href = path;
   
-
+  }
         
 }]);

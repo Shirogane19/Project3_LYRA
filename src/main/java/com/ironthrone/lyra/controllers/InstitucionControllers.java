@@ -147,4 +147,18 @@ public class InstitucionControllers {
 		return institucionResponse;		
 	}
 
+	/**
+	 * Retorna las subscripciones de una institución
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getSubscripcionesDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getSubscripcionesDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getSubscripciones(idInstitucion));
+		return institucionResponse;		
+	}
 }

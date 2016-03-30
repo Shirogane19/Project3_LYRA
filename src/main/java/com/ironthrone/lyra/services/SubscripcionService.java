@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +17,14 @@ import com.ironthrone.lyra.contracts.SubscripcionRequest;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.SubscripcionRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
+import com.ironthrone.lyra.security.RavenMail;
+import com.ironthrone.lyra.security.Reloj;
 
 /**
  * Clase de tipo servicio, manejo de subscripciones y interacción con los repositorios correspondientes
@@ -31,7 +37,13 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	@Autowired private SubscripcionRepository subscripcionRepository;
 	@Autowired private InstitucionRepository institucionRepository;
 	@Autowired private UsuarioRepository usersRepository;
-
+	@Autowired private RavenMail raven;	
+	
+	private int primeraNotificacion = 30; //Cantidad de dias para la notificacion de vencimiento de la subscripcion
+	private int segundaNotificacion = 7;
+	private int terceraNotificacion = 0;
+	private int vencido = -1;
+	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
 	 * @param users representa una lista de subscripciones tipo ejb
@@ -45,6 +57,7 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 			SubscripcionPOJO dto = new SubscripcionPOJO();
 			BeanUtils.copyProperties(s,dto);
 			dto.setActiveSub(s.getIsActiveSub());
+			dto.setInstitucion(generateInstitucionDto(s));
 			uiSubscripciones.add(dto);
 		});	
 		
@@ -198,5 +211,172 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 			u.getInstitucions().add(i);
 		});
 	}
+	
+	private InstitucionPOJO generateInstitucionDto(Subscripcion s) {
+		
+		Institucion institucion =  institucionRepository.findOne(s.getInstitucion().getIdInstitucion());
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(null);
+		dto.setSubscripcions(null);
+		dto.setUsuarios(generateUserDto(institucion));
+		
+		return dto;
+	}
+	
+	/**
+	 * Retorna una lista de Usuarios POJO de una institución
+	 * @param Institucion recibe un objeto Institución
+	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
+	 */
+	private List<UsuarioPOJO> generateUserDto(Institucion i) {
+		
+		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
+		
+		i.getUsuarios().stream().forEach(u -> {
+			UsuarioPOJO user = new UsuarioPOJO();
+			BeanUtils.copyProperties(u, user);	
+			user.setPassword("secret");
+			user.setActiveUs(u.getIsActiveUs());
+			u.getRols().stream().forEach(r -> {
+				if(r.getIdRol() == 1){
+					ArrayList<String> idRols = new ArrayList<String>();
+					idRols.add("1");
+					user.setIdRoles(idRols);
+				}
+			});
+			user.setRols(null);
+			user.setInstitucion(null);
+			
+			users.add(user);
+		});	
+
+		return users;
+	};
+	
+	/**
+	 * Retorna una lista de Subscripciones activas.
+	 * @return List<SubscripcionPOJO> lista de Subscripcion POJO
+	 */
+	@Override
+	@Transactional
+	public List<SubscripcionPOJO> getAllByActive() {
+		List<Subscripcion> subscripciones = subscripcionRepository.findByisActiveSubTrue();
+		return generateSubscripcionDtos(subscripciones);
+	}
+	
+	/**
+	 * Compara la fecha actual con la fecha de vencimiento de las subscripciones activas
+	 */
+	@Override
+	@Transactional
+	public void revisarVencimientos(){
+		
+		System.out.println("Revisando subscripciones " + getCurrentDate());
+		
+		List<SubscripcionPOJO> listSubs =  getAllByActive();
+		
+		listSubs.stream().forEach( s -> {
+			long diferencia = getCurrentDate().getTime() - s.getFechaFin().getTime();
+			System.out.println(s.getIdSubscripcion() + "->" + Math.floor(diferencia / (1000 * 60 * 60 * 24)));
+			
+			if(Math.floor(diferencia / (1000 * 60 * 60 * 24)) == primeraNotificacion){
+				System.out.println("Notificar");
+				enviarNotificacion(s, primeraNotificacion);
+			}
+			if(Math.floor(diferencia / (1000 * 60 * 60 * 24)) == segundaNotificacion){
+				System.out.println("Notificar 2");
+				enviarNotificacion(s, segundaNotificacion);
+			}
+			if(Math.floor(diferencia / (1000 * 60 * 60 * 24)) == terceraNotificacion){
+				System.out.println("Notificar 3");
+				enviarNotificacion(s, terceraNotificacion);
+			}
+			if(Math.floor(diferencia / (1000 * 60 * 60 * 24)) == vencido){
+				System.out.println("vencido");
+				enviarNotificacion(s, vencido);
+				subscripcionAVencer(s);
+			}
+		});
+		
+	}
+	
+	/**
+	 * Envía la notificación de vencimiento de la subscripción
+	 * @param SubscripcionPOJO objecto subscripcionPOJO
+	 * @param int numero de días
+	 */
+	private void enviarNotificacion (SubscripcionPOJO s, int dias){
+		
+		s.getInstitucion().getUsuarios().stream().forEach( u -> {
+			if(u.getIdRoles() != null){
+				System.out.println(u.getNombre());
+				raven.subscriptionExpirationNotice(u.getEmail(), u.getNombre(), u.getApellido(), dias, s.getInstitucion().getNombreInstitucion());
+			};
+		});
+
+	}
+	
+	/**
+	 * Cambia el estado de actividad de la subscripción a inactivo o vencido
+	 * @param SubscripcionPOJO
+	 */
+	private void subscripcionAVencer(SubscripcionPOJO s){
+		
+		Subscripcion oldSubscripcion = findById(s.getIdSubscripcion());
+		oldSubscripcion.setIsActiveSub(false);
+		
+		subscripcionRepository.save(oldSubscripcion);	
+	}
+	
+	/**
+	 * Renovar la subscripción, crea una nueva con los datos de la subcripcion anterior
+	 * @param SubscripcionRequest
+	 * @return SubscripcionPOJO
+	 */
+	@Override
+	@Transactional
+	public SubscripcionPOJO renovarSubscripcion(SubscripcionRequest subscripcionRequest){
+		
+		Subscripcion subsc = new Subscripcion();
+		Subscripcion savedSP = null;
+		Subscripcion oldSubs = subscripcionRepository.findOne(subscripcionRequest.getSubscripcion().getIdSubscripcion());
+		oldSubs.setIsActiveSub(false);
+		
+		Date d = plusOneYearFromOldDate(oldSubs.getFechaFin());
+		
+		Institucion institucion = institucionRepository.findOne(subscripcionRequest.getSubscripcion().getInstitucion().getIdInstitucion());
+		
+		subsc.setFechaInicio(getCurrentDate());
+		subsc.setFechaFin(d);
+		subsc.setIsActiveSub(true);
+		subsc.setInstitucion(institucion);
+		
+		savedSP = subscripcionRepository.save(subsc);
+		
+		SubscripcionPOJO sp = new SubscripcionPOJO();
+		BeanUtils.copyProperties(savedSP, sp);
+		sp.setActiveSub(savedSP.getIsActiveSub());
+		sp.setFechaFinString(DateFormatUtils.format(savedSP.getFechaFin(), "yyyy-MM-dd"));
+		
+		return sp;
+	}
+	
+	/**
+	 * Suma la fecha recibida, un año mas
+	 * @param Date
+	 * @return Date
+	 */
+	private Date plusOneYearFromOldDate(Date d){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(d);
+		calendar.add(Calendar.YEAR, 1);
+	    return calendar.getTime();
+	}
+	
 	
 }

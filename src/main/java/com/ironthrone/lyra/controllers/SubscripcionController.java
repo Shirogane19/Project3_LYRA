@@ -69,5 +69,37 @@ public class SubscripcionController {
 		subscripcionResponse.setSubscripcion(SSI.getSubscripcionById(idSubscripcion));
 		return subscripcionResponse;		
 	}
+	
+	/**
+	 * Retorna una lista de todos los subscripcion del sistema
+	 * @return Subscripcion Response
+	 */
+	@RequestMapping(value ="/getAllActive", method = RequestMethod.POST)
+	public SubscripcionResponse getALLActive(){
+		SubscripcionResponse response = new SubscripcionResponse();
+		response.setCode(200);
+		response.setCodeMessage("Subscripcion fetch success");
+		response.setSubscripciones(SSI.getAllByActive());
+		return response;
+	}
+	
+	@RequestMapping(value ="/pruebaFechaComparacion", method = RequestMethod.POST)
+	public SubscripcionResponse pruebaFechaComparacion(){
+		SubscripcionResponse response = new SubscripcionResponse();
+		response.setCode(200);
+		response.setCodeMessage("Subscripcion fetch success");
+		SSI.revisarVencimientos();
+		return response;
+	}
+	
+	@RequestMapping(value ="/renovarSubscripcion", method = RequestMethod.POST)
+	public SubscripcionResponse renovarSubscripcion(@RequestBody SubscripcionRequest subscripcionRequest){
+		SubscripcionResponse response = new SubscripcionResponse();
+		response.setCode(200);
+		response.setCodeMessage("Subscripcion fetch success");
+		response.setSubscripcion(SSI.renovarSubscripcion(subscripcionRequest));
+		return response;
+	}
+	
 
 }

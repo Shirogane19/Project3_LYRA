@@ -12,4 +12,7 @@ public interface SubscripcionServiceInterface {
 	Boolean saveSubscripcion(SubscripcionRequest subscripcionRequest);
 	SubscripcionPOJO getSubscripcionById(int idSubscripcion);
 	Subscripcion findById(int idSubscripcion);
+	List<SubscripcionPOJO> getAllByActive();
+	void revisarVencimientos();
+	SubscripcionPOJO renovarSubscripcion(SubscripcionRequest subscripcionRequest);
 }

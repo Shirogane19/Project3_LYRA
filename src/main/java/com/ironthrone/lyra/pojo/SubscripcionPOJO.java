@@ -6,6 +6,7 @@ public class SubscripcionPOJO {
 	
 	private int idSubscripcion;
 	private Date fechaFin;
+	private String fechaFinString;
 	private Date fechaInicio;
 	private boolean isActiveSub;
 	private InstitucionPOJO institucion;
@@ -53,6 +54,16 @@ public class SubscripcionPOJO {
 	public void setInstitucion(InstitucionPOJO institucion) {
 		this.institucion = institucion;
 	}
+
+	public String getFechaFinString() {
+		return fechaFinString;
+	}
+
+	public void setFechaFinString(String fechaFinString) {
+		this.fechaFinString = fechaFinString;
+	}
+	
+	
 	
 	
 

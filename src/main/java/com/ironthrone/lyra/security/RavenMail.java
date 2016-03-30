@@ -8,6 +8,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.sun.jersey.multipart.FormDataMultiPart;
+
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -43,12 +45,75 @@ public class RavenMail {
 	    
 	    MultivaluedMapImpl formData = new MultivaluedMapImpl();
 	    
+	    String s = "<html><a href=" + "http://localhost:8090/lyra/#/login" + ">" + "VAYAMONOS A LYRA" + "</a></html>"; 
+	    
         formData.add("from", lyra_mail);
         formData.add("to", email);
         formData.add("subject", "Credenciales");
         formData.add("html", "Estimado " + name + " "
 						                + lastname + ","
-						                + message);   
+						                + message + s);  
+
+        ClientResponse clientResponse = webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
+        String output = clientResponse.getEntity(String.class);
+        System.out.println("MAIL: " + output);
+        
+	    }catch (MailException ex) {
+	        // simply log it and go on...
+	        System.err.println(ex.getMessage());
+	    }
+	    
+	}
+	
+	/**
+	 * Envia la notificación del vencimiento de la subscripcion
+	 * @param String correo
+	 * @param String nombre
+	 * @param String apellido
+	 * @param Integer cantidad de días a vencer 
+	 * @param String nombre de la institución
+	 */
+	public void subscriptionExpirationNotice(String email, String name, String lastname, int dias, String institucion) {
+		
+	    try {
+
+	    Client client = Client.create();
+	    client.addFilter(new HTTPBasicAuthFilter("api", mailgunApiKey));
+	    
+	    WebResource webResource = client.resource("https://api.mailgun.net/v2/" + mailgunHost +  "/messages");
+
+	    
+	    MultivaluedMapImpl formData = new MultivaluedMapImpl();
+	    
+	    String Mensaje = "Este es el sistema de notificación de Lyra" + "<br>";
+	    
+	    String Mensaje2 = "Se acerca el vencimiento de la subcripción de la institución: " + institucion + "<br>";
+	    
+	    String Mensaje3 = "Faltan: " + dias + " dias para su vencimiento"  + "<br>";
+	    
+	    String Mensaje4 = "Para renovar la subscripción, haga click en el siguiente link:" + "<br>";
+	    
+	    String link = "<html><a href=" + "http://localhost:8090/lyra/#/renovate" + ">" + "Click aquí" + "</a></html>"; 
+	    
+	    String Mensaje2B = "La cuenta de institución: " + institucion + " se encuentra bloqueada" + "<br>";
+	    
+	    String Mensaje3B = "Hoy vence la subscripción de la institución: " + institucion + "<br>";
+	    
+	    String Mensaje4B = "Para poder activar su cuenta, se requiere una renovación de la subscripcion" + "<br>";
+	    
+        formData.add("from", lyra_mail);
+        formData.add("to", email);
+        formData.add("subject", "Notificación de vencimiento");
+        
+        if(dias == 0){
+        	formData.add("html",Mensaje + Mensaje3B + Mensaje4 + link); 
+        }else{
+        	if(dias < 0){
+            	formData.add("html",Mensaje + Mensaje2B + Mensaje4B + Mensaje4 + link);
+            }else{
+            	formData.add("html",Mensaje + Mensaje2 + Mensaje3 + Mensaje4 + link);  
+            }	
+        }
         
         ClientResponse clientResponse = webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
         String output = clientResponse.getEntity(String.class);
@@ -60,5 +125,6 @@ public class RavenMail {
 	    }
 	    
 	}
+
 
 }

@@ -198,6 +198,29 @@ public class InstitucionService implements InstitucionServiceInterface{
 	}
 	
 	/**
+	 * Retorna la institucion con sus subscripciones.
+	 * @param Integer id de la institución
+	 * @return InstitucionPOJO de tipo InstitucionPOJO.
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getSubscripciones(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(null);
+		dto.setSubscripcions(generateSubscripcionDtos(institucion));
+		dto.setUsuarios(null);
+		
+		return dto;
+	}
+	
+	/**
 	 * Genera POJOs a partir de una lista EJB.
 	 * @param Institucion institucion tipo ejbs
 	 * @return List<AlumnoPOJO>.
@@ -328,8 +351,10 @@ public class InstitucionService implements InstitucionServiceInterface{
 			BeanUtils.copyProperties(s,dto);
 			dto.setActiveSub(s.getIsActiveSub());
 			dto.setInstitucion(null);
-			dto.setFechaFin(null);
-			dto.setFechaInicio(null);
+			dto.setFechaFin(s.getFechaFin());
+			System.out.println(s.getFechaFin());
+			dto.setFechaInicio(s.getFechaInicio());
+			System.out.println(s.getFechaInicio());
 			uiSubscripciones.add(dto);
 		});	
 		
@@ -480,4 +505,5 @@ public class InstitucionService implements InstitucionServiceInterface{
 		
 		return uiMaterias;
 	};
+	
 }
