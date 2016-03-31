@@ -5,11 +5,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.ironthrone.lyra.services.SubscripcionService;
 import com.ironthrone.lyra.services.SubscripcionServiceInterface;
 
 import java.util.Date;
  
+@Component
 public class Reloj {
  
 	Timer timer = new Timer(); // El timer que se encarga de administrar los tiempo de repeticion
@@ -24,6 +27,7 @@ public class Reloj {
 		public void run() {
 			segundos++;
 			System.out.println(segundos);
+			//SSI.revisarVencimientos();
 			if(SSI == null){
 				System.out.println("null");
 			}

@@ -10,6 +10,10 @@ import java.util.TimerTask;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +35,7 @@ import com.ironthrone.lyra.security.Reloj;
  * @author Randall
  *
  */
+
 @Service
 public class SubscripcionService implements SubscripcionServiceInterface{
 	
@@ -38,6 +43,7 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	@Autowired private InstitucionRepository institucionRepository;
 	@Autowired private UsuarioRepository usersRepository;
 	@Autowired private RavenMail raven;	
+	//int tiempoRepeticion = 86400000; //Representa 24 horas
 	
 	private int primeraNotificacion = 30; //Cantidad de dias para la notificacion de vencimiento de la subscripcion
 	private int segundaNotificacion = 7;
@@ -212,6 +218,11 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 		});
 	}
 	
+	/**
+	 * Genera una institucion de tipo POJO
+	 * @param Subscripcion tipo EJB
+	 * @return InstitucionPOJO
+	 */
 	private InstitucionPOJO generateInstitucionDto(Subscripcion s) {
 		
 		Institucion institucion =  institucionRepository.findOne(s.getInstitucion().getIdInstitucion());
@@ -274,6 +285,7 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	 */
 	@Override
 	@Transactional
+	@Scheduled(fixedDelay = 86400000)
 	public void revisarVencimientos(){
 		
 		System.out.println("Revisando subscripciones " + getCurrentDate());

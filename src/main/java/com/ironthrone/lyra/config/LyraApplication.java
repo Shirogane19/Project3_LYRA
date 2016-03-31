@@ -38,13 +38,13 @@ public class LyraApplication
 	 */
     public static void main(String[] args) {
         SpringApplication.run(LyraApplication.class, args);
-        Reloj reloj = new Reloj();
-        
-        try {
-			reloj.Start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//        Reloj reloj = new Reloj();
+//        
+//        try {
+//			reloj.Start();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
     }
     
 	@Bean	
