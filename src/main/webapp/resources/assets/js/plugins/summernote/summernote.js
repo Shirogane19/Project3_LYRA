@@ -1892,11 +1892,25 @@
     ].join(''));
   });
 
+  // var popover = renderer.create([
+  //   '<div class="note-popover popover in">',
+  //   '  <div class="arrow"/>',
+  //   '  <div class="popover-content note-children-container"/>',
+  //   '</div>'
+  // ].join(''), function ($node, options) {
+  //   var direction = typeof options.direction !== 'undefined' ? options.direction : 'bottom';
+
+  //   $node.addClass(direction);
+
+  //   if (options.hideArrow) {
+  //     $node.find('.arrow').hide();
+  //   }
+  // });
+
+/**Borre el menu del popver, Jean 2016 **/
   var popover = renderer.create([
     '<div class="note-popover popover in">',
-    '  <div class="arrow"/>',
-    '  <div class="popover-content note-children-container"/>',
-    '</div>'
+     '</div>'
   ].join(''), function ($node, options) {
     var direction = typeof options.direction !== 'undefined' ? options.direction : 'bottom';
 
@@ -1961,7 +1975,7 @@
           ui.airEditable()
         ])
       ]) : ui.editor([
-        ui.toolbar(),
+     //   ui.toolbar(),
         ui.editingArea([
           ui.codable(),
           ui.editable()
@@ -6745,6 +6759,8 @@
         ['insert', ['link', 'picture', 'video']],
         ['view', ['fullscreen', 'codeview', 'help']]
       ],
+
+
 
       // popover
       popover: {

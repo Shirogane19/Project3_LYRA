@@ -3,7 +3,6 @@ package com.ironthrone.lyra.pojo;
 import java.util.List;
 
 import com.ironthrone.lyra.ejb.RegistrosMedico;
-import com.ironthrone.lyra.ejb.Usuario;
 
 public class AlumnoPOJO {
 	

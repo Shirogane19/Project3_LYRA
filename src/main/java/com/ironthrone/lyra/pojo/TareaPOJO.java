@@ -13,11 +13,11 @@ public class TareaPOJO {
 	private boolean isReadTa;
 	private String tituloTarea;
 	private List<RolPOJO> rols;
-	private Categoria categoria;
+	private CategoriaPOJO categoria;
 	private List<UsuarioPOJO> usuarios;
 	private List<String> idRols;
 	private List<String> idUsuarios;
-	
+	private int idCategoria;
 	
 	public TareaPOJO(){
 		super();
@@ -71,11 +71,11 @@ public class TareaPOJO {
 	public void setRols(List<RolPOJO> list) {
 		this.rols = list;
 	}
-	public Categoria getCategoria() {
+	public CategoriaPOJO getCategoria() {
 		return categoria;
 	}
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategoria(CategoriaPOJO categoriaPOJO) {
+		this.categoria = categoriaPOJO;
 	}
 	public List<UsuarioPOJO> getUsuarios() {
 		return usuarios;
@@ -83,6 +83,14 @@ public class TareaPOJO {
 	public void setUsuarios(List<UsuarioPOJO> list) {
 		this.usuarios = list;
 	}
+	public int getIdCategoria() {
+		return idCategoria;
+	}
+	public void setIdCategoria(int idCategoria) {
+		this.idCategoria = idCategoria;
+	}
+	
+	
 	
 	
 }

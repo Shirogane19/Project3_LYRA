@@ -88,44 +88,10 @@
                             </button>
                             <!-- Themes functionality initialized in App() -> uiHandleTheme() -->
                             <div class="btn-group pull-right">
-                                <button class="btn btn-link text-gray dropdown-toggle" data-toggle="dropdown" type="button">
-                                    <i class="si si-drop"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right font-s13 sidebar-mini-hide">
-                                    <li>
-                                        <a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)">
-                                            <i class="fa fa-circle text-default pull-right"></i> <span class="font-w600">Default</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/amethyst.min.css" tabindex="-1" href="javascript:void(0)">
-                                            <i class="fa fa-circle text-amethyst pull-right"></i> <span class="font-w600">Amethyst</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/city.min.css" tabindex="-1" href="javascript:void(0)">
-                                            <i class="fa fa-circle text-city pull-right"></i> <span class="font-w600">City</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/flat.min.css" tabindex="-1" href="javascript:void(0)">
-                                            <i class="fa fa-circle text-flat pull-right"></i> <span class="font-w600">Flat</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/modern.min.css" tabindex="-1" href="javascript:void(0)">
-                                            <i class="fa fa-circle text-modern pull-right"></i> <span class="font-w600">Modern</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="theme" data-theme="resources/assets/css/themes/smooth.min.css" tabindex="-1" href="javascript:void(0)">
-                                            <i class="fa fa-circle text-smooth pull-right"></i> <span class="font-w600">Smooth</span>
-                                        </a>
-                                    </li>
-                                </ul>
+
                             </div>
                             <a class="h5 text-white" href="#/">
-                                <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">nline</span>
+                               <span class="h4 font-w600 sidebar-mini-hide text-primary">L</span><span class="h4 font-w600 sidebar-mini-hide">yra</span>
                             </a>
                         </div>
                         <!-- END Side Header -->
@@ -151,7 +117,7 @@
                                     <a ui-sref="materiaView"><i class="si si-book-open"></i>Materias</a>
                                 </li>
                                 <li ng-if = "accessGrado == true">
-                                    <a ui-sref="gradoView"><i class="si si-graduation"></i>Grados</a>
+                                    <a ui-sref="gradoView"><i class="si si-equalizer"></i>Grados</a>
                                 </li>
                                 <li ng-if = "accessSeccion == true">    
                                     <a ui-sref="seccionView"><i class="si si-map"></i>Secciones</a>
@@ -269,13 +235,16 @@
 <!--         <script src="resources/components/usuarios/usuarios.js"></script>
         <script src="resources/components/usuarios/usuario-service.js"></script> -->
         <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
-                <!-- Views JS Code -->
+                <!-- JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/assets/js/pages/base_forms_validation.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
         <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
+        <script src="resources/assets/js/plugins/summernote/summernote.js"></script>
+
+            <!--     VIEWS -->
         <script src="resources/userView/userView.js"></script>
         <script src="resources/alumnoView/alumnoView.js"></script>
         <script src="resources/materiaView/materiaView.js"></script>
@@ -285,6 +254,8 @@
         <script src="resources/seccionView/seccionView.js"></script>
         <script src="resources/tareaView/tareaView.js"></script>
         <script src="resources/categoriaView/categoriaView.js"></script>
+        <script src="resources/regMedicoView/regMedicoView.js"></script>
+
 
         <script type="text/javascript">
         OneUI.init();

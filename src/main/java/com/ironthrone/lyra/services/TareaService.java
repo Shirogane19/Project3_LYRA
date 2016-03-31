@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.TareaRequest;
+import com.ironthrone.lyra.ejb.Categoria;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Tarea;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.RolPOJO;
+import com.ironthrone.lyra.pojo.CategoriaPOJO;
 import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
+import com.ironthrone.lyra.repositories.CategoriaRepository;
 import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.TareaRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
@@ -26,6 +29,7 @@ public class TareaService implements TareaServiceInterface{
 	@Autowired private TareaRepository tareaRepository;
 	@Autowired private UsuarioRepository userRepository;
 	@Autowired private RolRepository rolRepository;
+	@Autowired private CategoriaRepository categoryRepository;
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -38,10 +42,18 @@ public class TareaService implements TareaServiceInterface{
 		
 		tareas.stream().forEach(t -> {
 			TareaPOJO dto = new TareaPOJO();
+
 			BeanUtils.copyProperties(t,dto);
 			dto.setActiveTa(t.getIsActiveTa());
 			dto.setUsuarios(generateUserDto(t));
 			dto.setRols(generateRolsDto(t));
+			dto.setIdTarea(t.getIdTarea());		
+			dto.setTituloTarea(t.getTituloTarea());
+			dto.setDescripcionTarea(t.getDescripcionTarea());
+			dto.setActiveTa(t.getIsActiveTa());	
+			dto.setReadTa(t.getIsReadTa());
+			dto.setCategoria(generateCategoryDto(t));
+
 			uiTareas.add(dto);
 		});	
 		
@@ -115,14 +127,36 @@ public class TareaService implements TareaServiceInterface{
 
 	@Override
 	public TareaPOJO getTareaById(int idTarea) {
-		Tarea tarea =  tareaRepository.findOne(idTarea);
+		Tarea t =  tareaRepository.findOne(idTarea);
 		TareaPOJO dto = new TareaPOJO();
 		
-		BeanUtils.copyProperties(tarea,dto);
-		dto.setActiveTa(tarea.getIsActiveTa());
+		dto.setIdTarea(t.getIdTarea());		
+		dto.setDescripcionTarea(t.getDescripcionTarea());
+		dto.setActiveTa(t.getIsActiveTa());	
+		dto.setReadTa(t.getIsReadTa());
+		
+		dto.setCategoria(generateCategoryDto(t));
+		dto.setUsuarios(null);
+		dto.setRols(null);
+
+
 	
 		return dto;
 	}
+
+	private CategoriaPOJO generateCategoryDto(Tarea tarea) {
+		
+		Categoria c = tarea.getCategoria();
+		CategoriaPOJO dto = new CategoriaPOJO();
+		
+		dto.setIdCategoria(c.getIdCategoria());
+		dto.setNombreCategoria(c.getNombreCategoria());
+		dto.setDescripcionCategoria(c.getDescripcionCategoria());
+		dto.setActiveCat(c.getIsActiveCat());
+		
+		return dto;
+	}
+
 
 	@Override
 	@Transactional
@@ -148,10 +182,7 @@ public class TareaService implements TareaServiceInterface{
 		if(!idRoles.isEmpty()){
 			hasRoles = true;
 		}
-		
-//		if(!idRoles.isEmpty()){
-//			hasRoles = true;
-//		}
+
 		
 		Tarea newTarea = new Tarea();
 		Tarea nTarea = null;
@@ -194,6 +225,7 @@ public class TareaService implements TareaServiceInterface{
 				listRol = getRole(idRoles, listRol);
 				oldTa.setRols(listRol);
 			}
+			
 			
 			nTarea = tareaRepository.save(oldTa);	
 		}
@@ -306,10 +338,18 @@ public class TareaService implements TareaServiceInterface{
 	@Transactional
 	private Tarea assignProperties(Tarea dbTarea, TareaPOJO uiTarea){
 		
+		if(uiTarea.getIdCategoria() > 0){
+			Categoria category = new Categoria();
+			category = categoryRepository.findOne(uiTarea.getIdCategoria());
+			dbTarea.setCategoria(category);			
+		}
+
+		
 		dbTarea.setTituloTarea(uiTarea.getTituloTarea());
 		dbTarea.setDescripcionTarea(uiTarea.getDescripcionTarea());
 		dbTarea.setIsActiveTa(uiTarea.isActiveTa());
 		dbTarea.setIsReadTa(false);
+
 		
 		return dbTarea;
 	}

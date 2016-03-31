@@ -126,6 +126,27 @@
                                             </div>
                                         </div> 
 
+                                     <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <select ng-model = "newTa.categoria"
+                                                            class="form-control" id="contact2-subject" name="contact2-subject" size="1">
+                                                        <option ng-repeat="c in categoryList" value="{{c.idCategoria}}">{{c.nombreCategoria}}</option>
+                                                    </select>
+                                                    <label for="contact2-subject">Categor&iacutea</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="form-material">
+                                                    <input class="form-control" type="text" ng-model="newTa.oldCategoria" disabled>
+                                                    <label>Categor&iacute Actual</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                        <div class="form-group" ng-show="!isCreating">
                                             <div class="col-xs-12">
                                                 <label class="css-input css-checkbox css-checkbox-success">

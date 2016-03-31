@@ -34,14 +34,22 @@ $scope.increment = function(){
     $scope.counter += 1;
   }
 
+/** Metodo que redirecciona el usuario a su perfil cuando intenta
+ ** presionar el boton de modificar o eliminar. 
+ **/
+
 $scope.redirectProfile = function(){
 	$state.go('perfilView');
 }
 
+/** Metodo que muestra el formulario de registro  **/
+
 $scope.showForm = function(){
-	//console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+
 	$scope.onPoint = true;
   }
+
+/** Metodo que muestra la lista de usuarios en el sistema **/
 
 $scope.showList = function(){
 
@@ -50,6 +58,8 @@ $scope.showList = function(){
 	$scope.onPoint = false;
 	$scope.isCreating = true;
   }
+
+/** metodo que carga la informacion del usuario seleccionado a el formulario de guardar **/
 
  $scope.showUserToEdit = function(u){
 
@@ -72,6 +82,8 @@ $scope.showList = function(){
 	$scope.isCreating = false;
 }
 
+/** Metodo que cambia el estado de un usuario de activo a inactivo y vice versa **/
+
  $scope.isActive = function(u){
 
  	if(u.idUsuario === $scope.myId){
@@ -90,6 +102,9 @@ $scope.showList = function(){
 	$scope.saveUsuario();
 
 }
+
+/** Metodo que inicializa todas la variables necesarias para la funcion de la vista como la carga de inicial
+ ** de la lista de usuarios en la institucion **/
 
 $scope.init = function(){
 	
@@ -112,8 +127,10 @@ $scope.init = function(){
 		$scope.userList = response.usuarios;
 	});
 		
-		console.log("my institute id", $scope.idInstitucion);
+	//	console.log("my institute id", $scope.idInstitucion);
 }
+
+/** Metodo que guarda un usuario por medio del consumo de un servicio REST del API Lyra **/
 
 $scope.saveUsuario = function(){
 		if($scope.isCreating){//Si esta creando setea un -1 al tipo de usuario
@@ -140,13 +157,30 @@ $scope.saveUsuario = function(){
 
 	//	console.log($scope.requestObject.usuario);
 
-	$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {		
+	$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {
+	
 				$state.reload();
 
-		}); 
+		})
+
+		 .catch(function (error) {
+          console.error('exception', error);
+		  $scope.checkResponse(error);	
+        });  
 	}
 
+	/** Valida si hay conexcion **/
+	$scope.checkResponse = function(response){
 
+		var status = response.status; // error code
+
+            if ((status >= 500) && (status < 600)) {
+				$state.go('500');
+            }
+
+	}
+
+	/**Funcion que retarsa la carga de los scripts del template hasta que Angular este listo **/
 	 $timeout( function(){ $scope.initScripts(); }, 100);
  	 $scope.init();
 

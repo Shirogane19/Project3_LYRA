@@ -97,7 +97,7 @@ public class Tarea implements Serializable {
 
 
 	//bi-directional many-to-one association to Categoria
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	public Categoria getCategoria() {
 		return this.categoria;
 	}

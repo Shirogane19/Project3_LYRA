@@ -317,7 +317,6 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 * @param Institucion recibe un objeto Institución
 	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
 	 */
-	@SuppressWarnings("unused")
 	private List<UsuarioPOJO> generateUserDto(Institucion i) {
 		
 		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
@@ -389,7 +388,6 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 * @param Institucion recibe un objeto Alumno
 	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
 	 */
-	@SuppressWarnings("unused")
 	private List<UsuarioPOJO> generateUserDto(Alumno a) {
 		
 		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
