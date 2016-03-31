@@ -12,9 +12,9 @@ public class TareaPOJO {
 	private boolean isActiveTa;
 	private boolean isReadTa;
 	private String tituloTarea;
-	private List<Rol> rols;
+	private List<RolPOJO> rols;
 	private Categoria categoria;
-	private List<Usuario> usuarios;
+	private List<UsuarioPOJO> usuarios;
 	private List<String> idRols;
 	private List<String> idUsuarios;
 	
@@ -65,11 +65,11 @@ public class TareaPOJO {
 	public void setTituloTarea(String tituloTarea) {
 		this.tituloTarea = tituloTarea;
 	}
-	public List<Rol> getRols() {
+	public List<RolPOJO> getRols() {
 		return rols;
 	}
-	public void setRols(List<Rol> rols) {
-		this.rols = rols;
+	public void setRols(List<RolPOJO> list) {
+		this.rols = list;
 	}
 	public Categoria getCategoria() {
 		return categoria;
@@ -77,11 +77,11 @@ public class TareaPOJO {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	public List<Usuario> getUsuarios() {
+	public List<UsuarioPOJO> getUsuarios() {
 		return usuarios;
 	}
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setUsuarios(List<UsuarioPOJO> list) {
+		this.usuarios = list;
 	}
 	
 	

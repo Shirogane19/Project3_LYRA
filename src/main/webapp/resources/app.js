@@ -26,7 +26,7 @@ angular.module('myApp', [
   encargado: 4
 })
 
-.controller("MainCtrl",['$scope','$localStorage','USER_ROLES',function($scope,$localStorage,USER_ROLES) {
+.controller("MainCtrl",['$scope','$http','$localStorage','USER_ROLES',function($scope,$http,$localStorage,USER_ROLES) {
 
   $scope.title =  "";
   $scope.user =  {}
@@ -56,6 +56,32 @@ angular.module('myApp', [
     $localStorage.$reset();
     $scope.loginPage();
   };
+
+  $scope.enableNotificaciones = function(){
+
+    console.log("nott" , $localStorage.user.userId);
+    var num = 0;
+
+
+    $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
+    "string","usuario":{"idUsuario": $localStorage.user.userId}};
+
+    $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
+      console.log("responseNoti",response)
+      
+      //document.getElementById("noti").textContent= response.usuario.tareas.length;
+
+      for (var i = 0; i < response.usuario.tareas.length; i++) {
+           if(response.usuario.tareas[i].readTa == false){
+              num ++;
+           }
+      };
+
+      document.getElementById("noti").textContent= num;
+      
+    });
+
+  }
 
   $scope.loginPage= function() {
 

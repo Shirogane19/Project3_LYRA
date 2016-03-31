@@ -328,6 +328,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			user.setPassword("secret");
 			user.setActiveUs(u.getIsActiveUs());
 			user.setRols(null);
+			user.setIdTareas(null);
 			user.setInstitucion(null);
 			
 			users.add(user);
@@ -399,6 +400,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			user.setPassword("secret");
 			user.setActiveUs(u.getIsActiveUs());
 			user.setRols(null);
+			user.setTareas(null);
 			user.setInstitucion(null);
 			
 			users.add(user);

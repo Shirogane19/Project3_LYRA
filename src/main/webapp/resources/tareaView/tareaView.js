@@ -13,10 +13,11 @@ angular.module('myApp.tareaView', ['ngRoute'])
 .controller('tareaViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
   
   $scope.tareaList = [];
-  //ESTO ESTA QUEMADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!
+  
   $scope.listaRoles = [];
   $scope.userList = [];
   $scope.taskUsers = [];
+  $scope.usuariosDeTarea = [];
   $scope.tab1 = false;
   $scope.tab2 = false;
   $scope.tab3 = false;
@@ -36,6 +37,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
     }
 
   	$scope.init = function(){
+
     $scope.isCreating = true;
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","tareas": {}};
 		$http.post('rest/protected/tarea/getAll',$scope.requestObject).success(function(response) {
@@ -43,11 +45,22 @@ angular.module('myApp.tareaView', ['ngRoute'])
 			$scope.tareaList = response.tareas;
 			console.log("$scope.tareaList: ",$scope.tareaList[0])
 
-      $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","user": {}};
+console.log("id ints",$scope.user.idInstitucion);
+
+    $scope.requestObject = 
+  {"pageNumber": 0,
+   "pageSize": 0,
+   "direction": "string",
+   "sortBy": [""],
+   "searchColumn": "string",
+   "searchTerm": 
+   "string",
+   "usuario":{"idInstitucion": $scope.user.idInstitucion}};
+
   $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
   //  console.log("response",response)
     $scope.userList = response.usuarios;
-    console.log("Response usuarios", response.usuarios );
+    console.log("Response usuarios", response );
   });
 
 	
@@ -84,6 +97,11 @@ $scope.showList = function(){
   $scope.newTa = t; // Guarda el objeto usuario a la variable temporal
   $scope.newTa.tituloTarea = t.tituloTarea;
   $scope.newTa.descripcionTarea = t.descripcionTarea;
+  //$scope.userList = t.usuarios;
+  $scope.listaRoles = t.rols;
+  $scope.usuariosDeTarea = t.usuarios;
+  console.log('usuarios tarea', $scope.usuariosDeTarea);
+
   $scope.showForm();
   $scope.isCreating = false;
 }
@@ -103,8 +121,23 @@ $scope.showList = function(){
 
 }
 
+$scope.validacionUsuariosTarea = function(){
+  $scope.usuariosDeTarea.idUsuario;
+  $scope.taskUsers
+
+  for (var i = 0; i < $scope.taskUsers.length; i++) {
+    
+      for (var x = 0; x < $scope.usuariosDeTarea.length; x++) {
+        
+        if ($scope.taskUsers[i] = $scope.usuariosDeTarea[x].idUsuario) {};
+        
+
+      };
+
+  };
+}
+
 $scope.changeTab1 = function(){
-  console.log("tab 1", $scope.tab1);
   if($scope.tab1){
     $scope.tab1 = false;
   }else{
@@ -132,7 +165,7 @@ $scope.tab3 = false;
 }else{
   $scope.tab3= true;
 }
-console.log("userlist!!!!!!" , $scope.taskUsers);
+
 $scope.tab1=false;
 $scope.tab2=false;
 
@@ -140,11 +173,33 @@ $scope.tab2=false;
 }
 
 $scope.saveUserT = function(u){
-    $scope.taskUsers.push(u.idUsuario);
-    console.log("usuario lista para tarea", $scope.taskUsers);
+    
+   
+    console.log('length',$scope.taskUsers );
+    if($scope.taskUsers.length > 0){
+
+      for (var i = 0; i < $scope.taskUsers.length; i++) {
+            if(u.idUsuario === $scope.taskUsers[i]){
+                
+                $scope.taskUsers[i].splice(i,1);
+
+            }
+      };
+
+      $scope.taskUsers.push(u.idUsuario);
+
+    }else{
+
+        $scope.taskUsers.push(u.idUsuario);
+    }
 }
 
+
 $scope.saveTarea = function(){
+
+
+  if($scope.taskUsers.length >0 || $scope.listaRoles.length >0){
+    
     if($scope.isCreating){
       $scope.newTa.idTarea = -1;
       $scope.newTa.activeTa = true;
@@ -180,11 +235,25 @@ $scope.requestObject ={
         $scope.showList();
         $scope.init();
       }
-      $state.reload();
+
 
     }); 
+
+}else{
+    document.getElementById("advertencia").style.color = "red";
+
   }
 
+  }
+  
+
+  $scope.validacionEliminar = function(){
+    console.log('elim');
+      if($scope.taskUsers.length < 0 ){
+          $scope.taskUsers.splice();
+          console.log('elim');
+      }
+  }
 
  $timeout( function(){ $scope.initScripts(); }, 100);
    $scope.init();

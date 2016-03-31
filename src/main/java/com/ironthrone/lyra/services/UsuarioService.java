@@ -16,6 +16,7 @@ import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.RolPOJO;
+import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.RolRepository;
@@ -53,6 +54,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 			BeanUtils.copyProperties(u,dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setRols(generateRolDto(u));
+			dto.setTareas(generateTareaDto(u));
 			dto.setListaInstituciones(generateInstitutionDtos(u));
 			dto.setPeriodo(null);
 			uiUsers.add(dto);
@@ -118,10 +120,34 @@ public class UsuarioService implements UsuarioServiceInterface {
 		dto.setActiveUs(user.getIsActiveUs());
 		dto.setDateOfJoin(user.getDateOfJoin());
 		dto.setRols(generateRolDto(user));
+		dto.setTareas(generateTareaDto(user));
 
 		return dto;
 	}
 	
+	/**
+	 * Genera una lista de tareas POJO.
+	 * @param user al que se le genera la lista.
+	 * @return lista de tareas pojo
+	 */
+	
+	private List<TareaPOJO> generateTareaDto(Usuario user) {
+		
+		List<TareaPOJO> tareas = new ArrayList<TareaPOJO>();	
+		
+		user.getTareas().stream().forEach(t -> {
+			TareaPOJO tarea = new TareaPOJO();
+			BeanUtils.copyProperties(t, tarea);			
+			
+			tarea.setUsuarios(null);
+			tarea.setActiveTa(t.getIsActiveTa());
+			tarea.setRols(null);
+			tareas.add(tarea);
+		});	
+		
+		return tareas;
+	}
+
 	/**
 	 * Genera una lista de roles POJO.
 	 * @param user al que se le genera la lista.
@@ -476,6 +502,8 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
 			dto.setListaInstituciones(generateInstitutionDtos(u));
+			dto.setTareas(generateTareaDto(u));
+
 		});
 		return dto;
 	}
