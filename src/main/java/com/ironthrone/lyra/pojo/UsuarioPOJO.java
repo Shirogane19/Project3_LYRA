@@ -3,6 +3,8 @@ package com.ironthrone.lyra.pojo;
 import java.util.Date;
 import java.util.List;
 
+import org.neo4j.cypher.internal.compiler.v2_0.functions.Str;
+
 /**
  * Clase Plain Old Java Object de usuario.
  * @author jeanpaul
@@ -261,5 +263,17 @@ public class UsuarioPOJO {
 		this.periodoYear = periodoYear;
 	}
 	
+	@Override
+	public String toString(){
+		String sep = System.getProperty("line.separator");
+		
+		return  sep +    "Usuario  [id: " + getIdUsuario() +  sep +
+						 "nombre: " + getNombre() +  sep +
+						 "apellido: " + getApellido() + sep +
+						 "email: " + getEmail()  +	 sep +
+						 "telefono: " + getTelefono() +  sep +
+						 "celular: " + getMovil() + "]";
+		
+	}
 
 }

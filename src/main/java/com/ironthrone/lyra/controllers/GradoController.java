@@ -19,7 +19,7 @@ import com.ironthrone.lyra.services.GradoServiceInterface;
 @RequestMapping(value ="rest/protected/grado")
 public class GradoController {
 	
-	@Autowired GradoServiceInterface gradeService;
+	@Autowired private GradoServiceInterface gradeService;
 
 	/**
 	 * Retorna una lista de todos los gradoss del sistema
