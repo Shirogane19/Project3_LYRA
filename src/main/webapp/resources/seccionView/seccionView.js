@@ -47,53 +47,56 @@ angular.module('myApp.seccionView', ['ngRoute'])
 
   }
 
-$scope.increment = function(){
-    $scope.counter += 1;
+  $scope.increment = function(){
+      $scope.counter += 1;
+    }
+
+
+  $scope.showForm = function(){
+    console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+    $scope.onPointFormSeccion = true;
+    $scope.onPoint = false;
   }
 
+  $scope.showList = function(){
 
-$scope.showForm = function(){
-  console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
-  $scope.onPointFormSeccion = true;
-  $scope.onPoint = false;
+    $scope.newSec = {};
+    $scope.onPoint = false;
+    $scope.isCreating = true;
   }
 
-$scope.showList = function(){
-
-  $scope.newSec = {};
-  $scope.onPoint = false;
-  $scope.isCreating = true;
-  }
-
+  /** Muestra el formulario con la informacion de la seccion a modificar**/
   $scope.showSeccionToEdit = function(s){
 
-  $scope.newSec = s; // Guarda el objeto usuario a la variable temporal
-  $scope.newSec.nombreSeccion = s.nombreSeccion;
-  $scope.newSec.selected_grado = s.grado.idGrado;
-  //console.log(s.grado.idGrado);
-  //console.log(s.grado.nombre);
-  //$scope.newSec.grselected_gradoado = {nombre: s.grado.nombre, idGrado: s.grado.idGrado};
-  $scope.onPoint = false;
-  $scope.onPointFormSeccion = true;
-  $scope.isCreating = false;
-}
-
- $scope.isActive = function(s){
-
-  $scope.newSec = s; // Guarda el objeto usuario a la variable temporal
-
-  if($scope.newSec.activeSec){
-    $scope.newSec.activeSec = false;
-  }else{
-    $scope.newSec.activeSec = true;
+    $scope.newSec = s; // Guarda el objeto usuario a la variable temporal
+    $scope.newSec.nombreSeccion = s.nombreSeccion;
+    $scope.newSec.selected_grado = s.grado.idGrado;
+    //console.log(s.grado.idGrado);
+    //console.log(s.grado.nombre);
+    //$scope.newSec.grselected_gradoado = {nombre: s.grado.nombre, idGrado: s.grado.idGrado};
+    $scope.onPoint = false;
+    $scope.onPointFormSeccion = true;
+    $scope.isCreating = false;
   }
-  $scope.newSec.selected_grado = s.grado.idGrado;
-  $scope.isCreating = false;
-  $scope.saveSeccion();
 
-}
+  /** Cambia el estado de la seccion**/
+  $scope.isActive = function(s){
 
-$scope.saveSeccion = function(){
+    $scope.newSec = s; // Guarda el objeto usuario a la variable temporal
+
+    if($scope.newSec.activeSec){
+      $scope.newSec.activeSec = false;
+    }else{
+      $scope.newSec.activeSec = true;
+    }
+    $scope.newSec.selected_grado = s.grado.idGrado;
+    $scope.isCreating = false;
+    $scope.saveSeccion();
+
+  }
+
+  /** Guarda la seccion creada o modificada**/
+  $scope.saveSeccion = function(){
     if($scope.isCreating){
       $scope.newSec.idSeccion = -1;
       $scope.newSec.activeSec = true;
@@ -134,7 +137,8 @@ $scope.saveSeccion = function(){
 
   $scope.objSeccion; // Guarda un objeto seccion que se usuará para asignar alumnos
 
-  $scope.openAlumnoToSeccion = function(s){//Ventana de asignacion de alumnos a secciones, obtine la lista de alumnos con y sin secciones
+  //** Ventana de asignacion de alumnos a secciones, obtine la lista de alumnos con y sin secciones**//
+  $scope.openAlumnoToSeccion = function(s){
 
     $http.post('rest/protected/seccion/getSeccion',s.idSeccion).success(function(response) {
 
@@ -156,7 +160,8 @@ $scope.saveSeccion = function(){
     
   }
 
-  $scope.close = function(){// Refresca la pagina, cada vez que cierre una ventana
+  /** Refresca la pagina, cada vez que cierre una ventana**/
+  $scope.close = function(){
     $state.reload();
   }
 
@@ -164,12 +169,14 @@ $scope.saveSeccion = function(){
   $scope.selectNoAsignado;// Guarda el indice del alumno sin seccion del select/option
   $scope.objNoAsignado;// Guarda un objeto no asignado
 
-  $scope.targetNoAsignado = function(a){//Obtiene el indice del alumno sin seccion del select/option
+  /** Obtiene el indice del alumno sin seccion del select/option**/
+  $scope.targetNoAsignado = function(a){
     $scope.objNoAsignado = a;
     $scope.selectNoAsignado = $scope.AlumnosNoSeccionList.indexOf(a);
   }
 
-  $scope.borrarNoAsignado = function(){// Elimina a un alumno de laa lista de sin seccion del select/option
+  /** limina a un alumno de laa lista de sin seccion del select/option**/
+  $scope.borrarNoAsignado = function(){
     if(!angular.isUndefined($scope.selectNoAsignado)){
       $scope.AlumnosAsignados.push($scope.objNoAsignado);
       $scope.AlumnosNoSeccionList.splice($scope.selectNoAsignado, 1);
@@ -182,12 +189,14 @@ $scope.saveSeccion = function(){
   $scope.selectAsignado;// Guarda el indice del alumno en una seccion del select/option
   $scope.objAsignado;// Guarda un objeto asinado a seccion
 
-  $scope.targetAsignado = function(a){//Obtiene el indice del alumno que esta asignado en la seccion del select/option
+  /** Obtiene el indice del alumno que esta asignado en la seccion del select/option**/
+  $scope.targetAsignado = function(a){
     $scope.objAsignado = a;
     $scope.selectAsignado = $scope.AlumnosAsignados.indexOf(a);
   }
 
-  $scope.borrarAsignado = function(){// Elimina a un alumno de la lista que esta asignado en la seccion del select/option
+  /** Elimina a un alumno de la lista que esta asignado en la seccion del select/option**/
+  $scope.borrarAsignado = function(){
     if(!angular.isUndefined($scope.selectAsignado)){
       $scope.AlumnosNoSeccionList.push($scope.objAsignado);
       $scope.AlumnosAsignados.splice($scope.selectAsignado, 1);
@@ -196,7 +205,32 @@ $scope.saveSeccion = function(){
     }
   }
 
-  //---------
+  /**Remueve a todos los estudiantes de una seccion, los pasa a estado de no tener seccion**/
+  $scope.todosDesasignarlos = function(){
+    for (var i = 0; i < $scope.AlumnosAsignados.length; i++) {
+      $scope.AlumnosNoSeccionList.push($scope.AlumnosAsignados[i]);
+    };
+    $scope.AlumnosAsignados.splice(0);
+    $scope.objAsignado = undefined;
+    $scope.selectAsignado = undefined;
+    $scope.objNoAsignado = undefined;
+    $scope.selectNoAsignado = undefined;
+  }
+
+ /** Asigna a  todos los estudiantes a seccion**/ 
+  $scope.todosAsignarlos = function(){
+    for (var i = 0; i < $scope.AlumnosNoSeccionList.length; i++) {
+      $scope.AlumnosAsignados.push($scope.AlumnosNoSeccionList[i]);
+    };
+    $scope.AlumnosNoSeccionList.splice(0);
+    $scope.objAsignado = undefined;
+    $scope.selectAsignado = undefined;
+    $scope.objNoAsignado = undefined;
+    $scope.selectNoAsignado = undefined;
+  }
+
+
+  //** Guarda los cambios de las asignasiones o desasignaciones**/
   $scope.registrarAsignaciones = function(){
     console.log($scope.AlumnosNoSeccionList);
     console.log($scope.AlumnosAsignados);
@@ -233,4 +267,4 @@ $scope.saveSeccion = function(){
   $timeout( function(){ $scope.initScripts(); }, 100);
   $scope.init();
 
-  }]);
+}]);
