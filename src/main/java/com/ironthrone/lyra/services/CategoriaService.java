@@ -123,7 +123,6 @@ public class CategoriaService implements CategoriaServiceInterface{
 
 		BeanUtils.copyProperties(cr.getCategoria(), newCategoria);	
 		newCategoria.setIsActiveCat(cr.getCategoria().isActiveCat());
-		
 
 			
 		if(cr.getCategoria().getIdCategoria() <= -1){		

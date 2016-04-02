@@ -39,9 +39,8 @@ public class XMLController {
 		XMLResponse response = new XMLResponse();
 		String resultFileName = Utils.writeToFile(file,servletContext);
 		
-		System.out.println("Resultado del writeToFile: " + resultFileName);
-		
-		//Boolean state = xmlService.bulkUpload(idInstitucion,file);
+	//	System.out.println("Resultado del writeToFile: " + resultFileName);
+
 		
 		Boolean state = xmlService.bulkUpload(idInstitucion,resultFileName);
 		

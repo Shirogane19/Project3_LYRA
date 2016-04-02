@@ -1,0 +1,195 @@
+<link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
+<link rel="stylesheet" href="resources/assets/js/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="resources/assets/js/plugins/select2/select2-bootstrap.min.css">
+<link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
+
+<button class="btn btn-success push-5-r push-10" type="button" ng-show="onPoint" ng-click="showForm()"><i class="fa fa-plus"></i> Registrar Sección</button>
+<!-- Dynamic Table Full -->
+<div class="block" ng-show="onPoint">
+
+    <div class="block-header">
+        <h3 class="block-title">Secciones <small></small></h3>
+    </div>
+
+    <div class="block-content">
+
+
+        <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+        <table class="table table-bordered table-striped js-dataTable-full">
+            <thead>
+                <tr>
+                    <th class="text-center"></th>
+                    <th ng-hide="true"></th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Grado</th>
+                    <th class="hidden-xs" style="width: 15%;">Estado</th>
+                    <th class="text-center" style="width: 10%;">Acciones</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="s in seccionList" m-index="$index">
+                    <td class="text-center" ng-bind="s.idSeccion" ng-hide="true"></td>
+                    <td class="text-center">{{$index+1}}</td>
+
+                   
+                    <td><span ng-bind="s.nombreSeccion"></span></td>
+                    <td><span ng-bind="s.grado.nombre"></span></td>
+
+                    <td class="hidden-xs"   ng-if="s.activeSec == true">
+                    <span class="label label-success">Activo</span>
+                    </td>
+
+                    <td class="hidden-xs"   ng-if="s.activeSec == false">
+                    <span class="label label-danger">Inactivo</span>
+                    </td>
+
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit sección" ng-click="showSeccionToEdit(s)"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(s)"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add estudiantes" ><i class="fa fa-user-plus" ng-click="openAlumnoToSeccion(s)"></i></button>
+                        </div>
+                    </td>   
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- END Dynamic Table Full -->
+
+<!-- Registrar -->
+<div class="col-lg-6" ng-show="onPointFormSeccion">
+    <div class="block block-themed">
+        <div class="block-header bg-success">
+            <ul class="block-options">
+                <li>
+                <button type="button" ng-click="close()"><i class="si si-close"></i></button>
+               <li>
+                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                </li>
+            </ul>
+
+           <h3 class="block-title">Sección</h3>
+        </div>
+        <div class="block-content">
+           <form class="form-horizontal push-10-t push-10" name="seccionForm">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="form-material">
+                            <input class="form-control" type="text" ng-model="newSec.nombreSeccion" maxlength=9 required>
+                            <label>Nombre <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12" for="val-select2">Grado<span class="text-danger">*</span></label>
+                    <div class="col-md-7">
+                        <select id="" class="form-control" ng-model="newSec.selected_grado" required>
+                            <option ng-repeat="grado in gradoList" value="{{grado.idGrado}}">{{grado.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+                 
+                <div class="form-group" ng-show="!isCreating">
+                    <div class="col-xs-12">
+                        <label class="css-input css-checkbox css-checkbox-success">
+                            <input type="checkbox" ng-model="newSec.activeSec"><span></span> Activo?
+                        </label>
+                    </div>
+                </div>
+             <div class="form-group">
+                <div class="col-xs-12">
+                    <button class="btn btn-sm btn-success" type="submit"  ng-disabled="seccionForm.$invalid"
+                            ng-click="saveSeccion()">
+                    <i class="fa fa-plus push-5-r"></i> Registrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Mega Form -->
+<div class="block block-bordered" ng-show="onPointAlumnoToSeccion">
+    <div class="block-header bg-gray-lighter">
+        <ul class="block-options">
+            <li>
+                <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
+            </li>
+            <li>
+                <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+            </li>
+        </ul>
+        <h3 class="block-title">Sección {{seccionName}}</h3>
+    </div>
+    <div class="block-content">
+
+        <form class="form-horizontal push-10-t push-10" action="base_forms_premade.html" method="post" onsubmit="return false;">
+
+            <div class="row">
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Asignados</label>
+                            <select class="form-control" id="mega-skills" name="mega-skills" size="17" multiple >
+                                <option ng-repeat="aa in AlumnosAsignados" value="{{aa.idAlumno}}" ng-click="targetAsignado(aa)">{{aa.nombre}} {{aa.apellido1}}</option>
+                            </select>
+                        </div>
+                    </div>
+  
+                </div>
+
+                <div class="col-sm-2">
+                
+                    <div class="form-group" >
+                        <br><br><br><br><br><br>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="borrarAsignado()" ><i class="fa fa-angle-right" ng-click="borrarAsignado()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="borrarNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarNoAsignado()" ></i></button>
+                    </div>
+                    <div class="form-group" >
+                        <br>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="todosDesasignarlos()" ><i class="fa fa-angle-double-right" ng-click="todosDesasignarlos()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="todosAsignarlos()" href="javascript:void(0)"><i class="fa fa-angle-double-left" ng-click="todosAsignarlos()" ></i></button>
+                    </div>
+  
+                </div>
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Sin sección</label>
+                            <select class="form-control" id="mega-skills" name="mega-skills" size="17" multiple >
+                                 <option ng-repeat="ass in AlumnosNoSeccionList" value="{{ass.idAlumno}}" ng-click="targetNoAsignado(ass)">{{ass.nombre}} {{ass.apellido1}}</option>
+                            </select>
+                        </div>
+                    </div>
+  
+                </div>
+
+            </div><!--end first row-->
+
+            <div class="row ">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            <button class="btn btn-warning " type="submit" ng-click="registrarAsignaciones()"><i class="fa fa-check push-5-r"></i> Registrar </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5"></div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<!-- END Mega Form -->
+
+

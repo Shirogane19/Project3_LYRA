@@ -34,7 +34,7 @@
                     <td class="text-center" ng-bind="a.idAlumno" ng-hide="true"></td>
                     <td class="text-center">{{$index+1}}</td>
                     <td class="font-w600" ng-bind="(a.nombre) +' '+ (a.apellido1) +' '+ (a.apellido2)"></td>
-                    <td class="hidden-xs" ></td>
+                    <td class="hidden-xs" ng-bind="(a.seccion.nombreSeccion)"></td>
 
                     <td class="hidden-xs"   ng-if="a.activeAl == true">
                     <span class="label label-success">Activo</span>
@@ -83,7 +83,7 @@
                 <div class="form-group">
                     <div class="col-xs-12">
                         <div class="form-material">
-                            <input class="form-control" type="text" ng-model="newAlumno.nombre" required>
+                            <input class="form-control" type="text" ng-model="newAlumno.nombre" maxlength=44 required>
                             <label for="register2-username">Nombre<span class="text-danger">*</span></label>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                 <div class="form-group">
                     <div class="col-xs-12">
                         <div class="form-material">
-                            <input class="form-control" type="text" ng-model="newAlumno.apellido1" required>
+                            <input class="form-control" type="text" ng-model="newAlumno.apellido1" maxlength=44 required>
                             <label for="register2-email">Primer apellido<span class="text-danger">*</span></label>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="form-group">
                     <div class="col-xs-12">
                         <div class="form-material">
-                            <input class="form-control" type="text" ng-model="newAlumno.apellido2">
+                            <input class="form-control" type="text" ng-model="newAlumno.apellido2" maxlength=44>
                             <label for="register2-password">Segundo apellido</label>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                 <div class="form-group">
                     <div class="col-xs-12">
                         <div class="form-material">
-                            <input class="form-control" type="text" ng-model="newAlumno.cedula" ng-pattern="onlyNumbers" required>
+                            <input class="form-control" type="text" ng-model="newAlumno.cedula" ng-pattern="onlyNumbers" maxlength=19 required>
                             <label for="register2-password2">Cédula<span class="text-danger">*</span></label>
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                 </div>
 
                 <div class="text-center" ng-show="invalidUser">
-                    <p class="text-muted push-15-t text-danger">No se encontró este usuario</p>
+                    <p class="text-muted push-15-t text-danger">El usuario no esta registrado o no es un encargado</p>
                 </div>
                 
                 <div class="form-group">

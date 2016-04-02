@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Seccion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
@@ -92,16 +93,6 @@ public class AlumnoService implements AlumnoServiceInterface{
 		int idInstitucion = alumnoRequest.getAlumno().getInstitucion().getIdInstitucion();
 		Institucion i = institucionRepository.findOne(idInstitucion);
 	    newAlumno.setInstitucion(i);
-	    
-	    //removeEncargados(alumnoRequest);
-	    
-//	    List<Usuario> usuarios = new ArrayList<Usuario>();
-//	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-//	    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-//	    	usuarios.add(usuario);
-//	    	
-//	    });
-//	    newAlumno.setUsuarios(usuarios);
 		
 		if(alumnoRequest.getAlumno().getIdAlumno() <= -1){		
 			
@@ -130,9 +121,12 @@ public class AlumnoService implements AlumnoServiceInterface{
 		    newAlumno.setUsuarios(usuarios);
 			
 			Alumno oldAlumno = findById(newAlumno.getIdAlumno());
+			Seccion oldSeccion = oldAlumno.getSeccion();
 			
 			BeanUtils.copyProperties(newAlumno, oldAlumno);
 			oldAlumno.setIsActiveAl(alumnoRequest.getAlumno().isActiveAl());
+			oldAlumno.setSeccion(oldSeccion);
+			
 			
 			nalumnoT = alumnoRepository.save(oldAlumno);	
 			setAlumnoAUsuarios(nalumnoT, alumnoRequest);
@@ -152,6 +146,11 @@ public class AlumnoService implements AlumnoServiceInterface{
 		return alumnoRepository.findOne(idAlumno);
 	}
 	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Alumno alumno tipo ejbs
+	 * @return List<UsuarioPOJO> 
+	 */
 	private List<UsuarioPOJO> generateUserDto(Alumno a) {
 		
 		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();

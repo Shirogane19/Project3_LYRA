@@ -1,6 +1,6 @@
 package com.ironthrone.lyra.pojo;
 
-
+import java.util.Date;
 
 public class RegistroMedicoPOJO {
 	
@@ -10,6 +10,8 @@ public class RegistroMedicoPOJO {
 	private String nombreRegistro;
 	private AlumnoPOJO alumno;
 	private int idAlumno;
+	private int idCreator;
+	private Date dateOfEvent;
 	private boolean onPoint = false;
 	
 	public RegistroMedicoPOJO() {
@@ -63,6 +65,22 @@ public class RegistroMedicoPOJO {
 
 	public void setOnPoint(boolean onPoint) {
 		this.onPoint = onPoint;
+	}
+
+	public int getIdCreator() {
+		return idCreator;
+	}
+
+	public void setIdCreator(int idCreator) {
+		this.idCreator = idCreator;
+	}
+
+	public Date getDateOfEvent() {
+		return dateOfEvent;
+	}
+
+	public void setDateOfEvent(Date dateOfEvent) {
+		this.dateOfEvent = dateOfEvent;
 	}
 	
 	

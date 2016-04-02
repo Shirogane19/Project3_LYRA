@@ -17,7 +17,10 @@ import com.ironthrone.lyra.ejb.Materia;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
+import com.ironthrone.lyra.pojo.GradoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
+import com.ironthrone.lyra.pojo.MateriaPOJO;
+import com.ironthrone.lyra.pojo.SeccionPOJO;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
@@ -171,6 +174,75 @@ public class InstitucionService implements InstitucionServiceInterface{
 	}
 	
 	/**
+	 * Retorna la institucion con sus alumnos sin seccion.
+	 * @param idInstitucion, identificador único de la institución.
+	 * @return Institución de tipo InstitucionPOJO.
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getAlumnosSinSeccion(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(generateAlumnoSinSeccionDto(institucion));
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(null);
+		dto.setSubscripcions(null);
+		dto.setUsuarios(null);
+		
+		return dto;
+	}
+	
+	/**
+	 * Retorna la institucion con sus subscripciones.
+	 * @param Integer id de la institución
+	 * @return InstitucionPOJO de tipo InstitucionPOJO.
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getSubscripciones(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(null);
+		dto.setSubscripcions(generateSubscripcionDtos(institucion));
+		dto.setUsuarios(null);
+		
+		return dto;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Institucion institucion tipo ejbs
+	 * @return List<AlumnoPOJO>.
+	 */
+	private List<AlumnoPOJO> generateAlumnoSinSeccionDto(Institucion institucion) {
+		
+		List<AlumnoPOJO> alumnos = new ArrayList<AlumnoPOJO>();
+		
+		institucion.getAlumnos().stream().forEach(a -> {
+			if(a.getSeccion()==null){
+				AlumnoPOJO alumno = new AlumnoPOJO();
+				BeanUtils.copyProperties(a, alumno);	
+				alumno.setRegistrosMedicos(null);
+				alumno.setSeccion(null);
+				alumno.setUsuarios(generateUserDto(a));
+				alumno.setActiveAl(a.getIsActiveAl());
+				alumnos.add(alumno);
+			}
+		});	
+		return alumnos;
+	}
+
+	/**
 	 * Retorna la institucion con sus alumnos.
 	 * @param idInstitucion, identificador único de la institución.
 	 * @return Institución de tipo InstitucionPOJO.
@@ -194,6 +266,52 @@ public class InstitucionService implements InstitucionServiceInterface{
 	}
 	
 	/**
+	 * Retorna la institucion con sus materias.
+	 * @param Integer
+	 * @return InstitucionPOJO 
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getMateriasDeInstitucionById(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(null);
+		dto.setMaterias(generateMateriasDtos(institucion));
+		dto.setSubscripcions(null);
+		dto.setUsuarios(null);
+		
+		return dto;
+	}
+	
+	/**
+	 * Retorna la institucion con sus alumnos.
+	 * @param idInstitucion, identificador único de la institución.
+	 * @return Institución de tipo InstitucionPOJO.
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getGradosDeInstitucionById(int idInstitucion) {
+		
+		Institucion institucion =  institucionRepository.findOne(idInstitucion);
+		InstitucionPOJO dto = new InstitucionPOJO();
+		BeanUtils.copyProperties(institucion,dto);
+		dto.setHasSuscripcion(institucion.getHasSuscripcion());
+		dto.setAlumnos(null);
+		dto.setBitacoras(null);
+		dto.setGrados(generateGradeDtos(institucion));
+		dto.setMaterias(null);
+		dto.setSubscripcions(null);
+		dto.setUsuarios(null);
+		
+		return dto;
+	}
+	
+	/**
 	 * Retorna una lista de Usuarios POJO de una institución
 	 * @param Institucion recibe un objeto Institución
 	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
@@ -208,6 +326,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			user.setPassword("secret");
 			user.setActiveUs(u.getIsActiveUs());
 			user.setRols(null);
+			user.setIdTareas(null);
 			user.setInstitucion(null);
 			
 			users.add(user);
@@ -221,7 +340,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 * @param users representa una lista de subscripciones tipo ejb
 	 * @return Lista de Subscripcion POJO.
 	 */
-	@SuppressWarnings("unused")
+	
 	private List<SubscripcionPOJO> generateSubscripcionDtos(Institucion i){
 		
 		List<SubscripcionPOJO> uiSubscripciones = new ArrayList<SubscripcionPOJO>();
@@ -231,8 +350,10 @@ public class InstitucionService implements InstitucionServiceInterface{
 			BeanUtils.copyProperties(s,dto);
 			dto.setActiveSub(s.getIsActiveSub());
 			dto.setInstitucion(null);
-			dto.setFechaFin(null);
-			dto.setFechaInicio(null);
+			dto.setFechaFin(s.getFechaFin());
+			System.out.println(s.getFechaFin());
+			dto.setFechaInicio(s.getFechaInicio());
+			System.out.println(s.getFechaInicio());
 			uiSubscripciones.add(dto);
 		});	
 		
@@ -252,7 +373,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			AlumnoPOJO alumno = new AlumnoPOJO();
 			BeanUtils.copyProperties(a, alumno);	
 			alumno.setRegistrosMedicos(null);
-			alumno.setSeccion(null);
+			alumno.setSeccion(generateSeccionDto(a) );
 			alumno.setUsuarios(generateUserDto(a));
 			alumno.setActiveAl(a.getIsActiveAl());
 			alumnos.add(alumno);
@@ -276,6 +397,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			user.setPassword("secret");
 			user.setActiveUs(u.getIsActiveUs());
 			user.setRols(null);
+			user.setTareas(null);
 			user.setInstitucion(null);
 			
 			users.add(user);
@@ -283,4 +405,104 @@ public class InstitucionService implements InstitucionServiceInterface{
 
 		return users;
 	};
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param grados representa una lista de grados tipo ejb
+	 * @return UserInterfaceGrados representa una lista de grados tipo POJO.
+	 */
+	private List<GradoPOJO> generateGradeDtos(Institucion i) {
+		
+		List<GradoPOJO> uiGrados = new ArrayList<GradoPOJO>();
+
+		i.getGrados().stream().forEach(g -> {
+			GradoPOJO dto = new GradoPOJO();
+			BeanUtils.copyProperties(g,dto);
+			dto.setActiveGr(g.getIsActiveGr());
+			dto.setMaterias(null);
+			dto.setInstitucion(null);
+			dto.setSeccions(generateSeccionesDtos(g));
+			uiGrados.add(dto);
+		});	
+		
+		return uiGrados;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param secciones tipo ejbs
+	 * @return lista de secciones POJO.
+	 */
+	private List<SeccionPOJO> generateSeccionesDtos(Grado g){
+		
+		List<SeccionPOJO> uiSecciones = new ArrayList<SeccionPOJO>();
+		
+		g.getSeccions().stream().forEach(s -> {
+			SeccionPOJO dto = new SeccionPOJO();
+			BeanUtils.copyProperties(s,dto);
+			dto.setActiveSec(s.getIsActiveSec());
+			dto.setGrado(generateGradoDto(s.getGrado()));
+			dto.setAlumnos(null);
+			dto.setProfesorSeccions(null);
+			uiSecciones.add(dto);
+		});	
+		
+		return uiSecciones;
+	};
+	
+	/**
+	 * Genera GradoPOJO a partir de un GradoEJB.
+	 * @param Grado
+	 * @return GradoPOJO
+	 */
+	public GradoPOJO generateGradoDto(Grado g) {
+
+		GradoPOJO dto = new GradoPOJO();
+		BeanUtils.copyProperties(g,dto);
+		dto.setActiveGr(g.getIsActiveGr());
+		dto.setMaterias(null);
+		dto.setSeccions(null);
+		dto.setInstitucion(null);
+		
+		return dto;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Alumno alumno tipo ejbs
+	 * @return SeccionPOJO.
+	 */
+	public SeccionPOJO generateSeccionDto(Alumno a) {
+
+		SeccionPOJO dto = new SeccionPOJO();
+		if(a.getSeccion()!=null){
+			BeanUtils.copyProperties(a.getSeccion(),dto);
+			dto.setAlumnos(null);
+			dto.setGrado(null);
+			dto.setProfesorSeccions(null);
+			dto.setActiveSec(a.getSeccion().getIsActiveSec());
+		}
+		return dto;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param materias tipo ejbs
+	 * @return lista de materias POJO.
+	 */
+	private List<MateriaPOJO> generateMateriasDtos(Institucion i){
+		
+		List<MateriaPOJO> uiMaterias = new ArrayList<MateriaPOJO>();
+		
+		i.getMaterias().stream().forEach(m -> {
+			MateriaPOJO dto = new MateriaPOJO();
+			BeanUtils.copyProperties(m,dto);
+			dto.setActiveMat(m.getIsActiveMat());
+			dto.setInstitucion(null);
+			uiMaterias.add(dto);
+		});	
+		
+		return uiMaterias;
+	};
+	
 }

@@ -3,7 +3,6 @@ package com.ironthrone.lyra.pojo;
 import java.util.Date;
 import java.util.List;
 
-import org.neo4j.cypher.internal.compiler.v2_0.functions.Str;
 
 /**
  * Clase Plain Old Java Object de usuario.
@@ -47,8 +46,9 @@ public class UsuarioPOJO {
 	
 	private List<RolPOJO> rols;
 	
+	private List<TareaPOJO> tareas;
 	
-//	private List<TareaPOJO> tareas;
+	private List<String> idTareas;
 	
 	private InstitucionPOJO institucion;
 	
@@ -178,13 +178,13 @@ public class UsuarioPOJO {
 		this.rols = rols;
 	}
 
-//	public List<TareaPOJO> getTareas() {
-//		return tareas;
-//	}
-//
-//	public void setTareas(List<TareaPOJO> tareas) {
-//		this.tareas = tareas;
-//	}
+	public List<TareaPOJO> getTareas() {
+		return tareas;
+	}
+
+	public void setTareas(List<TareaPOJO> tareas) {
+		this.tareas = tareas;
+	}
 
 	public InstitucionPOJO getInstitucion() {
 		return institucion;
@@ -262,6 +262,16 @@ public class UsuarioPOJO {
 	public void setPeriodoYear(String periodoYear) {
 		this.periodoYear = periodoYear;
 	}
+
+
+	public List<String> getIdTareas() {
+		return idTareas;
+	}
+
+
+	public void setIdTareas(List<String> idTareas) {
+		this.idTareas = idTareas;
+	}
 	
 	@Override
 	public String toString(){
@@ -277,3 +287,4 @@ public class UsuarioPOJO {
 	}
 
 }
+

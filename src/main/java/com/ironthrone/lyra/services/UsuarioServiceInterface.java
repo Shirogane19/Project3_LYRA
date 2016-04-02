@@ -23,5 +23,6 @@ public interface UsuarioServiceInterface {
 	List<UsuarioPOJO> prueba();
 	UsuarioPOJO getUserByEmail(String email);
 	UsuarioPOJO getUserByCedula(String cedula);
+	UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur);
 
 }

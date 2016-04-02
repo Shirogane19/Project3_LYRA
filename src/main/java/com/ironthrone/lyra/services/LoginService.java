@@ -1,10 +1,12 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.LoginRequest;
 import com.ironthrone.lyra.contracts.LoginResponse;
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.InstitucionPOJO;
+import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.repositories.LoginRepository;
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.ironthrone.lyra.security.RavenMail;
@@ -64,6 +69,7 @@ public class LoginService implements LoginServiceInterface {
 					
 					response.setIdRoles(idRoles);
 					response.setIdInstitucions(idInstitutions);
+					response.setInstituciones(generateInstitucionDtos(loggedUser.getInstitucions()));
 					
 					//response.setIdInstitucion(loggedUser.getInstitucion().getIdInstitucion());
 					
@@ -106,11 +112,74 @@ public class LoginService implements LoginServiceInterface {
 			user.setPassword(encryptor.ironEncryption(password));
 			loginRepository.save(user);
 			raven.SendRavenMessage(user.getEmail(), user.getNombre(), user.getApellido(), message);
-			
+			//raven.subscriptionExpirationNotice(user.getEmail(), user.getNombre(), user.getApellido(), message);
 			success = true;		
 			
 		}
 			
 		return success;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param List<Institucion> representa una lista de instituciones tipo ejb
+	 * @return List<InstitucionPOJO>
+	 */
+	private List<InstitucionPOJO> generateInstitucionDtos(List<Institucion> instituciones){
+		
+		List<InstitucionPOJO> institucionesPojo = new ArrayList<InstitucionPOJO>();
+		
+		instituciones.stream().forEach(i -> {
+			InstitucionPOJO dto = new InstitucionPOJO();
+			BeanUtils.copyProperties(i,dto);
+			dto.setHasSuscripcion(i.getHasSuscripcion());
+			dto.setAlumnos(null);
+			dto.setBitacoras(null);
+			dto.setGrados(null);
+			dto.setMaterias(null);
+			dto.setSubscripcions(getUltimaSubscripcion(i));
+			dto.setUsuarios(null);
+			institucionesPojo.add(dto);
+		});	
+		
+		return institucionesPojo;
+	};
+	
+	/**
+	 * Retorna una subscripcion a vencerse o vencida
+	 * @return List<SubscripcionPOJO>
+	 */
+	private List<SubscripcionPOJO> getUltimaSubscripcion(Institucion i){
+		
+		List<SubscripcionPOJO> subscripciones = new ArrayList<SubscripcionPOJO>();
+		SubscripcionPOJO sp = null;
+		
+		i.getSubscripcions().stream().forEach( s ->{
+			SubscripcionPOJO dto = new SubscripcionPOJO();
+			BeanUtils.copyProperties(s,dto);
+			dto.setInstitucion(null);
+			if(subscripciones.size() > 0){
+				subscripciones.remove(0);
+			}
+			subscripciones.add(dto);
+		});
+		
+		sp = subscripciones.get(0);
+		long diferencia = getCurrentDate().getTime() - sp.getFechaFin().getTime();
+		
+		if(diferencia < 30){
+			return null;
+		}
+
+		return subscripciones;
+	}
+	
+	/**
+	 * Consigue la fecha de hoy
+	 * @return Date
+	 */
+	public Date getCurrentDate(){
+	   Date date = new Date();
+	   return date;
 	}
 }

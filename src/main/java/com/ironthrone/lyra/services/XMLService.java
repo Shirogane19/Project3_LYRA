@@ -68,7 +68,7 @@ public class XMLService implements XMLServiceInterface{
 		/** Primero consegimos la institucion a la cual se le van a agregar los datos **/
 		intitution = idInstitucion;
 		
-		System.out.println("El ID de la Insitucion es: " + idInstitucion);
+	//	System.out.println("El ID de la Insitucion es: " + idInstitucion);
 		
 		/**Instancio el File de XSLS que voy a usar en el servicio de Apache poi **/
 		

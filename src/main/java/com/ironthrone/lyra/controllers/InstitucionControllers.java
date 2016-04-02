@@ -101,5 +101,64 @@ public class InstitucionControllers {
 		institucionResponse.setInstitucion(ISI.getUsuariosDeInstitucionById(idInstitucion));
 		return institucionResponse;		
 	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus usuarios.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getGradosDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getGradosDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getGradosDeInstitucionById(idInstitucion));
+		return institucionResponse;		
+	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus alumnos sin secciones.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getAlumnosSinSeccionDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getAlumnosSinSeccionDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getAlumnosSinSeccion(idInstitucion));
+		return institucionResponse;		
+	}
+	
+	/**
+	 * Retorna una única institución dado un ID particular con sus alumnos sin secciones.
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getMateriasDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getMateriasDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getMateriasDeInstitucionById(idInstitucion));
+		return institucionResponse;		
+	}
 
+	/**
+	 * Retorna las subscripciones de una institución
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getSubscripcionesDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getSubscripcionesDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getSubscripciones(idInstitucion));
+		return institucionResponse;		
+	}
 }

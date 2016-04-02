@@ -277,7 +277,7 @@ public class POIService implements POIServiceInterface {
 	                 //   System.out.println(cellValue + "\t\t");
 	                break;
 	            default:
-	            //    System.out.println();
+
             }
             
             
@@ -313,7 +313,7 @@ public class POIService implements POIServiceInterface {
 	 			
 	    }
 		
-//		System.out.println(u.toString());     
+	//	System.out.println(u.toString());     
             
 		return u;
 	}
@@ -403,8 +403,9 @@ public class POIService implements POIServiceInterface {
 	 			
 	    }
 		
-	//	System.out.println(g.getNombre());
-	//	System.out.println(g.getDescripcion());          
+//		System.out.println("Grado");
+//		System.out.println(g.getNombre());
+//		System.out.println(g.getDescripcion());          
 		return g;
 	
 	}
@@ -473,7 +474,6 @@ public class POIService implements POIServiceInterface {
 	            	 	cellValue = formatter.formatCellValue(cell);
 	                break;
 	            default:
-	            //   System.out.println();
             }
             
             
@@ -487,7 +487,8 @@ public class POIService implements POIServiceInterface {
 	        }			
 	    }
       
-	//	System.out.println(m.getNombre());
+//		System.out.println("Materia");
+//		System.out.println(m.getNombre());
 		
 		return m;
 	}
@@ -568,15 +569,15 @@ public class POIService implements POIServiceInterface {
 
 	            case 2:
             			a.setNombre(cellValue);
-                break;
+            		break;
                 
 	            case 3:
             			a.setApellido1(cellValue);
-                break;
+            		break;
                 
 	            case 4:
             			a.setApellido2(cellValue);
-                break;
+            		break;
                 
 	            case 5:
 	            	if(cellValue.equals("Masculino")){
@@ -585,7 +586,7 @@ public class POIService implements POIServiceInterface {
 	            		a.setGenero(MUJER);
 	            	}
             			
-                break;
+	            	break;
                 
 	            case 6:
 	            		UsuarioPOJO u = new UsuarioPOJO();
@@ -593,7 +594,8 @@ public class POIService implements POIServiceInterface {
 	            		u.setCedula(cellValue);
 	            		lista.add(u);
             			a.setUsuarios(lista);
-                break;
+            			
+            		break;
                 
 //	            case 7:
 //            			a.setNombre(cellValue);

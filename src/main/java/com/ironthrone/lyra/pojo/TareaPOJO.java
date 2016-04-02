@@ -1,9 +1,8 @@
 package com.ironthrone.lyra.pojo;
 
+import java.util.Date;
 import java.util.List;
 
-import com.ironthrone.lyra.ejb.Rol;
-import com.ironthrone.lyra.ejb.Usuario;
 
 public class TareaPOJO {
 	private int idTarea;
@@ -11,13 +10,14 @@ public class TareaPOJO {
 	private boolean isActiveTa;
 	private boolean isReadTa;
 	private String tituloTarea;
-	private List<Rol> rols;
+	private List<RolPOJO> rols;
 	private CategoriaPOJO categoria;
-	private List<Usuario> usuarios;
+	private List<UsuarioPOJO> usuarios;
 	private List<String> idRols;
 	private List<String> idUsuarios;
 	private int idCategoria;
-	
+	private int idOwner;
+	private Date dateOfReport;
 	
 	public TareaPOJO(){
 		super();
@@ -65,32 +65,48 @@ public class TareaPOJO {
 	public void setTituloTarea(String tituloTarea) {
 		this.tituloTarea = tituloTarea;
 	}
-	public List<Rol> getRols() {
+	public List<RolPOJO> getRols() {
 		return rols;
 	}
-	public void setRols(List<Rol> rols) {
-		this.rols = rols;
+	public void setRols(List<RolPOJO> list) {
+		this.rols = list;
 	}
 	public CategoriaPOJO getCategoria() {
 		return categoria;
 	}
-	public void setCategoria(CategoriaPOJO categoria) {
-		this.categoria = categoria;
+	public void setCategoria(CategoriaPOJO categoriaPOJO) {
+		this.categoria = categoriaPOJO;
 	}
-	public List<Usuario> getUsuarios() {
+	public List<UsuarioPOJO> getUsuarios() {
 		return usuarios;
 	}
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+	public void setUsuarios(List<UsuarioPOJO> list) {
+		this.usuarios = list;
 	}
-
 	public int getIdCategoria() {
 		return idCategoria;
 	}
-
 	public void setIdCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
 	}
+
+	public int getIdOwner() {
+		return idOwner;
+	}
+
+	public void setIdOwner(int idOwner) {
+		this.idOwner = idOwner;
+	}
+
+	public Date getDateOfReport() {
+		return dateOfReport;
+	}
+
+	public void setDateOfReport(Date dateOfReport) {
+		this.dateOfReport = dateOfReport;
+	}
+	
+	
 	
 	
 }

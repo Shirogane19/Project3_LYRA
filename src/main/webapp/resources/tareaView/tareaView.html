@@ -22,6 +22,7 @@
                                         <th ng-hide="true"></th>
                                         <th class="text-center">Nombre</th>
                                         <th class="text-center">Descripción</th>
+                                        <th class="hidden-xs" style="width: 15%;">Leido</th>
                                         <th class="hidden-xs" style="width: 15%;">Estado</th>
                                         <th class="text-center" style="width: 10%;">Acciones</th>
                                        
@@ -35,6 +36,15 @@
                                        
                                         <td><span ng-bind="t.tituloTarea"></span></td>
                                         <td><span ng-bind="t.descripcionTarea"></span></td>
+
+                                        <td class="hidden-xs"   ng-if="t.readTa == true">
+                                        <span class="label label-success">Leido</span>
+                                        </td>
+
+                                        <td class="hidden-xs"   ng-if="t.readTa == false">
+                                        <span class="label label-danger">No leido</span>
+                                        </td>
+
                                         <td class="hidden-xs"   ng-if="t.activeTa == true">
                                         <span class="label label-success">Activo</span>
                                         </td>
@@ -156,49 +166,89 @@
                                     <div class="row items-push">
                                         <div class="col-sm-12 col-sm-offset-0 form-horizontal">
                                             
-                                            <hr>
-                                            
-                                            <div class="form-group">
-                                                                <div class="block-content">
+                                        <hr>
+                             <!-- Tabla de usuarios de la tarea -->               
+
+                                <div class="form-group">
+                                        <div class="block-content">
                             <!-- If you put a checkbox in thead section, it will automatically toggle all tbody section checkboxes -->
-                            <table class="js-table-checkable table table-hover">
-                                <thead>
-                                    <tr>  
-                                        <th ng-hide="true"></th>                   
-                                        <th class="text-center" style="width: 70px;">
-                                            <label class="css-input css-checkbox css-checkbox-primary remove-margin-t remove-margin-b">
-                                                <input type="checkbox" id="check-all" name="check-all"><span></span>
-                                            </label>
-                                        </th>
+                                            <table class="js-table-checkable table table-hover" ng-if="isCreating == false">
+                                            
+                                                <thead>
+
+                                                    <tr>  
+                                                        <th ng-hide="true"></th>                   
+                                                        
+                                                        <th>Nombre edit</th>
+                                                        <th class="hidden-xs" style="width: 15%;">Cédula</th>
+                                                        <th class="hidden-xs" style="width: 15%;">Correo</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr ng-repeat="x in usuariosDeTarea" u-index="$index">
+                                                    <td class="text-center" ng-bind="x.idUsuario" ng-hide="true"></td>
+                                                    
+                                                       <!-- <td class="text-center" ng-repeat="u in userList" u-index="$index">-->
+                                                        <td class="text-center" ng-bind="x.idUsuario" ng-hide="true"></td>
+                                                        <td class="text-center">
+                                                            
+                                                        </td>
+                                                        <td class="font-w600"   ng-bind="(x.nombre) +' '+ (x.apellido)"></td>
+                                                        <td class="hidden-xs"   ng-bind="x.cedula"></td>
+                                                        <td class="hidden-xs"   ng-bind="x.email"></td>
+                                                    </tr>
+                       
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
 
 
-                                        <th>Nombre</th>
-                                        <th class="hidden-xs" style="width: 15%;">Cédula</th>
-                                        <th class="hidden-xs" style="width: 15%;">Correo</th>
-                                    </tr>
-                                </thead>
+                            <h3>Tabla de usuarios</h3>
+                                            <hr
+                             <!-- fin tabla de usuarios de la tarea-->
+                                        <div class="form-group">
+                                        <div class="block-content">
+                            <!-- If you put a checkbox in thead section, it will automatically toggle all tbody section checkboxes -->
+                                            <table class="js-table-checkable table table-hover">
+                                                <thead>
+                                                    <tr>  
+                                                        <th ng-hide="true"></th>                   
+                                                        <th class="text-center" style="width: 70px;">
+                                                            <label class="css-input css-checkbox css-checkbox-primary remove-margin-t remove-margin-b">
+                                                                <input type="checkbox" id="check-all" name="check-all"><span></span>
+                                                            </label>
+                                                        </th>
 
-                                <tbody>
-                                    <tr ng-repeat="u in userList" u-index="$index">
-                                    <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
-                                    
-                                       <!-- <td class="text-center" ng-repeat="u in userList" u-index="$index">-->
-                                        <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
-                                        <td class="text-center">
-                                            <label class="css-input css-checkbox css-checkbox-primary">
-                                                <input ng-change ="saveUserT(u)" type="checkbox" id="$index" ng-model="taskUsers"
-                                                 ><span></span>
-                                            </label>
-                                        </td>
-                                        <td class="font-w600"   ng-bind="(u.nombre) +' '+ (u.apellido)"></td>
-                                        <td class="hidden-xs"   ng-bind="u.cedula"></td>
-                                        <td class="hidden-xs"   ng-bind="u.email"></td>
-                                    </tr>
-       
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
+                                                        <th>Nombre</th>
+                                                        <th class="hidden-xs" style="width: 15%;">Cédula</th>
+                                                        <th class="hidden-xs" style="width: 15%;">Correo</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr ng-repeat="u in userList" u-index="$index">
+                                                    <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
+                                                    
+                                                       <!-- <td class="text-center" ng-repeat="u in userList" u-index="$index">-->
+                                                        <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
+                                                        <td class="text-center">
+                                                            <label class="css-input css-checkbox css-checkbox-primary">
+                                                                <input ng-change ="saveUserT(u)" type="checkbox" id="$index" ng-model="taskUsers"
+                                                                 ><span></span>
+                                                            </label>
+                                                        </td>
+                                                        <td class="font-w600"   ng-bind="(u.nombre) +' '+ (u.apellido)"></td>
+                                                        <td class="hidden-xs"   ng-bind="u.cedula"></td>
+                                                        <td class="hidden-xs"   ng-bind="u.email"></td>
+                                                    </tr>
+                       
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
                                             </div>
                                         </div>
                                     </div>
@@ -220,12 +270,22 @@
                                                     <option value="4">Encargado</option>
                                                 </select>
                                             </div>
+                                            <div class="form-group"  ng-if="isCreating == false" >
+                                            <label class="col-md-8">Roles Asignados</label>
+                                            <div class="col-md-12">
+                                                <select class="js-select2 form-control" style="width: 100%;" multiple disabled="true">
+                                                <option  ng-repeat ="r in listaRoles" value="{{r.idRol}">{{r.nombreRol}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         </div>  
+
+
                                         
                                     </div>
                                 </div>
                             </div>
-
+                        <i id="advertencia">Por favor seleccione un usuario o rol</i>
                             <div class="block-content block-content-full bg-gray-lighter text-center">
                                 <button class="btn btn-sm btn-primary" type="submit" ng-disabled="tareaForm.$invalid" 
                                         ng-click = "saveTarea()">
@@ -239,40 +299,7 @@
                 </div>
                 <!-- END Page Content -->
             </main>
-                                   <!-- <form class="form-horizontal push-10-t push-10" name="tareaForm">
-                                        <div class="form-group">
-                                            <div class="col-xs-12">
-                                                <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newTa.tituloTarea" required>
-                                                    <label>Nombre <span class="text-danger">*</span></label>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newTa.descripcionTarea" required>
-                                                    <label>Descripción <span class="text-danger">*</span></label>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                         
-                                        <div class="form-group" ng-show="!isCreating">
-                                            <div class="col-xs-12">
-                                                <label class="css-input css-checkbox css-checkbox-success">
-                                                    <input type="checkbox" ng-model="newTa.activeTa"><span></span> Activo?
-                                                </label>
-                                            </div>
-                                        </div>
-                                     <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="tareaForm.$invalid"
-                                                    ng-click="saveTarea()">
-                                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
-                                            </div>
-                                        </div>
-                                    </form> -->
-
+                                   
                                 </div>
                             </div>
                         </div>

@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="block-content">
-                            <!-- DataTables init on table by adding .js-dataTable-full class, please note that Jean was here and poured his body and soul into this project, not as for the rest functionality initialized in js/pages/base_tables_datatables.js -->
+                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
                             <table class="table table-bordered table-striped js-dataTable-full">
                                 <thead>
                                     <tr>
@@ -80,7 +80,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newGrado.nombre"ng-maxlength="45"  required>
+                                                    <input class="form-control" type="text" ng-model="newGrado.nombre" maxlength=44 required>
                                                     <label>Nombre <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
@@ -88,8 +88,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newGrado.descripcion" 
-                                                            ng-maxlength="45">
+                                                    <input class="form-control" type="text" maxlength=44 ng-model="newGrado.descripcion">
                                                     <label>Descripción </span>
                                                 </div>
                                             </div>
@@ -113,4 +112,4 @@
                             </div>
                         </div>
 
-    <!-- END Material Register -->    
+    <!-- END Material ) Register -->    

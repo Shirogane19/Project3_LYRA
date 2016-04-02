@@ -1,6 +1,7 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import com.ironthrone.lyra.ejb.Categoria;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Tarea;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.RolPOJO;
 import com.ironthrone.lyra.pojo.CategoriaPOJO;
 import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
@@ -41,18 +43,18 @@ public class TareaService implements TareaServiceInterface{
 		
 		tareas.stream().forEach(t -> {
 			TareaPOJO dto = new TareaPOJO();
-			
+
+			BeanUtils.copyProperties(t,dto);
+			dto.setActiveTa(t.getIsActiveTa());
+			dto.setUsuarios(generateUserDto(t));
+			dto.setRols(generateRolsDto(t));
 			dto.setIdTarea(t.getIdTarea());		
 			dto.setTituloTarea(t.getTituloTarea());
 			dto.setDescripcionTarea(t.getDescripcionTarea());
 			dto.setActiveTa(t.getIsActiveTa());	
 			dto.setReadTa(t.getIsReadTa());
-			//dto.setUsuarios(generateUserDto(t));
-			//dto.setUsuarios(generateUserDto(t));
 			dto.setCategoria(generateCategoryDto(t));
-			
-			dto.setUsuarios(null);
-			dto.setRols(null);
+
 			uiTareas.add(dto);
 		});	
 		
@@ -60,16 +62,44 @@ public class TareaService implements TareaServiceInterface{
 	};
 	
 
-	@SuppressWarnings("unused")
-	private List<Usuario> generateUserDto(Tarea t) {
-		List<Usuario> users = new ArrayList<Usuario>();
+	private List<UsuarioPOJO> generateUserDto(Tarea t) {
+		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();	
+		
 		t.getUsuarios().stream().forEach(u -> {
 			UsuarioPOJO dto = new UsuarioPOJO();
-			BeanUtils.copyProperties(u, dto);
+			//BeanUtils.copyProperties(u, dto);
+			dto.setCedula(u.getCedula());
+			dto.setNombre(u.getNombre());
+			dto.setApellido(u.getApellido());
+			dto.setDateOfJoin(u.getDateOfJoin());
+			dto.setIdUsuario(u.getIdUsuario());
+			dto.setEmail(u.getEmail());
+			dto.setActiveUs(u.getIsActiveUs());
+			dto.setMovil(u.getMovil());
+			dto.setPassword(u.getPassword());
 			dto.setRols(null);
 			dto.setInstitucion(null);
+			users.add(dto);
 		});
 		return users;
+	}
+
+	private List<RolPOJO> generateRolsDto(Tarea t) {
+		List<RolPOJO> rols = new ArrayList<RolPOJO>();	
+		
+		t.getRols().stream().forEach(r -> {
+				RolPOJO dto = new RolPOJO();
+			//BeanUtils.copyProperties(u, dto);
+				dto.setIdRol(r.getIdRol());
+				dto.setNombreRol(r.getNombreRol());
+				dto.setDescripcionRol(r.getDescripcionRol());
+				dto.setActiveRol(r.getIsActiveRol());
+				dto.setTareas(null);
+				dto.setUsuarios(null);
+			
+			rols.add(dto);
+		});
+		return rols;
 	}
 
 
@@ -187,6 +217,8 @@ public class TareaService implements TareaServiceInterface{
 				oldTa = removeUsers(oldTa);
 				listUsuario = getUsuarios(idUsuarios, listUsuario);
 				oldTa.setUsuarios(listUsuario);
+			}else{
+				oldTa = removeUsers(oldTa);
 			}
 			
 			if(hasRoles){
@@ -310,7 +342,8 @@ public class TareaService implements TareaServiceInterface{
 		if(uiTarea.getIdCategoria() > 0){
 			Categoria category = new Categoria();
 			category = categoryRepository.findOne(uiTarea.getIdCategoria());
-			dbTarea.setCategoria(category);			
+			dbTarea.setCategoria(category);	
+			dbTarea.setDateOfReport(getCurrentDate());
 		}
 
 		
@@ -321,6 +354,18 @@ public class TareaService implements TareaServiceInterface{
 
 		
 		return dbTarea;
+	}
+	
+	/**
+	 * Consigue la fecha actual.
+	 * @return esta fecha.
+	 */
+	public Date getCurrentDate(){
+		
+		 //  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		   //get current date time with Date()
+		   Date date = new Date();
+		   return date;
 	}
 
 }
