@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.security.IronPasswordEncryption;
+import com.google.common.collect.Iterables;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Periodo;
@@ -50,17 +51,25 @@ public class UsuarioService implements UsuarioServiceInterface {
 	private List<UsuarioPOJO> generateUserDtos(List<Usuario> users){
 		
 		List<UsuarioPOJO> uiUsers = new ArrayList<UsuarioPOJO>();
-
 		
 		users.stream().forEach(u -> {
-			UsuarioPOJO dto = new UsuarioPOJO();
-			BeanUtils.copyProperties(u,dto);
-			dto.setActiveUs(u.getIsActiveUs());
-			dto.setRols(generateRolDto(u));
-			dto.setTareas(generateTareaDto(u));
-			dto.setListaInstituciones(generateInstitutionDtos(u));
-			dto.setPeriodo(null);
-			uiUsers.add(dto);
+			
+			Periodo p = Iterables.getLast(u.getPeriodos());
+			
+			boolean periodoActual = p.getIsActivePr();
+
+			
+			if(periodoActual){
+				
+				UsuarioPOJO dto = new UsuarioPOJO();
+				BeanUtils.copyProperties(u,dto);
+				dto.setActiveUs(u.getIsActiveUs());
+				dto.setRols(generateRolDto(u));
+				dto.setTareas(generateTareaDto(u));
+				dto.setListaInstituciones(generateInstitutionDtos(u));
+				dto.setPeriodo(null);
+				uiUsers.add(dto);
+			}
 		});	
 		
 		return uiUsers;
