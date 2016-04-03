@@ -97,9 +97,16 @@ public class AlumnoService implements AlumnoServiceInterface{
 		if(alumnoRequest.getAlumno().getIdAlumno() <= -1){		
 			
 			List<Usuario> usuarios = new ArrayList<Usuario>();
+			
 		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-		    	usuarios.add(usuario);
+		    	
+		    	if(u.getIdUsuario() > 0){
+		    		Usuario usuario = usersRepository.findOne(u.getIdUsuario());
+		    		usuarios.add(usuario);
+		    	}else{
+		    		newAlumno.setUsuarios(usersRepository.findByCedula(u.getCedula()));
+		    	}
+	    	
 		    	
 		    });
 		    newAlumno.setUsuarios(usuarios);
@@ -114,6 +121,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 			
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
+		    	
 		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
 		    	usuarios.add(usuario);
 		    	
@@ -178,12 +186,27 @@ public class AlumnoService implements AlumnoServiceInterface{
 		
 
 	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-	    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-	    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
-	    	oldAlumnos.remove(a);
-	    	oldAlumnos.add(a);
-	    	usuario.setAlumnos(oldAlumnos);
-	    	usersRepository.save(usuario);
+	    	
+	    	System.out.println("INFO:" + u.toString());
+	    	
+	    	if(u.getIdUsuario() > -1){
+		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
+		    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
+		    	oldAlumnos.remove(a);
+		    	oldAlumnos.add(a);
+		    	usuario.setAlumnos(oldAlumnos);
+		    	usersRepository.save(usuario);	    		
+	    	}else{
+		    	Usuario usuario = usersRepository.findByEmail(u.getEmail());
+		    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
+		    	oldAlumnos.remove(a);
+		    	oldAlumnos.add(a);
+		    	usuario.setAlumnos(oldAlumnos);
+		    	usersRepository.save(usuario);	
+	    	}
+	    	
+
+	    	
 	    });
 		
 	}

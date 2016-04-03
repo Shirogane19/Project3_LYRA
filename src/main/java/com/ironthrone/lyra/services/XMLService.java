@@ -2,6 +2,7 @@ package com.ironthrone.lyra.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,14 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.AlumnoRequest;
-import com.ironthrone.lyra.contracts.GradoRequest;
-import com.ironthrone.lyra.contracts.MateriaRequest;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Periodo;
+import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
-import com.ironthrone.lyra.pojo.GradoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
-import com.ironthrone.lyra.pojo.MateriaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
+import com.ironthrone.lyra.repositories.PeriodoRepository;
+import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 
 /**
@@ -35,20 +37,23 @@ public class XMLService implements XMLServiceInterface{
 	
 	@Autowired private UsuarioServiceInterface usersService;
 	@Autowired private AlumnoServiceInterface  studentService;
-	@Autowired private GradoServiceInterface   gradeService;	
-	@Autowired private MateriaServiceInterface materiaService;
+	@Autowired private PeriodoRepository periodoRepository;
+	@Autowired private UsuarioRepository userRepository;
 	
 	/** Esta variable representa la institucion a la cual se le esta realizando la transaccion **/
 	
-			   private int intitution;
+			   private int institution;
+			   
+	/**Representa los usuarios en el sistema actual **/
+			   
+			   private static List<Usuario> actualUsers = new ArrayList<Usuario>();
 			   
 	/**Estas variables representan el resultado de cada tipo de insercion en el servico
 	  * Si una falla todo el proceso es abortado para evitar datos huerfanos **/
 	  
 			   private Boolean userResult;
 			   private Boolean alumResult;
-			   private Boolean gradResult;
-			   private Boolean mateResult;
+
 			   
 			   
 	@Override
@@ -61,12 +66,10 @@ public class XMLService implements XMLServiceInterface{
 		/** Lista de todos los objetos a insertar **/
 		
 		List<UsuarioPOJO>  users   = new ArrayList<UsuarioPOJO>();
-		List<GradoPOJO>    grados  = new ArrayList<GradoPOJO>();
-		List<MateriaPOJO>  materias  = new ArrayList<MateriaPOJO>();
 		List<AlumnoPOJO>   students  = new ArrayList<AlumnoPOJO>();
 		
 		/** Primero consegimos la institucion a la cual se le van a agregar los datos **/
-		intitution = idInstitucion;
+		institution = idInstitucion;
 		
 	//	System.out.println("El ID de la Insitucion es: " + idInstitucion);
 		
@@ -85,17 +88,25 @@ public class XMLService implements XMLServiceInterface{
 						
 						e.printStackTrace();
 					}
-
 		
 		
 		users = poiService.getUsers(users);
-		grados = poiService.getGrados(grados);
-		materias = poiService.getMaterias(materias);
 		students = poiService.getAlumnos(students);
 		
-//		if(userResult && alumResult && gradResult && mateResult){
-//			resultado = true;
-//		}
+		if(users != null && students != null){
+			setPeriodo();
+			
+			Institucion ints = new Institucion();
+			ints.setIdInstitucion(institution);
+			
+			actualUsers = userRepository.findByInstitucionsIn(ints);
+			userResult = insertUsers(users);
+			alumResult = insertAlumnos(students);		
+		}
+		
+		if(userResult && alumResult){
+			resultado = true;
+		}
 		
 		
 		return resultado;
@@ -121,10 +132,20 @@ public class XMLService implements XMLServiceInterface{
 		
 		while (iteratorList.hasNext()) {
 			UsuarioPOJO u = iteratorList.next();
-			u.setIdInstitucion(intitution);
+			u.setIdInstitucion(institution);			
+		
+			boolean emailExists = isExistingEmail(u.getEmail());
 			
+			if(emailExists){
+				int id = userRepository.getUserIdbyEmail(u.getEmail());
+				u.setIdUsuario(id);	
+
+			}
+			
+			u.setActiveUs(true);
 			ur.setUsuario(u);
-			userResult = usersService.saveUser(ur);
+			userResult = usersService.saveUser(ur);						
+				
 			if(!userResult){
 				break;
 			}
@@ -133,69 +154,22 @@ public class XMLService implements XMLServiceInterface{
 		return userResult;
 	}
 
-	/**
-	 * Metodo que crea un request de grado por cada grado
-	 * en la lista de grados que venia en el excel y llama
-	 * al metodo de saveGrado en GradoService.
-	 * @param users Lista de gradosPOJO
-	 * @return true si fue exitoso, false si fallo.
+	/**Metodo que busca en los usuarios actuales un correo que concuerde con alguno
+	 * dado en el excel, de ser asi retorna true para que el usuarios sea modificado
+	 * @param email
+	 * @return true si existe, false si no.
 	 */
 	
-	@Override
-	@Transactional
-	public Boolean insertGrados(List<GradoPOJO> grados) {
-		
-		/**Creo el request de grado **/
-		GradoRequest gr = new GradoRequest();
-
-		Iterator<GradoPOJO> iteratorList = grados.stream().iterator();
-		/**Itero sobre la lista de grados, guardando cada uno **/
-
-		while (iteratorList.hasNext()) {
-			GradoPOJO g = iteratorList.next();
-			g.setIdInstitucion(intitution);
-			
-			gr.setGrado(g);
-			gradResult = gradeService.saveGrado(gr);
-			if(!gradResult){
-				break;
-			}
-		};
-
-		return gradResult;
-	}
-
-	/**
-	 * Metodo que crea un request de materia por cada materia
-	 * en la lista de materias que venia en el excel y llama
-	 * al metodo de saveMateria en MateriaService.
-	 * @param users Lista de materiasPOJO
-	 * @return true si fue exitoso, false si fallo.
-	 */
-	
-	@Override
-	@Transactional
-	public Boolean insertMaterias(List<MateriaPOJO> materias) {
-		
-		/**Creo el request de materia **/
-		MateriaRequest mr = new MateriaRequest();
-
-		Iterator<MateriaPOJO> iteratorList = materias.stream().iterator();
-		/**Itero sobre la lista de materias, guardando cada una **/
-
-		while (iteratorList.hasNext()) {
-			MateriaPOJO m = iteratorList.next();
-			m.setIdInstitucion(intitution);
-			
-			mr.setMateria(m);
-			mateResult = materiaService.saveMateria(mr);
-			if(!mateResult){
-				break;
-			}
-		};
-
-		return mateResult;
-	}
+    private static boolean isExistingEmail(String email) {
+    	
+        for (Usuario user: actualUsers) {
+            // Checks if the user email is equal to the email parameter
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * Metodo que crea un request de alumno por cada alumnos
@@ -213,7 +187,7 @@ public class XMLService implements XMLServiceInterface{
 		AlumnoRequest ar = new AlumnoRequest();
 		
 		InstitucionPOJO ins = new InstitucionPOJO();
-		ins.setIdInstitucion(intitution);
+		ins.setIdInstitucion(institution);
 		
 		Iterator<AlumnoPOJO> iteratorList = students.stream().iterator();
 		/**Itero sobre la lista de alumnos, guardando cada uno **/
@@ -221,6 +195,8 @@ public class XMLService implements XMLServiceInterface{
 		while (iteratorList.hasNext()) {
 			AlumnoPOJO a = iteratorList.next();
 			a.setInstitucion(ins);
+			
+			System.out.println("USUARIO: " + a.getUsuarios().get(0).toString());
 			
 			ar.setAlumno(a);
 			alumResult = studentService.saveAlumno(ar);
@@ -232,7 +208,38 @@ public class XMLService implements XMLServiceInterface{
 		return alumResult;
 		
 	}
+	
+	/**
+	 * Al iniciar cada nueva carga se crea un nuevo periodo. El ultimo periodo activo es puesto en inactivo.
+	 */
+	@Transactional
+	public void setPeriodo(){
+		
+		Periodo p = periodoRepository.findByIsActivePrTrue();
+		p.setIsActivePr(false);
+		
+		periodoRepository.save(p);
+		
+		Periodo newPeriodo = new Periodo();
+		newPeriodo.setIsActivePr(true);
+		newPeriodo.setYear(getYear());
+		
+		periodoRepository.save(newPeriodo);
 
+	}
+
+	/** 
+	 * Retorna un año en formato string
+	 * @return año actual.
+	 */
+	public String getYear(){
+		
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		String yearInString = String.valueOf(year);
+		
+		return yearInString;
+	}
 
 
 }

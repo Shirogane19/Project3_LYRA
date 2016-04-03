@@ -16,7 +16,8 @@ angular.module('myApp', [
   'myApp.seccionView',
   'myApp.tareaView',
   'myApp.categoriaView',
-  'myApp.registroView'
+  'myApp.registroView',
+  'myApp.excelView'
   //'myApp.usuarios'
 ])
 
@@ -40,6 +41,7 @@ angular.module('myApp', [
   $scope.accessGrado = false;  
   $scope.accessSeccion =  false;
   $scope.accessCategory = false;
+  $scope.accessBulkLoad = false;
 
 
   $scope.save = function(u) {
@@ -59,8 +61,6 @@ angular.module('myApp', [
   };
 
   $scope.enableNotificaciones = function(){
-
-    console.log("nott" , $localStorage.user.userId);
     var num = 0;
 
 
@@ -69,8 +69,7 @@ angular.module('myApp', [
 
     $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
       console.log("responseNoti",response)
-      
-      //document.getElementById("noti").textContent= response.usuario.tareas.length;
+
 
       for (var i = 0; i < response.usuario.tareas.length; i++) {
            if(response.usuario.tareas[i].readTa == false){
@@ -131,6 +130,7 @@ angular.module('myApp', [
         $scope.accessGrado = true;  
         $scope.accessSeccion =  true;
         $scope.accessCategory = true;
+        $scope.accessBulkLoad = true;
         $scope.title = "Master";
     }
 
@@ -247,6 +247,15 @@ angular.module('myApp', [
       url: '/categoria_config',
       templateUrl: 'resources/categoriaView/categoriaView.html',
       controller: 'categoriaViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })  
+
+    .state('excelView', {
+      url: '/excel_config',
+      templateUrl: 'resources/excelView/excelView.html',
+      controller: 'excelViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }

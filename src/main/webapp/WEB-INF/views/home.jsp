@@ -125,7 +125,9 @@
                                 <li ng-if = "accessCategory == true">
                                     <a ui-sref="categoriaView"><i class="si si-list"></i>Categorias</a>
                                 </li>
-                              
+                                 <li ng-if = "accessBulkLoad == true">
+                                    <a ui-sref="excelView"><i class="si si-rocket"></i>Subir Excel</a>
+                                </li>                             
                             </ul>
                         </div>
                         <!-- END Side Content -->
@@ -255,7 +257,7 @@
         <script src="resources/tareaView/tareaView.js"></script>
         <script src="resources/categoriaView/categoriaView.js"></script>
         <script src="resources/regMedicoView/regMedicoView.js"></script>
-
+        <script src="resources/excelView/excelView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

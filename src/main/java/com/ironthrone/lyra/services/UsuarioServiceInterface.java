@@ -20,9 +20,9 @@ public interface UsuarioServiceInterface {
 	Usuario findById(int idUsuario);
 	Boolean saveUser(UsuarioRequest ur);
 	Boolean editProfile(UsuarioRequest ur);
-	List<UsuarioPOJO> prueba();
 	UsuarioPOJO getUserByEmail(String email);
 	UsuarioPOJO getUserByCedula(String cedula);
 	UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur);
+	Boolean prueba(String email);
 
 }

@@ -110,8 +110,6 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		int idInst = ur.getUsuario().getIdInstitucion();
 		Institucion ints = instituteRepository.findOne(idInst);
-//		List<Institucion> listInts = new ArrayList<Institucion>();
-//		listInts.add(ints);
 		
 		List<Usuario> users =  usersRepository.findByInstitucionsIn(ints);
 		return generateUserDtos(users);
@@ -342,8 +340,14 @@ public class UsuarioService implements UsuarioServiceInterface {
 		DbUser.setTelefono(UiUser.getTelefono());
 		DbUser.setMovil(UiUser.getMovil());
 		DbUser.setIsActiveUs(UiUser.isActiveUs());
-	//	DbUser.setPeriodos(getPeriodo(DbUser, false));
+		
+		Periodo p = Iterables.getLast(DbUser.getPeriodos());
+		boolean periodoActual = p.getIsActivePr();
 
+		
+		if(!periodoActual){	
+			DbUser.setPeriodos(getPeriodo());
+		}
 		
 		if(newPass){
 			String userHash = UiUser.getPassword();
@@ -415,6 +419,10 @@ public class UsuarioService implements UsuarioServiceInterface {
  
 	}
 	
+	/**Esta funcion representa el periodo actual, cada ves que se hace una carga masiva nueva, un nuevo periodo
+	 * es creado y seteado a los alumnos y usuarios nuevos. El sistema solo listara y permitira acceso a los usuarios
+	 * cuyo perido actual sea verdadero.		   
+	 */
 	private List<Periodo> getPeriodo(){
 		
 		List<Periodo> list = new ArrayList<Periodo>();	
@@ -446,14 +454,16 @@ public class UsuarioService implements UsuarioServiceInterface {
 		   return date;
 	}
 
-	@Override
-	public List<UsuarioPOJO> prueba() {
+
+	public Boolean prueba(String mail) {
 	
-		List<Usuario> user = usersRepository.findAll();
+		int id = usersRepository.getUserIdbyEmail(mail);
+		System.out.println(id);
+		if(id >= 1){
+			return true;
+		}
 		
-		return generateUserDtos(user);
-
-
+		return false;
 	}
 	
 	 /**
@@ -463,14 +473,15 @@ public class UsuarioService implements UsuarioServiceInterface {
 	  */
 	@Override
 	public UsuarioPOJO getUserByEmail(String email) {
-		List<Usuario> users =  usersRepository.findByemail(email);
+		
+		Usuario u =  usersRepository.findByEmail(email);
 		UsuarioPOJO dto = new UsuarioPOJO();
-		users.stream().forEach(u -> {
+
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
-		});
+
 		
 		return dto;
 	}
@@ -482,7 +493,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	  */
 	@Override
 	public UsuarioPOJO getUserByCedula(String cedula) {
-		List<Usuario> users =  usersRepository.findBycedula(cedula);
+		List<Usuario> users =  usersRepository.findByCedula(cedula);
 		UsuarioPOJO dto = new UsuarioPOJO();
 		users.stream().forEach(u -> {
 			BeanUtils.copyProperties(u, dto);
@@ -499,7 +510,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	@Override
 	public UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur){
 
-		List<Usuario> users =  usersRepository.findBycedula(ur.getUsuario().getCedula());
+		List<Usuario> users =  usersRepository.findByCedula(ur.getUsuario().getCedula());
 		UsuarioPOJO dto = new UsuarioPOJO();
 		users.stream().forEach(u -> {
 			BeanUtils.copyProperties(u, dto);

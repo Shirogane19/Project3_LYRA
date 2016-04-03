@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
-import com.ironthrone.lyra.pojo.GradoPOJO;
-import com.ironthrone.lyra.pojo.MateriaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 
 /**
@@ -18,11 +16,9 @@ import com.ironthrone.lyra.pojo.UsuarioPOJO;
  */
 public interface POIServiceInterface {
 	
-//	void setEnviroment(MultipartFile _file)throws IllegalStateException, IOException, InvalidFormatException;
+
 	void setEnviroment(String _file)throws IllegalStateException, IOException, InvalidFormatException;
 	List<UsuarioPOJO> getUsers(List<UsuarioPOJO> users);
-	List<GradoPOJO> getGrados (List<GradoPOJO> grados);
-	List<MateriaPOJO> getMaterias (List<MateriaPOJO> materias);
 	List<AlumnoPOJO> getAlumnos (List<AlumnoPOJO> students);
 
 

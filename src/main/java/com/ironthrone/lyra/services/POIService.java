@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
-import com.ironthrone.lyra.pojo.GradoPOJO;
-import com.ironthrone.lyra.pojo.MateriaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -37,11 +35,7 @@ public class POIService implements POIServiceInterface {
 	private XSSFSheet profesorSheet;
 	
 	private XSSFSheet encargadoSheet;
-	
-	private XSSFSheet materiaSheet;
-	
-	private XSSFSheet gradoSheet;
-	
+
 	private XSSFSheet alumnoSheet;
 	 
 	//Get iterator to all cells of current row
@@ -59,10 +53,7 @@ public class POIService implements POIServiceInterface {
 	final String _encargado = 	"3-Encargado";
 	
 	final String _student   = 	"4-Estudiante";
-	
-	final String _materia   = 	"5-Materia";
-	
-	final String _grado     = 	"6-Grado";
+
 	
 	// Ignore the first row, for it a header. Based on 0,1,2 etc...
 	int FIRST_ROW_TO_GET = 2; 
@@ -115,16 +106,6 @@ public class POIService implements POIServiceInterface {
 	        	//	System.out.println("Leyendo la hoja: " +  encargadoSheet.getSheetName());
 	        	}
 	        	
-	        	if (sheet.getSheetName().trim().equals(_materia)){
-	        		materiaSheet = (XSSFSheet)sheet;
-	        	//	System.out.println("Leyendo la hoja: " +  materiaSheet.getSheetName());
-	        	} 
-	        	
-	        	if (sheet.getSheetName().trim().equals(_grado)){
-	        		gradoSheet = (XSSFSheet)sheet;
-	        	//	System.out.println("Leyendo la hoja: " + gradoSheet.getSheetName());
-	        	} 
-
 	        	if (sheet.getSheetName().trim().equals(_student)){
 	        		alumnoSheet = (XSSFSheet)sheet;
 	        	//	System.out.println("Leyendo la hoja: " + alumnoSheet.getSheetName());
@@ -320,180 +301,6 @@ public class POIService implements POIServiceInterface {
 
 
 	/**
-	 * Metodo que llena una lista de grados con los datos extraidos del excel.
-	 * @author jeanpaul
-	 * @param Lista de grados a llenar
-	 */
-	@Override
-	public List<GradoPOJO> getGrados(List<GradoPOJO> grados) {
-	
-		GradoPOJO newGrado = new GradoPOJO();
-
-		if (isEmpty(gradoSheet.getRow(FIRST_ROW_TO_GET))){
-			
-			Iterator<Row> gradoRowIterator = gradoSheet.iterator();
-			
-			    while(gradoRowIterator.hasNext()){
-			    	
-			        Row row = gradoRowIterator.next();
-			        
-			        if(row.getRowNum() == 0){
-			        	   continue;
-			        }	
-			        
-			        newGrado = getGrado(row);
-			        
-				      if(newGrado.getNombre() != null){
-				    	  newGrado.setIdGrado(-1);
-					      grados.add(newGrado);
-
-				      }
-				 }			
-		  }
-		
-		return grados;
-	}
-
-	/**
-	 * Metodo que lee de la hoja de excel de grados y
-	 * construye un objeto grado a partir de este.
-	 * @param row
-	 * @return gradoPOJO
-	 */
-	
-	private GradoPOJO getGrado(Row row) {
-		
-		GradoPOJO g = new GradoPOJO();
-		Cell cell;
-		String cellValue = ""; 
-
-		cellIterator = row.cellIterator();  
-		     
-		while (cellIterator.hasNext()) {  
-			
-			cellValue = ""; 
-			cell = cellIterator.next(); 
-
-            switch (cell.getCellType()) {
-            
-	            case Cell.CELL_TYPE_STRING:
-		            	cellValue = cell.getRichStringCellValue().getString();
-	                break;
-	            case Cell.CELL_TYPE_NUMERIC:
-	            	 	cellValue = formatter.formatCellValue(cell);
-	                break;
-	            default:
-	                System.out.println();
-            }
-            
-            
-	       switch (cell.getColumnIndex() + 1) {
-	            
-	            case 1:
-	            		g.setNombre(cellValue);
-	                break;
-	                
-	            case 2:
-	            		g.setDescripcion(cellValue);
-	                break;
-                
-	            default:
-	                
-	        }
-	 			
-	    }
-		
-//		System.out.println("Grado");
-//		System.out.println(g.getNombre());
-//		System.out.println(g.getDescripcion());          
-		return g;
-	
-	}
-
-	/**
-	 * Metodo que llena una lista de materias con los datos extraidos del excel.
-	 * @author jeanpaul
-	 * @param Lista de materias a llenar
-	 */
-	@Override
-	public List<MateriaPOJO> getMaterias(List<MateriaPOJO> materias) {
-		
-		MateriaPOJO newMateria = new MateriaPOJO();
-
-		if (isEmpty(materiaSheet.getRow(FIRST_ROW_TO_GET))){
-			
-			Iterator<Row> materiaRowIterator = materiaSheet.iterator();
-			
-			    while(materiaRowIterator.hasNext()){
-			    	
-			        Row row = materiaRowIterator.next();
-			        
-			        if(row.getRowNum() == 0){
-			        	   continue;
-			        }	
-			        
-			        newMateria = getMateria(row);
-			        
-				      if(newMateria.getNombre() != null){
-				    	  newMateria.setIdMateria(-1);
-				    	  materias.add(newMateria);
-
-				      }
-				 }			
-		  }
-		
-		return materias;
-	}
-
-	
-	/**
-	 * Metodo que lee de la hoja de excel de materias y
-	 * construye un objeto materia a partir de este.
-	 * @param row
-	 * @return MateriaPOJO
-	 */
-	private MateriaPOJO getMateria(Row row) {
-		
-		MateriaPOJO m = new MateriaPOJO();
-		Cell cell;
-		String cellValue = ""; 
-
-		cellIterator = row.cellIterator();  
-		     
-		while (cellIterator.hasNext()) {  
-			
-			cellValue = ""; 
-			cell = cellIterator.next(); 
-
-            switch (cell.getCellType()) {
-            
-	            case Cell.CELL_TYPE_STRING:
-		            	cellValue = cell.getRichStringCellValue().getString();
-	                break;
-	            case Cell.CELL_TYPE_NUMERIC:
-	            	 	cellValue = formatter.formatCellValue(cell);
-	                break;
-	            default:
-            }
-            
-            
-	       switch (cell.getColumnIndex() + 1) {
-	            
-	            case 1:
-	            		m.setNombre(cellValue);
-	                break;
-                
-	            default:           
-	        }			
-	    }
-      
-//		System.out.println("Materia");
-//		System.out.println(m.getNombre());
-		
-		return m;
-	}
-
-	/**
 	 * Metodo que llena una lista de alumnos con los datos extraidos del excel.
 	 * @author jeanpaul
 	 * @param Lista de alumnos a llenar
@@ -518,7 +325,7 @@ public class POIService implements POIServiceInterface {
 			        newStudent = getAlumno(row);
 			        
 				      if(newStudent.getCedula() != null){
-				    	  newStudent.setIdAlumno(-1);
+				    	  newStudent.setIdAlumno(CREATE_ID);
 				    	  students.add(newStudent);
 
 				      }
@@ -592,14 +399,12 @@ public class POIService implements POIServiceInterface {
 	            		UsuarioPOJO u = new UsuarioPOJO();
 	            		List<UsuarioPOJO> lista = new ArrayList<UsuarioPOJO>();
 	            		u.setCedula(cellValue);
+	            		System.out.println("Cedula: " + cellValue);
 	            		lista.add(u);
             			a.setUsuarios(lista);
             			
             		break;
-                
-//	            case 7:
-//            			a.setNombre(cellValue);
-//                break;
+
                 
 	            default:           
 	        }			
