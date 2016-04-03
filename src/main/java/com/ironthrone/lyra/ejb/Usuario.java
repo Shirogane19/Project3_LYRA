@@ -265,7 +265,18 @@ public class Usuario implements Serializable {
 	}
 
 	//bi-directional many-to-many association to Periodo
-	@ManyToMany(mappedBy="usuarios")
+
+	
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+		name="usuario_has_periodo"
+		, joinColumns={
+			@JoinColumn(name="usuario_idUsuario")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Periodo_idPeriodo")
+			}
+		)
 	public List<Periodo> getPeriodos() {
 		return this.periodos;
 	}

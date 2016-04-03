@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
 import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
@@ -19,6 +20,7 @@ import com.ironthrone.lyra.pojo.RolPOJO;
 import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
+import com.ironthrone.lyra.repositories.PeriodoRepository;
 import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
@@ -37,6 +39,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	@Autowired private UsuarioRepository usersRepository;
 	@Autowired private RolRepository rolRepository;
 	@Autowired private InstitucionRepository instituteRepository;
+	@Autowired private PeriodoRepository periodoRepository;
 	@Autowired private IronPasswordEncryption encryptor;
 
 	/**
@@ -253,10 +256,12 @@ public class UsuarioService implements UsuarioServiceInterface {
 		/**Si el Usuario tiene un ID de -1, crea uno nuevo, si no modifica uno existente. **/
 		
 		if(ur.getUsuario().getIdUsuario() <= -1){
+			
 			newUser.setIdUsuario(0);
 			newUser.setIsActiveUs(true);
 			newUser.setDateOfJoin(getCurrentDate());
 			newUser.setInstitucions(listInts);
+			newUser.setPeriodos(getPeriodo());
 			nuser = usersRepository.save(newUser);
 			
 		/** Si hay roles por agregar, toma el usuario recien creado y le asigna los roles **/
@@ -328,7 +333,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		DbUser.setTelefono(UiUser.getTelefono());
 		DbUser.setMovil(UiUser.getMovil());
 		DbUser.setIsActiveUs(UiUser.isActiveUs());
-
+	//	DbUser.setPeriodos(getPeriodo(DbUser, false));
 
 		
 		if(newPass){
@@ -400,6 +405,25 @@ public class UsuarioService implements UsuarioServiceInterface {
 		return user;
  
 	}
+	
+	private List<Periodo> getPeriodo(){
+		
+		List<Periodo> list = new ArrayList<Periodo>();	
+				
+//		if(isNew){
+
+			Periodo p = periodoRepository.findByIsActivePrTrue();
+			list.add(p);	
+			
+//		}else{
+//			list = u.getPeriodos();
+//			Periodo p = periodoRepository.findByIsActivePrTrue();
+//			list.add(p);			
+//		}
+
+		
+		return list;
+	}
 
 	/**
 	 * Consigue la fecha actual.
@@ -415,58 +439,13 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 	@Override
 	public List<UsuarioPOJO> prueba() {
-
-//		List<String> listaRoles = Arrays.asList("1", "2", "3");
-//		Usuario user = usersRepository.findOne(1);
-//		
-//		Rol rol = rolRepository.findOne(4);
-//		rol.getUsuarios().remove(1);
-//		rolRepository.save(rol);
-		
-
-//		Usuario user = usersRepository.findOne(4);
-//		user.setRols(null);
-//		user = usersRepository.save(user);
-//		
-//		List<Rol> roles = new ArrayList<Rol>();
-//		
-//		Rol rol1 = rolRepository.findOne(1);
-//		Rol rol2 = rolRepository.findOne(2);
-//		roles.add(rol1);
-//		roles.add(rol2);
-//		
-//		user.setRols(roles);
-//		
-//		user = usersRepository.save(user);
-		
-//		Usuario user = new Usuario();
-//		user.setPassword("12345");
-//		user.setPassword(encryptor.ironEncryption(user.getPassword()));
-//		user.setEmail("test@roles.com");
-//		user.setNombre("Johnny");
-//		user.setApellido("Test");
-		
+	
 		List<Usuario> user = usersRepository.findAll();
 		
 		return generateUserDtos(user);
-		
-		
-	//	user.setRols(getRoles(listaRoles, user));
+
 
 	}
-	
-	/**
-	 * Cuando es nuevo el ID esta vacio, por lo tanto no le puede hacer set...
-	 */
-	
-//	/** Cambiar por getInstitucionByID luego **/
-//	Institucion ins = new Institucion();	
-//	ins.setIdInstitucion(1);
-//	ins.setNombreInstitucion("Cenfotec");
-//	newUser.setInstitucion(ins);		
-//	/** fin comment **/
-	
-//	System.out.println(ur.getUsuario().getIdRoles());
 	
 	 /**
 	  * Recibe un correo y retorna un Usuario POJO

@@ -3,18 +3,22 @@
 angular.module('myApp.registroView', [])
 
 
-.controller('registroViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('registroViewCtrl', ['$scope','$http','$timeout','$state','$localStorage',function($scope,$http,$timeout,$state,$localStorage)  {
 
 	$scope.alumnoInfo = {};
 	$scope.encargados = {};
 	$scope.registros = [];
 	$scope.registro = [];
+	$scope.idUsuario = 0;
 	$scope.sexo = "";
 	$scope.errorTxt = "";
 	$scope.error = false;
 	$scope.isMale = true;
 	$scope.isCreating = true;
  	$scope.onPoint = false;
+	$scope.reverse = true;
+  	$scope.predicate = 'dateOfEvent';
+  	$scope.infoAutor = {};
 
 	$scope.isEmergencyContact = false;
 
@@ -71,6 +75,7 @@ angular.module('myApp.registroView', [])
 
 	    });
 
+	    	$scope.idUsuario = $localStorage.user.userId;
 	    	$scope.isCreating = true;
  			$scope.onPoint = false;
 			$scope.isEmergencyContact = false;
@@ -96,7 +101,8 @@ angular.module('myApp.registroView', [])
 								 "idRegistro": $scope.registro.idRegistro ,
 								 "nombreRegistro": $scope.registro.nombre, 
 								 'descripcion': $scope.registro.descripcion,
-								 "idAlumno": $scope.registro.idAlumno}};
+								 "idAlumno": $scope.registro.idAlumno,
+								 "idCreator": $scope.idUsuario}};
 
 		
 	$http.post('rest/protected/historialMedico/saveRegistroMedico',$scope.requestObject).success(function(response) {
@@ -124,6 +130,8 @@ angular.module('myApp.registroView', [])
 
     $scope.editRegistro = function (r) {
                 
+     //      $scope.getAuthor(r);
+                           
            $scope.registro.idRegistro = r.idRegistro;
            $scope.registro.idAlumno   = $scope.alumnoInfo.idAlumno;
            $scope.registro.nombre = r.nombreRegistro;
@@ -131,6 +139,8 @@ angular.module('myApp.registroView', [])
 
            $scope.onPoint = true;
            $scope.isCreating = false;
+
+
 
            //console.log($scope.registro)
     };
@@ -161,8 +171,34 @@ angular.module('myApp.registroView', [])
 
   	$scope.toString = function (){
 			console.log($state.params.alumnoInfo);
-		}
+	}
 
+    $scope.order = function(predicate) {
+
+    $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+    $scope.predicate = predicate;
+    
+   };
+
+  	$scope.getAuthor = function (r){
+
+  		var idAuthor = r.idCreator;
+
+		$scope.requestObject = {"pageNumber": 0,
+							 	"pageSize": 0,
+							 	"direction": "string",
+								 "sortBy": [""],
+								 "searchColumn": "string",
+								 "searchTerm": 
+								 "string",
+								 "usuario":{"idUsuario": idAuthor}};
+
+		$http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
+			$scope.infoAutor = response.usuario;
+			console.log($scope.infoAutor);
+		});
+		
+	}
 
 
 	$timeout( function(){ $scope.initScripts(); }, 100);
@@ -170,27 +206,3 @@ angular.module('myApp.registroView', [])
 	$scope.init();
 
 }]);
-
-// .directive('contenteditable', function() {
-//     return {
-//       require: '?ngModel',
-//       link: function(scope, element, attr, ngModel) {
-//         var read;
-//         if (!ngModel) {
-//           return;
-//         }
-//         ngModel.$render = function() {
-//           return element.html(ngModel.$viewValue);
-//         };
-//         element.bind('blur', function() {
-//           if (ngModel.$viewValue !== $.trim(element.html())) {
-//             return scope.$apply(read);
-//           }
-//         });
-//         return read = function() {
-//           console.log("read()");
-//           return ngModel.$setViewValue($.trim(element.html()));
-//         };
-//       }
-//     };
-//   });

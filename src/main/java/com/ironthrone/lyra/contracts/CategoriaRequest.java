@@ -22,4 +22,6 @@ public class CategoriaRequest extends BaseRequest {
 	public String toString() {
 		return "Request de Categoria [categoria=" + categoria + "]";
 	}
+
+
 }

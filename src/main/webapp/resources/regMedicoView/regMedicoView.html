@@ -151,18 +151,19 @@
 						
 								<div class="block-content">
 
-									<table class="js-table-sections table table-hover" ng-repeat = "r in registros">
+									<table class="js-table-sections table table-hover" ng-repeat = "r in registros | orderBy:predicate:reverse">
 		                                <thead>
 		                                    <tr>
 		                                        <th style="width: 30px;"></th>
 		                                        <th></th>
+		                                        <th class="hidden-xs" style="width: 15%;"></th>
 		                                        <th style="width: 10%;"></th>
 		                                    </tr>
 		                                </thead>
 
 		                                <div>
 		                                <!-- START HEADER -->
-		                                <tbody class="js-table-sections-header">
+		                                <tbody class="js-table-sections-header"  ng-click = "getAuthor(r)">
 		                                    <tr>
 		                                        <td class="text-center">
 		                                            <i class="fa fa-angle-right"></i>
@@ -172,6 +173,10 @@
 		                                        	<div class="js-summernote-air">
 		                                        		<p>{{r.nombreRegistro}}</p>
 		                                        	</div>
+		                                        </td>
+
+		                                        <td class="hidden-xs">
+		                                            <em class="text-muted">{{r.dateOfEvent | date:'longDate' }}</em>
 		                                        </td>
 
 		                                        <td class="text-center">
@@ -198,6 +203,11 @@
 						                            <div class="js-summernote-air">
 						                                <p>{{r.descripcion}}</p>
 						                            </div>
+
+						                            <div>
+						                                <em class="text-muted">Ingresado por: {{infoAutor.nombre}} {{infoAutor.apellido}}</em>
+						                            </div>
+
 
 						                            <span ng-show = "error" class="text-danger">{{errorTxt}}</span>
 

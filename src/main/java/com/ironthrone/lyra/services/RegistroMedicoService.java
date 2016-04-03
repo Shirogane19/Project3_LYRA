@@ -1,6 +1,7 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class RegistroMedicoService implements RegistroMedicoServiceInterface {
 			dto.setIdRegistro(r.getIdRegistros_Medicos());
 			dto.setNombreRegistro(r.getNombreRegistro());
 			dto.setDescripcion(r.getDescripcion());
+			dto.setDateOfEvent(r.getDateOfEvent());
+			dto.setIdCreator(r.getIdCreator());
 			dto.setAlumno(null);
 			
 			uiRecord.add(dto);
@@ -126,10 +129,14 @@ public class RegistroMedicoService implements RegistroMedicoServiceInterface {
 			ejb.setAlumno(getAlumno(pojo.getIdAlumno()));
 			ejb.setNombreRegistro(pojo.getNombreRegistro());
 			ejb.setDescripcion(pojo.getDescripcion());
+			ejb.setIdCreator(pojo.getIdCreator());
+			ejb.setDateOfEvent(getCurrentDate());
 		}else{
 			ejb.setIdRegistros_Medicos(pojo.getIdRegistro());		
 			ejb.setNombreRegistro(pojo.getNombreRegistro());
-			ejb.setDescripcion(pojo.getDescripcion());			
+			ejb.setDescripcion(pojo.getDescripcion());	
+			ejb.setIdCreator(pojo.getIdCreator());
+			ejb.setDateOfEvent(getCurrentDate());
 			
 		}
 	
@@ -147,6 +154,18 @@ public class RegistroMedicoService implements RegistroMedicoServiceInterface {
 		RegistrosMedico nreg = null;
 		
 		return (nreg == null) ? false : true;
+	}
+	
+	/**
+	 * Consigue la fecha actual.
+	 * @return esta fecha.
+	 */
+	public Date getCurrentDate(){
+		
+		 //  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		   //get current date time with Date()
+		   Date date = new Date();
+		   return date;
 	}
 
 }

@@ -25,8 +25,6 @@ public class Categoria implements Serializable {
 	
 	private String nombreCategoria;
 	
-	private int tarea_idTarea;
-	
 	private Institucion institucion;
 	
 	private List<Tarea> tareas;
@@ -73,15 +71,6 @@ public class Categoria implements Serializable {
 
 	public void setNombreCategoria(String nombreCategoria) {
 		this.nombreCategoria = nombreCategoria;
-	}
-
-
-	public int getTarea_idTarea() {
-		return this.tarea_idTarea;
-	}
-
-	public void setTarea_idTarea(int tarea_idTarea) {
-		this.tarea_idTarea = tarea_idTarea;
 	}
 
 
