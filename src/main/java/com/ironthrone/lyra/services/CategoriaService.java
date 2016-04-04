@@ -11,17 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.contracts.CategoriaRequest;
 
 import com.ironthrone.lyra.ejb.Categoria;
-
-
+import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.pojo.CategoriaPOJO;
 
 import com.ironthrone.lyra.repositories.CategoriaRepository;
+import com.ironthrone.lyra.repositories.InstitucionRepository;
 
 
 @Service
 public class CategoriaService implements CategoriaServiceInterface{
 
 	@Autowired private CategoriaRepository categoriaRepository;
+	@Autowired private InstitucionRepository instituteRepository;
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -53,7 +54,11 @@ public class CategoriaService implements CategoriaServiceInterface{
 	@Transactional
 	public List<CategoriaPOJO> getAll(CategoriaRequest cr) {
 
-		List<Categoria> categorias =  categoriaRepository.findAll();
+		System.out.println("Request: " + cr.getCategoria().getIdInstitucion());
+		
+		int id = cr.getCategoria().getIdInstitucion();
+		Institucion ints = instituteRepository.findOne(id);
+		List<Categoria> categorias =  categoriaRepository.findByInstitucion(ints);
 		return generateCategoriaDtos(categorias);
 	}
 	/**
@@ -111,6 +116,8 @@ public class CategoriaService implements CategoriaServiceInterface{
 
 		return categoriaRepository.findOne(idCategoria);
 	}
+	
+	
 	/**
 	 * Guarda los datos de un Categoria.
 	 * @param Categoria request de la capa frontend.
@@ -121,10 +128,13 @@ public class CategoriaService implements CategoriaServiceInterface{
 		Categoria newCategoria = new Categoria();
 		Categoria nCategoria = null;
 
+		int idInst = cr.getCategoria().getIdInstitucion();
+		Institucion ints = instituteRepository.findOne(idInst);
+		
+		
 		BeanUtils.copyProperties(cr.getCategoria(), newCategoria);	
 		newCategoria.setIsActiveCat(cr.getCategoria().isActiveCat());
-		
-
+		newCategoria.setInstitucion(ints);
 			
 		if(cr.getCategoria().getIdCategoria() <= -1){		
 			nCategoria = categoriaRepository.save(newCategoria);

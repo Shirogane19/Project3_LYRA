@@ -13,8 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.ironthrone.lyra.security.Reloj;
-
 
 /** Clase inicial del proyecto Lyra.
  * 
@@ -38,13 +36,6 @@ public class LyraApplication
 	 */
     public static void main(String[] args) {
         SpringApplication.run(LyraApplication.class, args);
-//        Reloj reloj = new Reloj();
-//        
-//        try {
-//			reloj.Start();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
     }
     
 	@Bean	

@@ -28,7 +28,6 @@ import com.ironthrone.lyra.repositories.InstitucionRepository;
 import com.ironthrone.lyra.repositories.SubscripcionRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 import com.ironthrone.lyra.security.RavenMail;
-import com.ironthrone.lyra.security.Reloj;
 
 /**
  * Clase de tipo servicio, manejo de subscripciones y interacción con los repositorios correspondientes

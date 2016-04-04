@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.security.IronPasswordEncryption;
+import com.google.common.collect.Iterables;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
@@ -19,10 +22,12 @@ import com.ironthrone.lyra.pojo.RolPOJO;
 import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
+import com.ironthrone.lyra.repositories.PeriodoRepository;
 import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 import java.util.Date;
+import java.util.Iterator;
 
 
 /**
@@ -37,6 +42,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 	@Autowired private UsuarioRepository usersRepository;
 	@Autowired private RolRepository rolRepository;
 	@Autowired private InstitucionRepository instituteRepository;
+	@Autowired private PeriodoRepository periodoRepository;
 	@Autowired private IronPasswordEncryption encryptor;
 
 	/**
@@ -47,20 +53,35 @@ public class UsuarioService implements UsuarioServiceInterface {
 	private List<UsuarioPOJO> generateUserDtos(List<Usuario> users){
 		
 		List<UsuarioPOJO> uiUsers = new ArrayList<UsuarioPOJO>();
-
 		
 		users.stream().forEach(u -> {
-			UsuarioPOJO dto = new UsuarioPOJO();
-			BeanUtils.copyProperties(u,dto);
-			dto.setActiveUs(u.getIsActiveUs());
-			dto.setRols(generateRolDto(u));
-			dto.setTareas(generateTareaDto(u));
-			dto.setListaInstituciones(generateInstitutionDtos(u));
-			dto.setPeriodo(null);
-			dto.setMaterias(null);
-			dto.setSeccions(null);
-			dto.setAlumnos(null);
-			uiUsers.add(dto);
+			
+			boolean periodoActual = false;
+			Iterator<Periodo> iteratorList = u.getPeriodos().stream().iterator();
+			
+			while (iteratorList.hasNext()) {
+				Periodo p = iteratorList.next();
+				
+				if(p.getIsActivePr()){
+					periodoActual = true;
+					break;
+				}
+			};	
+
+			if(periodoActual){
+				
+				UsuarioPOJO dto = new UsuarioPOJO();
+				BeanUtils.copyProperties(u,dto);
+				dto.setActiveUs(u.getIsActiveUs());
+				dto.setRols(generateRolDto(u));
+				dto.setTareas(generateTareaDto(u));
+				dto.setListaInstituciones(generateInstitutionDtos(u));
+				dto.setPeriodo(null);
+				dto.setMaterias(null);
+				dto.setSeccions(null);
+				dto.setAlumnos(null);
+				uiUsers.add(dto);
+			}
 		});	
 		
 		return uiUsers;
@@ -101,8 +122,6 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		int idInst = ur.getUsuario().getIdInstitucion();
 		Institucion ints = instituteRepository.findOne(idInst);
-//		List<Institucion> listInts = new ArrayList<Institucion>();
-//		listInts.add(ints);
 		
 		List<Usuario> users =  usersRepository.findByInstitucionsIn(ints);
 		return generateUserDtos(users);
@@ -231,7 +250,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		List<String> idRoles = ur.getUsuario().getIdRoles();
 		List<Rol> rols = new ArrayList<Rol>();
 		List<Institucion> listInts = new ArrayList<Institucion>();
-		
+		List<Alumno> aList = new ArrayList<Alumno>();
 		
 		boolean hasRoles = false;
 		boolean newPass = false;
@@ -256,10 +275,14 @@ public class UsuarioService implements UsuarioServiceInterface {
 		/**Si el Usuario tiene un ID de -1, crea uno nuevo, si no modifica uno existente. **/
 		
 		if(ur.getUsuario().getIdUsuario() <= -1){
+			
 			newUser.setIdUsuario(0);
 			newUser.setIsActiveUs(true);
 			newUser.setDateOfJoin(getCurrentDate());
 			newUser.setInstitucions(listInts);
+			newUser.setPeriodos(getPeriodo());
+			newUser.setAlumnos(aList);
+			
 			nuser = usersRepository.save(newUser);
 			
 		/** Si hay roles por agregar, toma el usuario recien creado y le asigna los roles **/
@@ -331,8 +354,17 @@ public class UsuarioService implements UsuarioServiceInterface {
 		DbUser.setTelefono(UiUser.getTelefono());
 		DbUser.setMovil(UiUser.getMovil());
 		DbUser.setIsActiveUs(UiUser.isActiveUs());
+		
+		Periodo p = Iterables.getLast(DbUser.getPeriodos());
+		boolean periodoActual = p.getIsActivePr();
 
-
+		
+		if(!periodoActual){	
+			List<Periodo> lista = DbUser.getPeriodos();
+			Periodo periodo = periodoRepository.findByIsActivePrTrue();
+			lista.add(periodo);
+			DbUser.setPeriodos(lista);
+		}
 		
 		if(newPass){
 			String userHash = UiUser.getPassword();
@@ -403,6 +435,29 @@ public class UsuarioService implements UsuarioServiceInterface {
 		return user;
  
 	}
+	
+	/**Esta funcion representa el periodo actual, cada ves que se hace una carga masiva nueva, un nuevo periodo
+	 * es creado y seteado a los alumnos y usuarios nuevos. El sistema solo listara y permitira acceso a los usuarios
+	 * cuyo perido actual sea verdadero.		   
+	 */
+	private List<Periodo> getPeriodo(){
+		
+		List<Periodo> list = new ArrayList<Periodo>();	
+				
+//		if(isNew){
+
+			Periodo p = periodoRepository.findByIsActivePrTrue();
+			list.add(p);	
+			
+//		}else{
+//			list = u.getPeriodos();
+//			Periodo p = periodoRepository.findByIsActivePrTrue();
+//			list.add(p);			
+//		}
+
+		
+		return list;
+	}
 
 	/**
 	 * Consigue la fecha actual.
@@ -416,60 +471,17 @@ public class UsuarioService implements UsuarioServiceInterface {
 		   return date;
 	}
 
-	@Override
-	public List<UsuarioPOJO> prueba() {
 
-//		List<String> listaRoles = Arrays.asList("1", "2", "3");
-//		Usuario user = usersRepository.findOne(1);
-//		
-//		Rol rol = rolRepository.findOne(4);
-//		rol.getUsuarios().remove(1);
-//		rolRepository.save(rol);
+	public Boolean prueba(String mail) {
+	
+		int id = usersRepository.getUserIdbyEmail(mail);
+		System.out.println(id);
+		if(id >= 1){
+			return true;
+		}
 		
-
-//		Usuario user = usersRepository.findOne(4);
-//		user.setRols(null);
-//		user = usersRepository.save(user);
-//		
-//		List<Rol> roles = new ArrayList<Rol>();
-//		
-//		Rol rol1 = rolRepository.findOne(1);
-//		Rol rol2 = rolRepository.findOne(2);
-//		roles.add(rol1);
-//		roles.add(rol2);
-//		
-//		user.setRols(roles);
-//		
-//		user = usersRepository.save(user);
-		
-//		Usuario user = new Usuario();
-//		user.setPassword("12345");
-//		user.setPassword(encryptor.ironEncryption(user.getPassword()));
-//		user.setEmail("test@roles.com");
-//		user.setNombre("Johnny");
-//		user.setApellido("Test");
-		
-		List<Usuario> user = usersRepository.findAll();
-		
-		return generateUserDtos(user);
-		
-		
-	//	user.setRols(getRoles(listaRoles, user));
-
+		return false;
 	}
-	
-	/**
-	 * Cuando es nuevo el ID esta vacio, por lo tanto no le puede hacer set...
-	 */
-	
-//	/** Cambiar por getInstitucionByID luego **/
-//	Institucion ins = new Institucion();	
-//	ins.setIdInstitucion(1);
-//	ins.setNombreInstitucion("Cenfotec");
-//	newUser.setInstitucion(ins);		
-//	/** fin comment **/
-	
-//	System.out.println(ur.getUsuario().getIdRoles());
 	
 	 /**
 	  * Recibe un correo y retorna un Usuario POJO
@@ -478,14 +490,15 @@ public class UsuarioService implements UsuarioServiceInterface {
 	  */
 	@Override
 	public UsuarioPOJO getUserByEmail(String email) {
-		List<Usuario> users =  usersRepository.findByemail(email);
+		
+		Usuario u =  usersRepository.findByEmail(email);
 		UsuarioPOJO dto = new UsuarioPOJO();
-		users.stream().forEach(u -> {
+
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
-		});
+
 		
 		return dto;
 	}
@@ -497,9 +510,9 @@ public class UsuarioService implements UsuarioServiceInterface {
 	  */
 	@Override
 	public UsuarioPOJO getUserByCedula(String cedula) {
-		List<Usuario> users =  usersRepository.findBycedula(cedula);
+		Usuario u =  usersRepository.findByCedula(cedula);
 		UsuarioPOJO dto = new UsuarioPOJO();
-		users.stream().forEach(u -> {
+	
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
@@ -507,21 +520,20 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setListaInstituciones(generateInstitutionDtos(u));
 			dto.setTareas(generateTareaDto(u));
 
-		});
 		return dto;
 	}
 	
 	@Override
 	public UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur){
 
-		List<Usuario> users =  usersRepository.findBycedula(ur.getUsuario().getCedula());
+		Usuario u =  usersRepository.findByCedula(ur.getUsuario().getCedula());
 		UsuarioPOJO dto = new UsuarioPOJO();
-		users.stream().forEach(u -> {
+
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
-		});
+
 		
 		return dto;
 	}

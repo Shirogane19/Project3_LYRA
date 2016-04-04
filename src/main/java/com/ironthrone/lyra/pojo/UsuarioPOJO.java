@@ -3,6 +3,7 @@ package com.ironthrone.lyra.pojo;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Clase Plain Old Java Object de usuario.
  * @author jeanpaul
@@ -44,7 +45,6 @@ public class UsuarioPOJO {
 	private List<String> idRoles;
 	
 	private List<RolPOJO> rols;
-	
 	
 	private List<TareaPOJO> tareas;
 	
@@ -273,5 +273,19 @@ public class UsuarioPOJO {
 		this.idTareas = idTareas;
 	}
 	
+	@Override
+	public String toString(){
+		String sep = System.getProperty("line.separator");
+		
+		return  sep +    "Usuario  [id: " + getIdUsuario() +  sep +
+						 "nombre: " + getNombre() +  sep +
+						 "apellido: " + getApellido() + sep +
+						 "email: " + getEmail()  +	 sep +
+						 "telefono: " + getTelefono() +  sep +
+						 "celular: " + getMovil() + sep +
+						 "cedula: " + getCedula() + sep + "]";
+		
+	}
 
 }
+

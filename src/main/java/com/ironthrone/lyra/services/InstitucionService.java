@@ -331,6 +331,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			user.setPassword("secret");
 			user.setActiveUs(u.getIsActiveUs());
 			user.setRols(generateRolDto(u));
+			//user.setRols(null);
 			user.setIdTareas(null);
 			user.setInstitucion(null);
 			user.setMaterias(null);
@@ -351,7 +352,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 	 * @param users representa una lista de subscripciones tipo ejb
 	 * @return Lista de Subscripcion POJO.
 	 */
-	@SuppressWarnings("unused")
+	
 	private List<SubscripcionPOJO> generateSubscripcionDtos(Institucion i){
 		
 		List<SubscripcionPOJO> uiSubscripciones = new ArrayList<SubscripcionPOJO>();

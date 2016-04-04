@@ -1,6 +1,7 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -8,15 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Iterables;
 import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
+import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Seccion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.AlumnoRepository;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
+import com.ironthrone.lyra.repositories.PeriodoRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 /**
@@ -30,6 +34,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 	@Autowired private AlumnoRepository alumnoRepository;
 	@Autowired private InstitucionRepository institucionRepository;
 	@Autowired private UsuarioRepository usersRepository;
+	@Autowired private PeriodoRepository periodoRepository;
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -41,10 +46,19 @@ public class AlumnoService implements AlumnoServiceInterface{
 		List<AlumnoPOJO> uiAlumnos = new ArrayList<AlumnoPOJO>();
 		
 		alumnos.stream().forEach(a -> {
-			AlumnoPOJO dto = new AlumnoPOJO();
-			BeanUtils.copyProperties(a,dto);
-			dto.setActiveAl(a.getIsActiveAl());
-			uiAlumnos.add(dto);
+			
+			Periodo p = Iterables.getLast(a.getPeriodos());
+			boolean periodoActual = p.getIsActivePr();
+
+			
+			if(periodoActual){
+			
+				AlumnoPOJO dto = new AlumnoPOJO();
+				BeanUtils.copyProperties(a,dto);
+				dto.setActiveAl(a.getIsActiveAl());
+				uiAlumnos.add(dto);
+			}
+			
 		});	
 		
 		return uiAlumnos;
@@ -97,14 +111,22 @@ public class AlumnoService implements AlumnoServiceInterface{
 		if(alumnoRequest.getAlumno().getIdAlumno() <= -1){		
 			
 			List<Usuario> usuarios = new ArrayList<Usuario>();
+			
 		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-		    	usuarios.add(usuario);
 		    	
+		    	if(u.getIdUsuario() > 0){
+		    		Usuario usuario = usersRepository.findOne(u.getIdUsuario());
+		    		usuarios.add(usuario);
+		    	}else{
+		    		Usuario usuario = usersRepository.findByCedula(u.getCedula());
+		    		usuarios.add(usuario);
+		    	}	    	
 		    });
+		    
 		    newAlumno.setUsuarios(usuarios);
 	        
 			newAlumno.setIsActiveAl(true);
+			newAlumno.setPeriodos(getPeriodo());
 			nalumnoT = alumnoRepository.save(newAlumno);
 			setAlumnoAUsuarios(nalumnoT, alumnoRequest);
 			
@@ -112,21 +134,56 @@ public class AlumnoService implements AlumnoServiceInterface{
 			
 			removeEncargados(alumnoRequest);
 			
-			List<Usuario> usuarios = new ArrayList<Usuario>();
-		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-		    	usuarios.add(usuario);
-		    	
-		    });
-		    newAlumno.setUsuarios(usuarios);
-			
+//			List<Usuario> usuarios = new ArrayList<Usuario>();
+//			
+//		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
+//		    	
+//		    	if(u.getIdUsuario() > 0){
+//			    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
+//			    	usuarios.add(usuario);
+//		    	}else{
+//		    		Usuario usuario = usersRepository.findByCedula(u.getCedula());
+//		    		usuarios.add(usuario);
+//		    	}	    	
+//		    	
+//		    });
+//		    
+//		    newAlumno.setUsuarios(usuarios);
 			Alumno oldAlumno = findById(newAlumno.getIdAlumno());
 			Seccion oldSeccion = oldAlumno.getSeccion();
 			
-			BeanUtils.copyProperties(newAlumno, oldAlumno);
+		//	BeanUtils.copyProperties(newAlumno, oldAlumno);
+			oldAlumno.setIdAlumno(alumnoRequest.getAlumno().getIdAlumno());
+			oldAlumno.setNombre(alumnoRequest.getAlumno().getNombre());
+			oldAlumno.setApellido1(alumnoRequest.getAlumno().getApellido1());
+			oldAlumno.setApellido2(alumnoRequest.getAlumno().getApellido2());
+			oldAlumno.setCedula(alumnoRequest.getAlumno().getCedula());
+			oldAlumno.setGenero(alumnoRequest.getAlumno().getGenero());
 			oldAlumno.setIsActiveAl(alumnoRequest.getAlumno().isActiveAl());
+			
+			
 			oldAlumno.setSeccion(oldSeccion);
 			
+			System.out.println("Periodo: " + oldAlumno.getPeriodos());
+			boolean periodoActual = false;
+			Iterator<Periodo> iteratorList = oldAlumno.getPeriodos().stream().iterator();
+			
+			while (iteratorList.hasNext()) {
+				Periodo p = iteratorList.next();
+				
+				if(p.getIsActivePr()){
+					periodoActual = true;
+					break;
+				}
+			};	
+
+			
+			if(!periodoActual){	
+				List<Periodo> lista = oldAlumno.getPeriodos();
+				Periodo periodo = periodoRepository.findByIsActivePrTrue();
+				lista.add(periodo);
+				oldAlumno.setPeriodos(lista);
+			}
 			
 			nalumnoT = alumnoRepository.save(oldAlumno);	
 			setAlumnoAUsuarios(nalumnoT, alumnoRequest);
@@ -151,7 +208,6 @@ public class AlumnoService implements AlumnoServiceInterface{
 	 * @param Alumno alumno tipo ejbs
 	 * @return List<UsuarioPOJO> 
 	 */
-	@SuppressWarnings("unused")
 	private List<UsuarioPOJO> generateUserDto(Alumno a) {
 		
 		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
@@ -177,14 +233,32 @@ public class AlumnoService implements AlumnoServiceInterface{
 	 */
 	private void setAlumnoAUsuarios(Alumno a, AlumnoRequest alumnoRequest){
 		
-		Alumno alumno = new Alumno();
+
 	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-	    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-	    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
-	    	//oldAlumnos.remove(a);
-	    	oldAlumnos.add(a);
-	    	usuario.setAlumnos(oldAlumnos);
-	    	usersRepository.save(usuario);
+	    	
+	    	
+	    	if(u.getIdUsuario() > 0){
+	    		
+		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
+		    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
+		    	oldAlumnos.remove(a);
+		    	oldAlumnos.add(a);
+		    	usuario.setAlumnos(oldAlumnos);
+		    	usersRepository.save(usuario);	    		
+	    	}else{
+		    	Usuario usuario = usersRepository.findByCedula(u.getCedula());
+		    	
+
+			    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
+			    	oldAlumnos.add(a);
+			    	usuario.setAlumnos(oldAlumnos);
+			    	usersRepository.save(usuario);			    		
+		    	
+
+	    	}
+	    	
+
+	    	
 	    });
 		
 	}
@@ -203,6 +277,20 @@ public class AlumnoService implements AlumnoServiceInterface{
 			u.setAlumnos(oldA);
 			usersRepository.save(u);
 		});
+	}
+	
+	/**Esta funcion representa el periodo actual, cada ves que se hace una carga masiva nueva, un nuevo periodo
+	 * es creado y seteado a los alumnos y usuarios nuevos. El sistema solo listara y permitira acceso a los usuarios
+	 * cuyo perido actual sea verdadero.		   
+	 */
+	private List<Periodo> getPeriodo(){
+		
+		List<Periodo> list = new ArrayList<Periodo>();	
+
+			Periodo p = periodoRepository.findByIsActivePrTrue();
+			list.add(p);	
+
+		return list;
 	}
 
 }

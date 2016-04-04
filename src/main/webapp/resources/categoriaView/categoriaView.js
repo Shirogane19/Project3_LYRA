@@ -2,18 +2,10 @@
 
 angular.module('myApp.categoriaView', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/categoriaView', {
-    templateUrl: 'categoriaView/categoriaView.html',
-    controller: 'categoriaViewCtrl'
-  });
-}])
-
-
-.controller('categoriaViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('categoriaViewCtrl', ['$scope','$http','$timeout','$state','$localStorage',function($scope,$http,$timeout,$state,$localStorage) {
   
   $scope.categoriaList = [];
-  
+  $scope.idInstitucion = 0;
 
     $scope.initScripts = function(){
 
@@ -27,12 +19,22 @@ angular.module('myApp.categoriaView', ['ngRoute'])
     }
 
   	$scope.init = function(){
-    $scope.isCreating = true;
-		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","categorias": {}};
-		$http.post('rest/protected/categorias/getAll',$scope.requestObject).success(function(response) {
-			//console.log("response",response)
-			$scope.categoriaList = response.categorias;
-			//console.log("$scope.categoriaList: ",$scope.categoriaList[0])
+
+      $scope.idInstitucion = $localStorage.user.idInstitucion;
+      $scope.isCreating = true;
+
+  		$scope.requestObject = {"pageNumber": 0,
+                              "pageSize": 0,
+                              "direction": "",
+                              "sortBy": [""],
+                              "searchColumn": "string",
+                              "searchTerm": "",
+                              "categoria": {"idInstitucion": $scope.idInstitucion}};
+
+  		$http.post('rest/protected/categorias/getAll',$scope.requestObject).success(function(response) {
+
+  			$scope.categoriaList = response.categorias;
+  			console.log("$scope.categoriaList: ",$scope.categoriaList[0])
 	
 		});
 
@@ -102,10 +104,11 @@ $scope.requestObject ={
   "totalPages": 0,
   "totalElements": 0,
   "categoria": {
-     "idCategoria": $scope.newCat.idCategoria,
-     "descripcionCategoria":$scope.newCat.descripcionCategoria,
+      "idCategoria": $scope.newCat.idCategoria,
+      "descripcionCategoria":$scope.newCat.descripcionCategoria,
       "nombreCategoria": $scope.newCat.nombreCategoria,
-      "activeCat": $scope.newCat.activeCat}
+      "activeCat": $scope.newCat.activeCat,
+      "idInstitucion": $scope.idInstitucion}
 }
 
 

@@ -7,6 +7,7 @@ public class MateriaPOJO {
 	private boolean isActiveMat;
 	private String nombre;
 	private InstitucionPOJO institucion;
+	private int IdInstitucion;
 
 	
 	public MateriaPOJO(){
@@ -43,6 +44,14 @@ public class MateriaPOJO {
 
 	public void setInstitucion(InstitucionPOJO institucion) {
 		this.institucion = institucion;
+	}
+
+	public int getIdInstitucion() {
+		return IdInstitucion;
+	}
+
+	public void setIdInstitucion(int idInstitucion) {
+		IdInstitucion = idInstitucion;
 	}
 
 

@@ -103,21 +103,6 @@ public class UsuarioController {
 		
 	}
 	
-	
-	@RequestMapping(value ="/prueba", method = RequestMethod.POST)
-	public UsuarioResponse pruebaRoles(){	
-		
-		UsuarioResponse us = new UsuarioResponse();
-		us.setUsuarios(usersService.prueba());
-		
-
-			us.setCode(200);
-			us.setCodeMessage("user saved succesfully");
-	
-		return us;
-		
-	}
-	
 	/**
 	 * 
 	 * @param
@@ -147,4 +132,25 @@ public class UsuarioController {
 		us.setUsuario(usersService.getUserByCedula(ur.getUsuario().getCedula()));
 		return us;		
 	}
+	
+	
+	@RequestMapping(value ="/prueba", method = RequestMethod.POST)
+	public UsuarioResponse pruebaRoles(@RequestBody UsuarioRequest ur){	
+		
+		UsuarioResponse us = new UsuarioResponse();
+		Boolean result = usersService.prueba(ur.getUsuario().getEmail());
+		
+		if(result){
+			us.setCode(200);
+			us.setCodeMessage("user saved succesfully");
+		}else{
+			us.setCode(500);
+			us.setCodeMessage("user not found");
+		}
+
+	
+		return us;
+		
+	}
+	
 }

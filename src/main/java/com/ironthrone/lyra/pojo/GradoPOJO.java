@@ -27,6 +27,8 @@ public class GradoPOJO {
 	private List<String> idMaterias;
 	
 	private List<String> idSecciones;
+	
+	private int idInstitucion;
 
 	public GradoPOJO() {
 		super();
@@ -103,6 +105,14 @@ public class GradoPOJO {
 
 	public void setIdSecciones(List<String> idSecciones) {
 		this.idSecciones = idSecciones;
+	}
+
+	public int getIdInstitucion() {
+		return idInstitucion;
+	}
+
+	public void setIdInstitucion(int idInstitucion) {
+		this.idInstitucion = idInstitucion;
 	}
 	
 	

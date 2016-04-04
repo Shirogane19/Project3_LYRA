@@ -7,6 +7,7 @@ angular.module('myApp', [
   'ui.router',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
+  'angularFileUpload',
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',
@@ -17,7 +18,8 @@ angular.module('myApp', [
   'myApp.tareaView',
   'myApp.categoriaView',
   'myApp.registroView',
-  'myApp.errorView'
+  'myApp.errorView',
+  'myApp.excelView'
   //'myApp.usuarios'
 ])
 
@@ -41,6 +43,7 @@ angular.module('myApp', [
   $scope.accessGrado = false;  
   $scope.accessSeccion =  false;
   $scope.accessCategory = false;
+  $scope.accessBulkLoad = false;
 
 
   $scope.save = function(u) {
@@ -69,6 +72,7 @@ angular.module('myApp', [
     "string","usuario":{"idUsuario": $localStorage.user.userId}};
 
     $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
+
       //console.log("responseNoti",response)
       
       //document.getElementById("noti").textContent= response.usuario.tareas.length;
@@ -80,13 +84,14 @@ angular.module('myApp', [
       };
 
       document.getElementById("noti").textContent= num;
-      
+
     })
     .catch(function (error) {
       //console.error('exception', error.status);
       $localStorage.error = error.status;
       $state.go('errorView');
     }); 
+
 
   }
 
@@ -137,6 +142,7 @@ angular.module('myApp', [
         $scope.accessGrado = true;  
         $scope.accessSeccion =  true;
         $scope.accessCategory = true;
+        $scope.accessBulkLoad = true;
         $scope.title = "Master";
     }
 
@@ -265,6 +271,15 @@ angular.module('myApp', [
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
+    }) 
+
+    .state('excelView', {
+      url: '/excel_config',
+      templateUrl: 'resources/excelView/excelView.html',
+      controller: 'excelViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
     })  
 
     .state('404', {
@@ -309,11 +324,6 @@ angular.module('myApp', [
     }
 
   });
-
-
-
-
-
 
   $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
     if (error) {

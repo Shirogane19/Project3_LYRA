@@ -13,6 +13,7 @@ angular.module('myApp.userView', ['ngRoute'])
   $scope.counter = 0;
   $scope.isCreating = true;
   $scope.onPoint = false;
+  $scope.onDetail = false;
   $scope.onlyNumbers = /^\d+$/;
   $scope.myId = 0;
 
@@ -56,6 +57,7 @@ $scope.showList = function(){
 	$scope.newUser = {};
 	$scope.selectedItem = [];
 	$scope.onPoint = false;
+	$scope.onDetail = false;
 	$scope.isCreating = true;
   }
 
@@ -80,6 +82,32 @@ $scope.showList = function(){
 	$scope.roleList = u.rols;
 	$scope.showForm();
 	$scope.isCreating = false;
+}
+
+/** Metodo que muestra un formulario con la informacion del usuario, sin tener que modificarlo **/
+
+ $scope.showUserDetails = function(u){
+
+ 	console.log($scope.roleList);
+
+ 	if(u.idUsuario === $scope.myId){
+		$scope.redirectProfile();
+ 	}
+
+	$scope.selectedItem = [];
+	$scope.newUser = u; // Guarda el objeto usuario a la variable temporal
+	$scope.newUser.nombre = u.nombre;
+	$scope.newUser.apellido = u.apellido;
+	$scope.newUser.cedula = u.cedula; 
+	$scope.newUser.telefono = u.telefono;
+	$scope.newUser.movil = u.movil;
+	$scope.newUser.email = u.email;
+	$scope.newUser.activeUs = u.activeUs;
+	$scope.roleList = u.rols;
+	$scope.onDetail = true;
+
+	console.log($scope.roleList);
+
 }
 
 /** Metodo que cambia el estado de un usuario de activo a inactivo y vice versa **/

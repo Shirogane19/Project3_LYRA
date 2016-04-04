@@ -1,7 +1,9 @@
 package com.ironthrone.lyra.repositories;
 
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Usuario;
@@ -18,7 +20,10 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer>{
 	List<Usuario>findByisActiveUsTrue();
 	List<Usuario>findByisActiveUsFalse();
 	List<Usuario>findByInstitucionsIn(Institucion ints);
-	List<Usuario>findByemail(String email);
-	List<Usuario>findBycedula(String cedula);
+	Usuario findByEmail(String email);
+	Usuario findByCedula(String cedula);
+	
+    @Query("SELECT u.idUsuario FROM Usuario u where u.email = :_email") 
+    Integer getUserIdbyEmail(@Param("_email") String mail); 
 	
 }

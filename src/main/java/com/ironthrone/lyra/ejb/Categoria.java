@@ -2,6 +2,8 @@ package com.ironthrone.lyra.ejb;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+
 import java.util.List;
 
 
@@ -12,11 +14,19 @@ import java.util.List;
 @Entity
 @NamedQuery(name="Categoria.findAll", query="SELECT c FROM Categoria c")
 public class Categoria implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	
 	private int idCategoria;
+	
 	private String descripcionCategoria;
+	
 	private boolean isActiveCat;
+	
 	private String nombreCategoria;
+	
+	private Institucion institucion;
+	
 	private List<Tarea> tareas;
 
 	public Categoria() {
@@ -61,6 +71,17 @@ public class Categoria implements Serializable {
 
 	public void setNombreCategoria(String nombreCategoria) {
 		this.nombreCategoria = nombreCategoria;
+	}
+
+
+	//bi-directional many-to-one association to Institucion
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Institucion getInstitucion() {
+		return this.institucion;
+	}
+
+	public void setInstitucion(Institucion institucion) {
+		this.institucion = institucion;
 	}
 
 

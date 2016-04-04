@@ -1,7 +1,7 @@
 package com.ironthrone.lyra.pojo;
 
+import java.util.Date;
 import java.util.List;
-
 import com.ironthrone.lyra.ejb.Categoria;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
@@ -18,6 +18,9 @@ public class TareaPOJO {
 	private List<String> idRols;
 	private List<String> idUsuarios;
 	private int idCategoria;
+	private int idOwner;
+	private Date dateOfReport;
+
 	
 	public TareaPOJO(){
 		super();
@@ -89,6 +92,24 @@ public class TareaPOJO {
 	public void setIdCategoria(int idCategoria) {
 		this.idCategoria = idCategoria;
 	}
+
+	public int getIdOwner() {
+		return idOwner;
+	}
+
+	public void setIdOwner(int idOwner) {
+		this.idOwner = idOwner;
+	}
+
+	public Date getDateOfReport() {
+		return dateOfReport;
+	}
+
+	public void setDateOfReport(Date dateOfReport) {
+		this.dateOfReport = dateOfReport;
+	}
+	
+	
 	
 	
 	

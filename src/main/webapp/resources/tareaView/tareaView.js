@@ -95,8 +95,8 @@ angular.module('myApp.tareaView', ['ngRoute'])
             "sortBy": [""],
             "searchColumn": "string",
             "searchTerm": "",
-            "categorias": {}
-    };
+            "categoria": {"idInstitucion": $scope.user.idInstitucion}};
+    
 
     $http.post('rest/protected/categorias/getAll',$scope.requestObject).success(function(response) {
     $scope.categoryList = response.categorias;

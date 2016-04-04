@@ -10,6 +10,8 @@ public class CategoriaPOJO {
 	private String nombreCategoria;
 	private int tarea_idTarea;
 	private List<TareaPOJO> tareas;
+	private int idInstitucion;
+	
 	
 	public CategoriaPOJO() {
 		// TODO Auto-generated constructor stub
@@ -61,7 +63,12 @@ public class CategoriaPOJO {
 	public void setTareas(List<TareaPOJO> tareas) {
 		this.tareas = tareas;
 	}
+	public int getIdInstitucion() {
+		return idInstitucion;
+	}
+	public void setIdInstitucion(int idInstitucion) {
+		this.idInstitucion = idInstitucion;
+	}
 
-	
 
 }

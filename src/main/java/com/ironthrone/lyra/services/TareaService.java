@@ -1,6 +1,7 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -341,7 +342,8 @@ public class TareaService implements TareaServiceInterface{
 		if(uiTarea.getIdCategoria() > 0){
 			Categoria category = new Categoria();
 			category = categoryRepository.findOne(uiTarea.getIdCategoria());
-			dbTarea.setCategoria(category);			
+			dbTarea.setCategoria(category);	
+			dbTarea.setDateOfReport(getCurrentDate());
 		}
 
 		
@@ -352,6 +354,18 @@ public class TareaService implements TareaServiceInterface{
 
 		
 		return dbTarea;
+	}
+	
+	/**
+	 * Consigue la fecha actual.
+	 * @return esta fecha.
+	 */
+	public Date getCurrentDate(){
+		
+		 //  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		   //get current date time with Date()
+		   Date date = new Date();
+		   return date;
 	}
 
 }

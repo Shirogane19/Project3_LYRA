@@ -125,7 +125,9 @@
                                 <li ng-if = "accessCategory == true">
                                     <a ui-sref="categoriaView"><i class="si si-list"></i>Categorias</a>
                                 </li>
-                              
+                                 <li ng-if = "accessBulkLoad == true">
+                                    <a ui-sref="excelView"><i class="si si-rocket"></i>Subir Excel</a>
+                                </li>                             
                             </ul>
                         </div>
                         <!-- END Side Content -->
@@ -228,6 +230,8 @@
         <script src="resources/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="resources/bower_components/angular-route/angular-route.js"></script>
         <script src="resources/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="resources/non_bower_components/angular-file-upload-shim.min.js"></script>
+        <script src="resources/non_bower_components/angular-file-upload.min.js"></script>
         <script src="resources/assets/js/initUI.js"></script>
 
         <!-- Page JS Plugins + Page JS Code -->
@@ -243,6 +247,7 @@
         <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
         <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
         <script src="resources/assets/js/plugins/summernote/summernote.js"></script>
+        <script src="resources/assets/js/plugins/dropzonejs/dropzone.min.js"></script>
 
             <!--     VIEWS -->
         <script src="resources/userView/userView.js"></script>
@@ -256,7 +261,7 @@
         <script src="resources/categoriaView/categoriaView.js"></script>
         <script src="resources/regMedicoView/regMedicoView.js"></script>
         <script src="resources/errorView/errorView.js"></script>
-
+        <script src="resources/excelView/excelView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

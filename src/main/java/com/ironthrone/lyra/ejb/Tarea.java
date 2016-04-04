@@ -2,6 +2,8 @@ package com.ironthrone.lyra.ejb;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -13,13 +15,25 @@ import java.util.List;
 @NamedQuery(name="Tarea.findAll", query="SELECT t FROM Tarea t")
 public class Tarea implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private int idTarea;
+	
+	private Date dateOfReport;
+	
 	private String descripcionTarea;
+	
+	private int idOwner;
+	
 	private boolean isActiveTa;
+	
 	private boolean isReadTa;
+	
 	private String tituloTarea;
-	private List<Rol> rols;
+	
 	private Categoria categoria;
+	
+	private List<Rol> rols;
+	
 	private List<Usuario> usuarios;
 
 	public Tarea() {
@@ -124,6 +138,24 @@ public class Tarea implements Serializable {
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+	
+	public int getIdOwner() {
+		return this.idOwner;
+	}
+
+	public void setIdOwner(int idOwner) {
+		this.idOwner = idOwner;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_of_report")
+	public Date getDateOfReport() {
+		return this.dateOfReport;
+	}
+
+	public void setDateOfReport(Date dateOfReport) {
+		this.dateOfReport = dateOfReport;
 	}
 
 }
