@@ -27,9 +27,14 @@ angular.module('myApp.excelView', [])
 					function(evt) {
 						console.log('percent: '+ parseInt(100.0 * evt.loaded / evt.total));
 					}).success(function(data, status, headers, config) {
-						// Rent is uploaded successfully
-						console.log(data);
-					});
+                        console.log(data);
+						$state.go('successView');
+						
+
+					}).catch(function (error) {
+                      console.error('exception', error);
+                      $scope.checkResponse(error);  
+                    }); 
 	    			//.error(...)
 	    			//.then(success, error, progress); 
     		}

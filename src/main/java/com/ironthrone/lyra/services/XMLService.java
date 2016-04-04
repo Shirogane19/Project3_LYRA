@@ -249,16 +249,19 @@ public class XMLService implements XMLServiceInterface{
 	public void setPeriodo(){
 		
 		Periodo p = periodoRepository.findByIsActivePrTrue();
-		p.setIsActivePr(false);
+		String this_year = getYear();
 		
-		periodoRepository.save(p);
-		
-		Periodo newPeriodo = new Periodo();
-		newPeriodo.setIsActivePr(true);
-		newPeriodo.setYear(getYear());
-		
-		periodoRepository.save(newPeriodo);
-
+		if(!p.getYear().equals(this_year)){
+			
+			p.setIsActivePr(false);
+			periodoRepository.save(p);
+			
+			Periodo newPeriodo = new Periodo();
+			newPeriodo.setIsActivePr(true);
+			newPeriodo.setYear(getYear());	
+			
+			periodoRepository.save(newPeriodo);			
+		}
 	}
 
 	/** 
