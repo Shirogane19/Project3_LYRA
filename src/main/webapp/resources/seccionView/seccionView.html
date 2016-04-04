@@ -47,9 +47,9 @@
                     <td class="text-center">
                         <div class="btn-group">
                             <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit sección" ng-click="showSeccionToEdit(s)"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add estudiantes" ><i class="fa fa-mortar-board" ng-click="openAlumnoToSeccion(s)"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add profesor" ><i class="fa fa-user-plus"  ng-click="openProfesToSeccion(s)"></i></button>
                             <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(s)"><i class="fa fa-times"></i></button>
-                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add estudiantes" ><i class="fa fa-user-plus" ng-click="openAlumnoToSeccion(s)"></i></button>
-                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add profesor" ><i class="fa fa-mortar-board" ng-click="openProfesToSeccion(s)"></i></button>
                         </div>
                     </td>   
                 </tr>
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label class="col-xs-12" for="val-select2">Grado<span class="text-danger">*</span></label>
                     <div class="col-md-7">
-                        <select id="" class="form-control" ng-model="newSec.selected_grado" required>
+                        <select class="form-control" ng-model="newSec.selected_grado" required>
                             <option ng-repeat="grado in gradoList" value="{{grado.idGrado}}">{{grado.nombre}}</option>
                         </select>
                     </div>
