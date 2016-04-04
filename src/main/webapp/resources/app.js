@@ -7,6 +7,7 @@ angular.module('myApp', [
   'ui.router',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
+  'angularFileUpload',
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',

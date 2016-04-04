@@ -21,7 +21,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer>{
 	List<Usuario>findByisActiveUsFalse();
 	List<Usuario>findByInstitucionsIn(Institucion ints);
 	Usuario findByEmail(String email);
-	List<Usuario>findByCedula(String cedula);
+	Usuario findByCedula(String cedula);
 	
     @Query("SELECT u.idUsuario FROM Usuario u where u.email = :_email") 
     Integer getUserIdbyEmail(@Param("_email") String mail); 

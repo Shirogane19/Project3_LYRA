@@ -282,7 +282,8 @@ public class UsuarioPOJO {
 						 "apellido: " + getApellido() + sep +
 						 "email: " + getEmail()  +	 sep +
 						 "telefono: " + getTelefono() +  sep +
-						 "celular: " + getMovil() + "]";
+						 "celular: " + getMovil() + sep +
+						 "cedula: " + getCedula() + sep + "]";
 		
 	}
 
