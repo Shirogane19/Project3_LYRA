@@ -2,7 +2,7 @@
 
 angular.module('myApp.institucionView', [])
 
-.controller('institucionViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('institucionViewCtrl', ['$scope','$http','$timeout','$state','$localStorage', function($scope,$http,$timeout,$state,$localStorage) {
 
 	$scope.onPoint = true;// Visibilidad del formulario de la institucion
 	$scope.respInstitucion = {"nombre":$scope.user.nombreInstitucion, "logo":$scope.user.logoInstitucion};// Guarda los valores en una variable temporal
@@ -14,7 +14,7 @@ angular.module('myApp.institucionView', [])
 	      $scope.onPoint = true;
 	      $scope.returnInstitutionData();
 	    }
-	    console.log('Formulario login? ', $scope.onPoint);
+	    //console.log('Formulario login? ', $scope.onPoint);
 	}
 
 	$scope.returnInstitutionData = function(){// Recupera los valores anteriores de la institucion
@@ -42,16 +42,18 @@ angular.module('myApp.institucionView', [])
 			}
 	    }
 
-	    console.log($scope.requestObject);
+	    //console.log($scope.requestObject);
 
 	    $http.post('rest/protected/institucion/save',$scope.requestObject).success(function(response) {
-	        console.log(response);
+	        //console.log(response);
 	        $scope.respInstitucion = {"nombre":$scope.user.nombreInstitucion, "logo":$scope.user.logoInstitucion};
 	        $scope.openForm();
 	    })
 	    .catch(function (error) {
-	      console.error('exception', error);
-	    });
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 
 	}// End saveInstitucion
 

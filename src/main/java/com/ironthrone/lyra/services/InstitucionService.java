@@ -21,10 +21,12 @@ import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.GradoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.MateriaPOJO;
+import com.ironthrone.lyra.pojo.RolPOJO;
 import com.ironthrone.lyra.pojo.SeccionPOJO;
 import com.ironthrone.lyra.pojo.SubscripcionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
+import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 /**
  * Clase de tipo service, manejo de las instituciones y interacción con los repositorios correspondientes 
@@ -35,6 +37,8 @@ import com.ironthrone.lyra.repositories.InstitucionRepository;
 public class InstitucionService implements InstitucionServiceInterface{
 
 	@Autowired private InstitucionRepository institucionRepository;
+	@Autowired private UsuarioRepository usersRepository;
+			   private final int encargado = 3; 
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -326,9 +330,15 @@ public class InstitucionService implements InstitucionServiceInterface{
 			BeanUtils.copyProperties(u, user);	
 			user.setPassword("secret");
 			user.setActiveUs(u.getIsActiveUs());
-			user.setRols(null);
+			user.setRols(generateRolDto(u));
 			user.setIdTareas(null);
 			user.setInstitucion(null);
+			user.setMaterias(null);
+			user.setSeccions(null);
+			user.setAlumnos(null);
+			user.setPeriodo(null);
+			user.setListaInstituciones(null);
+			user.setTareas(null);
 			
 			users.add(user);
 		});	
@@ -377,6 +387,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			alumno.setSeccion(generateSeccionDto(a) );
 			alumno.setUsuarios(generateUserDto(a));
 			alumno.setActiveAl(a.getIsActiveAl());
+			alumno.setRegistrosMedicos(null);
 			alumnos.add(alumno);
 		});	
 
@@ -400,6 +411,10 @@ public class InstitucionService implements InstitucionServiceInterface{
 			user.setRols(null);
 			user.setTareas(null);
 			user.setInstitucion(null);
+			user.setListaInstituciones(null);
+			user.setMaterias(null);
+			user.setAlumnos(null);
+			user.setSeccions(null);
 			
 			users.add(user);
 		});	
@@ -496,6 +511,76 @@ public class InstitucionService implements InstitucionServiceInterface{
 		List<MateriaPOJO> uiMaterias = new ArrayList<MateriaPOJO>();
 		
 		i.getMaterias().stream().forEach(m -> {
+			MateriaPOJO dto = new MateriaPOJO();
+			BeanUtils.copyProperties(m,dto);
+			dto.setActiveMat(m.getIsActiveMat());
+			dto.setInstitucion(null);
+			uiMaterias.add(dto);
+		});	
+		
+		return uiMaterias;
+	};
+	
+	/**
+	 * Genera una lista de roles POJO.
+	 * @param user al que se le genera la lista.
+	 * @return lista de roles pojo
+	 */
+	public List<RolPOJO> generateRolDto(Usuario user){
+		
+		List<RolPOJO> roles = new ArrayList<RolPOJO>();	
+		
+		user.getRols().stream().forEach(r -> {
+			RolPOJO rol = new RolPOJO();
+			BeanUtils.copyProperties(r, rol);			
+			rol.setTareas(null);
+			rol.setUsuarios(null);
+			rol.setActiveRol(r.getIsActiveRol());
+			roles.add(rol);
+		});	
+		
+		return roles;	
+	}
+	
+	/**
+	 * Retorna una institucion de tipo POJO con los usuarios con rol prefesor
+	 * @param idInstitucion
+	 * @return InstitucionPOJO
+	 */
+	@Override
+	@Transactional
+	public InstitucionPOJO getProfesoresDelInstituto(int idInstitucion){
+		
+		InstitucionPOJO institucion =  getUsuariosDeInstitucionById(idInstitucion);
+		
+		List<UsuarioPOJO> up = new ArrayList<UsuarioPOJO>();
+		
+		institucion.getUsuarios().stream().forEach( u -> {
+			u.getRols().stream().forEach( r -> {
+				if(r.getIdRol() == encargado){
+					u.setMaterias(generateMateriasDelProfeDtos(u));
+					up.add(u);
+				}
+			});
+		});
+		
+		institucion.setUsuarios(up);
+		
+		return institucion;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param materias tipo ejbs
+	 * @return lista de materias POJO.
+	 */
+	private List<MateriaPOJO> generateMateriasDelProfeDtos(UsuarioPOJO up){
+		
+		Usuario u = usersRepository.findOne(up.getIdUsuario());
+		
+		List<MateriaPOJO> uiMaterias = new ArrayList<MateriaPOJO>();
+		
+		u.getMaterias().stream().forEach(m -> {
 			MateriaPOJO dto = new MateriaPOJO();
 			BeanUtils.copyProperties(m,dto);
 			dto.setActiveMat(m.getIsActiveMat());

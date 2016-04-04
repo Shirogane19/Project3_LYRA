@@ -31,6 +31,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
   $scope.showLogin = true;
   $scope.idMaster = 1;
   $scope.masterName;
+  $scope.cuentaBloqueada = false; // Visibilidad del texto cuando la cuenta esta bloqueada
 
   angular.element(document).ready(function () {
          OneUI.init('uiForms');
@@ -61,9 +62,16 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
           $http.post('rest/protected/institucion/getInstituto',loginResponse.idInstitucions[loginResponse.idInstitucions.length - 1]).success(function(response) {
 
-            console.log("Response", loginResponse);
+            //console.log("Response", loginResponse);
+            //console.log("Response", response);
 
-            $scope.user = { "userId":loginResponse.userId,
+            if(response.institucion.hasSuscripcion == false){
+
+              $scope.cuentaBloqueada = true;
+
+            }else{
+
+              $scope.user = { "userId":loginResponse.userId,
                             "firstName":loginResponse.firstName,
                             "lastName":loginResponse.lastName, 
                             "idInstitucion": response.institucion.idInstitucion,
@@ -72,11 +80,13 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
                             "roles": loginResponse.idRoles};
 
 
-            $scope.save($scope.user);
+              $scope.save($scope.user);
 
-            var path = "/lyra/app#/home";
-            window.location.href = path;
-         //   $state.go('home');
+              var path = "/lyra/app#/home";
+              window.location.href = path;
+
+            }
+
           })
 
         }else{
@@ -87,7 +97,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
     })//End Http check user
     .catch(function (error) {
-      console.error('exception', error);
+      //console.error('exception', error);
       $scope.disabledAll();
       $scope.topMsj = error.status;
       $scope.bodyMsj = error.statusText;
@@ -96,7 +106,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
   };
 
   $scope.save = function(u) {
-    console.log(u);
+    //console.log(u);
     $localStorage.user = u;
   };
 
@@ -137,7 +147,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     }else{
       $scope.onPoint = true;
     }
-    console.log('Formulario login? ', $scope.onPoint);
+    //console.log('Formulario login? ', $scope.onPoint);
   }// End showLoginForm
 
   $scope.showUserForm = function(){//Funcion de la visibilidad del formulario del usuario
@@ -151,7 +161,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
       $scope.startedS = false;
       $scope.btnSubscribir = true;
     }
-    console.log('Formulario usuario? ', $scope.onPointUserForm);
+    //console.log('Formulario usuario? ', $scope.onPointUserForm);
   }// End showUserForm
 
   $scope.showSubscriptionForm = function(){//Funcion de la visibilidad del formulario de subscripción
@@ -165,7 +175,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
       $scope.startedR = false;
       $scope.btnRegistrar = true;
     }
-    console.log('Formulario Subsripción? ', $scope.onPointerSubscriptionForm);
+    //console.log('Formulario Subsripción? ', $scope.onPointerSubscriptionForm);
   }// End showSubscriptionForm
 
   $scope.disabledAll = function(){// Desabilita todos los botones, formularios y vistas
@@ -185,7 +195,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
 
-      console.log(loginResponse);
+      //console.log(loginResponse);
 
       if(loginResponse.code == 401){
         $scope.invalidLoginS = true;
@@ -210,7 +220,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
         $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 
-            console.log(response);
+            //console.log(response);
             $scope.subscriptor.idSubscriptor = response.usuario.idUsuario;
             $scope.subscriptor.apellido = response.usuario.apellido;
             $scope.subscriptor.cedula = response.usuario.cedula;
@@ -226,7 +236,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
       }
     })
     .catch(function (error) {
-      console.error('exception', error);
+      //console.error('exception', error);
       if(error.status == 500){
         $scope.invalidLoginS = true;
       }else{
@@ -241,7 +251,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
   $scope.saveSubscripcion = function(){// Guarda la subscripción
 
-    console.log($scope.subscriptor.idSubscriptor);
+    //console.log($scope.subscriptor.idSubscriptor);
     $scope.requestObjectSubscripcion = {
 
       "pageNumber": 0,
@@ -268,17 +278,17 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
        }
     }// End saveSubscripcion
 
-    console.log($scope.requestObjectSubscripcion);
+    //console.log($scope.requestObjectSubscripcion);
 
     $http.post('rest/protected/subscripcion/save',$scope.requestObjectSubscripcion).success(function(response2) {
-      console.log(response2);
+      //console.log(response2);
       $scope.disabledAll();
       $scope.topMsj = "En buena hora!!";
       $scope.bodyMsj = "La institución ha sido subscrita";
       $scope.onPointMsj = true;
     })
     .catch(function (error) {
-      console.error('exception', error);
+      //console.error('exception', error);
       $scope.disabledAll();
       $scope.topMsj = error.status;
       $scope.bodyMsj = error.statusText;
@@ -316,14 +326,14 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     }
 
     $http.post('rest/protected/users/saveUser',$scope.requestObjectUsuario).success(function(response) {
-      console.log(response);
+      //console.log(response);
       $scope.disabledAll();
       $scope.topMsj = "En buena hora!!";
       $scope.bodyMsj = "Gracias por registrase en Lyra";
       $scope.onPointMsj = true;
     })
     .catch(function (error) {
-      console.error('exception', error);
+      //console.error('exception', error);
       $scope.disabledAll();
       $scope.topMsj = error.status;
       $scope.bodyMsj = error.statusText;
@@ -367,7 +377,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     })
 
     .catch(function (error) {
-          console.error('exception', error);
+          //console.error('exception', error);
           $scope.disabledAll();
           $scope.topMsj = error.status;
           $scope.bodyMsj = error.statusText;
@@ -379,8 +389,8 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
   $scope.showRecoverForm = function(u) {
     if($scope.showLogin){
-          $scope.btnRegistrar = true;
-         $scope.btnSubscribir = true;
+        $scope.btnRegistrar = true;
+        $scope.btnSubscribir = true;
         $scope.showLogin = false;
         $scope.onPoint = false;
     }
@@ -392,7 +402,7 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
 
   $scope.save = function(u) {
-    console.log(u);
+    //console.log(u);
     $localStorage.user = u;
   };
 
@@ -402,30 +412,41 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
   $scope.onPointPaMaster = false; // Visibilidad de la ventana de selección de institución del master
   $scope.master // Guarda el objeto usuario
+  $scope.cuentaDelMasterBloqueada = false // Visibilidad del texto cuando la cuenta del master esta bloqueada
 
   $scope.showInstitutions = function(obj){// Visibilidad y datos de la ventana de selección de institución del master 
     $scope.instituciones = obj.instituciones;
     $scope.master = obj;
     $scope.onPointPaMaster = true;
     $scope.disabledAll();
-    console.log($scope.instituciones);
+    //console.log($scope.instituciones);
   }
 
   $scope.ingresarInstituto = function(i){// Ingresa al instituto selecionado
 
-    $scope.user = { "userId":$scope.master.userId,
-                    "firstName":$scope.master.firstName,
-                    "lastName":$scope.master.lastName, 
-                    "idInstitucion": i.idInstitucion,
-                    "nombreInstitucion":i.nombreInstitucion,
-                    "logoInstitucion":i.logoInstitucion,
-                    "roles": $scope.master.idRoles};
+    //console.log(i.hasSuscripcion);
 
-    $scope.save($scope.user);
+    if(i.hasSuscripcion == false){
+              
+        $scope.cuentaDelMasterBloqueada = true;
 
-    var path = "/lyra/app#/home";
-    window.location.href = path;
+    }else{
+
+      $scope.user = { "userId":$scope.master.userId,
+                      "firstName":$scope.master.firstName,
+                      "lastName":$scope.master.lastName, 
+                      "idInstitucion": i.idInstitucion,
+                      "nombreInstitucion":i.nombreInstitucion,
+                      "logoInstitucion":i.logoInstitucion,
+                      "roles": $scope.master.idRoles};
+
+      $scope.save($scope.user);
+
+      var path = "/lyra/app#/home";
+      window.location.href = path;
   
+    }
+
   }
         
 }]);

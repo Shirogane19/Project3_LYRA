@@ -30,9 +30,9 @@ angular.module('myApp.categoriaView', ['ngRoute'])
     $scope.isCreating = true;
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","categorias": {}};
 		$http.post('rest/protected/categorias/getAll',$scope.requestObject).success(function(response) {
-			console.log("response",response)
+			//console.log("response",response)
 			$scope.categoriaList = response.categorias;
-			console.log("$scope.categoriaList: ",$scope.categoriaList[0])
+			//console.log("$scope.categoriaList: ",$scope.categoriaList[0])
 	
 		});
 

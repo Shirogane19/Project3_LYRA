@@ -67,6 +67,7 @@ public class SeccionController {
 		secs.setSeccion(seccionService.getSeccionById(idSeccion));
 		return secs;		
 	}
+	
 	/**
 	 * Guarda los datos de una seccion, remplaza el Create y Update en el CRUD.
 	 * @param ur
@@ -84,5 +85,22 @@ public class SeccionController {
 		return sec;
 		
 	}
+	
+	/**
+	 * Retorna la seccion con sus profesores
+	 * @param Integer
+	 * @return SeccionResponse
+	 */
+	@RequestMapping(value ="/getProfesDeSeccion", method = RequestMethod.POST)
+	public SeccionResponse getProfesDeLaSeccion(@RequestBody int idSeccion){	
+			
+		SeccionResponse secs = new SeccionResponse();
+		secs.setCode(200);
+		secs.setCodeMessage("Seccion fetch success");
+		secs.setSeccion(seccionService.getProfes(idSeccion));
+		return secs;		
+	}
+	
+	
 
 }

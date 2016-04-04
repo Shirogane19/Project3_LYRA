@@ -181,7 +181,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
 	    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
 	    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
-	    	oldAlumnos.remove(a);
+	    	//oldAlumnos.remove(a);
 	    	oldAlumnos.add(a);
 	    	usuario.setAlumnos(oldAlumnos);
 	    	usersRepository.save(usuario);

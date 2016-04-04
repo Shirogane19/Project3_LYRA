@@ -57,6 +57,9 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setTareas(generateTareaDto(u));
 			dto.setListaInstituciones(generateInstitutionDtos(u));
 			dto.setPeriodo(null);
+			dto.setMaterias(null);
+			dto.setSeccions(null);
+			dto.setAlumnos(null);
 			uiUsers.add(dto);
 		});	
 		

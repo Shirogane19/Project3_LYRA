@@ -13,18 +13,23 @@ import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Grado;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Seccion;
+import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.GradoPOJO;
+import com.ironthrone.lyra.pojo.MateriaPOJO;
 import com.ironthrone.lyra.pojo.SeccionPOJO;
+import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.AlumnoRepository;
 import com.ironthrone.lyra.repositories.GradoRepository;
 import com.ironthrone.lyra.repositories.SeccionRepository;
+import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 @Service
 public class SeccionService implements SeccionServiceInterface{
 	@Autowired private SeccionRepository seccionRepository;
 	@Autowired private GradoRepository gradeRepository;
 	@Autowired private AlumnoRepository alumnoRepository;
+	@Autowired private UsuarioRepository usuarioRepository;
 	
 	/**
 	 * Genera POJOs a partir de una lista EJB.
@@ -51,6 +56,7 @@ public class SeccionService implements SeccionServiceInterface{
 	 * @return List<SeccionPOJO> 
 	 */
 	@Override
+	@Transactional
 	public List<SeccionPOJO> getAll(SeccionRequest ur) {
 		List<Seccion> secciones = seccionRepository.findAll();
 		
@@ -62,6 +68,7 @@ public class SeccionService implements SeccionServiceInterface{
 	 * @return List<SeccionPOJO> 
 	 */
 	@Override
+	@Transactional
 	public List<SeccionPOJO> getActiveSecciones() {
 		List<Seccion> secciones =  seccionRepository.findByisActiveSecTrue();
 		
@@ -74,6 +81,7 @@ public class SeccionService implements SeccionServiceInterface{
 	 * @return List<SeccionPOJO> 
 	 */
 	@Override
+	@Transactional
 	public List<SeccionPOJO> getInactiveSecciones() {
 		List<Seccion> secciones =  seccionRepository.findByisActiveSecFalse();
 		
@@ -86,6 +94,7 @@ public class SeccionService implements SeccionServiceInterface{
 	 * @return SeccionPOJO
 	 */
 	@Override
+	@Transactional
 	public SeccionPOJO getSeccionById(int idSeccion) {
 		Seccion seccion =  seccionRepository.findOne(idSeccion);
 		SeccionPOJO dto = new SeccionPOJO();
@@ -105,6 +114,7 @@ public class SeccionService implements SeccionServiceInterface{
 	 * @return Seccion EBJ
 	 */
 	@Override
+	@Transactional
 	public Seccion findById(int idSeccion) {
 		return seccionRepository.findOne(idSeccion);
 	}
@@ -115,10 +125,11 @@ public class SeccionService implements SeccionServiceInterface{
 	 * @return Boolean
 	 */
 	@Override
+	@Transactional
 	public Boolean saveSeccion(SeccionRequest ur) {
 		Seccion newSeccion = new Seccion();
 		Seccion nseccion = null;
-
+		
 		BeanUtils.copyProperties(ur.getSeccion(), newSeccion);	
 		newSeccion.setIsActiveSec(ur.getSeccion().isActiveSec());
 		
@@ -139,6 +150,10 @@ public class SeccionService implements SeccionServiceInterface{
 			}
 			
 			oldSec.setIsActiveSec(newSeccion.getIsActiveSec());
+			
+			if(ur.getSeccion().getProfesorSeccions() != null){
+				oldSec.setUsuarios(getUsuario(ur.getSeccion().getProfesorSeccions(), oldSec));
+			}
 			
 			if(ur.getSeccion().getAlumnos() != null){
 				desasignarAlumnosSecciones(ur);
@@ -211,6 +226,87 @@ public class SeccionService implements SeccionServiceInterface{
 		dto.setSeccions(null);
 		
 		return dto;
+	}
+	
+	/**
+	 * Retorna un objeto SeccionPOJO con sus profesores
+	 * @param Integer
+	 * @return SeccionPOJO
+	 */
+	@Override
+	@Transactional
+	public SeccionPOJO getProfes(int idSeccion) {
+		Seccion seccion =  seccionRepository.findOne(idSeccion);
+		SeccionPOJO dto = new SeccionPOJO();
+		
+		BeanUtils.copyProperties(seccion,dto);
+		dto.setActiveSec(seccion.getIsActiveSec());
+		dto.setAlumnos(generateAlumnoDto(seccion));
+		dto.setGrado(generateGradoDto(seccion));
+		dto.setProfesorSeccions(generateUserDto(seccion.getUsuarios()));
+	
+		return dto;
+	}
+	
+	/**
+	 * Retorna una lista de Usuarios POJO de una institución
+	 * @param Institucion recibe un objeto Institución
+	 * @return List<UsuarioPOJO> Lista de usuario de tipo POJO
+	 */
+	private List<UsuarioPOJO> generateUserDto(List<Usuario> usp) {
+		
+		List<UsuarioPOJO> users = new ArrayList<UsuarioPOJO>();
+		
+		usp.stream().forEach(u -> {
+			UsuarioPOJO user = new UsuarioPOJO();
+			BeanUtils.copyProperties(u, user);	
+			user.setPassword("secret");
+			user.setActiveUs(u.getIsActiveUs());
+			user.setRols(null);
+			user.setIdTareas(null);
+			user.setInstitucion(null);
+			user.setMaterias(generateMateriasDelProfeDtos(u));
+			user.setSeccions(null);
+			user.setAlumnos(null);
+			user.setPeriodo(null);
+			user.setListaInstituciones(null);
+			user.setTareas(null);
+			
+			users.add(user);
+		});	
+
+		return users;
+	};
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param materias tipo ejbs
+	 * @return lista de materias POJO.
+	 */
+	private List<MateriaPOJO> generateMateriasDelProfeDtos(Usuario u){
+	
+		List<MateriaPOJO> uiMaterias = new ArrayList<MateriaPOJO>();
+		
+		u.getMaterias().stream().forEach(m -> {
+			MateriaPOJO dto = new MateriaPOJO();
+			BeanUtils.copyProperties(m,dto);
+			dto.setActiveMat(m.getIsActiveMat());
+			dto.setInstitucion(null);
+			uiMaterias.add(dto);
+		});	
+		
+		return uiMaterias;
+	};
+	
+	private List<Usuario> getUsuario(List<UsuarioPOJO> profesorSeccions, Seccion s) {
+		List<Usuario> usersList = new ArrayList<Usuario>();
+
+		profesorSeccions.stream().forEach( p -> {
+			Usuario u = usuarioRepository.findOne(p.getIdUsuario());
+			usersList.add(u);
+		});
+		
+		return usersList;
 	}
 	
 

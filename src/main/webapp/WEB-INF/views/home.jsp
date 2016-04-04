@@ -255,6 +255,7 @@
         <script src="resources/tareaView/tareaView.js"></script>
         <script src="resources/categoriaView/categoriaView.js"></script>
         <script src="resources/regMedicoView/regMedicoView.js"></script>
+        <script src="resources/errorView/errorView.js"></script>
 
 
         <script type="text/javascript">

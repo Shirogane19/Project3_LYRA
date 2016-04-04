@@ -67,7 +67,7 @@ angular.module('myApp.registroView', [])
 	    $http.post('rest/protected/historialMedico/getHistorialMedico',$scope.requestObject).success(function(response) {
 	 //    console.log("response",response)
 	      $scope.registros = response.registros;
-	      console.log("registro 1", $scope.registros[0]);
+	      //console.log("registro 1", $scope.registros[0]);
 
 	    });
 
@@ -106,7 +106,7 @@ angular.module('myApp.registroView', [])
 		})
 
 		 .catch(function (error) {
-          console.error('exception', error);
+          //console.error('exception', error);
 		  $scope.checkResponse(error);	
         });  
 	}
@@ -160,7 +160,7 @@ angular.module('myApp.registroView', [])
     };
 
   	$scope.toString = function (){
-			console.log($state.params.alumnoInfo);
+			//console.log($state.params.alumnoInfo);
 		}
 
 

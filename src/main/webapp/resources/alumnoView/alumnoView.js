@@ -3,7 +3,7 @@
 angular.module('myApp.alumnoView', [])
 
 
-.controller('alumnoViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('alumnoViewCtrl', ['$scope','$http','$timeout','$state','$localStorage',function($scope,$http,$timeout,$state,$localStorage) {
   
   $scope.alumnos = []; // Coleccion de alumnos
   $scope.newAlumno = [];
@@ -42,7 +42,7 @@ angular.module('myApp.alumnoView', [])
 
   $scope.showForm = function(){ // Muestrael formulario de la lista de alunmos
     $scope.onPoint = true;
-    console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+    //console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
   }
 
   $scope.showList = function(){// Recarga la pagina
@@ -67,7 +67,7 @@ angular.module('myApp.alumnoView', [])
     $scope.newAlumno.genero = a.genero; 
     $scope.newAlumno.activeAl = a.activeAl;
     $scope.encargados = a.usuarios;
-    console.log($scope.newAlumno);
+    //console.log($scope.newAlumno);
     $scope.showForm();
     $scope.isCreating = false;
   }
@@ -82,7 +82,7 @@ angular.module('myApp.alumnoView', [])
       $scope.newAlumno.activeAl = true;
     }
 
-    console.log($scope.newAlumno.activeAl);
+    //console.log($scope.newAlumno.activeAl);
     $scope.encargados = a.usuarios;
     $scope.isCreating = false;
     $scope.saveAlumno();
@@ -100,7 +100,7 @@ angular.module('myApp.alumnoView', [])
       $scope.cedulaInput = false;
       $scope.onPointFindUser = true;
     }
-    console.log('Find User? ', $scope.onPointFindUser);
+    //console.log('Find User? ', $scope.onPointFindUser);
   }
 
   $scope.changeShowUserVisibility = function(){// Visibilidad del formulario con el encargado
@@ -110,16 +110,21 @@ angular.module('myApp.alumnoView', [])
     }else{
       $scope.onPointShowUser = true;
     }
-    console.log('Find User? ', $scope.onPointShowUser);
+    //console.log('Find User? ', $scope.onPointShowUser);
   }
 
   $scope.init = function(){// Obtiene los alumnos del instituto
-    console.log($scope.user.idInstitucion);
+    //console.log($scope.user.idInstitucion);
     $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","alumno": {}};
     $http.post('rest/protected/institucion/getAlumnosDelInstituto',$scope.user.idInstitucion).success(function(response) {
-      console.log("response",response)
+      //console.log("response",response)
       $scope.alumnos = response.institucion.alumnos;
-    });
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
   }
 
@@ -156,12 +161,17 @@ angular.module('myApp.alumnoView', [])
          }
       }
 
-      console.log($scope.encargados);
+      //console.log($scope.encargados);
 
     $http.post('rest/protected/alumno/save',$scope.requestObject).success(function(response) {
 
       $state.reload();
 
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
     }); 
   }
 
@@ -184,7 +194,7 @@ angular.module('myApp.alumnoView', [])
 
     $http.post('rest/protected/users/getUserByCedula',$scope.requestObject).success(function(response) {
 
-      console.log(response);
+      //console.log(response);
 
       var rol = false;
       var institucion = false;
@@ -220,7 +230,12 @@ angular.module('myApp.alumnoView', [])
           $scope.encargado;
         }
 
-    }); 
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    });  
 
   }//
 
@@ -231,8 +246,8 @@ angular.module('myApp.alumnoView', [])
     }else{
 
       for (var i in $scope.encargados){
-        console.log($scope.encargados[i].idUsuario);
-        console.log($scope.encargado.idUsuario);
+        //console.log($scope.encargados[i].idUsuario);
+        //console.log($scope.encargado.idUsuario);
         if ($scope.encargados[i].idUsuario === $scope.encargado.idUsuario) {
           existe = true;
           break;
@@ -244,7 +259,7 @@ angular.module('myApp.alumnoView', [])
       }
 
     }//
-    console.log($scope.encargados);
+    //console.log($scope.encargados);
     $scope.onPointFindUser = false;
     $scope.onPointShowUser = false;
   }//
@@ -252,7 +267,7 @@ angular.module('myApp.alumnoView', [])
   $scope.selectEncargado;// Guarda el indice del encargado del select/option
 
   $scope.targetEncargado = function(e){//Obtiene el indice del encargado del select/option
-    console.log(e);
+    //console.log(e);
     $scope.selectEncargado = $scope.encargados.indexOf(e);
   }
 

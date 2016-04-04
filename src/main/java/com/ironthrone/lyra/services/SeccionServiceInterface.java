@@ -13,4 +13,5 @@ public interface SeccionServiceInterface {
 	SeccionPOJO getSeccionById(int idSeccion);
 	Seccion findById(int idSeccion);
 	Boolean saveSeccion(SeccionRequest ur);
+	SeccionPOJO getProfes(int idSeccion);
 }

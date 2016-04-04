@@ -161,4 +161,19 @@ public class InstitucionControllers {
 		institucionResponse.setInstitucion(ISI.getSubscripciones(idInstitucion));
 		return institucionResponse;		
 	}
+	
+	/**
+	 * Retorna los profesores de una institución
+	 * @param Integer
+	 * @return InstitucionResponse
+	 */
+	@RequestMapping(value ="/getProfesoresDelInstituto", method = RequestMethod.POST)
+	public InstitucionResponse getProfesoresDeInstitucionById(@RequestBody int idInstitucion){	
+			
+		InstitucionResponse institucionResponse = new InstitucionResponse();
+		institucionResponse.setCode(200);
+		institucionResponse.setCodeMessage("users fetch success");
+		institucionResponse.setInstitucion(ISI.getProfesoresDelInstituto(idInstitucion));
+		return institucionResponse;		
+	}
 }

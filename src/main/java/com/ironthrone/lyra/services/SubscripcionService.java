@@ -285,7 +285,7 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	 */
 	@Override
 	@Transactional
-	@Scheduled(fixedDelay = 86400000)
+	@Scheduled(fixedDelay = 100000)
 	public void revisarVencimientos(){
 		
 		System.out.println("Revisando subscripciones " + getCurrentDate());
@@ -341,6 +341,8 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 		
 		Subscripcion oldSubscripcion = findById(s.getIdSubscripcion());
 		oldSubscripcion.setIsActiveSub(false);
+		Institucion instituto = oldSubscripcion.getInstitucion();
+		instituto.setHasSuscripcion(false);
 		
 		subscripcionRepository.save(oldSubscripcion);	
 	}
@@ -362,6 +364,7 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 		Date d = plusOneYearFromOldDate(oldSubs.getFechaFin());
 		
 		Institucion institucion = institucionRepository.findOne(subscripcionRequest.getSubscripcion().getInstitucion().getIdInstitucion());
+		institucion.setHasSuscripcion(true);
 		
 		subsc.setFechaInicio(getCurrentDate());
 		subsc.setFechaFin(d);

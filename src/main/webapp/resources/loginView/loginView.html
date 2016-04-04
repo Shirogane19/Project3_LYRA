@@ -56,6 +56,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="font-s13 text-right push-5-t text-center" ng-show="cuentaBloqueada">
+                                <p class="text-muted push-15-t text-danger">La cuenta de esta institución se encuentra bloqueada</p>
+                            </div>
+                        </div>
                         <div class="form-group push-30-t">
                             <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
                                 <button class="btn btn-sm btn-block btn-primary" type="submit" ng-click="checkLogin()">Iniciar sesión</button>
@@ -337,7 +342,11 @@
                                         <div class="form-group">
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <div class="form-material">
-                                                    <label><strong>URL logo de la institución: </strong>{{institucion.urlLogo}}</label> 
+                                                    <label><strong>Logo de la institución: &nbsp</strong>
+                                                        <a ng-dblclick="ingresarInstituto(i)">
+                                                            <img class="img-avatar" ng-src="{{institucion.urlLogo == '' && 'resources/assets/img/imagenes/big-default_user-logo.png' || institucion.urlLogo == null && 'resources/assets/img/imagenes/big-default_user-logo.png' || institucion.urlLogo}}" alt="Imagen no encontrada" onError="this.src='resources/assets/img/imagenes/No-image-found.jpg '">   {{i.nombreInstitucion}}
+                                                        </a>
+                                                    </label>         
                                                 </div>
                                             </div>
                                         </div>
@@ -483,6 +492,12 @@
                         <i class="fa fa-2x fa-circle-o-notch text-primary"></i>
                         <p class="text-muted push-15-t">Saludos!! Master {{masterName}}</p>
                         <p class="text-muted push-15-t">Selecione una institución al que deseas ingresar</p>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="font-s13 text-right push-5-t text-center" ng-show="cuentaDelMasterBloqueada">
+                            <p class="text-muted push-15-t text-danger">La cuenta de esta institución se encuentra bloqueada</p>
+                        </div>
                     </div>
                     <!-- END Login Title -->
                     <!-- Content Intituciones de Master -->

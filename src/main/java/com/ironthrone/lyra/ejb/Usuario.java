@@ -274,17 +274,8 @@ public class Usuario implements Serializable {
 		this.periodos = periodos;
 	}
 
-	//bi-directional many-to-many association to Seccion
-	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinTable(
-		name="profesor_seccion"
-		, joinColumns={
-			@JoinColumn(name="Usuario_idUsuario")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Seccion_idSeccion")
-			}
-		)
+	//bi-directional many-to-many association to Usuario
+		@ManyToMany(mappedBy="usuarios")
 	public List<Seccion> getSeccions() {
 		return this.seccions;
 	}

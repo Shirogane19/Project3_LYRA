@@ -28,7 +28,6 @@ angular.module('myApp.renovacionView', ['ngRoute','ngStorage'])
 
   $scope.checkLogin = function(){
 
-    console.log("checkuser");
     $http.post('rest/login/checkuser/',$scope.user).success(function (loginResponse) {
       
       var isMaster = false;// Bandera indicando si el usuario ingresado tiene rol de master
@@ -51,7 +50,7 @@ angular.module('myApp.renovacionView', ['ngRoute','ngStorage'])
 
     })//End Http check user
     .catch(function (error) {
-      console.error('exception', error);
+      //console.error('exception', error);
       
       $scope.closeMSJ();
       $scope.onPoint = false;
@@ -115,8 +114,8 @@ angular.module('myApp.renovacionView', ['ngRoute','ngStorage'])
 
   $scope.ingresarInstituto = function(i){// Ingresa al instituto selecionado
     $scope.institucionARenovar = i;
-    console.log($scope.institucionARenovar);
-    console.log($scope.master);
+    //console.log($scope.institucionARenovar);
+    //console.log($scope.master);
     $scope.onPointPaMaster = false;
     $scope.onPointRenovar = true;
 
@@ -139,15 +138,24 @@ angular.module('myApp.renovacionView', ['ngRoute','ngStorage'])
                        "institucion": {"idInstitucion":$scope.institucionARenovar.idInstitucion}}
     }
 
-    console.log($scope.requestObject);
+    //console.log($scope.requestObject);
 
     $http.post('rest/protected/subscripcion/renovarSubscripcion',$scope.requestObject).success(function(response){
-      console.log(response);
+      //console.log(response);
       $scope.onPointPaMaster = false;
       $scope.onPointRenovar = false;
       $scope.topMsj = "En buena hora!!";
       $scope.bodyMsj = "La cuenta ha sido renovada y vence el: " + response.subscripcion.fechaFinString;
       $scope.onPointMsj = true;
+    })
+    .catch(function (error) {
+      //console.error('exception', error);
+      
+      $scope.closeMSJ();
+      $scope.onPoint = false;
+      $scope.topMsj = error.status;
+      $scope.bodyMsj = error.statusText;
+      $scope.onPointError = true;
     });   
 
     // $scope.topMsj = "En buena hora!!";

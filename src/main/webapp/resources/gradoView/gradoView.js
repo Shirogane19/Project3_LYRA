@@ -23,7 +23,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
 		$scope.isCreating = true;
 		//$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","grado": {}};
 		$http.post('rest/protected/institucion/getGradosDelInstituto',$scope.user.idInstitucion).success(function(response) {
-			console.log("response",response)
+			//console.log("response",response)
 			$scope.gradosList = response.institucion.grados;
 		});
 	}
@@ -38,7 +38,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
 		"string","grado":{"idGrado": $scope.newGrado.idGrado,"nombre": $scope.newGrado.nombre, 'descripcion':  $scope.newGrado.descripcion, 
 		"isActiveGr": $scope.newGrado.isActiveGr, "institucion": {"idInstitucion":$scope.user.idInstitucion}}};
 
-		console.log($scope.requestObject.usuario);
+		//console.log($scope.requestObject.usuario);
 
 		$http.post('rest/protected/grado/saveGrade',$scope.requestObject).success(function(response) {
 				

@@ -16,7 +16,8 @@ angular.module('myApp', [
   'myApp.seccionView',
   'myApp.tareaView',
   'myApp.categoriaView',
-  'myApp.registroView'
+  'myApp.registroView',
+  'myApp.errorView'
   //'myApp.usuarios'
 ])
 
@@ -27,7 +28,7 @@ angular.module('myApp', [
   encargado: 4
 })
 
-.controller("MainCtrl",['$scope','$http','$localStorage','USER_ROLES',function($scope,$http,$localStorage,USER_ROLES) {
+.controller("MainCtrl",['$scope','$http','$localStorage','USER_ROLES','$state',function($scope,$http,$localStorage,USER_ROLES,$state) {
 
   $scope.title =  "";
   $scope.user =  {}
@@ -50,7 +51,7 @@ angular.module('myApp', [
     $scope.user = $localStorage.user;
     $scope.roles = $scope.user.roles;
 
-    console.log($scope.user);
+    //console.log($scope.user);
   };
 
   $scope.logoff= function() {
@@ -60,7 +61,7 @@ angular.module('myApp', [
 
   $scope.enableNotificaciones = function(){
 
-    console.log("nott" , $localStorage.user.userId);
+    //console.log("nott" , $localStorage.user.userId);
     var num = 0;
 
 
@@ -68,7 +69,7 @@ angular.module('myApp', [
     "string","usuario":{"idUsuario": $localStorage.user.userId}};
 
     $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
-      console.log("responseNoti",response)
+      //console.log("responseNoti",response)
       
       //document.getElementById("noti").textContent= response.usuario.tareas.length;
 
@@ -80,7 +81,12 @@ angular.module('myApp', [
 
       document.getElementById("noti").textContent= num;
       
-    });
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
   }
 
@@ -247,6 +253,15 @@ angular.module('myApp', [
       url: '/categoria_config',
       templateUrl: 'resources/categoriaView/categoriaView.html',
       controller: 'categoriaViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })  
+
+    .state('errorView', {
+      url: '/error',
+      templateUrl: 'resources/errorView/errorView.html',
+      controller: 'errorViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }

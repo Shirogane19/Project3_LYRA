@@ -164,7 +164,7 @@ $scope.saveUsuario = function(){
 		})
 
 		 .catch(function (error) {
-          console.error('exception', error);
+          //console.error('exception', error);
 		  $scope.checkResponse(error);	
         });  
 	}

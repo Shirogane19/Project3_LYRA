@@ -10,7 +10,7 @@ angular.module('myApp.materiaView', ['ngRoute'])
 }])
 
 
-.controller('materiaViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('materiaViewCtrl', ['$scope','$http','$timeout','$state','$localStorage', function($scope,$http,$timeout,$state,$localStorage) {
   
   $scope.materiaList = [];
   
@@ -30,10 +30,15 @@ angular.module('myApp.materiaView', ['ngRoute'])
     $scope.isCreating = true;
 		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "","sortBy": [""],"searchColumn": "string","searchTerm": "","materias": {}};
 		$http.post('rest/protected/institucion/getMateriasDelInstituto',$scope.user.idInstitucion).success(function(response) {
-			console.log("response",response.institucion.materias)
+			//console.log("response",response.institucion.materias)
 			$scope.materiaList = response.institucion.materias;
 	
-		});
+		})
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
    }
 
@@ -50,7 +55,7 @@ angular.module('myApp.materiaView', ['ngRoute'])
 
 
 $scope.showForm = function(){
-  console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+  //console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
   $scope.onPoint = true;
   }
 
@@ -93,7 +98,7 @@ $scope.saveMateria = function(){
     // $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
     // "string","materia":{"idMateria": $scope.newMat.idMateria,"nombre": $scope.newMat.nombre,"activeMat": $scope.newMat.activeMat}};
 
-console.log($scope.user.idInstitucion);
+//console.log($scope.user.idInstitucion);
 $scope.requestObject ={
   "code": 0,
   "codeMessage": "string",
@@ -109,7 +114,7 @@ $scope.requestObject ={
   }
 }
 
-    console.log($scope.requestObject.materia);
+    //console.log($scope.requestObject.materia);
 
     $http.post('rest/protected/materia/saveMateria',$scope.requestObject).success(function(response) {
 
@@ -121,6 +126,11 @@ $scope.requestObject ={
       }
       $state.reload();
 
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
     }); 
   }
 

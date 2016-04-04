@@ -35,11 +35,11 @@ public class UsuarioPOJO {
 
 	private boolean newPass;
 	
-//	private List<AlumnoPOJO> alumnos;
-//	
-//	private List<MateriaPOJO> materias;
-//	
-//	private List<SeccionPOJO> seccions;
+    private List<AlumnoPOJO> alumnos;
+	
+    private List<MateriaPOJO> materias;
+
+    private List<SeccionPOJO> seccions;
 	
 	private List<String> idRoles;
 	
@@ -146,29 +146,29 @@ public class UsuarioPOJO {
 		this.telefono = telefono;
 	}
 
-//	public List<AlumnoPOJO> getAlumnos() {
-//		return alumnos;
-//	}
-//
-//	public void setAlumnos(List<AlumnoPOJO> alumnos) {
-//		this.alumnos = alumnos;
-//	}
-//
-//	public List<MateriaPOJO> getMaterias() {
-//		return materias;
-//	}
-//
-//	public void setMaterias(List<MateriaPOJO> materias) {
-//		this.materias = materias;
-//	}
-//
-//	public List<SeccionPOJO> getSeccions() {
-//		return seccions;
-//	}
-//
-//	public void setSeccions(List<SeccionPOJO> seccions) {
-//		this.seccions = seccions;
-//	}
+	public List<AlumnoPOJO> getAlumnos() {
+		return alumnos;
+	}
+
+	public void setAlumnos(List<AlumnoPOJO> alumnos) {
+		this.alumnos = alumnos;
+	}
+
+	public List<MateriaPOJO> getMaterias() {
+		return materias;
+	}
+
+	public void setMaterias(List<MateriaPOJO> materias) {
+		this.materias = materias;
+	}
+
+	public List<SeccionPOJO> getSeccions() {
+		return seccions;
+	}
+
+	public void setSeccions(List<SeccionPOJO> seccions) {
+		this.seccions = seccions;
+	}
 
 	public List<RolPOJO> getRols() {
 		return rols;

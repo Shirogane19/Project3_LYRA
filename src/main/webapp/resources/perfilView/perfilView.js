@@ -54,7 +54,7 @@ angular.module('myApp.perfilView', ['ngRoute'])
 		"string","usuario":{"idUsuario": $scope.idUsuario}};
 
 		$http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
-			console.log("response",response)
+			//console.log("response",response)
 			$scope.profile = response.usuario;
 		});
 	}
@@ -67,7 +67,7 @@ angular.module('myApp.perfilView', ['ngRoute'])
 		 $scope.profile.cedula,"telefono": $scope.profile.telefono,  "movil": $scope.profile.movil, "email": $scope.profile.email, "activeUs": 
 		 $scope.profile.activeUs, "accOwner": $scope.isAccOwner, "newPass": $scope.newPass, "password": $scope.profile.password}};
 
-		console.log($scope.requestObject.usuario);
+		//console.log($scope.requestObject.usuario);
 
 		$http.post('rest/protected/users/saveUser',$scope.requestObject).success(function(response) {
 		
@@ -81,7 +81,7 @@ angular.module('myApp.perfilView', ['ngRoute'])
 		}) 
 
 	.catch(function (error) {
-          console.error('exception', error);
+          //console.error('exception', error);
           $scope.disabledAll();
           $scope.showError(error);
         }); 
@@ -139,7 +139,7 @@ angular.module('myApp.perfilView', ['ngRoute'])
   };
 
   $scope.save = function(u) {
-    console.log(u);
+    //console.log(u);
     $localStorage.user.firstName = u.nombre;
     $localStorage.user.lastName = u.apellido;
   };
