@@ -59,17 +59,8 @@ public class Periodo implements Serializable {
 	}
 
 
-	//bi-directional many-to-many association to Alumno
-	@ManyToMany
-	@JoinTable(
-		name="alumno_has_periodo"
-		, joinColumns={
-			@JoinColumn(name="Periodo_idPeriodo")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="alumno_idAlumno")
-			}
-		)
+	//bi-directional many-to-many association to Periodo
+	@ManyToMany(mappedBy="periodos")
 	public List<Alumno> getAlumnos() {
 		return this.alumnos;
 	}

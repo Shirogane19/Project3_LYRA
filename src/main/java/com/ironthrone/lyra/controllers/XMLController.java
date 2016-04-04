@@ -38,11 +38,16 @@ public class XMLController {
 			
 		XMLResponse response = new XMLResponse();
 		String resultFileName = Utils.writeToFile(file,servletContext);
-		
+		Boolean state;
 	//	System.out.println("Resultado del writeToFile: " + resultFileName);
-
 		
-		Boolean state = xmlService.bulkUpload(idInstitucion,resultFileName);
+		if(file != null){
+			state = xmlService.bulkUpload(idInstitucion,resultFileName);
+		}else{
+			state = false;
+		}
+		
+		
 		
 		if(state){
 			response.setCode(200);

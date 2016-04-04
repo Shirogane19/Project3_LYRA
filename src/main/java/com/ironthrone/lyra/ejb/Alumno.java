@@ -155,8 +155,17 @@ public class Alumno implements Serializable {
 		this.usuarios = usuarios;
 	}
 	
-	//bi-directional many-to-many association to Periodo
-	@ManyToMany(mappedBy="alumnos")
+	//bi-directional many-to-many association to Alumno
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+		name="alumno_has_periodo"
+		, joinColumns={
+			@JoinColumn(name="alumno_idAlumno ")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Periodo_idPeriodo")
+			}
+		)
 	public List<Periodo> getPeriodos() {
 		return this.periodos;
 	}
