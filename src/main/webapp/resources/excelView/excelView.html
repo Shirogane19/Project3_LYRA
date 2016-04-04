@@ -1,0 +1,36 @@
+        <!-- Bootstrap and OneUI CSS framework -->
+        <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
+
+                           <!-- Default Elements -->
+                            <div class="block">
+
+                                <div class="block-header">
+                                    <h3 class="block-title">Seleccione su Excel</h3>
+                                </div>
+
+                                <div class="block-content block-content-narrow">
+
+                                    <form class="form-horizontal"enctype="multipart/form-data" name = "excelForm">
+
+                                        <div class="form-group">
+                                            <label class="col-xs-12" for="example-file-input">File Input</label>
+                                            <div class="col-xs-12">
+                                                <input type="file" id="example-file-input" accept=".xlsx"
+                                                	   required ng-file-select="onFileSelect($files)">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <div class="col-xs-12">
+                                                <button class="btn btn-sm btn-primary" type="submit" ng-click = "submitExcel($event)">Submit
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- END Default Elements -->

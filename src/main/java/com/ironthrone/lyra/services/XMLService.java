@@ -13,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
+import com.ironthrone.lyra.repositories.AlumnoRepository;
 import com.ironthrone.lyra.repositories.PeriodoRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
@@ -39,6 +41,7 @@ public class XMLService implements XMLServiceInterface{
 	@Autowired private AlumnoServiceInterface  studentService;
 	@Autowired private PeriodoRepository periodoRepository;
 	@Autowired private UsuarioRepository userRepository;
+	@Autowired private AlumnoRepository studentRepository;
 	
 	/** Esta variable representa la institucion a la cual se le esta realizando la transaccion **/
 	
@@ -47,6 +50,10 @@ public class XMLService implements XMLServiceInterface{
 	/**Representa los usuarios en el sistema actual **/
 			   
 			   private static List<Usuario> actualUsers = new ArrayList<Usuario>();
+	
+	/**Representa los alumnos en el sistema actual **/
+			   
+			   private static List<Alumno> actualStudents = new ArrayList<Alumno>();
 			   
 	/**Estas variables representan el resultado de cada tipo de insercion en el servico
 	  * Si una falla todo el proceso es abortado para evitar datos huerfanos **/
@@ -99,7 +106,8 @@ public class XMLService implements XMLServiceInterface{
 			Institucion ints = new Institucion();
 			ints.setIdInstitucion(institution);
 			
-			actualUsers = userRepository.findByInstitucionsIn(ints);
+			actualUsers    = userRepository.findByInstitucionsIn(ints);
+			actualStudents = studentRepository.findByInstitucion(ints);
 			userResult = insertUsers(users);
 			alumResult = insertAlumnos(students);		
 		}
@@ -195,11 +203,19 @@ public class XMLService implements XMLServiceInterface{
 		while (iteratorList.hasNext()) {
 			AlumnoPOJO a = iteratorList.next();
 			a.setInstitucion(ins);
+
+			boolean cedulaExists = isExistingCedula(a.getCedula());
 			
-			System.out.println("USUARIO: " + a.getUsuarios().get(0).toString());
+			if(cedulaExists){
+				Alumno alumno = studentRepository.findByCedula(a.getCedula());
+				int id = alumno.getIdAlumno();
+				a.setIdAlumno(id);	
+			}
 			
+			a.setActiveAl(true);
 			ar.setAlumno(a);
 			alumResult = studentService.saveAlumno(ar);
+			
 			if(!alumResult){
 				break;
 			}
@@ -209,6 +225,23 @@ public class XMLService implements XMLServiceInterface{
 		
 	}
 	
+	/**Metodo que busca en los alumnos actuales una cedula que concuerde con alguno
+	 * dado en el excel, de ser asi retorna true para que el alunmno sea modificado
+	 * @param email
+	 * @return true si existe, false si no.
+	 */
+	
+    private static boolean isExistingCedula(String cedula) {
+    	
+        for (Alumno a: actualStudents) {
+            // Checks if the user's cedula is equal to the email parameter
+            if (a.getCedula().equals(cedula)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 	/**
 	 * Al iniciar cada nueva carga se crea un nuevo periodo. El ultimo periodo activo es puesto en inactivo.
 	 */

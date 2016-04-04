@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.google.common.collect.Iterables;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Rol;
@@ -26,6 +27,7 @@ import com.ironthrone.lyra.repositories.RolRepository;
 import com.ironthrone.lyra.repositories.UsuarioRepository;
 
 import java.util.Date;
+import java.util.Iterator;
 
 
 /**
@@ -54,11 +56,18 @@ public class UsuarioService implements UsuarioServiceInterface {
 		
 		users.stream().forEach(u -> {
 			
-			Periodo p = Iterables.getLast(u.getPeriodos());
+			boolean periodoActual = false;
+			Iterator<Periodo> iteratorList = u.getPeriodos().stream().iterator();
 			
-			boolean periodoActual = p.getIsActivePr();
+			while (iteratorList.hasNext()) {
+				Periodo p = iteratorList.next();
+				
+				if(p.getIsActivePr()){
+					periodoActual = true;
+					break;
+				}
+			};	
 
-			
 			if(periodoActual){
 				
 				UsuarioPOJO dto = new UsuarioPOJO();
@@ -238,7 +247,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 		List<String> idRoles = ur.getUsuario().getIdRoles();
 		List<Rol> rols = new ArrayList<Rol>();
 		List<Institucion> listInts = new ArrayList<Institucion>();
-		
+		List<Alumno> aList = new ArrayList<Alumno>();
 		
 		boolean hasRoles = false;
 		boolean newPass = false;
@@ -269,6 +278,8 @@ public class UsuarioService implements UsuarioServiceInterface {
 			newUser.setDateOfJoin(getCurrentDate());
 			newUser.setInstitucions(listInts);
 			newUser.setPeriodos(getPeriodo());
+			newUser.setAlumnos(aList);
+			
 			nuser = usersRepository.save(newUser);
 			
 		/** Si hay roles por agregar, toma el usuario recien creado y le asigna los roles **/
@@ -346,7 +357,10 @@ public class UsuarioService implements UsuarioServiceInterface {
 
 		
 		if(!periodoActual){	
-			DbUser.setPeriodos(getPeriodo());
+			List<Periodo> lista = DbUser.getPeriodos();
+			Periodo periodo = periodoRepository.findByIsActivePrTrue();
+			lista.add(periodo);
+			DbUser.setPeriodos(lista);
 		}
 		
 		if(newPass){
@@ -493,9 +507,9 @@ public class UsuarioService implements UsuarioServiceInterface {
 	  */
 	@Override
 	public UsuarioPOJO getUserByCedula(String cedula) {
-		List<Usuario> users =  usersRepository.findByCedula(cedula);
+		Usuario u =  usersRepository.findByCedula(cedula);
 		UsuarioPOJO dto = new UsuarioPOJO();
-		users.stream().forEach(u -> {
+	
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
@@ -503,21 +517,20 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setListaInstituciones(generateInstitutionDtos(u));
 			dto.setTareas(generateTareaDto(u));
 
-		});
 		return dto;
 	}
 	
 	@Override
 	public UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur){
 
-		List<Usuario> users =  usersRepository.findByCedula(ur.getUsuario().getCedula());
+		Usuario u =  usersRepository.findByCedula(ur.getUsuario().getCedula());
 		UsuarioPOJO dto = new UsuarioPOJO();
-		users.stream().forEach(u -> {
+
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
-		});
+
 		
 		return dto;
 	}
