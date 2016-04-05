@@ -11,6 +11,9 @@ angular.module('myApp.errorView', [])
 	if($scope.errorNumber == 500){
 		$scope.errorText = "Lo sentimos pero nuestro servidor se encontró con un error interno..";
 	}
+	if($scope.errorNumber == 400){
+		$scope.errorText = "Lo sentimos se encontró con un error interno..";
+	}
 	
 
 

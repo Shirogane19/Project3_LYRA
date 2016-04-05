@@ -165,9 +165,13 @@ public class LoginService implements LoginServiceInterface {
 		});
 		
 		sp = subscripciones.get(0);
+		System.out.println(sp.getFechaFin());
 		long diferencia = getCurrentDate().getTime() - sp.getFechaFin().getTime();
 		
-		if(diferencia < 30){
+		System.out.println(Math.floor(diferencia / (1000 * 60 * 60 * 24)));
+		
+		if(Math.floor(diferencia / (1000 * 60 * 60 * 24)) > 30){
+			System.out.println("entre");
 			return null;
 		}
 

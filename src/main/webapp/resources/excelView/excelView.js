@@ -29,7 +29,12 @@ angular.module('myApp.excelView', [])
 					}).success(function(data, status, headers, config) {
 						// Rent is uploaded successfully
 						console.log(data);
-					});
+					})
+                    .catch(function (error) {
+                      //console.error('exception', error.status);
+                      $localStorage.error = error.status;
+                      $state.go('errorView');
+                    }); 
 	    			//.error(...)
 	    			//.then(success, error, progress); 
     		}

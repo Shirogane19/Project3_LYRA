@@ -73,7 +73,12 @@ angular.module('myApp.registroView', [])
 	      $scope.registros = response.registros;
 	      console.log("registro 1", $scope.registros[0]);
 
-	    });
+	    })
+	    .catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 
 	    	$scope.idUsuario = $localStorage.user.userId;
 	    	$scope.isCreating = true;
@@ -110,11 +115,15 @@ angular.module('myApp.registroView', [])
 				$scope.init();
 
 		})
-
-		 .catch(function (error) {
-          console.error('exception', error);
-		  $scope.checkResponse(error);	
-        });  
+		.catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
+		 // .catch(function (error) {
+   //        console.error('exception', error);
+		 //  $scope.checkResponse(error);	
+   //      });  
 	}
 
 	/** Valida si hay conexcion **/
@@ -196,7 +205,12 @@ angular.module('myApp.registroView', [])
 		$http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 			$scope.infoAutor = response.usuario;
 			console.log($scope.infoAutor);
-		});
+		})
+		.catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 		
 	}
 

@@ -2,7 +2,7 @@
 
 angular.module('myApp.gradoView', ['ngRoute'])
 
-.controller('gradoViewCtrl', ['$scope','$http','$timeout','$state',function($scope,$http,$timeout,$state) {
+.controller('gradoViewCtrl', ['$scope','$http','$timeout','$state','$localStorage', function($scope,$http,$timeout,$state,$localStorage) {
 
 	$scope.isCreating = true;
 	$scope.gradosList = [];
@@ -25,7 +25,12 @@ angular.module('myApp.gradoView', ['ngRoute'])
 		$http.post('rest/protected/institucion/getGradosDelInstituto',$scope.user.idInstitucion).success(function(response) {
 			//console.log("response",response)
 			$scope.gradosList = response.institucion.grados;
-		});
+		})
+		.catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 	}
 
 	$scope.saveGrado = function(){
@@ -44,7 +49,12 @@ angular.module('myApp.gradoView', ['ngRoute'])
 				
 			$state.reload();
 
-		}); 
+		})
+		.catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 	}
 
 

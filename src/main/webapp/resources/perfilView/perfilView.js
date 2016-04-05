@@ -56,7 +56,12 @@ angular.module('myApp.perfilView', ['ngRoute'])
 		$http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 			//console.log("response",response)
 			$scope.profile = response.usuario;
-		});
+		})
+		.catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 	}
 
 	$scope.saveProfile = function(){
@@ -79,12 +84,17 @@ angular.module('myApp.perfilView', ['ngRoute'])
 		$state.reload();
 
 		}) 
+		.catch(function (error) {
+	      //console.error('exception', error.status);
+	      $localStorage.error = error.status;
+	      $state.go('errorView');
+	    }); 
 
-	.catch(function (error) {
-          //console.error('exception', error);
-          $scope.disabledAll();
-          $scope.showError(error);
-        }); 
+	// .catch(function (error) {
+ //          //console.error('exception', error);
+ //          $scope.disabledAll();
+ //          $scope.showError(error);
+ //        }); 
 	}
 
 	$scope.matchPassword = function(){

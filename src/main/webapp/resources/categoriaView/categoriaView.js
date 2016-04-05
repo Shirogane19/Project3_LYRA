@@ -34,9 +34,14 @@ angular.module('myApp.categoriaView', ['ngRoute'])
   		$http.post('rest/protected/categorias/getAll',$scope.requestObject).success(function(response) {
 
   			$scope.categoriaList = response.categorias;
-  			console.log("$scope.categoriaList: ",$scope.categoriaList[0])
+  			//console.log("$scope.categoriaList: ",$scope.categoriaList[0])
 	
-		});
+		})
+      .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
    }
 
@@ -53,7 +58,7 @@ $scope.increment = function(){
 
 
 $scope.showForm = function(){
-  console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+  //console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
   $scope.onPoint = true;
   }
 
@@ -113,7 +118,7 @@ $scope.requestObject ={
 
 
 
-    console.log($scope.requestObject.categoria);
+    //console.log($scope.requestObject.categoria);
 
     $http.post('rest/protected/categorias/saveCategoria',$scope.requestObject).success(function(response) {
 
@@ -125,7 +130,12 @@ $scope.requestObject ={
       }
       $state.reload();
       
-    }); 
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    });  
   }
 
 

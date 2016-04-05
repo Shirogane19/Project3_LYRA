@@ -153,7 +153,12 @@ $scope.init = function(){
 	$http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
 	//	console.log("response",response)
 		$scope.userList = response.usuarios;
-	});
+	})
+	.catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 		
 	//	console.log("my institute id", $scope.idInstitucion);
 }
@@ -189,12 +194,17 @@ $scope.saveUsuario = function(){
 	
 				$state.reload();
 
-		})
+	})
+	.catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
-		 .catch(function (error) {
-          //console.error('exception', error);
-		  $scope.checkResponse(error);	
-        });  
+		 // .catch(function (error) {
+   //        //console.error('exception', error);
+		 //  $scope.checkResponse(error);	
+   //      });  
 	}
 
 	/** Valida si hay conexcion **/
