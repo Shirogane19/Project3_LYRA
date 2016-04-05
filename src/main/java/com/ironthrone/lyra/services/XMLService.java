@@ -173,7 +173,10 @@ public class XMLService implements XMLServiceInterface{
         for (Usuario user: actualUsers) {
             // Checks if the user email is equal to the email parameter
             if (user.getEmail().equals(email)) {
-                return true;
+            	if(user.getEmail().length() > 2){
+            		return true;
+            	}
+                
             }
         }
         return false;
