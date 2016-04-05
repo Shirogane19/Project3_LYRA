@@ -262,6 +262,7 @@
         <script src="resources/regMedicoView/regMedicoView.js"></script>
         <script src="resources/errorView/errorView.js"></script>
         <script src="resources/excelView/excelView.js"></script>
+        <script src="resources/successView/successView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

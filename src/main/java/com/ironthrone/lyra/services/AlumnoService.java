@@ -112,17 +112,19 @@ public class AlumnoService implements AlumnoServiceInterface{
 			
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 			
-		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-		    	
-		    	if(u.getIdUsuario() > 0){
-		    		Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-		    		usuarios.add(usuario);
-		    	}else{
-		    		Usuario usuario = usersRepository.findByCedula(u.getCedula());
-		    		usuarios.add(usuario);
-		    	}	    	
-		    });
-		    
+			if(alumnoRequest.getAlumno().getUsuarios() != null){
+			    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
+			    	
+			    	if(u.getIdUsuario() > 0){
+			    		Usuario usuario = usersRepository.findOne(u.getIdUsuario());
+			    		usuarios.add(usuario);
+			    	}else{
+			    		Usuario usuario = usersRepository.findByCedula(u.getCedula());
+			    		usuarios.add(usuario);
+			    	}	    	
+			    });
+			}
+   
 		    newAlumno.setUsuarios(usuarios);
 	        
 			newAlumno.setIsActiveAl(true);
@@ -164,7 +166,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 			
 			oldAlumno.setSeccion(oldSeccion);
 			
-			System.out.println("Periodo: " + oldAlumno.getPeriodos());
+		//	System.out.println("Periodo: " + oldAlumno.getPeriodos());
 			boolean periodoActual = false;
 			Iterator<Periodo> iteratorList = oldAlumno.getPeriodos().stream().iterator();
 			
@@ -233,34 +235,29 @@ public class AlumnoService implements AlumnoServiceInterface{
 	 */
 	private void setAlumnoAUsuarios(Alumno a, AlumnoRequest alumnoRequest){
 		
-
-	    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-	    	
-	    	
-	    	if(u.getIdUsuario() > 0){
-	    		
-		    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-		    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
-		    	oldAlumnos.remove(a);
-		    	oldAlumnos.add(a);
-		    	usuario.setAlumnos(oldAlumnos);
-		    	usersRepository.save(usuario);	    		
-	    	}else{
-		    	Usuario usuario = usersRepository.findByCedula(u.getCedula());
-		    	
-
+		if(alumnoRequest.getAlumno().getUsuarios() != null){
+		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
+		    		
+		    	if(u.getIdUsuario() > 0){
+		    		
+			    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
 			    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
+			    	oldAlumnos.remove(a);
 			    	oldAlumnos.add(a);
 			    	usuario.setAlumnos(oldAlumnos);
-			    	usersRepository.save(usuario);			    		
-		    	
-
-	    	}
-	    	
-
-	    	
-	    });
-		
+			    	usersRepository.save(usuario);	    		
+		    	}else{
+			    	Usuario usuario = usersRepository.findByCedula(u.getCedula());
+			    	
+	
+				    	List<Alumno> oldAlumnos = usuario.getAlumnos(); 
+				    	oldAlumnos.add(a);
+				    	usuario.setAlumnos(oldAlumnos);
+				    	usersRepository.save(usuario);			    		
+			    	
+		    	}
+		    });
+		}
 	}
 	
 	/**

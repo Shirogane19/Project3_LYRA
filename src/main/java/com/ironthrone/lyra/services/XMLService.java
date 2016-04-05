@@ -173,7 +173,10 @@ public class XMLService implements XMLServiceInterface{
         for (Usuario user: actualUsers) {
             // Checks if the user email is equal to the email parameter
             if (user.getEmail().equals(email)) {
-                return true;
+            	if(user.getEmail().length() > 2){
+            		return true;
+            	}
+                
             }
         }
         return false;
@@ -249,16 +252,19 @@ public class XMLService implements XMLServiceInterface{
 	public void setPeriodo(){
 		
 		Periodo p = periodoRepository.findByIsActivePrTrue();
-		p.setIsActivePr(false);
+		String this_year = getYear();
 		
-		periodoRepository.save(p);
-		
-		Periodo newPeriodo = new Periodo();
-		newPeriodo.setIsActivePr(true);
-		newPeriodo.setYear(getYear());
-		
-		periodoRepository.save(newPeriodo);
-
+		if(!p.getYear().equals(this_year)){
+			
+			p.setIsActivePr(false);
+			periodoRepository.save(p);
+			
+			Periodo newPeriodo = new Periodo();
+			newPeriodo.setIsActivePr(true);
+			newPeriodo.setYear(getYear());	
+			
+			periodoRepository.save(newPeriodo);			
+		}
 	}
 
 	/** 

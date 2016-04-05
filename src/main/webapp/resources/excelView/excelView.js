@@ -27,10 +27,11 @@ angular.module('myApp.excelView', [])
 					function(evt) {
 						console.log('percent: '+ parseInt(100.0 * evt.loaded / evt.total));
 					}).success(function(data, status, headers, config) {
-						// Rent is uploaded successfully
-						console.log(data);
-					})
-                    .catch(function (error) {
+                        console.log(data);
+						$state.go('successView');
+						
+
+					}).catch(function (error) {
                       //console.error('exception', error.status);
                       $localStorage.error = error.status;
                       $state.go('errorView');

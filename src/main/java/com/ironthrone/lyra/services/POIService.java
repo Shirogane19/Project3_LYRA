@@ -206,12 +206,15 @@ public class POIService implements POIServiceInterface {
 			        
 			        newUser = getUser(row);
 			        
-				        if(newUser.getEmail() != null){
-				        	
-					        newUser.setIdUsuario(CREATE_ID);
-					        newUser.setIdRoles(rols);
-					        users.add(newUser);
-
+				        if(newUser.getEmail() != null || newUser.getEmail() != ""){
+				      	
+				        	if(newUser.getEmail().length() > 2){
+				        		
+				        		System.out.println("User:" + newUser.getEmail());
+						        newUser.setIdUsuario(CREATE_ID);
+						        newUser.setIdRoles(rols);
+						        users.add(newUser); 		
+				        	}
 			        }
 			 }			
 		}
@@ -324,10 +327,14 @@ public class POIService implements POIServiceInterface {
 			        
 			        newStudent = getAlumno(row);
 			        
-				      if(newStudent.getCedula() != null){
+				      if(newStudent.getCedula() != null || newStudent.getCedula() != ""){
+				    	  
+				    	  if(newStudent.getCedula().length() > 2){
+				    		  
 				    	  newStudent.setIdAlumno(CREATE_ID);
-				    	  students.add(newStudent);
-
+				    	  students.add(newStudent);	
+				    	  
+				    	  }
 				      }
 				 }			
 		  }
@@ -364,7 +371,7 @@ public class POIService implements POIServiceInterface {
 	            	 	cellValue = formatter.formatCellValue(cell);
 	                break;
 	            default:
-	                System.out.println();
+	             //   System.out.println();
             }
             
             
@@ -399,7 +406,7 @@ public class POIService implements POIServiceInterface {
 	            		UsuarioPOJO u = new UsuarioPOJO();
 	            		List<UsuarioPOJO> lista = new ArrayList<UsuarioPOJO>();
 	            		u.setCedula(cellValue);
-	            		System.out.println("Cedula: " + cellValue);
+	            	//	System.out.println("Cedula: " + cellValue);
 	            		lista.add(u);
             			a.setUsuarios(lista);
             			

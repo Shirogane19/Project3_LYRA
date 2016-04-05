@@ -19,7 +19,8 @@ angular.module('myApp', [
   'myApp.categoriaView',
   'myApp.registroView',
   'myApp.errorView',
-  'myApp.excelView'
+  'myApp.excelView',
+  'myApp.successView'
   //'myApp.usuarios'
 ])
 
@@ -277,6 +278,15 @@ angular.module('myApp', [
       url: '/excel_config',
       templateUrl: 'resources/excelView/excelView.html',
       controller: 'excelViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })  
+
+    .state('successView', {
+      url: '/excel_success',
+      templateUrl: 'resources/successView/successView.html',
+      controller: 'successViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
