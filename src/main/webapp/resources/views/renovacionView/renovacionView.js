@@ -4,7 +4,7 @@ angular.module('myApp.renovacionView', ['ngRoute','ngStorage'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/renovate', {
-    templateUrl: 'resources/renovacionView/renovacionView.html',
+    templateUrl: 'resources/views/renovacionView/renovacionView.html',
     controller: 'renovacionViewCtrl'
   });
 }])

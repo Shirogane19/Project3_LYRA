@@ -4,15 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -284,7 +279,7 @@ public class SubscripcionService implements SubscripcionServiceInterface{
 	 */
 	@Override
 	@Transactional
-	@Scheduled(fixedDelay = 100000)
+	@Scheduled(fixedDelay = 86400000)
 	public void revisarVencimientos(){
 		
 		System.out.println("Revisando subscripciones " + getCurrentDate());

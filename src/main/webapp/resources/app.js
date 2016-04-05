@@ -168,7 +168,7 @@ angular.module('myApp', [
         
     .state('userView', {
     	url: '/users_config',
-      	templateUrl: 'resources/userView/userView.html',
+      	templateUrl: 'resources/views/userView/userView.html',
 		    controller: 'userViewCtrl',
         data: {
         requireLogin: true //, // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -179,7 +179,7 @@ angular.module('myApp', [
 
     .state('perfilView', {
       url: '/mi_perfil',
-        templateUrl: 'resources/perfilView/perfilView.html',
+        templateUrl: 'resources/views/perfilView/perfilView.html',
         controller: 'perfilViewCtrl',
         data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -189,7 +189,7 @@ angular.module('myApp', [
 
     .state('gradoView', {
       url: '/grado_config',
-        templateUrl: 'resources/gradoView/gradoView.html',
+        templateUrl: 'resources/views/gradoView/gradoView.html',
         controller: 'gradoViewCtrl',
         data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -199,7 +199,7 @@ angular.module('myApp', [
 
     .state('alumnoView', {
       url: '/estudiante_config',
-      templateUrl: 'resources/alumnoView/alumnoView.html',
+      templateUrl: 'resources/views/alumnoView/alumnoView.html',
       controller: 'alumnoViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -209,7 +209,7 @@ angular.module('myApp', [
 
     .state('registroView', {
       url: '/historial_medico',
-      templateUrl: 'resources/regMedicoView/regMedicoView.html',
+      templateUrl: 'resources/views/regMedicoView/regMedicoView.html',
       controller: 'registroViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -222,7 +222,7 @@ angular.module('myApp', [
 
     .state('institucionView', {
       url: '/institucion_config',
-      templateUrl: 'resources/institucionView/institucionView.html',
+      templateUrl: 'resources/views/institucionView/institucionView.html',
       controller: 'institucionViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -231,7 +231,7 @@ angular.module('myApp', [
 
     .state('materiaView', {
       url: '/materia_config',
-      templateUrl: 'resources/materiaView/materiaView.html',
+      templateUrl: 'resources/views/materiaView/materiaView.html',
       controller: 'materiaViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -240,7 +240,7 @@ angular.module('myApp', [
 
     .state('seccionView', {
       url: '/seccion_config',
-      templateUrl: 'resources/seccionView/seccionView.html',
+      templateUrl: 'resources/views/seccionView/seccionView.html',
       controller: 'seccionViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -249,7 +249,7 @@ angular.module('myApp', [
 
     .state('tareaView', {
       url: '/tarea_config',
-      templateUrl: 'resources/tareaView/tareaView.html',
+      templateUrl: 'resources/views/tareaView/tareaView.html',
       controller: 'tareaViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -258,7 +258,7 @@ angular.module('myApp', [
 
     .state('categoriaView', {
       url: '/categoria_config',
-      templateUrl: 'resources/categoriaView/categoriaView.html',
+      templateUrl: 'resources/views/categoriaView/categoriaView.html',
       controller: 'categoriaViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -267,7 +267,7 @@ angular.module('myApp', [
 
     .state('errorView', {
       url: '/error',
-      templateUrl: 'resources/errorView/errorView.html',
+      templateUrl: 'resources/views/errorView/errorView.html',
       controller: 'errorViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -276,7 +276,7 @@ angular.module('myApp', [
 
     .state('excelView', {
       url: '/excel_config',
-      templateUrl: 'resources/excelView/excelView.html',
+      templateUrl: 'resources/views/excelView/excelView.html',
       controller: 'excelViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -285,7 +285,7 @@ angular.module('myApp', [
 
     .state('successView', {
       url: '/excel_success',
-      templateUrl: 'resources/successView/successView.html',
+      templateUrl: 'resources/views/successView/successView.html',
       controller: 'successViewCtrl',
       data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
@@ -294,7 +294,7 @@ angular.module('myApp', [
 
     .state('404', {
         url: '/404',
-        templateUrl: 'resources/errorView/404.html',
+        templateUrl: 'resources/views/errorView/404.html',
         data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
@@ -302,7 +302,7 @@ angular.module('myApp', [
 
     .state('500', {
         url: '/500',
-        templateUrl: 'resources/errorView/500.html',
+        templateUrl: 'resources/views/errorView/500.html',
         data: {
         requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
@@ -310,7 +310,7 @@ angular.module('myApp', [
 
     .state('401', {
         url: '/401',
-        templateUrl: 'resources/errorView/401.html',
+        templateUrl: 'resources/views/errorView/401.html',
         data: {
         requireLogin: false // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }

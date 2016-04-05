@@ -512,13 +512,15 @@ public class UsuarioService implements UsuarioServiceInterface {
 	public UsuarioPOJO getUserByCedula(String cedula) {
 		Usuario u =  usersRepository.findByCedula(cedula);
 		UsuarioPOJO dto = new UsuarioPOJO();
-	
+		
+		if(u != null){
 			BeanUtils.copyProperties(u, dto);
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
 			dto.setListaInstituciones(generateInstitutionDtos(u));
-			dto.setTareas(generateTareaDto(u));
+			dto.setTareas(generateTareaDto(u));	
+		}
 
 		return dto;
 	}
@@ -533,10 +535,15 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setDateOfJoin(u.getDateOfJoin());
 			dto.setRols(generateRolDto(u));
+			dto.setTareas(null);
+			dto.setListaInstituciones(generateInstitutionDtos(u));
+			dto.setPeriodo(null);
+			dto.setMaterias(null);
+			dto.setSeccions(null);
+			dto.setAlumnos(null);
 
 		
 		return dto;
 	}
-	
 
 }

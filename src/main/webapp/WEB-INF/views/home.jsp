@@ -250,19 +250,19 @@
         <script src="resources/assets/js/plugins/dropzonejs/dropzone.min.js"></script>
 
             <!--     VIEWS -->
-        <script src="resources/userView/userView.js"></script>
-        <script src="resources/alumnoView/alumnoView.js"></script>
-        <script src="resources/materiaView/materiaView.js"></script>
-        <script src="resources/institucionView/institucionView.js"></script>
-        <script src="resources/perfilView/perfilView.js"></script>
-        <script src="resources/gradoView/gradoView.js"></script>
-        <script src="resources/seccionView/seccionView.js"></script>
-        <script src="resources/tareaView/tareaView.js"></script>
-        <script src="resources/categoriaView/categoriaView.js"></script>
-        <script src="resources/regMedicoView/regMedicoView.js"></script>
-        <script src="resources/errorView/errorView.js"></script>
-        <script src="resources/excelView/excelView.js"></script>
-        <script src="resources/successView/successView.js"></script>
+        <script src="resources/views/userView/userView.js"></script>
+        <script src="resources/views/alumnoView/alumnoView.js"></script>
+        <script src="resources/views/materiaView/materiaView.js"></script>
+        <script src="resources/views/institucionView/institucionView.js"></script>
+        <script src="resources/views/perfilView/perfilView.js"></script>
+        <script src="resources/views/gradoView/gradoView.js"></script>
+        <script src="resources/views/seccionView/seccionView.js"></script>
+        <script src="resources/views/tareaView/tareaView.js"></script>
+        <script src="resources/views/categoriaView/categoriaView.js"></script>
+        <script src="resources/views/regMedicoView/regMedicoView.js"></script>
+        <script src="resources/views/errorView/errorView.js"></script>
+        <script src="resources/views/excelView/excelView.js"></script>
+        <script src="resources/views/successView/successView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

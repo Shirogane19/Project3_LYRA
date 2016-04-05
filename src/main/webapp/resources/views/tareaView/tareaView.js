@@ -58,7 +58,12 @@ angular.module('myApp.tareaView', ['ngRoute'])
   		//console.log("$scope.tareaList: ",$scope.tareaList[0])
       //console.log("id ints",$scope.user.idInstitucion);
 
-  	});
+  	})
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
   }
 
@@ -77,13 +82,18 @@ angular.module('myApp.tareaView', ['ngRoute'])
                              "usuario":{"idInstitucion": $scope.user.idInstitucion}
                             };
 
-    console.log($scope.user.idInstitucion);
+    //console.log($scope.user.idInstitucion);
 
     $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
     //  console.log("response",response)
       $scope.userList = response.usuarios;
       //console.log("Response usuarios", response );
-    });
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
   }
 
@@ -99,16 +109,20 @@ angular.module('myApp.tareaView', ['ngRoute'])
     
 
     $http.post('rest/protected/categorias/getAll',$scope.requestObject).success(function(response) {
-    $scope.categoryList = response.categorias;
+      $scope.categoryList = response.categorias;
+      //console.log("List", $scope.categoryList);
 
-    console.log("List", $scope.categoryList);
-
-    });
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
   }
 
   $scope.showForm = function(){
-    console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
+    //console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
     $scope.onPoint = true;
     $scope.getCategories();
   }
@@ -145,7 +159,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
       $scope.newTa.activeTa = true;
     }
     
-    console.log($scope.newTa.activeTa);
+    //console.log($scope.newTa.activeTa);
 
     $scope.isCreating = false;
     $scope.saveTarea();
@@ -224,7 +238,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
     if($scope.taskUsers.length >0 || $scope.listaRoles.length >0){
 
-      console.log("entre a Save Tarea");
+      //console.log("entre a Save Tarea");
     
       if($scope.isCreating){
         $scope.newTa.idTarea = -1;
@@ -255,7 +269,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
     } //Fin de RO
 
-    console.log($scope.requestObject.tarea);
+    //console.log($scope.requestObject.tarea);
 
     $http.post('rest/protected/tarea/saveTarea',$scope.requestObject).success(function(response) {
 
@@ -268,10 +282,15 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
       $state.reload();
 
-    }); // End HTTP
+    }) // End HTTP
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 
     }else{
-      console.log("else");
+      //console.log("else");
       document.getElementById("advertencia").style.color = "red";
     }
 
@@ -279,10 +298,10 @@ angular.module('myApp.tareaView', ['ngRoute'])
   
 
   $scope.validacionEliminar = function(){
-    console.log('elim');
+    //console.log('elim');
       if($scope.taskUsers.length < 0 ){
           $scope.taskUsers.splice();
-          console.log('elim');
+          //console.log('elim');
     }
   }
 

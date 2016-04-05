@@ -2,9 +2,6 @@ package com.ironthrone.lyra.pojo;
 
 import java.util.Date;
 import java.util.List;
-import com.ironthrone.lyra.ejb.Categoria;
-import com.ironthrone.lyra.ejb.Rol;
-import com.ironthrone.lyra.ejb.Usuario;
 
 public class TareaPOJO {
 	private int idTarea;

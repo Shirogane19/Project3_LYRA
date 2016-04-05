@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironthrone.lyra.contracts.SeccionRequest;
 import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Grado;
-import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Seccion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;

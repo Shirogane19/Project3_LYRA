@@ -14,7 +14,6 @@ import com.ironthrone.lyra.ejb.Bitacora;
 import com.ironthrone.lyra.ejb.Grado;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Materia;
-import com.ironthrone.lyra.ejb.Seccion;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;

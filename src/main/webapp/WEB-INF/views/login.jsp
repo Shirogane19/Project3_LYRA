@@ -79,8 +79,8 @@
         <script src="resources/appLogin.js"></script>
         <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
 <!--         <script src="resources/router.js"></script> -->
-        <script src="resources/loginView/loginView.js"></script>
-        <script src="resources/renovacionView/renovacionView.js"></script>
+        <script src="resources/views/loginView/loginView.js"></script>
+        <script src="resources/views/renovacionView/renovacionView.js"></script>
         <script src="resources/assets/js/initUI.js"></script>
         <!-- Page JS Plugins -->
         <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
