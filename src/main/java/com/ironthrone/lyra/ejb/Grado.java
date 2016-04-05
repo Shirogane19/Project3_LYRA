@@ -43,7 +43,7 @@ public class Grado implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+	
 
 	@Column(name="is_active_gr")
 	public boolean getIsActiveGr() {
@@ -76,7 +76,7 @@ public class Grado implements Serializable {
 
 
 	//bi-directional many-to-many association to Materia
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="materias_grado"
 		, joinColumns={

@@ -9,6 +9,7 @@
         
         <i class="fa fa-plus"></i> Registrar Grado</button>
                     <!-- Dynamic Table Full -->
+                    <div ng-show="onPointNew">
                     <div class="block" ng-show="!onPoint">
 
                         <div class="block-header">
@@ -48,7 +49,7 @@
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Editar grado"        ng-click="showGradoToEdit(g)"><i class="fa fa-pencil"></i></button>
-
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add materia" ><i class="fa fa-user-plus"  ng-click="openProfesToSeccion(g)"></i></button>
                                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo"        ng-click="isActive(g)"><i class="fa fa-times"></i></button>
                                             </div>
                                         </td>
@@ -58,6 +59,7 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
                     </div>
                     <!-- END Dynamic Table Full -->
 
@@ -100,16 +102,98 @@
                                                 </label>
                                             </div>
                                         </div>
-                                     <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="gradeForm.$invalid"
-                                                    ng-click="saveGrado()">
-                                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                                        <!---form para intermedia-->
 
-    <!-- END Material ) Register -->    
+
+                <!--end-->
+                <div class="form-group">
+                <div class="col-xs-12">
+                    <button class="btn btn-sm btn-success" type="submit"  ng-disabled="gradeForm.$invalid"
+                            ng-click="saveGrado()">
+                    <i class="fa fa-plus push-5-r"></i> Registrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Mega Form add alumno a seccion-->
+
+<div class="block block-bordered" ng-show="onPointMateria">
+    <div class="block-header bg-gray-lighter">
+        <ul class="block-options">
+            <li>
+                <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
+            </li>
+            <li>
+                <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+            </li>
+        </ul>
+        <h3 class="block-title">Sección {{seccionName}}</h3>
+    </div>
+    <div class="block-content">
+
+        <form class="form-horizontal push-10-t push-10" action="base_forms_premade.html" method="post" onsubmit="return false;">
+
+            <div class="row">
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Materias asignados</label>
+                            <select class="form-control" id="mega-skills" name="mega-skills" size="17" multiple >
+                                <option ng-repeat="pa in ProfesAsignados" value="{{pa.idMateria}}" ng-click="targetProfeAsignado(pa)">{{pa.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+  
+                </div>
+
+                <div class="col-sm-2">
+                
+                    <div class="form-group" >
+                        <br><br><br><br><br><br>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="borrarProfeAsignado()" ><i class="fa fa-angle-right" ng-click="borrarProfeAsignado()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="borrarProfeNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado()" ></i></button>
+                    </div>
+  
+                </div>
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Disponibles</label>
+                            <select class="form-control" id="mega-skills" name="mega-skills" size="17" multiple >
+                                 <option ng-repeat="pna in ProfesNoAsignados" value="{{pna.idMateria}}" ng-click="targetProfeNoAsignado(pna)">{{pna.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+  
+                </div>
+
+            </div><!--end first row-->
+
+            <div class="row ">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            <button class="btn btn-warning " type="submit" ng-click="registrarAsignacionesProfes()"><i class="fa fa-check push-5-r"></i> Registrar </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5"></div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<!-- END Mega Form -->
+
+
+<!-- END Material ) Register -->    
