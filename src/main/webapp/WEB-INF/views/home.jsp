@@ -127,8 +127,7 @@
                                 </li>
                                  <li ng-if = "accessBulkLoad == true">
                                     <a ui-sref="excelView"><i class="si si-rocket"></i>Subir Excel</a>
-                                </li>                             
-                            </ul>
+                                </li>   
                         </div>
                         <!-- END Side Content -->
                     </div>
