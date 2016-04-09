@@ -8,6 +8,7 @@ angular.module('myApp', [
   'ui.bootstrap',
   'ui.bootstrap.tpls',
   'angularFileUpload',
+  'myApp.startView',
   'myApp.userView',
   'myApp.alumnoView',
   'myApp.materiaView',
@@ -37,6 +38,7 @@ angular.module('myApp', [
   $scope.user =  {}
   $scope.roles = {};
 
+  $scope.accessStart =  false;
   $scope.accessTask =  false;
   $scope.accessUser =  false;
   $scope.accessStudent = false;
@@ -74,10 +76,6 @@ angular.module('myApp', [
 
     $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 
-      //console.log("responseNoti",response)
-      
-      //document.getElementById("noti").textContent= response.usuario.tareas.length;
-
       for (var i = 0; i < response.usuario.tareas.length; i++) {
            if(response.usuario.tareas[i].readTa == false){
               num ++;
@@ -105,6 +103,7 @@ angular.module('myApp', [
   $scope.initPermissions = function() {
 
     if($scope.roles.indexOf(USER_ROLES.encargado) !== -1) {
+        $scope.accessStart =  true;
         $scope.accessTask =  true;
         $scope.accessStudent = true; 
         $scope.accessSeccion =  true;
@@ -115,6 +114,7 @@ angular.module('myApp', [
 
 
     if($scope.roles.indexOf(USER_ROLES.profesor) !== -1) {
+        $scope.accessStart =  true;
         $scope.accessTask =  true;
         $scope.accessStudent = true;
         $scope.accessMateria = true;
@@ -124,6 +124,7 @@ angular.module('myApp', [
     }
 
     if($scope.roles.indexOf(USER_ROLES.admin) !== -1) {
+        $scope.accessStart =  true;
         $scope.accessTask =  true;
         $scope.accessUser =  true;
         $scope.accessStudent = true;
@@ -136,6 +137,7 @@ angular.module('myApp', [
     }
 
     if($scope.roles.indexOf(USER_ROLES.master) !== -1) {
+        $scope.accessStart =  true;
         $scope.accessTask =  true;
         $scope.accessUser =  true;
         $scope.accessStudent = true;
@@ -160,12 +162,23 @@ angular.module('myApp', [
 .config(function($stateProvider, $urlRouterProvider) {
 
     
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/inicio');
    // $urlRouterProvider.otherwise('/404');
 
     $stateProvider
 
-        
+    
+    .state('startView', {
+      url: '/inicio',
+        templateUrl: 'resources/views/startView/startView.html',
+        controller: 'StartViewCtrl',
+        data: {
+        requireLogin: true
+       
+      }
+
+    })
+
     .state('userView', {
     	url: '/users_config',
       	templateUrl: 'resources/views/userView/userView.html',

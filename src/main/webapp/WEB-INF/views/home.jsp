@@ -99,8 +99,8 @@
                         <!-- Side Content -->
                         <div class="side-content">
                             <ul class="nav-main">
-                                <li>
-                                    <a class="active" ui-sref="home"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                                <li ng-if = "accessStart == true">
+                                    <a class="active" ui-sref="startView"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
                                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Menu</span></li>
 
@@ -235,13 +235,12 @@
 
         <!-- Page JS Plugins + Page JS Code -->
         <script src="resources/app.js"></script>
-<!--         <script src="resources/components/usuarios/usuarios.js"></script>
-        <script src="resources/components/usuarios/usuario-service.js"></script> -->
         <script src="resources/bower_components/ngstorage/ngStorage.min.js"></script>
                 <!-- JS Code -->
         <script src="resources/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="resources/assets/js/pages/base_tables_datatables.js"></script>
         <script src="resources/assets/js/pages/base_forms_validation.js"></script>
+        <script src="resources/assets/js/plugins/chartjs/Chart.min.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
         <script src="resources/assets/js/plugins/jquery-validation/additional-methods.min.js"></script>
         <script src="resources/assets/js/plugins/select2/select2.full.min.js"></script>
@@ -249,6 +248,7 @@
         <script src="resources/assets/js/plugins/dropzonejs/dropzone.min.js"></script>
 
             <!--     VIEWS -->
+        <script src="resources/views/startView/startView.js"></script>
         <script src="resources/views/userView/userView.js"></script>
         <script src="resources/views/alumnoView/alumnoView.js"></script>
         <script src="resources/views/materiaView/materiaView.js"></script>

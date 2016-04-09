@@ -18,5 +18,7 @@ public interface AlumnoRepository extends CrudRepository<Alumno,Integer> {
 	List<Alumno> findAll();
 	List<Alumno>findByInstitucion(Institucion ints);
 	Alumno  findByCedula(String cedula);
+	long countByInstitucion(Institucion inst);
+	
 
 }
