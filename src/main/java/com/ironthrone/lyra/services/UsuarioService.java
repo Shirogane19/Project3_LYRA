@@ -13,12 +13,16 @@ import com.ironthrone.lyra.security.IronPasswordEncryption;
 import com.google.common.collect.Iterables;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
 import com.ironthrone.lyra.ejb.Alumno;
+import com.ironthrone.lyra.ejb.Grado;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Rol;
 import com.ironthrone.lyra.ejb.Usuario;
+import com.ironthrone.lyra.pojo.AlumnoPOJO;
+import com.ironthrone.lyra.pojo.GradoPOJO;
 import com.ironthrone.lyra.pojo.InstitucionPOJO;
 import com.ironthrone.lyra.pojo.RolPOJO;
+import com.ironthrone.lyra.pojo.SeccionPOJO;
 import com.ironthrone.lyra.pojo.TareaPOJO;
 import com.ironthrone.lyra.pojo.UsuarioPOJO;
 import com.ironthrone.lyra.repositories.InstitucionRepository;
@@ -143,6 +147,11 @@ public class UsuarioService implements UsuarioServiceInterface {
 		dto.setDateOfJoin(user.getDateOfJoin());
 		dto.setRols(generateRolDto(user));
 		dto.setTareas(generateTareaDto(user));
+		dto.setListaInstituciones(generateInstitutionDtos(user));
+		dto.setPeriodo(null);
+		dto.setMaterias(null);
+		dto.setSeccions(generateSeccionesDtos(user));
+		dto.setAlumnos(null);
 
 		return dto;
 	}
@@ -543,6 +552,111 @@ public class UsuarioService implements UsuarioServiceInterface {
 			dto.setAlumnos(null);
 
 		
+		return dto;
+	}
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param secciones tipo ejbs
+	 * @return lista de secciones POJO.
+	 */
+	private List<SeccionPOJO> generateSeccionesDtos(Usuario u){
+		
+		List<SeccionPOJO> uiSecciones = new ArrayList<SeccionPOJO>();
+		
+		u.getSeccions().stream().forEach(s -> {
+			SeccionPOJO dto = new SeccionPOJO();
+			BeanUtils.copyProperties(s,dto);
+			dto.setActiveSec(s.getIsActiveSec());
+			dto.setGrado(generateGradoDto(s.getGrado()));
+			dto.setAlumnos(null);
+			dto.setProfesorSeccions(null);
+			uiSecciones.add(dto);
+		});	
+		
+		return uiSecciones;
+	};
+	
+	/**
+	 * Genera GradoPOJO a partir de un GradoEJB.
+	 * @param Grado
+	 * @return GradoPOJO
+	 */
+	public GradoPOJO generateGradoDto(Grado g) {
+
+		GradoPOJO dto = new GradoPOJO();
+		BeanUtils.copyProperties(g,dto);
+		dto.setActiveGr(g.getIsActiveGr());
+		dto.setMaterias(null);
+		dto.setSeccions(null);
+		dto.setInstitucion(null);
+		
+		return dto;
+	}
+	
+	/**
+	 * Retorna los detalles de un Usuario..
+	 * @param idUsuario, identificador unico de usuario.
+	 * @return Usuario de tipo UsuarioPOJO.
+	 */
+	@Override
+	@Transactional
+	public UsuarioPOJO getAlumnosDelEncargado(int idUsuario) {
+
+		Usuario user =  usersRepository.findOne(idUsuario);
+		UsuarioPOJO dto = new UsuarioPOJO();
+		BeanUtils.copyProperties(user, dto);
+		dto.setActiveUs(user.getIsActiveUs());
+		dto.setDateOfJoin(user.getDateOfJoin());
+		dto.setRols(null);
+		dto.setTareas(null);
+		dto.setListaInstituciones(generateInstitutionDtos(user));
+		dto.setPeriodo(null);
+		dto.setMaterias(null);
+		dto.setSeccions(null);
+		dto.setAlumnos(generateAlumnoDto(user));
+
+		return dto;
+	}
+	
+	/**
+	 * Obtiene una lista de AlumnoPojo de una institucion
+	 * @param Institucion
+	 * @return List<AlumnoPOJO>
+	 */
+	private List<AlumnoPOJO> generateAlumnoDto(Usuario u) {
+		
+		List<AlumnoPOJO> alumnos = new ArrayList<AlumnoPOJO>();
+		
+		u.getAlumnos().stream().forEach(a -> {
+			AlumnoPOJO alumno = new AlumnoPOJO();
+			BeanUtils.copyProperties(a, alumno);	
+			alumno.setRegistrosMedicos(null);
+			alumno.setSeccion(generateSeccionDto(a));
+			alumno.setUsuarios(generateUserDtos(a.getUsuarios()));
+			alumno.setActiveAl(a.getIsActiveAl());
+			alumno.setRegistrosMedicos(null);
+			alumnos.add(alumno);
+		});	
+
+		return alumnos;
+	};
+	
+	/**
+	 * Genera POJOs a partir de una lista EJB.
+	 * @param Alumno alumno tipo ejbs
+	 * @return SeccionPOJO.
+	 */
+	public SeccionPOJO generateSeccionDto(Alumno a) {
+
+		SeccionPOJO dto = new SeccionPOJO();
+		if(a.getSeccion()!=null){
+			BeanUtils.copyProperties(a.getSeccion(),dto);
+			dto.setAlumnos(null);
+			dto.setGrado(null);
+			dto.setProfesorSeccions(null);
+			dto.setActiveSec(a.getSeccion().getIsActiveSec());
+		}
 		return dto;
 	}
 

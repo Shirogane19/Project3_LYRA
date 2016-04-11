@@ -112,6 +112,7 @@ public class InstitucionService implements InstitucionServiceInterface{
 			oldInstitucion.setMaterias(institucion.getMaterias());
 			oldInstitucion.setSubscripcions(institucion.getSubscripcions());
 			oldInstitucion.setUsuarios(institucion.getUsuarios());
+			oldInstitucion.setHasSuscripcion(true);
 			
 			ninstitucionT = institucionRepository.save(oldInstitucion);	
 		}

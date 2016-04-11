@@ -25,6 +25,7 @@ angular.module('myApp.seccionView', ['ngRoute'])
     angular.element(document).ready(function () {
           
            BaseTableDatatables.init();
+           App.init();
        //BaseFormValidation.init();
       //OneUI.initHelpers('select2');
     });
@@ -407,7 +408,7 @@ angular.module('myApp.seccionView', ['ngRoute'])
         "nombreSeccion": $scope.objSeccion.nombreSeccion,
         "activeSec": $scope.objSeccion.activeSec,
         "grado": {"idGrado": $scope.objSeccion.grado.idGrado},
-        "alumnos": $scope.AlumnosAsignados,
+        //"alumnos": $scope.AlumnosAsignados,
         "profesorSeccions": $scope.ProfesAsignados
          
       }
@@ -427,6 +428,43 @@ angular.module('myApp.seccionView', ['ngRoute'])
   }
 
   //---------------
+
+  $scope.onPointWatchSeccion = false;
+
+  $scope.showSeccion = function(s){
+    console.log(s);
+    $scope.seccionName = s.nombreSeccion;
+
+    $http.post('rest/protected/seccion/getSeccion',s.idSeccion).success(function(response) {
+
+      //console.log(response.seccion.alumnos);
+      $scope.AlumnosAsignados = response.seccion.alumnos;
+      $scope.objSeccion = response.seccion;
+
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    });
+
+    $http.post('rest/protected/seccion/getProfesDeSeccion',s.idSeccion).success(function(response) {
+
+      //console.log(response.seccion);
+      $scope.objSeccion = response.seccion;
+      $scope.ProfesAsignados = response.seccion.profesorSeccions;// Profes asignados a la seccion 
+
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
+
+    $scope.onPoint = false;
+    $scope.onPointWatchSeccion = true;
+
+  }//
 
   $timeout( function(){ $scope.initScripts(); }, 100);
   $scope.init();

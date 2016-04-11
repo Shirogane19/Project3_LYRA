@@ -127,7 +127,13 @@
                                 </li>
                                  <li ng-if = "accessBulkLoad == true">
                                     <a ui-sref="excelView"><i class="si si-rocket"></i>Subir Excel</a>
-                                </li>                             
+                                </li>   
+                                <li ng-if = "accessSeccionProfesor == true">    
+                                    <a ui-sref="seccionProfesorView"><i class="si si-map"></i>Mi secciones</a>
+                                </li>     
+                                <li ng-if = "accessStudentManagers == true">    
+                                    <a ui-sref="alumnoEncargadoView"><i class="si si-map"></i>Mis muchachos</a>
+                                </li>                       
                             </ul>
                         </div>
                         <!-- END Side Content -->
@@ -263,6 +269,8 @@
         <script src="resources/views/errorView/errorView.js"></script>
         <script src="resources/views/excelView/excelView.js"></script>
         <script src="resources/views/successView/successView.js"></script>
+        <script src="resources/views/seccionProfesorView/seccionProfesorView.js"></script>
+        <script src="resources/views/alumnoEncargadoView/alumnoEncargadoView.js"></script>
 
         <script type="text/javascript">
         OneUI.init();

@@ -118,9 +118,10 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
   $scope.onPointUserForm = false;// Visibilidad de formulario de registro de usuario
   $scope.onPointerSubscriptionForm = false;// Visibilidad del formulario de subscripcion
   $scope.onPointShowInstitutionForm = true;// Visisbilidad del formulario de la institución
-  $scope.onPointMsj = false// Visibilidad de la vista de mensajes
-  $scope.onPointError = false// Visibilidad de la vista de errores
-  $scope.invalidLoginS = false// Visibilidad del texto de usuario invalido
+  $scope.onPointMsj = false;// Visibilidad de la vista de mensajes
+  $scope.onPointError = false;// Visibilidad de la vista de errores
+  $scope.invalidLoginS = false;// Visibilidad del texto de usuario invalido, error correo o contraseña
+  $scope.invalidUserS = false;// Visibilidad del texto de usuario invalido, no es master
 
   //--Cambio de colores de los botones(Registrar,Subscribir)--//
   $scope.startedR = false;
@@ -220,17 +221,29 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
 
         $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 
-            //console.log(response);
-            $scope.subscriptor.idSubscriptor = response.usuario.idUsuario;
-            $scope.subscriptor.apellido = response.usuario.apellido;
-            $scope.subscriptor.cedula = response.usuario.cedula;
-            $scope.subscriptor.correo = response.usuario.email;
-            $scope.subscriptor.movil = response.usuario.movil;
-            $scope.subscriptor.nombre = response.usuario.nombre;
-            $scope.subscriptor.telefono = response.usuario.telefono;
+           //console.log(response.usuario.rols);
 
-            $scope.user = {};
-            $scope.onPointShowInstitutionForm = false;
+            var isMaster = false;
+
+            for (var i = 0; i < response.usuario.rols.length; i++) {
+              if(response.usuario.rols[i].idRol == 1){isMaster = true}
+            };
+
+            if(isMaster){
+              $scope.subscriptor.idSubscriptor = response.usuario.idUsuario;
+              $scope.subscriptor.apellido = response.usuario.apellido;
+              $scope.subscriptor.cedula = response.usuario.cedula;
+              $scope.subscriptor.correo = response.usuario.email;
+              $scope.subscriptor.movil = response.usuario.movil;
+              $scope.subscriptor.nombre = response.usuario.nombre;
+              $scope.subscriptor.telefono = response.usuario.telefono;
+
+              $scope.user = {};
+              $scope.onPointShowInstitutionForm = false;
+            }else{
+              $scope.invalidUserS = true;
+            }
+
 
         });     
       }

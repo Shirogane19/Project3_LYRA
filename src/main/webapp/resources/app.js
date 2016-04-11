@@ -20,7 +20,9 @@ angular.module('myApp', [
   'myApp.registroView',
   'myApp.errorView',
   'myApp.excelView',
-  'myApp.successView'
+  'myApp.successView',
+  'myApp.seccionProfesorView',
+  'myApp.alumnoEncargadoView'
   //'myApp.usuarios'
 ])
 
@@ -106,9 +108,9 @@ angular.module('myApp', [
 
     if($scope.roles.indexOf(USER_ROLES.encargado) !== -1) {
         $scope.accessTask =  true;
-        $scope.accessStudent = true; 
-        $scope.accessSeccion =  true;
-        
+        //$scope.accessStudent = true; 
+        //$scope.accessSeccion =  true;
+        $scope.accessStudentManagers = true;
       
     }
 
@@ -116,10 +118,11 @@ angular.module('myApp', [
 
     if($scope.roles.indexOf(USER_ROLES.profesor) !== -1) {
         $scope.accessTask =  true;
-        $scope.accessStudent = true;
-        $scope.accessMateria = true;
-        $scope.accessGrado = true;  
-        $scope.accessSeccion =  true;
+        //$scope.accessStudent = true;
+        //$scope.accessMateria = true;
+        //$scope.accessGrado = true;  
+        //$scope.accessSeccion =  true;
+        $scope.accessSeccionProfesor =  true;
         $scope.title = "Prof.";
     }
 
@@ -313,6 +316,24 @@ angular.module('myApp', [
         templateUrl: 'resources/views/errorView/401.html',
         data: {
         requireLogin: false // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })
+
+    .state('seccionProfesorView', {
+      url: '/mi_secciones',
+      templateUrl: 'resources/views/seccionProfesorView/seccionProfesorView.html',
+      controller: 'seccionProfesorViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
+      }
+    })
+
+    .state('alumnoEncargadoView', {
+      url: '/mis_muchachos',
+      templateUrl: 'resources/views/alumnoEncargadoView/alumnoEncargadoView.html',
+      controller: 'alumnoEncargadoViewCtrl',
+      data: {
+        requireLogin: true // this property will apply to all children of 'app' if I use inheritance. Like app.userView
       }
     });
       
