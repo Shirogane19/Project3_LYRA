@@ -88,7 +88,7 @@
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
                             <input class="form-control" type="text" id="validation-nombre" name="val-nombre" ng-model="subscriptor.nombre" ng-minlength=3 required maxlength="40">
-                            <label for="validation-nombre">Nombre</label>
+                            <label for="validation-nombre">Nombre <span class="text-danger">*</span></label>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
                             <input class="form-control" type="text" id="validation-apellido" name="val-apellido" ng-model="subscriptor.apellido" ng-minlength=3 required maxlength="40">
-                            <label for="validation-apellido">Apellido</label>
+                            <label for="validation-apellido">Apellido <span class="text-danger">*</span></label>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
                             <input class="form-control" type="text" id="validation-cedula" name="val-cedula" ng-model="subscriptor.cedula" required maxlength="19">
-                            <label for="validation-cedula">Cédula</label>
+                            <label for="validation-cedula">Cédula <span class="text-danger">*</span></label>
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                     <div class="col-sm-4 col-sm-offset-4" >
                         <div class="form-material">
                             <input class="form-control" type="email" id="validation-correo" name="val-correo" ng-model="subscriptor.correo" required maxlength="59">
-                            <label for="validation-correo">Correo</label>
+                            <label for="validation-correo">Correo <span class="text-danger">*</span></label>
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
                             <input class="form-control" type="password" id="password1" name="password1" ng-minlength=3 ng-model="subscriptor.contrasena" required maxlength="60">
-                            <label for="password1">Contraseña</label>
+                            <label for="password1">Contraseña <span class="text-danger">*</span></label>
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                     <div class="col-sm-4 col-sm-offset-4">
                         <div class="form-material">
                             <input class="form-control" type="password" id="password2" name="val-confirm-contrasena" ng-model="subscriptor.contrasena2" required pw-check="password1" maxlength="60">
-                            <label for="val-confirm-contrasena">Confirmar contraseña</label>
+                            <label for="val-confirm-contrasena">Confirmar contraseña <span class="text-danger">*</span></label>
                         </div>
                     </div>
                 </div>
@@ -225,6 +225,9 @@
 
                                 <div class="text-center" ng-show="invalidLoginS">
                                     <p class="text-muted push-15-t text-danger">Correo o password inválido</p>
+                                </div>
+                                <div class="text-center" ng-show="invalidUserS">
+                                    <p class="text-muted push-15-t text-danger">Este usuario no esta registrado como master</p>
                                 </div>
     
                                 <div class="form-group">

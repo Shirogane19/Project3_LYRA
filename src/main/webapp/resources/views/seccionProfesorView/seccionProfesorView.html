@@ -1,0 +1,98 @@
+<link rel="stylesheet" href="resources/assets/js/plugins/datatables/jquery.dataTables.min.css">
+<link rel="stylesheet" href="resources/assets/js/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="resources/assets/js/plugins/select2/select2-bootstrap.min.css">
+<link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
+
+<div class="block" ng-show="onPoint">
+
+    <div class="block-header">
+        <h3 class="block-title">Mis secciones <small></small></h3>
+    </div>
+
+    <div class="block-content">
+
+
+        <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+        <table class="table table-bordered table-striped js-dataTable-full">
+            <thead>
+                <tr>
+                    <th class="text-center"></th>
+                    <th ng-hide="true"></th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Grado</th>
+                    <th class="text-center" style="width: 15%;">Acciones</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="s in seccionList" m-index="$index">
+                    <td class="text-center" ng-bind="s.idSeccion" ng-hide="true"></td>
+                    <td class="text-center">{{$index+1}}</td>
+
+                   
+                    <td><span ng-bind="s.nombreSeccion"></span></td>
+                    <td><span ng-bind="s.grado.nombre"></span></td>
+
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <button class="btn btn-xs btn-default" type="button" title="Ver sección" ng-click="showSeccion(s)"><i class="fa fa-eye"></i></button>
+                        </div>
+                    </td>   
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- END Dynamic Table Full -->
+
+<div class="row" ng-show="onPointWatchSeccion">
+    <div class="block-content">
+        <!-- Block Tabs Animated Fade -->
+        <div class="block">
+            <ul class="nav nav-tabs" data-toggle="tabs">
+                <li class="active">
+                    <a href="#btabs-animated-fade-home">Estudiantes</a>
+                </li>
+                <li>
+                    <a href="#btabs-animated-fade-profile">Profesores</a>
+                </li>
+                <li class="pull-right">
+                    <a href="#btabs-animated-fade-settings" ng-click="close()"><i class="si si-close"></i></a>
+                </li>
+            </ul>
+            <div class="block-content tab-content">
+                <div class="tab-pane fade in active" id="btabs-animated-fade-home">
+                    <h4 class="font-w300 push-15">Sección {{seccionName}}</h4>
+                    
+                    <div class="form-group">
+
+                        <div class="col-xs-12" ng-repeat="a in AlumnosAsignados" value="{{a.idAlumno}}" >
+
+                            <a class="block block-link-hover3" href="javascript:void(0)" ng-dblclick="showHistorial(a)">
+                                {{a.nombre}} {{a.apellido1}} {{a.apellido2}}  
+                            </a> 
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="tab-pane fade" id="btabs-animated-fade-profile">
+                    <h4 class="font-w300 push-15">Sección {{seccionName}}</h4>
+                    
+                    <div class="col-xs-12" ng-repeat="p in ProfesAsignados" value="{{p.idUsuario}}">
+                           {{p.nombre}} {{p.apellido}}
+                    </div>
+
+                </div>
+            </div>
+            <br> 
+        </div>
+
+    </div>
+</div>
+<!-- END Block Tabs Content Animation -->
+

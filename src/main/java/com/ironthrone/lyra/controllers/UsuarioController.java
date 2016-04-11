@@ -134,6 +134,17 @@ public class UsuarioController {
 	}
 	
 	
+	@RequestMapping(value ="/getAlumnosDelEncargado", method = RequestMethod.POST)
+	public UsuarioResponse getAlumnosDelEncargado(@RequestBody UsuarioRequest ur){	
+		
+		UsuarioResponse us = new UsuarioResponse();
+		us.setCode(200);
+		us.setCodeMessage("users fetch success");
+		us.setUsuario(usersService.getAlumnosDelEncargado(ur.getUsuario().getIdUsuario()));
+		return us;	
+		
+	}
+	
 	@RequestMapping(value ="/prueba", method = RequestMethod.POST)
 	public UsuarioResponse pruebaRoles(@RequestBody UsuarioRequest ur){	
 		
@@ -152,5 +163,4 @@ public class UsuarioController {
 		return us;
 		
 	}
-	
 }

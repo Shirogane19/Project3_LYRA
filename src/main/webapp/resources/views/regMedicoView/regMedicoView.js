@@ -47,7 +47,11 @@ angular.module('myApp.registroView', [])
  	 $scope.init = function(){
 
  	 	if($state.params.alumnoInfo === null){
- 	 		$state.go('alumnoView'); 	 		
+ 	 		if ($scope.accessSeccionProfesor === true) {
+ 	 			$state.go('seccionProfesorView'); 
+ 	 		}else{
+ 	 			$state.go('alumnoView'); 
+ 	 		}	 		
  	 	}else{ 
 	 	 	$scope.alumnoInfo = $state.params.alumnoInfo;
 			$scope.encargados = $state.params.alumnoInfo.usuarios;
@@ -71,7 +75,7 @@ angular.module('myApp.registroView', [])
 	    $http.post('rest/protected/historialMedico/getHistorialMedico',$scope.requestObject).success(function(response) {
 	 //    console.log("response",response)
 	      $scope.registros = response.registros;
-	      console.log("registro 1", $scope.registros[0]);
+	      //console.log("registro 1", $scope.registros[0]);
 
 	    })
 	    .catch(function (error) {
@@ -179,7 +183,7 @@ angular.module('myApp.registroView', [])
     };
 
   	$scope.toString = function (){
-			console.log($state.params.alumnoInfo);
+		//console.log($state.params.alumnoInfo);
 	}
 
     $scope.order = function(predicate) {
@@ -204,7 +208,7 @@ angular.module('myApp.registroView', [])
 
 		$http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 			$scope.infoAutor = response.usuario;
-			console.log($scope.infoAutor);
+			//console.log($scope.infoAutor);
 		})
 		.catch(function (error) {
 	      //console.error('exception', error.status);

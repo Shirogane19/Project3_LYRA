@@ -23,7 +23,7 @@
                     <th class="text-center">Nombre</th>
                     <th class="text-center">Grado</th>
                     <th class="hidden-xs" style="width: 15%;">Estado</th>
-                    <th class="text-center" style="width: 10%;">Acciones</th>
+                    <th class="text-center" style="width: 15%;">Acciones</th>
                    
                 </tr>
             </thead>
@@ -46,10 +46,11 @@
 
                     <td class="text-center">
                         <div class="btn-group">
-                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit sección" ng-click="showSeccionToEdit(s)"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add estudiantes" ><i class="fa fa-mortar-board" ng-click="openAlumnoToSeccion(s)"></i></button>
-                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Add profesor" ><i class="fa fa-user-plus"  ng-click="openProfesToSeccion(s)"></i></button>
-                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Activo/Inactivo" ng-click="isActive(s)"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" title="Ver sección" ng-click="showSeccion(s)"><i class="fa fa-eye"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" title="Editar sección" ng-click="showSeccionToEdit(s)"><i class="fa fa-pencil"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" title="Asignar estudiantes" ><i class="fa fa-mortar-board" ng-click="openAlumnoToSeccion(s)"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" title="Asignar profesores" ><i class="fa fa-user-plus"  ng-click="openProfesToSeccion(s)"></i></button>
+                            <button class="btn btn-xs btn-default" type="button" title="Activo/Inactivo" ng-click="isActive(s)"><i class="fa fa-times"></i></button>
                         </div>
                     </td>   
                 </tr>
@@ -67,9 +68,7 @@
         <div class="block-header bg-success">
             <ul class="block-options">
                 <li>
-                <button type="button" ng-click="close()"><i class="si si-close"></i></button>
-               <li>
-                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                    <button type="button" ng-click="close()"><i class="si si-close"></i></button>
                 </li>
             </ul>
 
@@ -121,9 +120,6 @@
             <li>
                 <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
             </li>
-            <li>
-                <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-            </li>
         </ul>
         <h3 class="block-title">Sección {{seccionName}}</h3>
     </div>
@@ -150,13 +146,13 @@
                 
                     <div class="form-group" >
                         <br><br><br><br><br><br>
-                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="borrarAsignado()" ><i class="fa fa-angle-right" ng-click="borrarAsignado()"></i></button>
-                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="borrarNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarNoAsignado()" ></i></button>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" href="javascript:void(0)" ng-click="borrarAsignado()" ><i class="fa fa-angle-right" ng-click="borrarAsignado()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="borrarNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarNoAsignado()" ></i></button>
                     </div>
                     <div class="form-group" >
                         <br>
-                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="todosDesasignarlos()" ><i class="fa fa-angle-double-right" ng-click="todosDesasignarlos()"></i></button>
-                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="todosAsignarlos()" href="javascript:void(0)"><i class="fa fa-angle-double-left" ng-click="todosAsignarlos()" ></i></button>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" href="javascript:void(0)" ng-click="todosDesasignarlos()" ><i class="fa fa-angle-double-right" ng-click="todosDesasignarlos()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="todosAsignarlos()" href="javascript:void(0)"><i class="fa fa-angle-double-left" ng-click="todosAsignarlos()" ></i></button>
                     </div>
   
                 </div>
@@ -200,9 +196,6 @@
             <li>
                 <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
             </li>
-            <li>
-                <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-            </li>
         </ul>
         <h3 class="block-title">Sección {{seccionName}}</h3>
     </div>
@@ -229,8 +222,8 @@
                 
                     <div class="form-group" >
                         <br><br><br><br><br><br>
-                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="borrarProfeAsignado()" ><i class="fa fa-angle-right" ng-click="borrarProfeAsignado()"></i></button>
-                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="borrarProfeNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado()" ></i></button>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" href="javascript:void(0)" ng-click="borrarProfeAsignado()" ><i class="fa fa-angle-right" ng-click="borrarProfeAsignado()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="borrarProfeNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado()" ></i></button>
                     </div>
   
                 </div>
@@ -267,5 +260,48 @@
 </div>
 <!-- END Mega Form -->
 
+<div class="row" ng-show="onPointWatchSeccion">
+    <div class="block-content">
+        <!-- Block Tabs Animated Fade -->
+        <div class="block">
+            <ul class="nav nav-tabs" data-toggle="tabs">
+                <li class="active">
+                    <a href="#btabs-animated-fade-home">Estudiantes</a>
+                </li>
+                <li>
+                    <a href="#btabs-animated-fade-profile">Profesores</a>
+                </li>
+                <li class="pull-right">
+                    <a href="#btabs-animated-fade-settings" ng-click="close()"><i class="si si-close"></i></a>
+                </li>
+            </ul>
+            <div class="block-content tab-content">
+                <div class="tab-pane fade in active" id="btabs-animated-fade-home">
+                    <h4 class="font-w300 push-15">Sección {{seccionName}}</h4>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-12" ng-repeat="a in AlumnosAsignados" value="{{a.idAlumno}}">
+                            {{a.nombre}} {{a.apellido1}} {{a.apellido2}}          
+                        </div>
+                    </div>
 
+                </div>
+                <div class="tab-pane fade" id="btabs-animated-fade-profile">
+                    <h4 class="font-w300 push-15">Sección {{seccionName}}</h4>
+                    
+                    <div class="col-xs-12" ng-repeat="p in ProfesAsignados" value="{{p.idUsuario}}">
+                           {{p.nombre}} {{p.apellido}}
+                    </div>
+
+                </div>
+            </div>
+            <br> 
+        </div>
+
+        <!-- END Block Tabs Animated Fade -->
+
+        
+    </div>
+</div>
+<!-- END Block Tabs Content Animation -->
 

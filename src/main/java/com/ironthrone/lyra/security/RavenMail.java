@@ -44,14 +44,12 @@ public class RavenMail {
 	    
 	    MultivaluedMapImpl formData = new MultivaluedMapImpl();
 	    
-	    String s = "<html><a href=" + "http://localhost:8090/lyra/#/login" + ">" + "VAYAMONOS A LYRA" + "</a></html>"; 
-	    
         formData.add("from", lyra_mail);
         formData.add("to", email);
         formData.add("subject", "Credenciales");
         formData.add("html", "Estimado " + name + " "
 						                + lastname + ","
-						                + message + s);  
+						                + message);  
 
         ClientResponse clientResponse = webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
         String output = clientResponse.getEntity(String.class);

@@ -181,7 +181,7 @@ public class SeccionService implements SeccionServiceInterface{
 			BeanUtils.copyProperties(a, alumno);	
 			alumno.setRegistrosMedicos(null);
 			alumno.setSeccion(null);
-			alumno.setUsuarios(null);
+			alumno.setUsuarios(generateUserDto(a.getUsuarios()));
 			alumno.setActiveAl(a.getIsActiveAl());
 			alumnos.add(alumno);
 		});	

@@ -24,5 +24,6 @@ public interface UsuarioServiceInterface {
 	UsuarioPOJO getUserByCedula(String cedula);
 	UsuarioPOJO getUserByEncargadoDelInstituto(UsuarioRequest ur);
 	Boolean prueba(String email);
+	UsuarioPOJO getAlumnosDelEncargado(int idUsuario);
 
 }
