@@ -219,7 +219,7 @@ $scope.saveUsuario = function(){
 	}
 
 	/**Funcion que retarsa la carga de los scripts del template hasta que Angular este listo **/
-	 $timeout( function(){ $scope.initScripts(); }, 100);
+	 $timeout( function(){ $scope.initScripts(); }, 2000);
  	 $scope.init();
 
 

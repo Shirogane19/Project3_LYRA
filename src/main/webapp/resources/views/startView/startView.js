@@ -65,7 +65,7 @@ angular.module('myApp.startView', [])
 
 
 	/**Funcion que retarsa la carga de los scripts del template hasta que Angular este listo **/
-	 $timeout( function(){ $scope.initScripts(); }, 100);
+	 $timeout( function(){ $scope.initScripts(); }, 5000);
  	 $scope.init();
 
 

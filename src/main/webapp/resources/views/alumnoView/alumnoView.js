@@ -153,25 +153,23 @@ angular.module('myApp.alumnoView', [])
       }
 
       $http.post('rest/protected/alumno/getAlumnoByCedula',$scope.requestObject).success(function(response) {
-        console.log(response.alumno);
+        //console.log(response.alumno);
         if(response.alumno.idAlumno == 0){
-          console.log("No Existe");
-
+          //console.log("No Existe");
           $scope.newAlumno.idAlumno = -1;
           $scope.saveAlumnoChanges();
 
         }else{
 
-          console.log("existe");
+          //console.log("existe");
 
           if(response.alumno.nombre == null){
-            console.log("registrar");
+            //console.log("registrar");
             $scope.newAlumno.idAlumno = response.alumno.idAlumno;
-
             $scope.saveAlumnoChanges();
 
           }else{
-            console.log("esta registrado en el periodo");
+            //console.log("esta registrado en el periodo");
             $scope.existAlumno = true;
           }
 
@@ -333,7 +331,7 @@ angular.module('myApp.alumnoView', [])
 
   }
 
-  $timeout( function(){ $scope.initScripts(); }, 100);
+  $timeout( function(){ $scope.initScripts(); }, 2000);
   $scope.init();
 
 }]);

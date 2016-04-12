@@ -11,7 +11,8 @@ angular.module('myApp.excelView', [])
 
     $scope.submitExcel = function(event){
 
-    	
+    	$state.go('successView');
+        
     	if(this.excelForm.$valid){
     		
     		//$files: an array of files selected, each file has name, size, and type.
@@ -28,7 +29,7 @@ angular.module('myApp.excelView', [])
 						console.log('percent: '+ parseInt(100.0 * evt.loaded / evt.total));
 					}).success(function(data, status, headers, config) {
                         console.log(data);
-						$state.go('successView');
+						//$state.go('successView');
 						
 
 					}).catch(function (error) {

@@ -7,4 +7,6 @@ public interface StatsServiceInterface {
 	
 	StatsPOJO getStatsByInstitution(StatsRequest r);
 
+	void startPeriodo();
+
 }
