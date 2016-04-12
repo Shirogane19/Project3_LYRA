@@ -522,13 +522,27 @@ public class UsuarioService implements UsuarioServiceInterface {
 		Usuario u =  usersRepository.findByCedula(cedula);
 		UsuarioPOJO dto = new UsuarioPOJO();
 		
+		boolean periodoActual = true;
+		
 		if(u != null){
-			BeanUtils.copyProperties(u, dto);
-			dto.setActiveUs(u.getIsActiveUs());
-			dto.setDateOfJoin(u.getDateOfJoin());
-			dto.setRols(generateRolDto(u));
-			dto.setListaInstituciones(generateInstitutionDtos(u));
-			dto.setTareas(generateTareaDto(u));	
+			Periodo p = Iterables.getLast(u.getPeriodos());
+			periodoActual = p.getIsActivePr();
+		}
+		System.out.print(periodoActual);
+		if(periodoActual == true){
+		
+			if(u != null){
+				BeanUtils.copyProperties(u, dto);
+				dto.setActiveUs(u.getIsActiveUs());
+				dto.setDateOfJoin(u.getDateOfJoin());
+				dto.setRols(generateRolDto(u));
+				dto.setListaInstituciones(generateInstitutionDtos(u));
+				dto.setTareas(generateTareaDto(u));	
+				dto.setPeriodo(null);
+				dto.setMaterias(null);
+				dto.setSeccions(null);
+				dto.setAlumnos(null);
+			}
 		}
 
 		return dto;

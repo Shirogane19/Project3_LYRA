@@ -289,5 +289,39 @@ public class AlumnoService implements AlumnoServiceInterface{
 
 		return list;
 	}
+	
+	/**
+	 * Retorna un objeto AlumnoPOJO 
+	 * @param
+	 * @return AlumnoPOJO
+	 */
+	@Override
+	public AlumnoPOJO findByCedula(String cedula) {
+		Alumno a = alumnoRepository.findByCedula(cedula);
+		AlumnoPOJO dto = new AlumnoPOJO();
+		
+		boolean periodoActual = true;
+
+		if(a != null){
+			Periodo p = Iterables.getLast(a.getPeriodos());
+			periodoActual = p.getIsActivePr();
+			dto.setIdAlumno(a.getIdAlumno());
+		}
+		System.out.println(periodoActual);
+		if(periodoActual == true){
+			if(a != null){
+				BeanUtils.copyProperties(a, dto);
+				dto.setRegistrosMedicos(null);
+				dto.setSeccion(null);
+				dto.setUsuarios(null);
+				dto.setActiveAl(a.getIsActiveAl());
+				dto.setRegistrosMedicos(null);
+			}
+			
+		}
+			
+		return dto;
+	}
+
 
 }

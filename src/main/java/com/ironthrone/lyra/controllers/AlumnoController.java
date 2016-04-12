@@ -87,4 +87,19 @@ public class AlumnoController {
 		return alumnoResponse;		
 	}
 	
+	/**
+	 * Retorna un único Alumno dado un ID particular.
+	 * @param idAlumno
+	 * @return AlumnoResponse
+	 */
+	@RequestMapping(value ="/getAlumnoByCedula", method = RequestMethod.POST)
+	public AlumnoResponse getByCedula(@RequestBody AlumnoRequest alumnoRequest){	
+			
+		AlumnoResponse alumnoResponse = new AlumnoResponse();
+		alumnoResponse.setCode(200);
+		alumnoResponse.setCodeMessage("users fetch success");
+		alumnoResponse.setAlumno(ASI.findByCedula(alumnoRequest.getAlumno().getCedula()));
+		return alumnoResponse;		
+	}
+	
 }

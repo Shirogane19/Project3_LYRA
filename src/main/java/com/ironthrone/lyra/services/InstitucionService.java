@@ -1,6 +1,7 @@
 package com.ironthrone.lyra.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -14,6 +15,7 @@ import com.ironthrone.lyra.ejb.Bitacora;
 import com.ironthrone.lyra.ejb.Grado;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Materia;
+import com.ironthrone.lyra.ejb.Periodo;
 import com.ironthrone.lyra.ejb.Subscripcion;
 import com.ironthrone.lyra.ejb.Usuario;
 import com.ironthrone.lyra.pojo.AlumnoPOJO;
@@ -382,14 +384,32 @@ public class InstitucionService implements InstitucionServiceInterface{
 		List<AlumnoPOJO> alumnos = new ArrayList<AlumnoPOJO>();
 		
 		i.getAlumnos().stream().forEach(a -> {
-			AlumnoPOJO alumno = new AlumnoPOJO();
-			BeanUtils.copyProperties(a, alumno);	
-			alumno.setRegistrosMedicos(null);
-			alumno.setSeccion(generateSeccionDto(a) );
-			alumno.setUsuarios(generateUserDto(a));
-			alumno.setActiveAl(a.getIsActiveAl());
-			alumno.setRegistrosMedicos(null);
-			alumnos.add(alumno);
+			
+			boolean periodoActual = false;
+			Iterator<Periodo> iteratorList = a.getPeriodos().stream().iterator();
+			
+			while (iteratorList.hasNext()) {
+				Periodo p = iteratorList.next();
+				
+				if(p.getIsActivePr()){
+					periodoActual = true;
+					break;
+				}
+			};	
+
+			if(periodoActual){
+				
+				AlumnoPOJO alumno = new AlumnoPOJO();
+				BeanUtils.copyProperties(a, alumno);	
+				alumno.setRegistrosMedicos(null);
+				alumno.setSeccion(generateSeccionDto(a) );
+				alumno.setUsuarios(generateUserDto(a));
+				alumno.setActiveAl(a.getIsActiveAl());
+				alumno.setRegistrosMedicos(null);
+				alumnos.add(alumno);
+				
+			}
+			
 		});	
 
 		return alumnos;

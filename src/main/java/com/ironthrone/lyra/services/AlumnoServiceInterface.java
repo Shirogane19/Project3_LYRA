@@ -12,4 +12,5 @@ public interface AlumnoServiceInterface {
 	Boolean saveAlumno(AlumnoRequest alumnoRequest);
 	AlumnoPOJO getAlumnoById(int idAlumno);
 	Alumno findById(int idAlumno);
+	AlumnoPOJO findByCedula(String cedula);
 }

@@ -22,6 +22,7 @@ angular.module('myApp.alumnoView', [])
   $scope.onPointShowUser = false;// Visibilidad de la ventana de datos del usuario
 
   $scope.invalidUser = false;// Visibilidad de mensaje de no encontrado 
+  $scope.existAlumno = false;// Visibilidad de mensaje de alumno registrado 
 
   $scope.cedulaInput = false;// Habilita el formulario de busqueda de encargado
 
@@ -133,9 +134,13 @@ angular.module('myApp.alumnoView', [])
     if($scope.isCreating){
       $scope.newAlumno.idAlumno = -1;
       $scope.newAlumno.activeAl = true;
+    }else{
+      $scope.saveAlumnoChanges();
     }
 
-    $scope.requestObject = {
+    if($scope.newAlumno.idAlumno == -1){
+
+      $scope.requestObject = {
         "pageNumber": 0,
         "pageSize": 0,
         "direction": "string",
@@ -144,35 +149,79 @@ angular.module('myApp.alumnoView', [])
         ],
         "searchColumn": "string",
         "searchTerm": "string",
-        "alumno": {
-
-            "idAlumno": $scope.newAlumno.idAlumno,
-            "apellido1": $scope.newAlumno.apellido1,
-            "apellido2": $scope.newAlumno.apellido2,
-            "cedula": $scope.newAlumno.cedula,
-            "genero": $scope.newAlumno.genero,
-            "nombre": $scope.newAlumno.nombre,
-            "institucion": {"idInstitucion":$scope.user.idInstitucion},
-            "seccion": {},
-            "usuarios": $scope.encargados,
-            "historialMedicos": [],
-            "activeAl": $scope.newAlumno.activeAl
-
-         }
+        "alumno": {"cedula": $scope.newAlumno.cedula}
       }
 
-      //console.log($scope.encargados);
+      $http.post('rest/protected/alumno/getAlumnoByCedula',$scope.requestObject).success(function(response) {
+        console.log(response.alumno);
+        if(response.alumno.idAlumno == 0){
+          console.log("No Existe");
+
+          $scope.newAlumno.idAlumno = -1;
+          $scope.saveAlumnoChanges();
+
+        }else{
+
+          console.log("existe");
+
+          if(response.alumno.nombre == null){
+            console.log("registrar");
+            $scope.newAlumno.idAlumno = response.alumno.idAlumno;
+
+            $scope.saveAlumnoChanges();
+
+          }else{
+            console.log("esta registrado en el periodo");
+            $scope.existAlumno = true;
+          }
+
+        }
+
+      })
+      .catch(function (error) {
+        //console.error('exception', error.status);
+        $localStorage.error = error.status;
+        $state.go('errorView');
+      }); 
+
+    }
+    
+  }
+
+  $scope.saveAlumnoChanges = function(){
+
+    $scope.requestObject = {
+      "pageNumber": 0,
+      "pageSize": 0,
+      "direction": "string",
+      "sortBy": [
+        "string"
+      ],
+      "searchColumn": "string",
+      "searchTerm": "string",
+      "alumno": {
+
+          "idAlumno": $scope.newAlumno.idAlumno,
+          "apellido1": $scope.newAlumno.apellido1,
+          "apellido2": $scope.newAlumno.apellido2,
+          "cedula": $scope.newAlumno.cedula,
+          "genero": $scope.newAlumno.genero,
+          "nombre": $scope.newAlumno.nombre,
+          "institucion": {"idInstitucion":$scope.user.idInstitucion},
+          "seccion": {},
+          "usuarios": $scope.encargados,
+          "historialMedicos": [],
+          "activeAl": $scope.newAlumno.activeAl
+
+       }
+    }
 
     $http.post('rest/protected/alumno/save',$scope.requestObject).success(function(response) {
 
       $state.reload();
 
     })
-    .catch(function (error) {
-      //console.error('exception', error.status);
-      $localStorage.error = error.status;
-      $state.go('errorView');
-    }); 
+
   }
 
   $scope.findUserForm = function(){// Cambia la visibilidad del formulario del usuario

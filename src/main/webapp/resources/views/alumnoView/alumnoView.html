@@ -146,20 +146,25 @@
                 </div>
 
                 <div class="form-group" ng-show="!isCreating">
-                        <div class="col-xs-12">
-                            <label class="css-input css-checkbox css-checkbox-success">
-                                <input type="checkbox" ng-model="newAlumno.activeAl"><span></span> Activo?
-                            </label>
-                        </div>
+                    <div class="col-xs-12">
+                        <label class="css-input css-checkbox css-checkbox-success">
+                            <input type="checkbox" ng-model="newAlumno.activeAl"><span></span> Activo?
+                        </label>
                     </div>
+                </div>
+
+                <div class="text-center" ng-show="existAlumno">
+                    <p class="text-muted push-15-t text-danger">El alumno ya se encuentra registrado</p>
+                </div>
 
                 <div class="form-group">
-                        <div class="col-xs-12">
-                            <button class="btn btn-sm btn-success" type="submit"  ng-disabled="alumnoForm.$invalid"
-                                    ng-click="saveAlumno()">
-                            <i class="fa fa-plus push-5-r"></i> Registrar</button>
-                        </div>
+                    <div class="col-xs-12">
+                        <button class="btn btn-sm btn-success" type="submit"  ng-disabled="alumnoForm.$invalid"
+                                ng-click="saveAlumno()">
+                        <i class="fa fa-plus push-5-r"></i> Registrar</button>
                     </div>
+                </div>
+
             </form>
         </div>
     </div>
