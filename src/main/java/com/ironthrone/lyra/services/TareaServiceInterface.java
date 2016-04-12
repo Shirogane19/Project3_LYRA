@@ -13,5 +13,6 @@ public interface TareaServiceInterface {
 	TareaPOJO getTareaById(int idTarea);
 	Tarea findById(int idTarea);
 	Boolean saveTarea(TareaRequest ur);
+	List<TareaPOJO> getTareaByUsuario(int idUsuario);
 
 }
