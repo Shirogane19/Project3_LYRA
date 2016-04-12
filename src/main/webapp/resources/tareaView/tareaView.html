@@ -10,7 +10,7 @@
                         <div class="block-header">
                             <h3 class="block-title">Tareas <small></small></h3>
                         </div>
-
+                            <i id="warning" ng-show="showWarning">Esta acción solo puede ser realizada por el creador de la tarea</i>
                         <div class="block-content">
 
                         
@@ -111,7 +111,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newTa.tituloTarea"required>
+                                                    <input id="tituloT" class="form-control" type="text" ng-model="newTa.tituloTarea"required>
                                                     <label>Título <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
@@ -120,7 +120,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newTa.descripcionTarea" required>
+                                                    <input id="descT" class="form-control" type="text" ng-model="newTa.descripcionTarea" required>
                                                     <label>Descripción <span class="text-danger">*</span>
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
                                      <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <select ng-model = "newTa.categoria"
+                                                    <select id="selecT" ng-model = "newTa.categoria"
                                                             class="form-control" id="contact2-subject" name="contact2-subject" size="1">
                                                         <option ng-repeat="c in categoryList" value="{{c.idCategoria}}">{{c.nombreCategoria}}</option>
                                                     </select>
@@ -268,7 +268,7 @@
                                 </div>
                             </div>
                         <i id="advertencia">Por favor seleccione un usuario o rol</i>
-                            <div class="block-content block-content-full bg-gray-lighter text-center">
+                            <div class="block-content block-content-full bg-gray-lighter text-center" ng-show="NotOwner">
                                 <button class="btn btn-sm btn-primary" type="submit" ng-disabled="tareaForm.$invalid" 
                                         ng-click = "saveTarea()">
                                 <i class="fa fa-check push-5-r"></i> Guardar</button>

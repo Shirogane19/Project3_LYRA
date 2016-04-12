@@ -54,6 +54,7 @@ public class TareaService implements TareaServiceInterface{
 			dto.setActiveTa(t.getIsActiveTa());	
 			dto.setReadTa(t.getIsReadTa());
 			dto.setCategoria(generateCategoryDto(t));
+			dto.setIdOwner(t.getIdOwner());
 
 			uiTareas.add(dto);
 		});	
@@ -140,6 +141,7 @@ public class TareaService implements TareaServiceInterface{
 		dto.setActiveTa(t.getIsActiveTa());	
 		dto.setReadTa(t.getIsReadTa());
 		dto.setCategoria(generateCategoryDto(t));
+		dto.setIdOwner(t.getIdOwner());
 
 
 	
@@ -354,6 +356,7 @@ public class TareaService implements TareaServiceInterface{
 		dbTarea.setDescripcionTarea(uiTarea.getDescripcionTarea());
 		dbTarea.setIsActiveTa(uiTarea.isActiveTa());
 		dbTarea.setIsReadTa(false);
+		dbTarea.setIdOwner(uiTarea.getIdOwner());
 
 		
 		return dbTarea;

@@ -31,6 +31,8 @@ angular.module('myApp.tareaView', ['ngRoute'])
   $scope.counter = 0;
   $scope.isCreating = true;
   $scope.onPoint = false;
+  $scope.NotOwner = true;
+  $scope.showWarning = false;
   
 
   $scope.initScripts = function(){
@@ -60,6 +62,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
     $http.post('rest/protected/tarea/getByUser',$scope.requestObject).success(function(response) {
 
       $scope.tareaList = response.tareas;
+      console.log("tareas ", $scope.tareaList);
       
 
     })
@@ -132,7 +135,13 @@ angular.module('myApp.tareaView', ['ngRoute'])
   }
   $scope.isActive = function(t){
 
+    if(t.idOwner == $localStorage.user.userId){
+
     $scope.newTa = t; // Guarda el objeto usuario a la variable temporal
+    $scope.listaRoles = t.rols;
+    $scope.getIdsRoles();
+    $scope.usuariosDeTarea = t.usuarios;
+
 
     if($scope.newTa.activeTa){
       $scope.newTa.activeTa = false;
@@ -143,6 +152,10 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
     $scope.isCreating = false;
     $scope.saveTarea();
+  }else{
+    $scope.showWarning = true;
+    document.getElementById("warning").style.color = "red";
+  }
 
   }
 
@@ -230,6 +243,8 @@ $scope.getIdsUsuarios = function(){
 
   $scope.saveTarea = function(){
 
+    console.log("new ta", $scope.newTa);
+
     if($scope.usuariosDeTarea.length >0 || $scope.listaRoles.length >0){
 
       console.log("entre a Save Tarea");
@@ -262,7 +277,8 @@ $scope.getIdsUsuarios = function(){
           "readTa": "false",
           "idUsuarios" : $scope.taskUsers,
           "idRols" :  $scope.listaRoles,
-          "idCategoria": $scope.idCategoria
+          "idCategoria": $scope.idCategoria,
+          "idOwner" : $localStorage.user.userId
       }
 
     } //Fin de RO
@@ -293,51 +309,107 @@ $scope.getIdsUsuarios = function(){
     $scope.showTareaToEdit = function(t){
 
 
-      $scope.onPoint = true;
-      $scope.getCategories();
-    $scope.getAllUsers();
-    $scope.edit = true;
-    $scope.newTa = t;
-    $scope.newTa.tituloTarea = t.tituloTarea;
-    $scope.newTa.descripcionTarea = t.descripcionTarea;
-    $scope.listaRoles = t.rols;
-    $scope.getIdsRoles();
-    $scope.usuariosDeTarea = t.usuarios;
-    $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
+      if(t.idOwner == $localStorage.user.userId){
+
+          $scope.onPoint = true;
+          $scope.getCategories();
+          $scope.getAllUsers();
+          $scope.edit = true;
+          $scope.newTa = t;
+          $scope.newTa.tituloTarea = t.tituloTarea;
+          $scope.newTa.descripcionTarea = t.descripcionTarea;
+          $scope.listaRoles = t.rols;
+          $scope.getIdsRoles();
+          $scope.usuariosDeTarea = t.usuarios;
+          $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
 
 
-              $scope.requestObject = { "pageNumber": 0,
-                                       "pageSize": 0,
-                                       "direction": "string",
-                                       "sortBy": [""],
-                                       "searchColumn": "string",
-                                       "searchTerm": 
-                                       "string",
-                                       "usuario":{"idInstitucion": $scope.user.idInstitucion}
-                                      };
+                    $scope.requestObject = { "pageNumber": 0,
+                                             "pageSize": 0,
+                                             "direction": "string",
+                                             "sortBy": [""],
+                                             "searchColumn": "string",
+                                             "searchTerm": 
+                                             "string",
+                                             "usuario":{"idInstitucion": $scope.user.idInstitucion}
+                                            };
 
-              $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
-              
-                var found = false;
+                    $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
+                    
+                      var found = false;
 
-                for (var i = 0; i < response.usuarios.length; i++) {//
-                  for (var p = 0; p < $scope.usuariosDeTarea.length; p++) {////
-                    if(response.usuarios[i].idUsuario != $scope.usuariosDeTarea[p].idUsuario){
-                    }else{
-                      found = true; 
-                    }
-                  };////
-                  if(found == false){
-                    $scope.UsuariosNoAsignados.push(response.usuarios[i]);
-                  }
-                  found = false;
-                };//
+                      for (var i = 0; i < response.usuarios.length; i++) {//
+                        for (var p = 0; p < $scope.usuariosDeTarea.length; p++) {////
+                          if(response.usuarios[i].idUsuario != $scope.usuariosDeTarea[p].idUsuario){
+                          }else{
+                            found = true; 
+                          }
+                        };////
+                        if(found == false){
+                          $scope.UsuariosNoAsignados.push(response.usuarios[i]);
+                        }
+                        found = false;
+                      };//
 
-              }).catch(function (error) {
-                //console.error('exception', error.status);
-                $localStorage.error = error.status;
-                $state.go('errorView');
-              }); 
+                    }).catch(function (error) {
+                      //console.error('exception', error.status);
+                      $localStorage.error = error.status;
+                      $state.go('errorView');
+                    }); 
+
+
+      }else{
+
+          $scope.NotOwner = false;
+          $scope.onPoint = true;
+          $scope.getCategories();
+          $scope.getAllUsers();
+          $scope.edit = true;
+          $scope.newTa = t;
+          $scope.newTa.tituloTarea = t.tituloTarea;
+          $scope.newTa.descripcionTarea = t.descripcionTarea;
+          $scope.listaRoles = t.rols;
+          $scope.getIdsRoles();
+          $scope.usuariosDeTarea = t.usuarios;
+          $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
+
+
+                    $scope.requestObject = { "pageNumber": 0,
+                                             "pageSize": 0,
+                                             "direction": "string",
+                                             "sortBy": [""],
+                                             "searchColumn": "string",
+                                             "searchTerm": 
+                                             "string",
+                                             "usuario":{"idInstitucion": $scope.user.idInstitucion}
+                                            };
+
+                    $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
+                    
+                      var found = false;
+
+                      for (var i = 0; i < response.usuarios.length; i++) {//
+                        for (var p = 0; p < $scope.usuariosDeTarea.length; p++) {////
+                          if(response.usuarios[i].idUsuario != $scope.usuariosDeTarea[p].idUsuario){
+                          }else{
+                            found = true; 
+                          }
+                        };////
+                        if(found == false){
+                          $scope.UsuariosNoAsignados.push(response.usuarios[i]);
+                        }
+                        found = false;
+                      };//
+
+                    }).catch(function (error) {
+                      //console.error('exception', error.status);
+                      $localStorage.error = error.status;
+                      $state.go('errorView');
+                    }); 
+
+      }
+
+
 
 
     //$scope.showForm();
