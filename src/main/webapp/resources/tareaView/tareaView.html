@@ -22,7 +22,6 @@
                                         <th ng-hide="true"></th>
                                         <th class="text-center">Nombre</th>
                                         <th class="text-center">Descripción</th>
-                                        <th class="hidden-xs" style="width: 15%;">Leido</th>
                                         <th class="hidden-xs" style="width: 15%;">Estado</th>
                                         <th class="text-center" style="width: 10%;">Acciones</th>
                                        
@@ -37,13 +36,6 @@
                                         <td><span ng-bind="t.tituloTarea"></span></td>
                                         <td><span ng-bind="t.descripcionTarea"></span></td>
 
-                                        <td class="hidden-xs"   ng-if="t.readTa == true">
-                                        <span class="label label-success">Leido</span>
-                                        </td>
-
-                                        <td class="hidden-xs"   ng-if="t.readTa == false">
-                                        <span class="label label-danger">No leido</span>
-                                        </td>
 
                                         <td class="hidden-xs"   ng-if="t.activeTa == true">
                                         <span class="label label-success">Activo</span>
