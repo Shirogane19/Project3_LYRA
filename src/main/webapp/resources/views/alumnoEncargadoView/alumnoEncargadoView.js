@@ -100,7 +100,7 @@ angular.module('myApp.alumnoEncargadoView', [])
   }
 
 
-  $timeout( function(){ $scope.initScripts(); }, 100);
+  $timeout( function(){ $scope.initScripts(); }, 1000);
   $scope.init();
 
 

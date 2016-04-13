@@ -25,7 +25,7 @@ angular.module('myApp.seccionView', ['ngRoute'])
     angular.element(document).ready(function () {
           
            BaseTableDatatables.init();
-           App.init();
+           OneUI.init();
        //BaseFormValidation.init();
       //OneUI.initHelpers('select2');
     });
@@ -432,7 +432,7 @@ angular.module('myApp.seccionView', ['ngRoute'])
   $scope.onPointWatchSeccion = false;
 
   $scope.showSeccion = function(s){
-    console.log(s);
+    //console.log(s);
     $scope.seccionName = s.nombreSeccion;
 
     $http.post('rest/protected/seccion/getSeccion',s.idSeccion).success(function(response) {
@@ -463,10 +463,11 @@ angular.module('myApp.seccionView', ['ngRoute'])
 
     $scope.onPoint = false;
     $scope.onPointWatchSeccion = true;
+    $timeout( function(){ OneUI.initHelper('table-tools'); }, 200);
 
   }//
 
-  $timeout( function(){ $scope.initScripts(); }, 100);
+  $timeout( function(){ $scope.initScripts(); }, 1000);
   $scope.init();
 
 }]);

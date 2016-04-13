@@ -80,6 +80,7 @@ angular.module('myApp.seccionProfesorView', ['ngRoute'])
 
     $scope.onPoint = false;
     $scope.onPointWatchSeccion = true;
+    $timeout( function(){ OneUI.initHelper('table-tools'); }, 200);
 
   }//
 

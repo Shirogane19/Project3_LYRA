@@ -83,9 +83,49 @@
                 <div class="tab-pane fade" id="btabs-animated-fade-profile">
                     <h4 class="font-w300 push-15">Sección {{seccionName}}</h4>
                     
-                    <div class="col-xs-12" ng-repeat="p in ProfesAsignados" value="{{p.idUsuario}}">
+                    <!-- <div class="col-xs-12" ng-repeat="p in ProfesAsignados" value="{{p.idUsuario}}">
                            {{p.nombre}} {{p.apellido}}
                     </div>
+ -->
+                    <div class="block-content" >
+                        <!--
+                        Separate your table content with multiple tbody sections. Add one row and add the class .js-table-sections-header to a
+                        tbody section to make it clickable. It will then toggle the next tbody section which can have multiple rows. Eg:
+
+                        <tbody class="js-table-sections-header">One row</tbody>
+                        <tbody>Multiple rows</tbody>
+                        <tbody class="js-table-sections-header">One row</tbody>
+                        <tbody>Multiple rows</tbody>
+                        <tbody class="js-table-sections-header">One row</tbody>
+                        <tbody>Multiple rows</tbody>
+
+                        You can also add the class .open in your tbody.js-table-sections-header to make the next tbody section visible by default
+                        -->
+                        <table class="js-table-sections table table-hover" ng-repeat="p in ProfesAsignados">
+
+                            <tbody class="js-table-sections-header" >
+                                <tr>
+                                    <td class="text-center" style="width: 30px;">
+                                        <i class="fa fa-angle-right"></i>
+                                    </td>
+                                    <td class="font-w600">{{p.nombre}} {{p.apellido}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center" style="width: 0px;"></td>
+                                    <td class="font-w600 text-success"><strong>Correo:</strong> {{p.email}} <br>
+                                        <strong>Materias que imparte:</strong>
+                                        <i ng-repeat="p in ProfesAsignados">
+                                            <i ng-repeat="m in p.materias">{{m.idMateria}} 1<span ng-show=" ! $last ">, </span></i>
+                                        </i>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
 
                 </div>
             </div>
