@@ -54,6 +54,7 @@ public class TareaService implements TareaServiceInterface{
 			dto.setActiveTa(t.getIsActiveTa());	
 			dto.setReadTa(t.getIsReadTa());
 			dto.setCategoria(generateCategoryDto(t));
+			dto.setIdOwner(t.getIdOwner());
 
 			uiTareas.add(dto);
 		});	
@@ -131,14 +132,16 @@ public class TareaService implements TareaServiceInterface{
 		Tarea t =  tareaRepository.findOne(idTarea);
 		TareaPOJO dto = new TareaPOJO();
 		
+		dto.setActiveTa(t.getIsActiveTa());
+		dto.setUsuarios(generateUserDto(t));
+		dto.setRols(generateRolsDto(t));
 		dto.setIdTarea(t.getIdTarea());		
+		dto.setTituloTarea(t.getTituloTarea());
 		dto.setDescripcionTarea(t.getDescripcionTarea());
 		dto.setActiveTa(t.getIsActiveTa());	
 		dto.setReadTa(t.getIsReadTa());
-		
 		dto.setCategoria(generateCategoryDto(t));
-		dto.setUsuarios(null);
-		dto.setRols(null);
+		dto.setIdOwner(t.getIdOwner());
 
 
 	
@@ -195,13 +198,15 @@ public class TareaService implements TareaServiceInterface{
 			newTarea = assignProperties(newTarea,ur.getTarea());
 			nTarea = tareaRepository.save(newTarea);
 			
+			if(hasRoles){
+				nTarea = assignTaskRole(listRol,idRoles,nTarea);
+			}
+			
 			if(hasUsuarios){
 				nTarea = assignTaskUser(listUsuario,idUsuarios,nTarea);
 			}
 
-			if(hasRoles){
-				nTarea = assignTaskRole(listRol,idRoles,nTarea);
-			}
+			
 			
 		 
 		}else{
@@ -351,6 +356,7 @@ public class TareaService implements TareaServiceInterface{
 		dbTarea.setDescripcionTarea(uiTarea.getDescripcionTarea());
 		dbTarea.setIsActiveTa(uiTarea.isActiveTa());
 		dbTarea.setIsReadTa(false);
+		dbTarea.setIdOwner(uiTarea.getIdOwner());
 
 		
 		return dbTarea;
@@ -366,6 +372,19 @@ public class TareaService implements TareaServiceInterface{
 		   //get current date time with Date()
 		   Date date = new Date();
 		   return date;
+	}
+
+
+	@Override
+	@Transactional
+	public List<TareaPOJO> getTareaByUsuario(int idUsuario) {
+		Usuario u = userRepository.findOne(idUsuario);
+		List<Tarea> listT = tareaRepository.findByUsuariosIn(u);
+		
+		
+		return generateTareasDtos(listT);
+		
+		
 	}
 
 }

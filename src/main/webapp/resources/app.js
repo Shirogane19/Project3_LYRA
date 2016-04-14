@@ -79,7 +79,7 @@ angular.module('myApp', [
     $http.post('rest/protected/users/getUser',$scope.requestObject).success(function(response) {
 
       for (var i = 0; i < response.usuario.tareas.length; i++) {
-           if(response.usuario.tareas[i].readTa == false){
+           if(response.usuario.tareas[i].activeTa == true){
               num ++;
            }
       };

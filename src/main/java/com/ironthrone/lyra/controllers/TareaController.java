@@ -85,5 +85,26 @@ public class TareaController {
 		return ta;
 		
 	}
+	
+	/**
+	 * Guarda los datos de una tarea, remplaza el Create y Update en el CRUD.
+	 * @param ur
+	 * @return
+	 */
+	@RequestMapping(value ="/getByUser", method = RequestMethod.POST)
+	public TareaResponse getByUser(@RequestBody TareaRequest ur){	
+		
+		int idUsuario = ur.getTarea().getIdUsuario();
+		
+		TareaResponse ta = new TareaResponse();
+		ta.setCode(200);
+		ta.setCodeMessage("Tarea fetch success");
+		ta.setTareas(tareaService.getTareaByUsuario(idUsuario));
+		
+		return ta;
+		
+	}
+	
+	
 
 }

@@ -10,7 +10,7 @@
                         <div class="block-header">
                             <h3 class="block-title">Tareas <small></small></h3>
                         </div>
-
+                            <i id="warning" ng-show="showWarning">Esta acción solo puede ser realizada por el creador de la tarea</i>
                         <div class="block-content">
 
                         
@@ -22,7 +22,6 @@
                                         <th ng-hide="true"></th>
                                         <th class="text-center">Nombre</th>
                                         <th class="text-center">Descripción</th>
-                                        <th class="hidden-xs" style="width: 15%;">Leido</th>
                                         <th class="hidden-xs" style="width: 15%;">Estado</th>
                                         <th class="text-center" style="width: 10%;">Acciones</th>
                                        
@@ -37,13 +36,6 @@
                                         <td><span ng-bind="t.tituloTarea"></span></td>
                                         <td><span ng-bind="t.descripcionTarea"></span></td>
 
-                                        <td class="hidden-xs"   ng-if="t.readTa == true">
-                                        <span class="label label-success">Leido</span>
-                                        </td>
-
-                                        <td class="hidden-xs"   ng-if="t.readTa == false">
-                                        <span class="label label-danger">No leido</span>
-                                        </td>
 
                                         <td class="hidden-xs"   ng-if="t.activeTa == true">
                                         <span class="label label-success">Activo</span>
@@ -111,7 +103,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newTa.tituloTarea"required>
+                                                    <input id="tituloT" class="form-control" type="text" ng-model="newTa.tituloTarea"required>
                                                     <label>Título <span class="text-danger">*</span></label>
                                                 </div>
                                             </div>
@@ -120,7 +112,7 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <input class="form-control" type="text" ng-model="newTa.descripcionTarea" required>
+                                                    <input id="descT" class="form-control" type="text" ng-model="newTa.descripcionTarea" required>
                                                     <label>Descripción <span class="text-danger">*</span>
                                                 </div>
                                             </div>
@@ -129,7 +121,7 @@
                                      <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="form-material">
-                                                    <select ng-model = "newTa.categoria"
+                                                    <select id="selecT" ng-model = "newTa.categoria"
                                                             class="form-control" id="contact2-subject" name="contact2-subject" size="1">
                                                         <option ng-repeat="c in categoryList" value="{{c.idCategoria}}">{{c.nombreCategoria}}</option>
                                                     </select>
@@ -163,95 +155,77 @@
 
                                 <!-- Password Tab -->
                                 <div ng-show = "tab2" class="tab-pane fade in active" id="tab-profile-password">
-                                    <div class="row items-push">
-                                        <div class="col-sm-12 col-sm-offset-0 form-horizontal">
-                                            
-                                        <hr>
-                             <!-- Tabla de usuarios de la tarea -->               
-
-                                <div class="form-group">
-                                        <div class="block-content">
-                            <!-- If you put a checkbox in thead section, it will automatically toggle all tbody section checkboxes -->
-                                            <table class="js-table-checkable table table-hover" ng-if="isCreating == false">
-                                            
-                                                <thead>
-
-                                                    <tr>  
-                                                        <th ng-hide="true"></th>                   
-                                                        
-                                                        <th>Nombre edit</th>
-                                                        <th class="hidden-xs" style="width: 15%;">Cédula</th>
-                                                        <th class="hidden-xs" style="width: 15%;">Correo</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    <tr ng-repeat="x in usuariosDeTarea" u-index="$index">
-                                                    <td class="text-center" ng-bind="x.idUsuario" ng-hide="true"></td>
-                                                    
-                                                       <!-- <td class="text-center" ng-repeat="u in userList" u-index="$index">-->
-                                                        <td class="text-center" ng-bind="x.idUsuario" ng-hide="true"></td>
-                                                        <td class="text-center">
-                                                            
-                                                        </td>
-                                                        <td class="font-w600"   ng-bind="(x.nombre) +' '+ (x.apellido)"></td>
-                                                        <td class="hidden-xs"   ng-bind="x.cedula"></td>
-                                                        <td class="hidden-xs"   ng-bind="x.email"></td>
-                                                    </tr>
-                       
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        </div>
-
-
-                            <h3>Tabla de usuarios</h3>
-                                            <hr
-                             <!-- fin tabla de usuarios de la tarea-->
-                                        <div class="form-group">
-                                        <div class="block-content">
-                            <!-- If you put a checkbox in thead section, it will automatically toggle all tbody section checkboxes -->
-                                            <table class="js-table-checkable table table-hover">
-                                                <thead>
-                                                    <tr>  
-                                                        <th ng-hide="true"></th>                   
-                                                        <th class="text-center" style="width: 70px;">
-                                                            <label class="css-input css-checkbox css-checkbox-primary remove-margin-t remove-margin-b">
-                                                                <input type="checkbox" id="check-all" name="check-all"><span></span>
-                                                            </label>
-                                                        </th>
-
-
-                                                        <th>Nombre</th>
-                                                        <th class="hidden-xs" style="width: 15%;">Cédula</th>
-                                                        <th class="hidden-xs" style="width: 15%;">Correo</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    <tr ng-repeat="u in userList" u-index="$index">
-                                                    <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
-                                                    
-                                                       <!-- <td class="text-center" ng-repeat="u in userList" u-index="$index">-->
-                                                        <td class="text-center" ng-bind="u.idUsuario" ng-hide="true"></td>
-                                                        <td class="text-center">
-                                                            <label class="css-input css-checkbox css-checkbox-primary">
-                                                                <input ng-change ="saveUserT(u)" type="checkbox" id="$index" ng-model="taskUsers"
-                                                                 ><span></span>
-                                                            </label>
-                                                        </td>
-                                                        <td class="font-w600"   ng-bind="(u.nombre) +' '+ (u.apellido)"></td>
-                                                        <td class="hidden-xs"   ng-bind="u.cedula"></td>
-                                                        <td class="hidden-xs"   ng-bind="u.email"></td>
-                                                    </tr>
-                       
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        </div>
-                                            </div>
-                                        </div>
+                                    <div class="block block-bordered" >
+                                    <div class="block-header bg-gray-lighter">
+                                        <ul class="block-options">
+                                            <li>
+                                                <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
+                                            </li>
+                                            <li>
+                                                <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                                            </li>
+                                        </ul>
+                                        <!--<h3 class="block-title">Tarea {{seccionName}}</h3>-->
                                     </div>
+                                    <div class="block-content">
+
+                                        <form class="form-horizontal push-10-t push-10" action="base_forms_premade.html" method="post" onsubmit="return false;">
+
+                                            <div class="row">
+
+                                                <div class="col-sm-5">
+                                                
+                                                    <div class="form-group">
+                                                        <div class="col-xs-12">
+                                                            <label for="mega-skills">Usuarios asignados</label>
+                                                            <select class="form-control" id="mega-skills" name="mega-skills" size="17" multiple >
+                                                                <option ng-repeat="pa in usuariosDeTarea" value="{{pa.idUsuario}}" ng-click="targetProfeAsignado(pa)">{{pa.nombre}} {{pa.apellido}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                  
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                
+                                                    <div class="form-group" >
+                                                        <br><br><br><br><br><br>
+                                                        <button class="btn btn-lg btn-warning pull-left" type="button" data-toggle="tooltip" href="javascript:void(0)" ng-click="borrarProfeAsignado()" ><i class="fa fa-angle-right" ng-click="borrarProfeAsignado()"></i></button>
+                                                        <button class="btn btn-lg btn-warning pull-right" type="button" data-toggle="tooltip" ng-click="borrarProfeNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado()" ></i></button>
+                                                    </div>
+                                  
+                                                </div>
+
+                                                <div class="col-sm-5">
+                                                
+                                                    <div class="form-group">
+                                                        <div class="col-xs-12">
+                                                            <label for="mega-skills">Disponibles</label>
+                                                            <select class="form-control" id="mega-skills" name="mega-skills" size="17" multiple >
+                                                                 <option ng-repeat="pna in UsuariosNoAsignados" value="{{pna.idUsuario}}" ng-click="targetProfeNoAsignado(pna)">{{pna.nombre}} {{pna.apellido}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                  
+                                                </div>
+
+                                            </div><!--end first row-->
+
+                                           <!--  <div class="row ">
+                                                <div class="col-sm-5"></div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <div class="col-xs-4">
+                                                            <button class="btn btn-warning " type="submit" ng-click="registrarAsignacionesProfes()"><i class="fa fa-check push-5-r"></i> Registrar </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5"></div>
+                                            </div> -->
+                                            
+                                        </form>
+                                    </div>
+                                </div>
                                 </div>
                                 <!-- END Password Tab -->
                                  <div ng-show = "tab3" class="tab-pane fade in active" id="tab-rol">
@@ -286,7 +260,7 @@
                                 </div>
                             </div>
                         <i id="advertencia">Por favor seleccione un usuario o rol</i>
-                            <div class="block-content block-content-full bg-gray-lighter text-center">
+                            <div class="block-content block-content-full bg-gray-lighter text-center" ng-show="NotOwner">
                                 <button class="btn btn-sm btn-primary" type="submit" ng-disabled="tareaForm.$invalid" 
                                         ng-click = "saveTarea()">
                                 <i class="fa fa-check push-5-r"></i> Guardar</button>
