@@ -14,5 +14,6 @@ public interface MateriaServiceInterface {
 	MateriaPOJO getMateriaById(int idMateria);
 	Materia findById(int idMateria);
 	Boolean saveMateria(MateriaRequest ur);
+	MateriaPOJO getProfes(int idMateria);
 
 }

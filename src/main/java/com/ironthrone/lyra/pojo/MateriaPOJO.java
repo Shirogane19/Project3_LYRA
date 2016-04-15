@@ -1,5 +1,6 @@
 package com.ironthrone.lyra.pojo;
 
+import java.util.List;
 
 public class MateriaPOJO {
 	
@@ -8,7 +9,7 @@ public class MateriaPOJO {
 	private String nombre;
 	private InstitucionPOJO institucion;
 	private int IdInstitucion;
-
+	private List<UsuarioPOJO> profesorMateria;
 	
 	public MateriaPOJO(){
 		super();
@@ -52,6 +53,14 @@ public class MateriaPOJO {
 
 	public void setIdInstitucion(int idInstitucion) {
 		IdInstitucion = idInstitucion;
+	}
+
+	public List<UsuarioPOJO> getProfesorMateria() {
+		return profesorMateria;
+	}
+
+	public void setProfesorMateria(List<UsuarioPOJO> profesorSeccions) {
+		this.profesorMateria = profesorSeccions;
 	}
 
 

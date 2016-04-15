@@ -135,26 +135,9 @@ public class AlumnoService implements AlumnoServiceInterface{
 		}else{	
 			
 			removeEncargados(alumnoRequest);
-			
-//			List<Usuario> usuarios = new ArrayList<Usuario>();
-//			
-//		    alumnoRequest.getAlumno().getUsuarios().stream().forEach(u ->{
-//		    	
-//		    	if(u.getIdUsuario() > 0){
-//			    	Usuario usuario = usersRepository.findOne(u.getIdUsuario());
-//			    	usuarios.add(usuario);
-//		    	}else{
-//		    		Usuario usuario = usersRepository.findByCedula(u.getCedula());
-//		    		usuarios.add(usuario);
-//		    	}	    	
-//		    	
-//		    });
-//		    
-//		    newAlumno.setUsuarios(usuarios);
 			Alumno oldAlumno = findById(newAlumno.getIdAlumno());
 			Seccion oldSeccion = oldAlumno.getSeccion();
-			
-		//	BeanUtils.copyProperties(newAlumno, oldAlumno);
+
 			oldAlumno.setIdAlumno(alumnoRequest.getAlumno().getIdAlumno());
 			oldAlumno.setNombre(alumnoRequest.getAlumno().getNombre());
 			oldAlumno.setApellido1(alumnoRequest.getAlumno().getApellido1());
@@ -165,8 +148,7 @@ public class AlumnoService implements AlumnoServiceInterface{
 			
 			
 			oldAlumno.setSeccion(oldSeccion);
-			
-		//	System.out.println("Periodo: " + oldAlumno.getPeriodos());
+
 			boolean periodoActual = false;
 			Iterator<Periodo> iteratorList = oldAlumno.getPeriodos().stream().iterator();
 			

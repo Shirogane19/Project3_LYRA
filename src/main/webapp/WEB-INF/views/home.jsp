@@ -126,7 +126,7 @@
                                     <a ui-sref="categoriaView"><i class="si si-list"></i>Categor&iacuteas</a>
                                 </li>
                                  <li ng-if = "accessBulkLoad == true">
-                                    <a ui-sref="excelView"><i class="si si-rocket"></i>Subir Excel</a>
+                                    <a ui-sref="excelView"><i class="si si-rocket"></i>Carga Masiva</a>
                                 </li>   
                                 <li ng-if = "accessSeccionProfesor == true">    
                                     <a ui-sref="seccionProfesorView"><i class="si si-map"></i>Mi secciones</a>

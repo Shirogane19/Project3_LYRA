@@ -124,7 +124,6 @@ public class Usuario implements Serializable {
 		this.movil = movil;
 	}
 
-
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -150,9 +149,6 @@ public class Usuario implements Serializable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
-
-
 	
 	//bi-directional many-to-many association to Usuario
 	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -246,16 +242,7 @@ public class Usuario implements Serializable {
 
 
 	//bi-directional many-to-many association to Materia
-	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinTable(
-		name="materias_profesor"
-		, joinColumns={
-			@JoinColumn(name="Usuario_idUsuario")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Materia_idMateria")
-			}
-		)
+	@ManyToMany(mappedBy="usuarios")
 	public List<Materia> getMaterias() {
 		return this.materias;
 	}

@@ -77,6 +77,8 @@ public class MateriaController {
 	@RequestMapping(value ="/saveMateria", method = RequestMethod.POST)
 	public MateriaResponse create(@RequestBody MateriaRequest ur){	
 		
+		System.out.println("Estado: " + ur.getMateria().isActiveMat());
+		
 		MateriaResponse mat = new MateriaResponse();
 		Boolean state = materiaService.saveMateria(ur);
 		if(state){
@@ -85,6 +87,21 @@ public class MateriaController {
 		}
 		return mat;
 		
+	}
+	
+	/**
+	 * Retorna una lista de los profesores de una materia
+	 * @param idMateria
+	 * @return Materia Response
+	 */
+	@RequestMapping(value ="/getProfesDeMateria", method = RequestMethod.POST)
+	public MateriaResponse getProfesores(@RequestBody int idMateria){	
+			
+		MateriaResponse mats = new MateriaResponse();
+		mats.setCode(200);
+		mats.setCodeMessage("Materia fetch success");
+		mats.setMateria(materiaService.getProfes(idMateria));
+		return mats;		
 	}
 	
 	

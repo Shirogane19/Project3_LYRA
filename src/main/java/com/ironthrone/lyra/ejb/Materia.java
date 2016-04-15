@@ -77,7 +77,16 @@ public class Materia implements Serializable {
 
 
 	//bi-directional many-to-many association to Usuario
-	@ManyToMany(mappedBy="materias")
+	@ManyToMany(fetch = FetchType.LAZY,cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+		name="materias_profesor"
+		, joinColumns={
+			@JoinColumn(name="Materia_idMateria")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Usuario_idUsuario")
+			}
+		)
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
