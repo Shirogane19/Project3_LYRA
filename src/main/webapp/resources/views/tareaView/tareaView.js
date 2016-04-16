@@ -322,7 +322,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
           $scope.onPoint = true;
           $scope.getCategories();
-          $scope.getAllUsers();
+          //$scope.getAllUsers();
           $scope.edit = true;
           $scope.newTa = t;
           $scope.newTa.tituloTarea = t.tituloTarea;
@@ -344,28 +344,38 @@ angular.module('myApp.tareaView', ['ngRoute'])
                                   };
 
           $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
-          
-            var found = false;
+                   
+                      var found = false;
 
-            for (var i = 0; i < $scope.usuariosDeTarea.length; i++) {//
-              for (var p = 0; p < response.usuarios.length; p++) {////
-                if($scope.usuariosDeTarea[i].idUsuario != response.usuarios[p].idUsuario){
-                  console.log(p);
-                }else{
-                  found = true; 
-                }
-              };////
-              if(found == false){
-                $scope.UsuariosNoAsignados.push(response.usuarios[i]);
-              }
-              found = false;
-            };//
+                      for (var i = 0; i < response.usuarios.length; i++) {
+    
+                
 
-          }).catch(function (error) {
-            //console.error('exception', error.status);
-            $localStorage.error = error.status;
-            $state.go('errorView');
-          }); 
+                          for (var x = 0; x < $scope.usuariosDeTarea.length; x++) {
+
+                              if (response.usuarios[i].idUsuario ==  $scope.usuariosDeTarea[x].idUsuario) {
+                                console.log("igual", response.usuarios[i].idUsuario);
+                                 found = true; 
+
+                              };
+    
+                          }
+    
+                          if(found == false){
+
+                          $scope.UsuariosNoAsignados.push(response.usuarios[i]);
+
+                        }
+
+                        found = false;
+                      };//
+
+                    }).catch(function (error) {
+                      //console.error('exception', error.status);
+                      $localStorage.error = error.status;
+                      $state.go('errorView');
+                    }); 
+
 
 
       }else{
@@ -417,6 +427,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
           }); 
 
       }
+
 
     //$scope.showForm();
     $scope.isCreating = false;
@@ -517,45 +528,6 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
   //--------------
 
-  //** Guarda los cambios de las asignasiones o desasignaciones de los profesores**/
-  $scope.registrarAsignacionesProfes = function(){
-    // console.log($scope.ProfesNoAsignados);
-    // console.log($scope.ProfesAsignados);
-
-    // console.log($scope.objSeccion.idSeccion);
-    // console.log($scope.objSeccion.nombreSeccion);
-    // console.log($scope.objSeccion.activeSec);
-    // console.log($scope.objSeccion.grado.idGrado);
-
-    $scope.requestObject = {
-      "code": 0,
-      "codeMessage": "string",
-      "errorMessage": "string",
-      "totalPages": 0,
-      "totalElements": 0,
-      "seccion": {
-        "idSeccion": $scope.objSeccion.idSeccion,
-        "nombreSeccion": $scope.objSeccion.nombreSeccion,
-        "activeSec": $scope.objSeccion.activeSec,
-        "grado": {"idGrado": $scope.objSeccion.grado.idGrado},
-        "alumnos": $scope.AlumnosAsignados,
-        "profesorSeccions": $scope.UsuariosAsignados
-         
-      }
-    }
-
-    $http.post('rest/protected/seccion/saveSeccion',$scope.requestObject).success(function(response) {
-
-      $state.reload();
-
-    })
-    .catch(function (error) {
-      //console.error('exception', error.status);
-      $localStorage.error = error.status;
-      $state.go('errorView');
-    }); 
-
-  }
 
   //--------------end tablas
   $timeout( function(){ $scope.initScripts(); }, 100);
