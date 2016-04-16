@@ -347,10 +347,9 @@ angular.module('myApp.tareaView', ['ngRoute'])
           
             var found = false;
 
-            for (var i = 0; i < $scope.usuariosDeTarea.length; i++) {//
-              for (var p = 0; p < response.usuarios.length; p++) {////
-                if($scope.usuariosDeTarea[i].idUsuario != response.usuarios[p].idUsuario){
-                  console.log(p);
+            for (var i = 0; i < response.usuarios.length; i++) {//
+              for (var p = 0; p < $scope.usuariosDeTarea.length; p++) {////
+                if(response.usuarios[p].idUsuario != $scope.usuariosDeTarea[i].idUsuario){
                 }else{
                   found = true; 
                 }
