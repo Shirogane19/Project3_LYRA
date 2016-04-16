@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
 
   <div class="col-md-4"></div>
 
@@ -7,7 +7,7 @@
     <div class="col-xs-6"><button ng-class="{'btn-warning': startedS, 'btn-success': !startedS}" class="btn btn-sm btn-block" type="submit" ng-click="showSubscriptionForm()" ng-disabled = "btnSubscribir">Suscribir</button></div>
   </div>
 
-</div>
+</div> -->
 
 <!-- Login Content -->
 <div class="bg-white pulldown" ng-show="onPoint">
@@ -44,18 +44,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                <label class="css-input switch switch-sm switch-primary">
-                                    <input type="checkbox" id="login-remember-me" name="login-remember-me"><span></span> Recordarme?
-                                </label>
+
+                         <div class="form-group">
+
+                            <div class="pull-left">
+                                <div class="font-s13 push-5-t">
+                                    <a href="" ng-click="showUserForm()">Crear cuenta</a>
+                                </div>
                             </div>
-                            <div class="col-xs-6">
-                                <div class="font-s13 text-right push-5-t">
+
+                            <div class="pull-right">
+                                <div class="font-s13 push-5-t">
+                                    <a href="" ng-click="showSubscriptionForm()">Subscribir institución</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="pull-center">
+                                <div class="font-s13 text-center push-5-t">
                                     <a href="" ng-click="showRecoverForm()">¿Olvidó su contraseña?</a>
                                 </div>
                             </div>
+
                         </div>
+ 
                         <div class="form-group">
                             <div class="font-s13 text-right push-5-t text-center" ng-show="cuentaBloqueada">
                                 <p class="text-muted push-15-t text-danger">La cuenta de esta institución se encuentra bloqueada</p>
@@ -78,6 +93,15 @@
 
 <!-- User Form Content -->
 <div class="bg-white pulldown" ng-show="onPointUserForm">
+
+    <div class="block-header">
+        <ul class="block-options">
+            <li>
+                <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
+            </li>
+        </ul>
+    </div>
+
     <div class="content content-boxed overflow-hidden">
 
         <form class="js-validation-material form-horizontal push-10-t" method="post" name="userForm">
@@ -178,6 +202,15 @@
 
 <!-- Formulario de subscripción-->
 <div class="bg-white pulldown" ng-show="onPointerSubscriptionForm">
+
+    <div class="block-header">
+        <ul class="block-options">
+            <li>
+                <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
+            </li>
+        </ul>
+    </div>
+
     <div class="content content-boxed overflow-hidden">
 
         <div>
@@ -246,7 +279,7 @@
                                     <div class="col-sm-4 col-sm-offset-4">
                                         <div class="form-material">
                                             <input class="form-control" type="text" id="validation-nombre" name="validation-nombre" ng-model="institucion.nombre" maxlength="59">
-                                            <label for="validation-nombre">Nombre de la institución</label>
+                                            <label for="validation-nombre">Nombre de la institución<span class="text-danger">*</span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -438,6 +471,15 @@
 
 <!-- Recover Password -->
 <div class="bg-white pulldown" ng-show="!showLogin">
+
+    <div class="block-header">
+        <ul class="block-options">
+            <li>
+                <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="close()"><i class="si si-close"></i></button>
+            </li>
+        </ul>
+    </div>
+    
     <div class="content content-boxed overflow-hidden">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
@@ -468,12 +510,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group push-30-t">
+                       <!--  <div class="form-group push-30-t">
                             <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
                                 <button class="btn btn-sm btn-block btn-warning" type="submit" ng-click="closeRecoverForm()">Volver</button>
 
                             </div>
-                        </div>
+                        </div> -->
 
                     </form>
                     <!-- END Login Form -->

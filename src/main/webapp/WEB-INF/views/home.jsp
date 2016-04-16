@@ -129,10 +129,10 @@
                                     <a ui-sref="excelView"><i class="si si-rocket"></i>Subir Excel</a>
                                 </li>   
                                 <li ng-if = "accessSeccionProfesor == true">    
-                                    <a ui-sref="seccionProfesorView"><i class="si si-map"></i>Mi secciones</a>
+                                    <a ui-sref="seccionProfesorView"><i class="si si-map"></i>Mis secciones</a>
                                 </li>     
                                 <li ng-if = "accessStudentManagers == true">    
-                                    <a ui-sref="alumnoEncargadoView"><i class="si si-map"></i>Mis muchachos</a>
+                                    <a ui-sref="alumnoEncargadoView"><i class="si si-map"></i>Mis dependientes</a>
                                 </li>                       
                             </ul>
                         </div>
@@ -171,12 +171,6 @@
                                     <a tabindex="-1" ui-sref="institucionView"><i class="si si-settings pull-right"></i>Instituci&oacuten</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li class="dropdown-header">Acciones</li>
-                                <li>
-                                    <a tabindex="-1" href="#">
-                                        <i class="si si-lock pull-right"></i>Bloquear cuenta
-                                    </a>
-                                </li>
                                 <li ng-click="logoff()">
                                     <a tabindex="-1">
                                         <i class="si si-logout pull-right"></i>Cerrar sesi&oacuten
