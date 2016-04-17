@@ -461,5 +461,9 @@ angular.module('myApp.loginView', ['ngRoute','ngStorage'])
     }
 
   }
+
+  $scope.close = function(){
+    window.location.href = "#";
+  }
         
 }]);
