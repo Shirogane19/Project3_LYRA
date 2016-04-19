@@ -116,9 +116,7 @@
                                     <td class="text-center" style="width: 0px;"></td>
                                     <td class="font-w600 text-success"><strong>Correo:</strong> {{p.email}} <br>
                                         <strong>Materias que imparte:</strong>
-                                        <i ng-repeat="p in ProfesAsignados">
-                                            <i ng-repeat="m in p.materias">{{m.idMateria}} 1<span ng-show=" ! $last ">, </span></i>
-                                        </i>
+                                            <i ng-repeat="m in p.materias">{{m.nombre}}<span ng-show=" ! $last ">, </span></i>
                                     </td>
                                 </tr>
                             </tbody>

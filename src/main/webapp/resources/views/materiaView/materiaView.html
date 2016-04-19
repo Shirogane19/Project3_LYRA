@@ -125,7 +125,7 @@
 
             <div class="row">
 
-                <div class="col-sm-5">
+                <!-- <div class="col-sm-5">
                 
                     <div class="form-group">
                         <div class="col-xs-12">
@@ -136,23 +136,36 @@
                         </div>
                     </div>
   
-                </div>
+                </div> -->
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Profesores asignados</label>
+
+                            <select class="form-control" size="17" multiple="false" ng-model="tempProfesAsignados" ng-options="pa.nombre+' '+pa.apellido+'  '+' | '+'Ced:'+pa.cedula for pa in ProfesAsignados"></select>
+
+                        </div>
+                    </div>
+
+                </div> 
 
                 <div class="col-sm-2">
                 
                     <div class="form-group" >
                         <br><br><br><br><br><br>
-                        <button class="btn btn-lg btn-warning pull-left" type="button" ng-click="borrarProfeAsignado()">
-                        <i class="fa fa-angle-right" ng-click="borrarProfeAsignado()">
+                        <button class="btn btn-lg btn-warning pull-left" type="button" ng-click="borrarProfeAsignado2()">
+                        <i class="fa fa-angle-right" ng-click="borrarProfeAsignado2()">
                         </i></button>
 
-                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="borrarProfeNoAsignado()">
-                        <i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado()" ></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="borrarProfeNoAsignado2()">
+                        <i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado2()" ></i></button>
                     </div>
   
                 </div>
 
-                <div class="col-sm-5">
+                <!-- <div class="col-sm-5">
                 
                     <div class="form-group">
                         <div class="col-xs-12">
@@ -163,7 +176,20 @@
                         </div>
                     </div>
   
-                </div>
+                </div> -->
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Disponibles</label>
+
+                            <select class="form-control" size="17" multiple="false" ng-model="tempProfesNoAsignados" ng-options="pa.nombre+' '+pa.apellido+'  '+' | '+'Ced:'+pa.cedula for pa in ProfesNoAsignados"></select>
+
+                        </div>
+                    </div>
+
+                </div> 
 
             </div><!--end first row-->
 
