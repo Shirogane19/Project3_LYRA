@@ -33,6 +33,10 @@ angular.module('myApp.tareaView', ['ngRoute'])
   $scope.onPoint = false;
   $scope.NotOwner = true;
   $scope.showWarning = false;
+  $scope.userMaster = [];
+  $scope.userAdmin = [];
+  $scope.userProf = [];
+  $scope.userEnc = [];
   
 
   $scope.initScripts = function(){
@@ -61,6 +65,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
       $scope.tareaList = response.tareas;
       console.log("tareas ", $scope.tareaList);
+
     })
     .catch(function (error) {
       //console.error('exception', error.status);
@@ -136,10 +141,18 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
   $scope.isActive = function(t){
 
+    console.log("active" , t.rols);
+
     if(t.idOwner == $localStorage.user.userId){
 
     $scope.newTa = t; // Guarda el objeto usuario a la variable temporal
-    $scope.listaRoles = t.rols;
+    //$scope.listaRoles = t.rols;
+    //$scope.getIdsRoles();
+    for (var i = 0; i < t.rols.length; i++) {
+                
+          $scope.listaRoles[i] = t.rols[i].idRol;
+        
+    };
     $scope.getIdsRoles();
     $scope.usuariosDeTarea = t.usuarios;
 
@@ -221,26 +234,32 @@ angular.module('myApp.tareaView', ['ngRoute'])
   }
 */
   $scope.getIdsUsuarios = function(){
+    var found = false;
 
     for (var i = 0; i < $scope.usuariosDeTarea.length; i++) {
       
           
           $scope.taskUsers[i] = $scope.usuariosDeTarea[i].idUsuario;
-
+          if($scope.usuariosDeTarea[i].idUsuario == $localStorage.user.userId){
+              found=true;
+          }
         
     };
+    if(found == false){
+        $scope.taskUsers.push($localStorage.user.userId);
 
+      }
   }
 
   $scope.getIdsRoles = function(){
-
-    for (var i = 0; i < $scope.listaRoles.length; i++) {
-      
-          
-          $scope.listaRoles[i] = $scope.listaRoles[i].idRol;
-
+      console.log("lista roles edit" , $scope.listaRoles);
+  for (var i = 0; i < $scope.listaRoles.length; i++) {
+                
+          $scope.listaRoles[i] = $scope.listaRoles[i];
         
     };
+
+    console.log("lista roles edit 2" , $scope.listaRoles);
 
   }
 
@@ -258,7 +277,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
       }//End if creating
 
       $scope.getIdsUsuarios();
-      
+      $scope.getIdsRoles();
 
       $scope.idCategoria = parseInt($scope.newTa.categoria, 10);  // parseInt with radix
     // $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
@@ -316,7 +335,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
   //------------------END----------------------
   //-----------------EDIT--------------------
     $scope.showTareaToEdit = function(t){
-
+        console.log("T", t);
 
       if(t.idOwner == $localStorage.user.userId){
 
@@ -328,7 +347,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
           $scope.newTa.tituloTarea = t.tituloTarea;
           $scope.newTa.descripcionTarea = t.descripcionTarea;
           $scope.listaRoles = t.rols;
-          $scope.getIdsRoles();
+          //$scope.getIdsRoles();
           $scope.usuariosDeTarea = t.usuarios;
           $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
 
@@ -389,7 +408,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
           $scope.newTa.tituloTarea = t.tituloTarea;
           $scope.newTa.descripcionTarea = t.descripcionTarea;
           $scope.listaRoles = t.rols;
-          $scope.getIdsRoles();
+          //$scope.getIdsRoles();
           $scope.usuariosDeTarea = t.usuarios;
           $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
 
