@@ -135,6 +135,7 @@ angular.module('myApp', [
         $scope.accessGrado = true;  
         $scope.accessSeccion =  true;
         $scope.accessCategory = true;
+        $scope.accessinstitucionToEdit = true;
         $scope.title = "Admin.";
       
     }
@@ -149,6 +150,7 @@ angular.module('myApp', [
         $scope.accessSeccion =  true;
         $scope.accessCategory = true;
         $scope.accessBulkLoad = true;
+        $scope.accessinstitucionToEdit = true;
         $scope.title = "Master";
     }
 
