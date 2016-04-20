@@ -6,6 +6,8 @@ angular.module('myApp.alumnoEncargadoView', [])
 
   $scope.onPoint = true;
 
+  $scope.noData = false;
+
   $scope.alumnos = []; // Coleccion de alumnos
 
 	$scope.initScripts = function(){
@@ -59,40 +61,48 @@ angular.module('myApp.alumnoEncargadoView', [])
   $scope.onPointWatchSeccion = false;
 
   $scope.showSeccion = function(s){
-    console.log(s.idSeccion);
+    //console.log(s.idSeccion);
     $scope.seccionName = s.nombreSeccion;
 
-    $http.post('rest/protected/seccion/getSeccion',s.idSeccion).success(function(response) {
+    if(s.idSeccion > 0){
 
-      //console.log(response.seccion.alumnos);
-      $scope.AlumnosAsignados = response.seccion.alumnos;
-      $scope.objSeccion = response.seccion;
+      $http.post('rest/protected/seccion/getSeccion',s.idSeccion).success(function(response) {
 
-    })
-    .catch(function (error) {
-      //console.error('exception', error.status);
-      $localStorage.error = error.status;
-      $state.go('errorView');
-    });
+        //console.log(response.seccion.alumnos);
+        $scope.AlumnosAsignados = response.seccion.alumnos;
+        $scope.objSeccion = response.seccion;
 
-    $http.post('rest/protected/seccion/getProfesDeSeccion',s.idSeccion).success(function(response) {
+      })
+      .catch(function (error) {
+        //console.error('exception', error.status);
+        $localStorage.error = error.status;
+        $state.go('errorView');
+      });
 
-      //console.log(response.seccion);
-      $scope.objSeccion = response.seccion;
-      $scope.ProfesAsignados = response.seccion.profesorSeccions;// Profes asignados a la seccion 
-      console.log($scope.ProfesAsignados);
-    })
-    .catch(function (error) {
-      //console.error('exception', error.status);
-      $localStorage.error = error.status;
-      $state.go('errorView');
-    }); 
+      $http.post('rest/protected/seccion/getProfesDeSeccion',s.idSeccion).success(function(response) {
 
-    $scope.onPoint = false;
-    $scope.onPointWatchSeccion = true;
-    $timeout( function(){ OneUI.initHelper('table-tools'); }, 200);
+        //console.log(response.seccion);
+        $scope.objSeccion = response.seccion;
+        $scope.ProfesAsignados = response.seccion.profesorSeccions;// Profes asignados a la seccion 
+        console.log($scope.ProfesAsignados);
+      })
+      .catch(function (error) {
+        //console.error('exception', error.status);
+        $localStorage.error = error.status;
+        $state.go('errorView');
+      }); 
 
-  }//
+      $scope.onPoint = false;
+      $scope.onPointWatchSeccion = true;
+      $timeout( function(){ OneUI.initHelper('table-tools'); }, 200);
+
+    }else{
+
+      $scope.noData = true;
+      
+    }
+    
+  }
 
   $scope.showHistorial = function(a){
     //console.log(a);

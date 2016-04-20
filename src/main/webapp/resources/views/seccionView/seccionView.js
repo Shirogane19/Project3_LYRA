@@ -467,6 +467,85 @@ angular.module('myApp.seccionView', ['ngRoute'])
 
   }//
 
+  //---------------
+
+  $scope.tempAlumnosSinSeccion;// Alumnos selecionados de la lista de alumnos sin seccion
+  /** Version mejorada del paso de alumnos sin seccion a la lista de alumnos con seccion,permite multiple seleciones **/
+  $scope.borrarNoAsignado2 = function(){
+    if(!angular.isUndefined($scope.tempAlumnosSinSeccion)){
+
+      for (var i = 0; i < $scope.tempAlumnosSinSeccion.length; i++) {
+        $scope.AlumnosAsignados.push($scope.tempAlumnosSinSeccion[i]);
+
+        $scope.indexList = $scope.AlumnosNoSeccionList.indexOf($scope.tempAlumnosSinSeccion[i]);
+        $scope.AlumnosNoSeccionList.splice($scope.indexList, 1);
+      };
+
+      $scope.tempAlumnosSinSeccion = undefined;
+    }
+  }
+
+  $scope.tempAlumnosAsignados;// Alumnos selecionados de la lista de alumnos con seccion
+  /** Version mejorada del paso de alumnos con seccion a la lista de alumnos sin seccion,permite multiple seleciones **/
+  $scope.borrarAsignado2 = function(){
+    //console.log($scope.tempAlumnosAsignados);
+    if(!angular.isUndefined($scope.tempAlumnosAsignados)){
+      
+      for (var i = 0; i < $scope.tempAlumnosAsignados.length; i++) {
+        $scope.AlumnosNoSeccionList.push($scope.tempAlumnosAsignados[i]);
+
+        $scope.indexList = $scope.AlumnosAsignados.indexOf($scope.tempAlumnosAsignados[i]);
+        $scope.AlumnosAsignados.splice($scope.indexList, 1);
+      };
+
+      $scope.tempAlumnosAsignados = undefined;
+    }
+  }
+
+  //---------------
+
+  $scope.tempProfesNoAsignados;// Profes selecionados de la lista de profes sin seccion
+  /** Version mejorada del paso de profes sin seccion a la lista de profes con seccion,permite multiple seleciones **/
+  $scope.borrarProfeNoAsignado2 = function(){
+    if(!angular.isUndefined($scope.tempProfesNoAsignados)){
+
+      for (var i = 0; i < $scope.tempProfesNoAsignados.length; i++) {
+        $scope.ProfesAsignados.push($scope.tempProfesNoAsignados[i]);
+
+        $scope.indexList = $scope.ProfesNoAsignados.indexOf($scope.tempProfesNoAsignados[i]);
+        $scope.ProfesNoAsignados.splice($scope.indexList, 1);
+      };
+
+      $scope.tempProfesNoAsignados = undefined;
+    }
+  }
+
+  $scope.tempProfesAsignados;// Profes selecionados de la lista de profes con seccion
+  /** Version mejorada del paso de profes con seccion a la lista de profes sin seccion,permite multiple seleciones **/
+  $scope.borrarProfeAsignado2 = function(){
+    //console.log($scope.tempProfesAsignados);
+    if(!angular.isUndefined($scope.tempProfesAsignados)){
+      
+      for (var i = 0; i < $scope.tempProfesAsignados.length; i++) {
+        $scope.ProfesNoAsignados.push($scope.tempProfesAsignados[i]);
+
+        $scope.indexList = $scope.ProfesAsignados.indexOf($scope.tempProfesAsignados[i]);
+        $scope.ProfesAsignados.splice($scope.indexList, 1);
+      };
+
+      $scope.tempProfesAsignados = undefined;
+    }
+  }
+
+  //---------------
+
+  /** Abre la vista el perfil del estutiante**/
+  $scope.showHistorial = function(a){
+    //console.log(a);
+    $state.go('registroView',{alumnoInfo: a});
+  }
+
+
   $timeout( function(){ $scope.initScripts(); }, 1000);
   $scope.init();
 
