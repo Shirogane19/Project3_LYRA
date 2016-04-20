@@ -78,11 +78,31 @@ public class TareaService implements TareaServiceInterface{
 			dto.setActiveUs(u.getIsActiveUs());
 			dto.setMovil(u.getMovil());
 			dto.setPassword(u.getPassword());
-			dto.setRols(null);
+			dto.setRols(generateUserRolDto(u));
 			dto.setInstitucion(null);
 			users.add(dto);
 		});
 		return users;
+	}
+	
+	public List<RolPOJO> generateUserRolDto(Usuario user){
+		
+		List<RolPOJO> roles = new ArrayList<RolPOJO>();	
+		
+		user.getRols().stream().forEach(r -> {
+			RolPOJO rol = new RolPOJO();
+			BeanUtils.copyProperties(r, rol);			
+			rol.setTareas(null);
+			rol.setUsuarios(null);
+			rol.setActiveRol(r.getIsActiveRol());
+			roles.add(rol);
+		});	
+		
+//		roles.stream().forEach(r -> {
+//			System.out.print("ROL: " + r.getNombreRol() + " ");
+//		});	
+		
+		return roles;	
 	}
 
 	private List<RolPOJO> generateRolsDto(Tarea t) {

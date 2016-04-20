@@ -248,7 +248,7 @@
                                             <label class="col-md-8">Roles Asignados</label>
                                             <div class="col-md-12">
                                                 <select class="js-select2 form-control" style="width: 100%;" multiple disabled="true">
-                                                <option  ng-repeat ="r in listaRoles" value="{{r.idRol}">{{r.nombreRol}}</option>
+                                                <option  ng-repeat ="r in listaRoles track by $index" value="{{r.idRol}">{{r.nombreRol}}</option>
                                                 </select>
                                             </div>
                                         </div>
