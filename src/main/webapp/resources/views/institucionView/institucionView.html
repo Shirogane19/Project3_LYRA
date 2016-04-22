@@ -1,7 +1,7 @@
 <div class="row" ng-show="onPoint">
     <div >
         <a class="block block-link-hover2">
-            <div class="block-header">
+            <div class="block-header" ng-if = "accessinstitucionToEdit == true">
                 <ul class="block-options">
                     <li>
                         <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo" ng-click="openForm()"><i class="si si-pencil"></i></button>

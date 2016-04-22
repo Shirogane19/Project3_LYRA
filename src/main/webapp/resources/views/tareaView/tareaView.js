@@ -33,6 +33,13 @@ angular.module('myApp.tareaView', ['ngRoute'])
   $scope.onPoint = false;
   $scope.NotOwner = true;
   $scope.showWarning = false;
+  $scope.userMaster = [];
+  $scope.userAdmin = [];
+  $scope.userProf = [];
+  $scope.userEnc = [];
+
+  $scope.invalidTask = false // Visibilidad del mensaje de tarea sin usuario
+  $scope.onPointRegistrarTarea = false;
   
 
   $scope.initScripts = function(){
@@ -60,7 +67,8 @@ angular.module('myApp.tareaView', ['ngRoute'])
     $http.post('rest/protected/tarea/getByUser',$scope.requestObject).success(function(response) {
 
       $scope.tareaList = response.tareas;
-      console.log("tareas ", $scope.tareaList);
+      //console.log("tareas ", $scope.tareaList);
+
     })
     .catch(function (error) {
       //console.error('exception', error.status);
@@ -96,6 +104,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
     //console.log('Creando? ', $scope.isCreating, 'Formulario? ', $scope.onPoint);
     $scope.onPoint = true;
+    $scope.onPointRegistrarTarea = true;
     $scope.getCategories();
     $scope.getAllUsers();
   }
@@ -115,9 +124,9 @@ angular.module('myApp.tareaView', ['ngRoute'])
                               };
 
       $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
-      
+        
         $scope.UsuariosNoAsignados = response.usuarios;
-        console.log("usuarios no asignados reg", $scope.UsuariosNoAsignados);
+        //console.log("usuarios no asignados reg", $scope.UsuariosNoAsignados);
         
       }).catch(function (error) {
         //console.error('exception', error.status);
@@ -136,10 +145,18 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
   $scope.isActive = function(t){
 
+    //console.log("active" , t.rols);
+
     if(t.idOwner == $localStorage.user.userId){
 
     $scope.newTa = t; // Guarda el objeto usuario a la variable temporal
-    $scope.listaRoles = t.rols;
+    //$scope.listaRoles = t.rols;
+    //$scope.getIdsRoles();
+    for (var i = 0; i < t.rols.length; i++) {
+                
+          $scope.listaRoles[i] = t.rols[i].idRol;
+        
+    };
     $scope.getIdsRoles();
     $scope.usuariosDeTarea = t.usuarios;
 
@@ -221,32 +238,38 @@ angular.module('myApp.tareaView', ['ngRoute'])
   }
 */
   $scope.getIdsUsuarios = function(){
+    var found = false;
 
     for (var i = 0; i < $scope.usuariosDeTarea.length; i++) {
       
           
           $scope.taskUsers[i] = $scope.usuariosDeTarea[i].idUsuario;
-
+          if($scope.usuariosDeTarea[i].idUsuario == $localStorage.user.userId){
+              found=true;
+          }
         
     };
+    if(found == false){
+        $scope.taskUsers.push($localStorage.user.userId);
 
+      }
   }
 
   $scope.getIdsRoles = function(){
-
-    for (var i = 0; i < $scope.listaRoles.length; i++) {
-      
-          
-          $scope.listaRoles[i] = $scope.listaRoles[i].idRol;
-
+      //console.log("lista roles edit" , $scope.listaRoles);
+  for (var i = 0; i < $scope.listaRoles.length; i++) {
+                
+          $scope.listaRoles[i] = $scope.listaRoles[i];
         
     };
+
+   // console.log("lista roles edit 2" , $scope.listaRoles);
 
   }
 
   $scope.saveTarea = function(){
 
-    console.log("new ta", $scope.newTa);
+   // console.log("new ta", $scope.newTa);
 
     if($scope.usuariosDeTarea.length >0 || $scope.listaRoles.length >0){
 
@@ -258,13 +281,13 @@ angular.module('myApp.tareaView', ['ngRoute'])
       }//End if creating
 
       $scope.getIdsUsuarios();
-      
+      $scope.getIdsRoles();
 
       $scope.idCategoria = parseInt($scope.newTa.categoria, 10);  // parseInt with radix
     // $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
     // "string","materia":{"idMateria": $scope.newMat.idMateria,"nombre": $scope.newMat.nombre,"activeMat": $scope.newMat.activeMat}};
 
-    console.log("lista roles" , $scope.listaRoles);
+  //  console.log("lista roles" , $scope.listaRoles);
     $scope.requestObject ={
 
       "code": 0,
@@ -309,18 +332,20 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
     }else{
       //console.log("else");
-      document.getElementById("advertencia").style.color = "red";
+      //document.getElementById("advertencia").style.color = "red";
+      $scope.invalidTask = true;
     }
 
   }
   //------------------END----------------------
   //-----------------EDIT--------------------
     $scope.showTareaToEdit = function(t){
-
+      //  console.log("T", t);
 
       if(t.idOwner == $localStorage.user.userId){
 
           $scope.onPoint = true;
+          $scope.onPointRegistrarTarea = true;
           $scope.getCategories();
           //$scope.getAllUsers();
           $scope.edit = true;
@@ -328,7 +353,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
           $scope.newTa.tituloTarea = t.tituloTarea;
           $scope.newTa.descripcionTarea = t.descripcionTarea;
           $scope.listaRoles = t.rols;
-          $scope.getIdsRoles();
+          //$scope.getIdsRoles();
           $scope.usuariosDeTarea = t.usuarios;
           $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
 
@@ -347,6 +372,34 @@ angular.module('myApp.tareaView', ['ngRoute'])
                    
                       var found = false;
 
+                    //   for (var i = 0; i < response.usuarios.length; i++) {
+    
+                
+
+                    //       for (var x = 0; x < $scope.usuariosDeTarea.length; x++) {
+
+                    //           if (response.usuarios[i].idUsuario ==  $scope.usuariosDeTarea[x].idUsuario) {
+                    //             console.log("igual", response.usuarios[i].idUsuario);
+                    //              found = true; 
+
+                    //           };
+    
+                    //       }
+    
+                    //       if(found == false){
+
+                    //       $scope.UsuariosNoAsignados.push(response.usuarios[i]);
+
+                    //     }
+
+                    //     found = false;
+                    //   };//
+
+                    // }).catch(function (error) {
+                    //   //console.error('exception', error.status);
+                    //   $localStorage.error = error.status;
+                    //   $state.go('errorView');
+                    // }); 
 
                       for (var i = 0; i < response.usuarios.length; i++) {
     
@@ -355,7 +408,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
                           for (var x = 0; x < $scope.usuariosDeTarea.length; x++) {
 
                               if (response.usuarios[i].idUsuario ==  $scope.usuariosDeTarea[x].idUsuario) {
-                                console.log("igual", response.usuarios[i].idUsuario);
+                               // console.log("igual", response.usuarios[i].idUsuario);
                                  found = true; 
 
                               };
@@ -378,7 +431,6 @@ angular.module('myApp.tareaView', ['ngRoute'])
                     }); 
 
 
-
       }else{
 
           $scope.NotOwner = false;
@@ -390,7 +442,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
           $scope.newTa.tituloTarea = t.tituloTarea;
           $scope.newTa.descripcionTarea = t.descripcionTarea;
           $scope.listaRoles = t.rols;
-          $scope.getIdsRoles();
+          //$scope.getIdsRoles();
           $scope.usuariosDeTarea = t.usuarios;
           $scope.newTa.oldCategoria =  t.categoria.nombreCategoria;
 
@@ -529,9 +581,148 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
   //--------------
 
+  $scope.seletedRol = "0";
+
+  //---------------
+
+  $scope.tempUsuariosNoAsignados;// Profes selecionados de la lista de profes sin seccion
+  /** Version mejorada del paso de profes sin seccion a la lista de profes con seccion,permite multiple seleciones **/
+  $scope.borrarUsuarioNoAsignado2 = function(){
+    if(!angular.isUndefined($scope.tempUsuariosNoAsignados)){
+
+      for (var i = 0; i < $scope.tempUsuariosNoAsignados.length; i++) {
+        $scope.usuariosDeTarea.push($scope.tempUsuariosNoAsignados[i]);
+
+        $scope.indexList = $scope.UsuariosNoAsignados.indexOf($scope.tempUsuariosNoAsignados[i]);
+        $scope.UsuariosNoAsignados.splice($scope.indexList, 1);
+      };
+
+      $scope.tempUsuariosNoAsignados = undefined;
+    }
+  }
+
+  $scope.tempUsuariosAsignados;// Profes selecionados de la lista de profes con seccion
+  /** Version mejorada del paso de profes con seccion a la lista de profes sin seccion,permite multiple seleciones **/
+  $scope.borrarUsuarioAsignado2 = function(){
+    //console.log($scope.tempProfesAsignados);
+    if(!angular.isUndefined($scope.tempUsuariosAsignados)){
+      
+      for (var i = 0; i < $scope.tempUsuariosAsignados.length; i++) {
+        $scope.UsuariosNoAsignados.push($scope.tempUsuariosAsignados[i]);
+
+        $scope.indexList = $scope.usuariosDeTarea.indexOf($scope.tempUsuariosAsignados[i]);
+        $scope.usuariosDeTarea.splice($scope.indexList, 1);
+      };
+
+      $scope.tempUsuariosAsignados = undefined;
+    }
+  }
+
+  //---------------
+
+  /**Remueve a todos los estudiantes de una seccion, los pasa a estado de no tener seccion**/
+  $scope.todosDesasignarlos = function(){
+    //console.log($scope.usuariosDeTarea);
+    if($scope.seletedRol == 0){
+
+      for (var i = 0; i < $scope.usuariosDeTarea.length; i++) {
+        $scope.UsuariosNoAsignados.push($scope.usuariosDeTarea[i]);
+      };
+      $scope.usuariosDeTarea.splice(0);
+
+    }else{
+
+      for (var i = 0; i < $scope.usuariosDeTarea.length; i++) {
+        for (var r = 0; r < $scope.usuariosDeTarea[i].rols.length; r++) {
+          if($scope.usuariosDeTarea[i].rols[r].idRol == $scope.seletedRol){
+            $scope.UsuariosNoAsignados.push($scope.usuariosDeTarea[i]);
+          }
+        };
+      };
+
+      var found = true;
+      $scope.tempList = [];
+
+      for (var u = 0; u < $scope.usuariosDeTarea.length; u++) {//for 1
+        for (var n = 0; n < $scope.UsuariosNoAsignados.length; n++) {//for 2
+          if($scope.usuariosDeTarea[u].idUsuario == $scope.UsuariosNoAsignados[n].idUsuario){
+            found = false;
+          }
+        };//for 2
+        if (found == true) {
+          $scope.tempList.push($scope.usuariosDeTarea[u]);
+        };
+        found = true;
+      };//for 1
+
+      $scope.usuariosDeTarea = $scope.tempList;
+      $scope.tempList = [];
+
+    }//Fin del if/else
+  }
+
+ /** Asigna a  todos los estudiantes a seccion**/ 
+  $scope.todosAsignarlos = function(){
+
+    if($scope.seletedRol == 0){
+
+      for (var i = 0; i < $scope.UsuariosNoAsignados.length; i++) {
+        $scope.usuariosDeTarea.push($scope.UsuariosNoAsignados[i]);
+      };
+      $scope.UsuariosNoAsignados.splice(0);
+
+    }else{
+
+      for (var i = 0; i < $scope.UsuariosNoAsignados.length; i++) {
+        for (var r = 0; r < $scope.UsuariosNoAsignados[i].rols.length; r++) {
+          if($scope.UsuariosNoAsignados[i].rols[r].idRol == $scope.seletedRol){
+            $scope.usuariosDeTarea.push($scope.UsuariosNoAsignados[i]);
+          }
+        };
+      };
+
+      var found = true;
+      $scope.tempList = [];
+
+      for (var u = 0; u < $scope.UsuariosNoAsignados.length; u++) {//for 1
+        for (var n = 0; n < $scope.usuariosDeTarea.length; n++) {//for 2
+          if($scope.UsuariosNoAsignados[u].idUsuario == $scope.usuariosDeTarea[n].idUsuario){
+            found = false;
+          }
+        };//for 2
+        if (found == true) {
+          $scope.tempList.push($scope.UsuariosNoAsignados[u]);
+        };
+        found = true;
+      };//for 1
+
+      $scope.UsuariosNoAsignados = $scope.tempList;
+      $scope.tempList = [];
+
+    }
+  }
+
+  //------------------
+
+  $scope.onPointWatchTarea = false;
+
+  $scope.showTarea = function(t){
+    //console.log(t);
+    $scope.newTa = t;
+    $scope.newTa.tituloTarea = t.tituloTarea;
+    $scope.newTa.descripcionTarea = t.descripcionTarea;
+    $scope.newTa.oldCategoria = t.categoria.nombreCategoria;
+    for (var i = 0; i < t.usuarios.length; i++) {;
+      if(t.usuarios[i].idUsuario == t.idOwner){
+        $scope.newTa.tareaOwner = t.usuarios[i].nombre + " " + t.usuarios[i].apellido;
+      }
+    };
+    $scope.onPointWatchTarea = true;
+    $scope.onPoint = true;
+  }
 
   //--------------end tablas
-  $timeout( function(){ $scope.initScripts(); }, 100);
+  $timeout( function(){ $scope.initScripts(); }, 1000);
   $scope.init();
 
 }]);

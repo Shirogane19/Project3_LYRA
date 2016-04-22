@@ -141,7 +141,7 @@
 
             <div class="row">
 
-                <div class="col-sm-5">
+                <!-- <div class="col-sm-5">
                 
                     <div class="form-group">
                         <div class="col-xs-12">
@@ -152,19 +152,32 @@
                         </div>
                     </div>
   
-                </div>
+                </div> -->
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Materias asignadas</label>
+
+                            <select class="form-control" size="17" multiple="false" ng-model="tempMateriasAsignadas" ng-options="pna.nombre for pna in ProfesAsignados"></select>
+
+                        </div>
+                    </div>
+
+                </div> 
 
                 <div class="col-sm-2">
                 
                     <div class="form-group" >
                         <br><br><br><br><br><br>
-                        <button class="btn btn-lg btn-warning pull-left" type="button" href="javascript:void(0)" ng-click="borrarProfeAsignado()" ><i class="fa fa-angle-right" ng-click="borrarProfeAsignado()"></i></button>
-                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="borrarProfeNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarProfeNoAsignado()" ></i></button>
+                        <button class="btn btn-lg btn-warning pull-left" type="button" href="javascript:void(0)" ng-click="borrarMateriaAsignado()" ><i class="fa fa-angle-right" ng-click="borrarMateriaAsignado()"></i></button>
+                        <button class="btn btn-lg btn-warning pull-right" type="button" ng-click="borrarMateriaNoAsignado()" href="javascript:void(0)"><i class="fa fa-angle-left" ng-click="borrarMateriaNoAsignado()" ></i></button>
                     </div>
   
                 </div>
 
-                <div class="col-sm-5">
+                <!-- <div class="col-sm-5">
                 
                     <div class="form-group">
                         <div class="col-xs-12">
@@ -175,7 +188,20 @@
                         </div>
                     </div>
   
-                </div>
+                </div> -->
+
+                <div class="col-sm-5">
+                
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="mega-skills">Disponibles</label>
+
+                            <select class="form-control" size="17" multiple="false" ng-model="tempMateriasNoAsignadas" ng-options="pna.nombre for pna in ProfesNoAsignados"></select>
+
+                        </div>
+                    </div>
+
+                </div> 
 
             </div><!--end first row-->
 

@@ -133,7 +133,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
 		
 
 		$http.post('rest/protected/grado/getGrade',$scope.requestObject).success(function(response) {
-				console.log("responseGetGrade", response);
+				//console.log("responseGetGrade", response);
 				$scope.objSeccion = response.grado;
       			$scope.ProfesAsignados = response.grado.materias;
 
@@ -152,15 +152,15 @@ angular.module('myApp.gradoView', ['ngRoute'])
       //$scope.MateriasNoAsignados = response.institucion.materias;//¨Profes no asignados a la seccion
      var found = false;
      	
-     	console.log("profesasig", $scope.ProfesAsignados.length);
+     	//console.log("profesasig", $scope.ProfesAsignados.length);
       for (var i = 0; i < response.institucion.materias.length; i++) {
         for (var p = 0; p < $scope.ProfesAsignados.length; p++) {
           
           if(response.institucion.materias[i].idMateria != $scope.ProfesAsignados[p].idMateria){
-          	console.log("dif");
+          	//console.log("dif");
           }else{
             found = true; 
-            console.log("igual");
+            //console.log("igual");
             
           }
         };
@@ -244,7 +244,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
 
        };
 
-console.log("idsMats", listIdMaterias);
+//console.log("idsMats", listIdMaterias);
 
 		$scope.requestObject = {
   
@@ -281,9 +281,42 @@ console.log("idsMats", listIdMaterias);
 
   }
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++	  
+  //---------------
 
+  $scope.tempMateriasNoAsignadas;// Profes selecionados de la lista de profes sin seccion
+  /** Version mejorada del paso de profes sin seccion a la lista de profes con seccion,permite multiple seleciones **/
+  $scope.borrarMateriaNoAsignado = function(){
+    if(!angular.isUndefined($scope.tempMateriasNoAsignadas)){
 
+      for (var i = 0; i < $scope.tempMateriasNoAsignadas.length; i++) {
+        $scope.ProfesAsignados.push($scope.tempMateriasNoAsignadas[i]);
+
+        $scope.indexList = $scope.ProfesNoAsignados.indexOf($scope.tempMateriasNoAsignadas[i]);
+        $scope.ProfesNoAsignados.splice($scope.indexList, 1);
+      };
+
+      $scope.tempMateriasNoAsignadas = undefined;
+    }
+  }
+
+  $scope.tempMateriasAsignadas;// Profes selecionados de la lista de profes con seccion
+  /** Version mejorada del paso de profes con seccion a la lista de profes sin seccion,permite multiple seleciones **/
+  $scope.borrarMateriaAsignado = function(){
+    //console.log($scope.tempProfesAsignados);
+    if(!angular.isUndefined($scope.tempMateriasAsignadas)){
+      
+      for (var i = 0; i < $scope.tempMateriasAsignadas.length; i++) {
+        $scope.ProfesNoAsignados.push($scope.tempMateriasAsignadas[i]);
+
+        $scope.indexList = $scope.ProfesAsignados.indexOf($scope.tempMateriasAsignadas[i]);
+        $scope.ProfesAsignados.splice($scope.indexList, 1);
+      };
+
+      $scope.tempMateriasAsignadas = undefined;
+    }
+  }
+
+  //---------------
 
 	$timeout( function(){ $scope.initScripts(); }, 100);
 	$scope.init();

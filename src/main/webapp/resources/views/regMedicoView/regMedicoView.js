@@ -47,11 +47,12 @@ angular.module('myApp.registroView', [])
  	 $scope.init = function(){
 
  	 	if($state.params.alumnoInfo === null){
- 	 		if ($scope.accessSeccionProfesor === true) {
- 	 			$state.go('seccionProfesorView'); 
- 	 		}else{
- 	 			$state.go('alumnoView'); 
- 	 		}	 		
+ 	 		$state.go('startView'); 
+ 	 		// if ($scope.accessSeccionProfesor === true) {
+ 	 		// 	$state.go('startView'); 
+ 	 		// }else{
+ 	 		// 	$state.go('startView'); 
+ 	 		// }	 		
  	 	}else{ 
 	 	 	$scope.alumnoInfo = $state.params.alumnoInfo;
 			$scope.encargados = $state.params.alumnoInfo.usuarios;

@@ -36,7 +36,7 @@ angular.module('myApp.startView', [])
 		 "stats":{"idInstitucion": $scope.idInstitucion}};
 
 		$http.post('rest/protected/stats/getStats',$scope.requestObject).success(function(response) {
-			console.log("response",response)
+			//console.log("response",response)
 			$scope.stats = response.stats;
 		})
 		.catch(function (error) {
