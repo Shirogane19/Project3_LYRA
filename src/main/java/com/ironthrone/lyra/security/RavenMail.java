@@ -90,7 +90,7 @@ public class RavenMail {
 	    
 	    String Mensaje4 = "Para renovar la subscripción, haga click en el siguiente link:" + "<br>";
 	    
-	    String link = "<html><a href=" + "http://localhost:8090/lyra/#/renovate" + ">" + "Click aquí" + "</a></html>"; 
+	    String link = "<html><a href=" + "http://localhost:8080/lyra/#/renovate" + ">" + "Click aquí" + "</a></html>"; 
 	    
 	    String Mensaje2B = "La cuenta de institución: " + institucion + " se encuentra bloqueada" + "<br>";
 	    

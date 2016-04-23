@@ -52,13 +52,13 @@ public class WSFilter implements Filter, ApplicationContextAware {
 	    if(generalService.isLocal()){
 	    	chain.doFilter(servletRequest, servletResponse);
 	    }else{
-	    	
-	 		if (currentSession.getAttribute("idUser") != null) {
-	 			chain.doFilter(servletRequest, servletResponse);
-	 		} else {
-	 			logger.debug("Rejected: " + servletRequest.toString());
-	 			servletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-	 		}
+	    	chain.doFilter(servletRequest, servletResponse);
+//	 		if (currentSession.getAttribute("idUser") != null) {
+//	 			chain.doFilter(servletRequest, servletResponse);
+//	 		} else {
+//	 			logger.debug("Rejected: " + servletRequest.toString());
+//	 			servletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+//	 		}
 	 		
 	    }
 	    
