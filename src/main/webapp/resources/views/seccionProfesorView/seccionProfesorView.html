@@ -66,16 +66,28 @@
                 <div class="tab-pane fade in active" id="btabs-animated-fade-home">
                     <h4 class="font-w300 push-15">Sección {{seccionName}}</h4>
                     
-                    <div class="form-group">
+                    <div class="block-content" >
+                        <table class="js-table-sections table table-hover" ng-repeat="a in AlumnosAsignados">
 
-                        <div class="col-xs-12" ng-repeat="a in AlumnosAsignados" value="{{a.idAlumno}}" >
+                            <tbody class="js-table-sections-header" >
+                                <tr>
+                                    <td class="text-center" style="width: 30px;">
+                                        <i class="fa fa-angle-right"></i>
+                                    </td>
+                                    <td class="font-w600">{{a.nombre}} {{a.apellido1}} {{a.apellido2}} </td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center" style="width: 0px;"></td>
+                                    <td class="font-w600 text-success">
+                                        <strong>Encargados:</strong>
+                                            <i ng-repeat="e in a.usuarios">{{e.nombre}} {{e.apellido}}<span ng-show=" ! $last ">, </span></i>
+                                    </td>
+                                </tr>
+                            </tbody>
 
-                            <a class="block block-link-hover3" href="javascript:void(0)" ng-dblclick="showHistorial(a)">
-                                {{a.nombre}} {{a.apellido1}} {{a.apellido2}}  
-                            </a> 
-
-                        </div>
-
+                        </table>
                     </div>
 
 

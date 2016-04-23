@@ -38,6 +38,9 @@ angular.module('myApp.tareaView', ['ngRoute'])
   $scope.userProf = [];
   $scope.userEnc = [];
 
+  $scope.reverse = true;
+  $scope.predicate = 'dateOfReport';
+
   $scope.invalidTask = false // Visibilidad del mensaje de tarea sin usuario
   $scope.onPointRegistrarTarea = false;
   $scope.backupUsuario = [];
@@ -67,7 +70,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
     $http.post('rest/protected/tarea/getByUser',$scope.requestObject).success(function(response) {
 
       $scope.tareaList = response.tareas;
-      //console.log("tareas ", $scope.tareaList);
+      console.log("tareas ", $scope.tareaList);
 
     })
     .catch(function (error) {
@@ -675,9 +678,6 @@ angular.module('myApp.tareaView', ['ngRoute'])
     $scope.onPoint = true;
   }
 
-
-    $scope.reverse = true;
-    $scope.predicate = 'dateOfReport';
 
   $scope.order = function(predicate) {
 
