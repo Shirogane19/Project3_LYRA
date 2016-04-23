@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="t in tareaList" m-index="$index">
+                <tr ng-repeat="t in tareaList | orderBy:predicate:reverse" m-index="$index">
                     <td class="text-center" ng-bind="t.idTarea" ng-hide="true"></td>
                     <td class="text-center">{{$index+1}}</td>
 
@@ -227,7 +227,8 @@
 
                                         <div style="margin: 20px">
                                             <label>Rol:</label>
-                                            <select class="form-control" ng-model="seletedRol">
+                                            <select class="form-control" ng-model="seletedRol" 
+                                                    ng-change="switchUsers()">
                                                 <option value="0">Todos</option>
                                                 <option value="2">Administradores</option>
                                                 <option value="3">Profesores</option>

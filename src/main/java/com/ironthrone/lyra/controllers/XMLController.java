@@ -38,25 +38,15 @@ public class XMLController {
 			
 		XMLResponse response = new XMLResponse();
 		String resultFileName = Utils.writeToFile(file,servletContext);
-		Boolean state;
-	//	System.out.println("Resultado del writeToFile: " + resultFileName);
+
 		
 		if(file != null){
-			state = xmlService.bulkUpload(idInstitucion,resultFileName);
+			response = xmlService.bulkUpload(idInstitucion,resultFileName);
 		}else{
-			state = false;
+			response.setCode(404);
+			response.setCodeMessage("El archivo de excel no es valido, por favor reviselo.");
 		}
 		
-		
-		
-		if(state){
-			response.setCode(200);
-			response.setCodeMessage("bulk upload successfully transacted");
-			
-		}else{		
-			response.setCode(400);
-			response.setCodeMessage("there has been an error with the transaction");
-		}	
 		
 		return response;
 	}

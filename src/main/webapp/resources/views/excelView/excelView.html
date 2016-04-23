@@ -3,7 +3,7 @@
         <link rel="stylesheet" id="css-main" href="resources/assets/css/oneui.min.css">
 
                            <!-- Default Elements -->
-                            <div class="block">
+                            <div class="block" ng-if = "!error">
 
                                 <div class="block-header">
                                     <h3 class="block-title">Seleccione su Excel</h3>
@@ -34,3 +34,15 @@
 
                             </div>
                             <!-- END Default Elements -->
+
+<div ng-if = "error" class="content bg-white text-center overflow-hidden">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <!-- Error Titles -->
+            <h1 class="font-s128 font-w300 text-city animated zoomInDown">{{errorNumber}}</h1>
+            <h2 class="h3 font-w300 push-50 animated fadeInUp">{{errorText}}</h2>
+            
+            <!-- END Error Titles -->
+        </div>
+    </div>
+</div>
