@@ -7,11 +7,15 @@ angular.module('myApp.excelView', [])
   $scope.idInstitucion = $localStorage.user.idInstitucion;
   $scope.files = {};
 
+  $scope.errorNumber;
+  $scope.errorText;
+  $scope.error = false;
+
 /** Metodo que guarda un excel por medio del consumo de un servicio REST del API Lyra **/
 
     $scope.submitExcel = function(event){
 
-    	$state.go('successView');
+    	
         
     	if(this.excelForm.$valid){
     		
@@ -28,14 +32,17 @@ angular.module('myApp.excelView', [])
 					function(evt) {
 						console.log('percent: '+ parseInt(100.0 * evt.loaded / evt.total));
 					}).success(function(data, status, headers, config) {
+                        $state.go('successView');
                         console.log(data);
 						//$state.go('successView');
 						
 
 					}).catch(function (error) {
-                      //console.error('exception', error.status);
-                      $localStorage.error = error.status;
-                      $state.go('errorView');
+                      console.error('exception', error.status);
+                        $scope.error = true;
+                        $scope.errorNumber = 409;
+                        $scope.errorText = "El archivo subido tiene datos repetidos, por favor revise que sus cédulas y correos electrónicos no se repitan."
+                        + "Se recomienda usar el siguiente servicio para verificar duplicados: http://www.somacon.com/p568.php" ;
                     }); 
 	    			//.error(...)
 	    			//.then(success, error, progress); 

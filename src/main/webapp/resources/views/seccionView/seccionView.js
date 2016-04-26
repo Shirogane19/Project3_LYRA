@@ -110,36 +110,50 @@ angular.module('myApp.seccionView', ['ngRoute'])
       $scope.newSec.idSeccion = -1;
       $scope.newSec.activeSec = true;
     }
-    // $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
-    // "string","materia":{"idMateria": $scope.newMat.idMateria,"nombre": $scope.newMat.nombre,"activeMat": $scope.newMat.activeMat}};
 
-    $scope.requestObject ={
-      "code": 0,
-      "codeMessage": "string",
-      "errorMessage": "string",
-      "totalPages": 0,
-      "totalElements": 0,
-      "seccion": {
-        "idSeccion": $scope.newSec.idSeccion,
-          "nombreSeccion": $scope.newSec.nombreSeccion,
-          "activeSec": $scope.newSec.activeSec,
-          "grado": {"idGrado": $scope.newSec.selected_grado}
-         
+    $http.post('rest/protected/seccion/getProfesDeSeccion',$scope.newSec.idSeccion).success(function(response) {
 
+      //console.log(response.seccion);
+      $scope.objSeccion = response.seccion;
+      $scope.ProfesAsignados = response.seccion.profesorSeccions;// Profes asignados a la seccion 
+
+      //console.log(response.seccion.profesorSeccions);
+
+      $scope.requestObject ={
+        "code": 0,
+        "codeMessage": "string",
+        "errorMessage": "string",
+        "totalPages": 0,
+        "totalElements": 0,
+        "seccion": {
+          "idSeccion": $scope.newSec.idSeccion,
+            "nombreSeccion": $scope.newSec.nombreSeccion,
+            "activeSec": $scope.newSec.activeSec,
+            "grado": {"idGrado": $scope.newSec.selected_grado},
+            "profesorSeccions": response.seccion.profesorSeccions
+           
+
+        }
       }
-    }
 
-    //console.log($scope.newSec.selected_grado);
+      //console.log($scope.newSec.selected_grado);
 
-    $http.post('rest/protected/seccion/saveSeccion',$scope.requestObject).success(function(response) {
+      $http.post('rest/protected/seccion/saveSeccion',$scope.requestObject).success(function(response) {
 
-      if($scope.isCreating){//Si esta creando setea un -1 al tipo de usuario
+        if($scope.isCreating){//Si esta creando setea un -1 al tipo de usuario
+          $state.reload();
+        }else{
+          $scope.showList();
+          $scope.init();
+        }
         $state.reload();
-      }else{
-        $scope.showList();
-        $scope.init();
-      }
-      $state.reload();
+
+      })
+      .catch(function (error) {
+        //console.error('exception', error.status);
+        $localStorage.error = error.status;
+        $state.go('errorView');
+      }); 
 
     })
     .catch(function (error) {
@@ -147,6 +161,10 @@ angular.module('myApp.seccionView', ['ngRoute'])
       $localStorage.error = error.status;
       $state.go('errorView');
     }); 
+
+    // $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
+    // "string","materia":{"idMateria": $scope.newMat.idMateria,"nombre": $scope.newMat.nombre,"activeMat": $scope.newMat.activeMat}};
+    
   }
 
   $scope.objSeccion; // Guarda un objeto seccion que se usuará para asignar alumnos
@@ -410,7 +428,6 @@ angular.module('myApp.seccionView', ['ngRoute'])
         "grado": {"idGrado": $scope.objSeccion.grado.idGrado},
         //"alumnos": $scope.AlumnosAsignados,
         "profesorSeccions": $scope.ProfesAsignados
-         
       }
     }
 

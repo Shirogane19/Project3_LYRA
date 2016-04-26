@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ironthrone.lyra.contracts.AlumnoRequest;
 import com.ironthrone.lyra.contracts.UsuarioRequest;
+import com.ironthrone.lyra.contracts.XMLResponse;
 import com.ironthrone.lyra.ejb.Alumno;
 import com.ironthrone.lyra.ejb.Institucion;
 import com.ironthrone.lyra.ejb.Periodo;
@@ -61,10 +62,12 @@ public class XMLService implements XMLServiceInterface{
 			   private Boolean userResult;
 			   private Boolean alumResult;
 
-			   
+			   private XMLResponse response = new XMLResponse();
 			   
 	@Override
-	public Boolean bulkUpload(int idInstitucion, String file) {
+	public XMLResponse bulkUpload(int idInstitucion, String file) {
+		
+		
 		
 		/**Resultado final de todo el proceso**/
 		
@@ -90,9 +93,10 @@ public class XMLService implements XMLServiceInterface{
 				e.printStackTrace();
 				} catch (InvalidFormatException e) {
 					
+					response.setCodeMessage(e.getCause().toString());
 					e.printStackTrace();
 					} catch (IOException e) {
-						
+						response.setCodeMessage(e.getCause().toString());
 						e.printStackTrace();
 					}
 		
@@ -106,18 +110,31 @@ public class XMLService implements XMLServiceInterface{
 			Institucion ints = new Institucion();
 			ints.setIdInstitucion(institution);
 			
-			actualUsers    = userRepository.findByInstitucionsIn(ints);
-			actualStudents = studentRepository.findByInstitucion(ints);
-			userResult = insertUsers(users);
-			alumResult = insertAlumnos(students);		
+			try {
+				actualUsers    = userRepository.findByInstitucionsIn(ints);
+				actualStudents = studentRepository.findByInstitucion(ints);
+				userResult = insertUsers(users);
+				alumResult = insertAlumnos(students);	
+				
+			} catch (IllegalStateException e) {
+				response.setCodeMessage(e.getCause().toString());
+				response.setCode(500);
+				e.printStackTrace();
+			}
+	
 		}
 		
 		if(userResult && alumResult){
 			resultado = true;
 		}
 		
+		if(resultado){
+			response.setCodeMessage("Exito!");
+			response.setCode(200);
+		}
 		
-		return resultado;
+		
+		return response;
 	}
 
 	/**
@@ -152,7 +169,16 @@ public class XMLService implements XMLServiceInterface{
 			
 			u.setActiveUs(true);
 			ur.setUsuario(u);
-			userResult = usersService.saveUser(ur);						
+			try {
+				userResult = usersService.saveUser(ur);	
+				
+			} catch (IllegalStateException e) {
+				response.setCodeMessage(e.getCause().toString());
+				response.setCode(500);
+				e.printStackTrace();
+				System.out.println("AQUI! " + response.getCodeMessage());
+			}
+								
 				
 			if(!userResult){
 				break;

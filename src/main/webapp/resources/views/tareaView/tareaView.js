@@ -38,9 +38,12 @@ angular.module('myApp.tareaView', ['ngRoute'])
   $scope.userProf = [];
   $scope.userEnc = [];
 
+  $scope.reverse = true;
+  $scope.predicate = 'dateOfReport';
+
   $scope.invalidTask = false // Visibilidad del mensaje de tarea sin usuario
   $scope.onPointRegistrarTarea = false;
-  
+  $scope.backupUsuario = [];
 
   $scope.initScripts = function(){
 
@@ -67,7 +70,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
     $http.post('rest/protected/tarea/getByUser',$scope.requestObject).success(function(response) {
 
       $scope.tareaList = response.tareas;
-      //console.log("tareas ", $scope.tareaList);
+      console.log("tareas ", $scope.tareaList);
 
     })
     .catch(function (error) {
@@ -126,6 +129,7 @@ angular.module('myApp.tareaView', ['ngRoute'])
       $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
         
         $scope.UsuariosNoAsignados = response.usuarios;
+        $scope.backupUsuario = response.usuarios;
         //console.log("usuarios no asignados reg", $scope.UsuariosNoAsignados);
         
       }).catch(function (error) {
@@ -219,24 +223,6 @@ angular.module('myApp.tareaView', ['ngRoute'])
 
   //----------------SAVE TAREA -----------
 
-   /*$scope.saveUserT = function(u){
-     
-    if($scope.taskUsers.length > 0){
-
-      for (var i = 0; i < $scope.taskUsers.length; i++) {
-            if(u.idUsuario === $scope.taskUsers[i]){
-                $scope.taskUsers.splice(i,1);
-            }
-      };
-
-      $scope.taskUsers.push(u.idUsuario);
-
-    }else{
-      $scope.taskUsers.push(u.idUsuario);
-    }
-
-  }
-*/
   $scope.getIdsUsuarios = function(){
     var found = false;
 
@@ -371,35 +357,6 @@ angular.module('myApp.tareaView', ['ngRoute'])
           $http.post('rest/protected/users/getAll',$scope.requestObject).success(function(response) {
                    
                       var found = false;
-
-                    //   for (var i = 0; i < response.usuarios.length; i++) {
-    
-                
-
-                    //       for (var x = 0; x < $scope.usuariosDeTarea.length; x++) {
-
-                    //           if (response.usuarios[i].idUsuario ==  $scope.usuariosDeTarea[x].idUsuario) {
-                    //             console.log("igual", response.usuarios[i].idUsuario);
-                    //              found = true; 
-
-                    //           };
-    
-                    //       }
-    
-                    //       if(found == false){
-
-                    //       $scope.UsuariosNoAsignados.push(response.usuarios[i]);
-
-                    //     }
-
-                    //     found = false;
-                    //   };//
-
-                    // }).catch(function (error) {
-                    //   //console.error('exception', error.status);
-                    //   $localStorage.error = error.status;
-                    //   $state.go('errorView');
-                    // }); 
 
                       for (var i = 0; i < response.usuarios.length; i++) {
     
@@ -720,6 +677,37 @@ angular.module('myApp.tareaView', ['ngRoute'])
     $scope.onPointWatchTarea = true;
     $scope.onPoint = true;
   }
+
+
+  $scope.order = function(predicate) {
+
+    $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+    $scope.predicate = predicate;
+    
+   };
+
+  $scope.switchUsers = function() {
+
+    
+    $scope.UsuariosNoAsignados = $scope.backupUsuario;
+    $scope.usuarioPorRol = [];
+
+  if($scope.seletedRol > 0){
+
+      for (var i = 0; i < $scope.UsuariosNoAsignados.length; i++) {
+        for (var r = 0; r < $scope.UsuariosNoAsignados[i].rols.length; r++) {
+          if($scope.UsuariosNoAsignados[i].rols[r].idRol == $scope.seletedRol){
+            $scope.usuarioPorRol.push($scope.UsuariosNoAsignados[i]);
+
+          }
+        };
+      };
+
+      $scope.UsuariosNoAsignados = $scope.usuarioPorRol;
+  }
+
+   };
+
 
   //--------------end tablas
   $timeout( function(){ $scope.initScripts(); }, 1000);

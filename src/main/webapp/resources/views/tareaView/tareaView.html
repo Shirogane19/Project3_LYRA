@@ -227,7 +227,8 @@
 
                                         <div style="margin: 20px">
                                             <label>Rol:</label>
-                                            <select class="form-control" ng-model="seletedRol">
+                                            <select class="form-control" ng-model="seletedRol" 
+                                                    ng-change="switchUsers()">
                                                 <option value="0">Todos</option>
                                                 <option value="2">Administradores</option>
                                                 <option value="3">Profesores</option>
