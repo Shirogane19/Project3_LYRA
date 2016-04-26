@@ -46,23 +46,58 @@ angular.module('myApp.gradoView', ['ngRoute'])
 			$scope.newGrado.idGrado = -1;
 			$scope.newGrado.isActiveGr = true;
 		}
+
+    $scope.requestObject = {
+      "pageNumber": 0,
+      "pageSize": 0,
+      "direction": "string",
+      "sortBy": [
+        "string"
+      ],
+      "searchColumn": "string",
+      "searchTerm": "string",
+      "grado": {"idGrado": $scope.newGrado.idGrado}
+    };
+
+    $http.post('rest/protected/grado/getGrade',$scope.requestObject).success(function(response) {////////
+
+        //console.log("responseGetGrade", response);
+
+        var listIdMaterias = [];
+
+        for (var i = 0; i < response.grado.materias.length; i++) {
+          
+          listIdMaterias.push(response.grado.materias[i].idMateria);
+
+        };
+
+        $scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
+        "string","grado":{"idGrado": $scope.newGrado.idGrado,"nombre": $scope.newGrado.nombre, 'descripcion':  $scope.newGrado.descripcion, 
+        "isActiveGr": $scope.newGrado.isActiveGr, "idMaterias" : listIdMaterias, "institucion": {"idInstitucion":$scope.user.idInstitucion}}};
+
+        //console.log($scope.requestObject.usuario);
+
+        $http.post('rest/protected/grado/saveGrade',$scope.requestObject).success(function(response) {
+            
+          $state.reload();
+
+        })
+        .catch(function (error) {
+          //console.error('exception', error.status);
+          $localStorage.error = error.status;
+          $state.go('errorView');
+        }); 
+
+
+
+    })
+    .catch(function (error) {
+      //console.error('exception', error.status);
+      $localStorage.error = error.status;
+      $state.go('errorView');
+    }); 
 		
-		$scope.requestObject = {"pageNumber": 0,"pageSize": 0,"direction": "string","sortBy": [""],"searchColumn": "string","searchTerm": 
-		"string","grado":{"idGrado": $scope.newGrado.idGrado,"nombre": $scope.newGrado.nombre, 'descripcion':  $scope.newGrado.descripcion, 
-		"isActiveGr": $scope.newGrado.isActiveGr, "institucion": {"idInstitucion":$scope.user.idInstitucion}}};
-
-		//console.log($scope.requestObject.usuario);
-
-		$http.post('rest/protected/grado/saveGrade',$scope.requestObject).success(function(response) {
-				
-			$state.reload();
-
-		})
-		.catch(function (error) {
-	      //console.error('exception', error.status);
-	      $localStorage.error = error.status;
-	      $state.go('errorView');
-	    }); 
+		
 	}
 
 
@@ -93,7 +128,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
  	$scope.showGradoToEdit = function(g){
 
 		$scope.newGrado = g; // Guarda el objeto grado a la variable temporal
-
+    //console.log(g);
 		$scope.newGrado.nombre = g.nombre;
 		$scope.newGrado.descripcion = g.descripcion;
 		$scope.newGrado.isActiveGr = g.isActiveGr
@@ -259,6 +294,7 @@ angular.module('myApp.gradoView', ['ngRoute'])
   "grado": {
 "idGrado" : $scope.objSeccion.idGrado,
 "nombre": $scope.objSeccion.nombre,
+"descripcion":  $scope.objSeccion.descripcion,
 "isActiveGr": $scope.objSeccion.isActiveGr,
 "institucion":{"idInstitucion": $scope.objSeccion.idInstitucion},
  "idMaterias" : listIdMaterias

@@ -45,7 +45,7 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<filteredResources>
+	<!-- <filteredResources>
 		<filter>
 			<id>1461307728480</id>
 			<name></name>
@@ -64,5 +64,5 @@
 				<arguments>1.0-name-matches-false-false-webapp</arguments>
 			</matcher>
 		</filter>
-	</filteredResources>
+	</filteredResources> -->
 </projectDescription>
